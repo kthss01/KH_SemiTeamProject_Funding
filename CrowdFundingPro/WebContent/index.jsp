@@ -35,6 +35,7 @@
 	height: 2000px;
 }
 
+	
 .carousel-item {
 	height: 400px;
 }
@@ -44,6 +45,7 @@
 	height: 100%;
 	object-fit: cover;
 }
+
 
 .container {
 	color: black;
@@ -62,7 +64,8 @@ h4 {
 <body>
 
 	<%@ include file="views/common/menubar.jsp"%>
-
+<!-- master push -->
+<!-- test -->
 
 	<div class="container_filed">
 
