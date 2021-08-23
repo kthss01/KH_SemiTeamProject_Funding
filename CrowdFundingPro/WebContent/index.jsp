@@ -279,10 +279,11 @@
             </div>
 
         </div>
-
+        	<%@ include file="views/common/footer.jsp"%>
+<!-- 
         <footer class="container-fluid" style="margin-bottom: 50px; margin-top: 50px;">
             <!-- navbar -->
-
+<!--
             <nav
                 class="navbar navbar-expand-md navbar-light mb-5"
                 style="border-top: 3px solid rgba(0, 0, 0, .5); border-bottom: 3px solid rgba(0, 0, 0, .5);  padding-left: 100px; padding-right:100px;">
@@ -321,7 +322,7 @@
 
             </div>
             <div class="media ml-3">
-                <img src="resources/images/upport_icon.png" alt="support_icon">
+                <img src="resources/images/support_icon.png" alt="support_icon">
                 <div class="media-body">
                     <b>고객센터 000-0000</b><br>
                     <small>상담 가능 시간 : 평일 오전 9시 ~ 오후 6시
@@ -332,6 +333,10 @@
             <!-- 문의하기 버튼 -->
             <!-- 주소 및 사업자 등록번호 -->
             <!-- 고객센터 -->
+  <!--  
         </footer>
+        -->
+  
+  
     </body>
 </html>
