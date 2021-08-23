@@ -174,9 +174,9 @@ String msg = (String) session.getAttribute("msg");
 
 	<section class="login-form">
 		<h1>로그인</h1>
-		<form action="">
+		<form id = "loginForm" action="<%=request.getContextPath()%>/login.me" method="post" > <!-- onsubmit="return loginValidate();" -->
 			<div class="int-area">
-				<input class="input-box" type="text" name="id" id="id"
+				<input class="input-box" type="text" name="emailId" id="emailId"
 					autocomplete="off" required placeholder="이메일 아이디"> <label
 					for="id">ID</label>
 
@@ -184,7 +184,7 @@ String msg = (String) session.getAttribute("msg");
 			</div>
 			<div class="int-area">
 
-				<input class="input-box" type="password" name="pwd" id="pwd"
+				<input class="input-box" type="password" name="userPwd" id="userPwd"
 					autocomplete="off" required
 					placeholder="비밀번호 (영문, 숫자, 특수문자 포함 8자 이상)"> <label
 					for="pwd">PWD</label>

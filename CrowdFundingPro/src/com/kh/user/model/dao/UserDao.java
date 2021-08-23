@@ -17,7 +17,7 @@ public class UserDao {
 	private Properties prop = new Properties();
 
 	public UserDao() {
-		String fileName = UserDao.class.getResource("/sql/User/User-query.properties").getPath();
+		String fileName = UserDao.class.getResource("/sql/user/user-query.properties").getPath();
 		System.out.println("fileName   " + fileName);
 		try {
 			prop.load(new FileReader(fileName));
@@ -31,30 +31,45 @@ public class UserDao {
 
 	}
 
-	public User loginUser(Connection conn, String userId, String userPwd) {
+	public User loginUser(Connection conn, String emailId, String userPwd) {
 		User loginUser = null;
 
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 
 		String sql = prop.getProperty("loginUser");
-
+		//loginUser=SELECT * FROM USER_TB WHERE EMAIL_ID=? AND USER_PWD=? AND STATUS='N'
+		
+		System.out.println("dao : " + emailId);
+		System.out.println("dao : " + userPwd);
 		try {
 
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, userId);
+			pstmt.setString(1, emailId);
 			pstmt.setString(2, userPwd);
 
 			rset = pstmt.executeQuery();
 
 			if (rset.next()) {
-//				loginUser = new User(rset.getInt("USER_NO"), rset.getString("USER_ID"), rset.getString("USER_PWD"),
-//						rset.getString("USER_NAME"), rset.getString("PHONE"), rset.getString("EMAIL"),
-//						rset.getString("ADDRESS"), rset.getString("INTEREST"), rset.getDate("ENROLL_DATE"),
-//						rset.getDate("MODIFY_DATE"), rset.getString("STATUS"));
-
+				loginUser = new User();
+				
+				loginUser.setUserCode(rset.getString("USER_CODE"));
+				loginUser.setEmailId(rset.getString("EMAIL_ID"));
+				loginUser.setUserPwd(rset.getString("USER_PWD"));
+				loginUser.setUserName(rset.getString("USER_NAME"));
+				loginUser.setUserSsn(rset.getString("USER_SSN"));
+				loginUser.setUserPhone(rset.getString("PHONE_NUMBER"));
+				loginUser.setUserAddress(rset.getString("USER_ADDRESS"));
+				loginUser.setPoint(rset.getInt("POINT"));
+				
+				if(rset.getString("USER_CODE").equals("03")) {
+					loginUser.setbNumber(rset.getString("BUSINESS_NUMBER"));
+					loginUser.setbName(rset.getString("BUSINESS_NAME"));
+				}				
+				
 			}
+
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -64,8 +79,9 @@ public class UserDao {
 			close(pstmt);
 
 		}
-
+		System.out.println("UserDao loginUser : " + loginUser);
 		return loginUser;
+		
 	}
 
 	public int insertUser(Connection conn, User m) {
