@@ -12,18 +12,18 @@ import com.kh.user.model.vo.User;
 
 public class UserService {
 
-	public User loginUser(String userId, String userPwd) {
+	public User loginUser(String emailId, String userPwd) {
 		Connection conn = getConnection();
 	
-		User loginUser = new UserDao().loginUser(conn,userId,userPwd);
+		User loginUser = new UserDao().loginUser(conn,emailId,userPwd);
 		close(conn);
 		return loginUser;
 	}
 
-	public int insertUser(User mem) {
+	public int insertUser(User u) {
 		Connection conn = getConnection();
 		
-		int result = new UserDao().insertUser(conn,mem);
+		int result = new UserDao().insertUser(conn,u);
 		
 		if(result > 0 ) {
 			commit(conn);
@@ -35,12 +35,12 @@ public class UserService {
 		return result;
 	}
 
-	public User selectUser(String userId) {
+	public User selectUser(String emailId) {
 		Connection conn = getConnection();
 		
-		User mem = new UserDao().selectUser(conn, userId);
+		User u = new UserDao().selectUser(conn, emailId);
 		close(conn);
-		return mem;
+		return u;
 	}
 
 	public User updateUser(User m) {
