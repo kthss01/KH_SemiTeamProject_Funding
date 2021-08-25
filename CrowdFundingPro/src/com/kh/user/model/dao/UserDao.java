@@ -84,22 +84,41 @@ public class UserDao {
 		
 	}
 
-	public int insertUser(Connection conn, User m) {
+	public int insertUser(Connection conn, User u) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertUser");
-
-
+		//insertUser=INSERT INTO USER_TB VALUES(SEQ_USER_NO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, DEFAULT,DEFAULT)
+		/*
+		USER_NO			VARCHAR2(3 BYTE)
+		USER_CODE		VARCHAR2(3 BYTE)
+		EMAIL_ID		VARCHAR2(100 BYTE)
+		USER_PWD		VARCHAR2(20 BYTE)
+		USER_NAME		VARCHAR2(20 BYTE)
+		USER_SSN		VARCHAR2(20 BYTE)
+		PHONE_NUMBER	VARCHAR2(20 BYTE)
+		USER_ADDRESS	VARCHAR2(200 BYTE)
+		POINT			NUMBER
+		BUSINESS_NUMBER	VARCHAR2(20 BYTE)
+		BUSINESS_NAME	VARCHAR2(20 BYTE)
+		JOIN_DATE		DATE
+		STATUS			CHAR(2 BYTE)
+		 */
+		
+		System.out.println("userDao usrCode : " + u.getUserCode());
 		try {
 			pstmt = conn.prepareStatement(sql);
 
-//			pstmt.setString(1, m.getUserId());
-//			pstmt.setString(2, m.getUserPwd());
-//			pstmt.setString(3, m.getUserName());
-//			pstmt.setString(4, m.getPhone());
-//			pstmt.setString(5, m.getEmail());
-//			pstmt.setString(6, m.getAddress());
-//			pstmt.setString(7, m.getInterest());
+			pstmt.setString(1, u.getUserCode());
+			pstmt.setString(2, u.getEmailId());
+			pstmt.setString(3, u.getUserPwd());
+			pstmt.setString(4, u.getUserName());
+			pstmt.setString(5, u.getUserSsn());
+			pstmt.setString(6, u.getUserPhone());
+			pstmt.setString(7, u.getUserAddress());
+			pstmt.setInt(8, 20000);
+			pstmt.setString(9, u.getbNumber());
+			pstmt.setString(10, u.getbName());
 
 			result = pstmt.executeUpdate();
 
