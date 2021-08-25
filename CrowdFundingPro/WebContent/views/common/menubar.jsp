@@ -25,7 +25,7 @@
 		<ul class="navbar-nav">
 			<li class="nav-item"><a href="#" class="nav-link">펀딩하기</a></li>
 
-			<li class="nav-item"><a href="#" class="nav-link">채용공고</a></li>
+			<li class="nav-item"><a href="<%= request.getContextPath() %>/views/recruit/recruit.jsp" class="nav-link">채용공고</a></li>
 
 			<!-- dropdowns -->
 			<li class="nav-item dropdown"><a href="#"
