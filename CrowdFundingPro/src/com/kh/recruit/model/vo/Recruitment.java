@@ -1,0 +1,142 @@
+package com.kh.recruit.model.vo;
+
+import java.util.Date;
+
+public class Recruitment {
+	private int id; // 공고번호
+	private String title; // 공고명
+	private String code; // 직무구분
+	private Date start; // 공고시작일
+	private Date end; // 공고종료일
+	private String time; // 공고종류
+	private String content1; // 공고소개
+	private String content2; // 주요업무
+	private String content3; // 자격요건
+	private String content4; // 우대사항
+	private String content5; // 혜택 및 복지
+	private String content6; // 기타사항
+
+	public Recruitment() {
+	}
+
+	public Recruitment(int id, String title, String code, Date start, Date end, String time, String content1,
+			String content2, String content3, String content4, String content5, String content6) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.code = code;
+		this.start = start;
+		this.end = end;
+		this.time = time;
+		this.content1 = content1;
+		this.content2 = content2;
+		this.content3 = content3;
+		this.content4 = content4;
+		this.content5 = content5;
+		this.content6 = content6;
+	}
+
+	int getId() {
+		return id;
+	}
+
+	void setId(int id) {
+		this.id = id;
+	}
+
+	String getTitle() {
+		return title;
+	}
+
+	void setTitle(String title) {
+		this.title = title;
+	}
+
+	String getCode() {
+		return code;
+	}
+
+	void setCode(String code) {
+		this.code = code;
+	}
+
+	Date getStart() {
+		return start;
+	}
+
+	void setStart(Date start) {
+		this.start = start;
+	}
+
+	Date getEnd() {
+		return end;
+	}
+
+	void setEnd(Date end) {
+		this.end = end;
+	}
+
+	String getTime() {
+		return time;
+	}
+
+	void setTime(String time) {
+		this.time = time;
+	}
+
+	String getContent1() {
+		return content1;
+	}
+
+	void setContent1(String content1) {
+		this.content1 = content1;
+	}
+
+	String getContent2() {
+		return content2;
+	}
+
+	void setContent2(String content2) {
+		this.content2 = content2;
+	}
+
+	String getContent3() {
+		return content3;
+	}
+
+	void setContent3(String content3) {
+		this.content3 = content3;
+	}
+
+	String getContent4() {
+		return content4;
+	}
+
+	void setContent4(String content4) {
+		this.content4 = content4;
+	}
+
+	String getContent5() {
+		return content5;
+	}
+
+	void setContent5(String content5) {
+		this.content5 = content5;
+	}
+
+	String getContent6() {
+		return content6;
+	}
+
+	void setContent6(String content6) {
+		this.content6 = content6;
+	}
+
+	@Override
+	public String toString() {
+		return "Recruitment [title=" + title + ", code=" + code + ", start=" + start + ", end=" + end + ", time=" + time
+				+ ", content1=" + content1 + ", content2=" + content2 + ", content3=" + content3 + ", content4="
+				+ content4 + ", content5=" + content5 + ", content6=" + content6 + "]";
+	}
+
+}
