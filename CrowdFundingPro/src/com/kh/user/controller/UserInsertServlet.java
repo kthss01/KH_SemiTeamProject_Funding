@@ -32,29 +32,37 @@ public class UserInsertServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		
+		String userName = request.getParameter("userName");
 		String emailId = request.getParameter("emailId");
 		String userPwd = request.getParameter("userPwd");
-		String userName = request.getParameter("userName");
 		String userSsn = request.getParameter("userSsn");
 		String phone = request.getParameter("phone");
-		String email = request.getParameter("email");
 		String address = request.getParameter("address");
-		
+		String userCode = request.getParameter("userCode");
+		String bNumber = request.getParameter("bNumber"); //사업자번호
+		String bName = request.getParameter("bName"); //사업자명
+		 
+		System.out.println("userCode : " + userCode);
 
+		User loginUser = new User(userCode, emailId, userPwd,userName, userSsn, phone, address);
+		if(userCode.equals("02")) {
+			loginUser.setbNumber(bNumber);
+			loginUser.setbName(bName);
+		}
 		
+		int result = new UserService().insertUser(loginUser); //insert작업으로 성공여부를 가져옴
 		
-//		int result = new UserService().insertUser(); //insert작업으로 성공여부를 가져옴
-//		
-//		if(result > 0 ) {
-//			request.getSession().setAttribute("msg", "회원가입성공");
-//			response.sendRedirect(request.getContextPath());
-//		}else {
-//			request.setAttribute("msg", "회원가입에 실패했습니다.");
-//			
-//			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp"); //request에 정보가 있으니 RequestDispatcher 로 에러페이지로 보냄
-//			view.forward(request,response);
-//		}
-//		
+		if(result > 0 ) {
+			request.getSession().setAttribute("msg", "회원가입성공");
+			response.sendRedirect(request.getContextPath());
+		}else {
+			request.setAttribute("msg", "회원가입에 실패했습니다.");
+			
+			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp"); //request에 정보가 있으니 RequestDispatcher 로 에러페이지로 보냄
+			view.forward(request,response);
+		}
+		
 		
 	}
 

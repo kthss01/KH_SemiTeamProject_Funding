@@ -28,7 +28,6 @@
 	padding: 0;
 	box-sizing: border-box;
 }
-
 .join-form {
 	font-family: 'Rajdhani', 'sans-serif';
 	/* 하나의 플렉스 아이템이 자신의 컨테이너가 차지하는 공간에 맞추기 위해 크기를 키우거나 줄이는 방법을 설정하는 속성*/
@@ -36,25 +35,21 @@
 	align-items: center;
 	text-align: center;
 }
-
 .join-form div {
 	display: inline-block;
 	text-align: left;
 }
-
 #pageTitle {
 	font-size: 30px;
 	text-align: left;
 	margin-top: 150px;
 	margin-bottom: 100px;
 	font-family: 'Rajdhani', 'sans-serif';
-	font-weight:bolder;	
+	font-weight: bolder;
 }
-
 .input-area {
 	width: 400px;
 }
-
 .input-area button {
 	width: 25%;
 	height: 30px;
@@ -65,7 +60,6 @@
 	color: white;
 	margin-left: 300px;
 }
-
 .input-area input {
 	width: 100%;
 	padding: 15px 10px 10px;
@@ -78,7 +72,6 @@
 	color: black;
 	outline: none;
 }
-
 .input-area input::placeholder {
 	opacity: 0.5;
 }
@@ -86,7 +79,6 @@
 .pwd-area input {
 	background: rgba(0, 0, 0, .06);
 }
-
 label {
 	line-height: 50px;
 	font-size: 20px;
@@ -94,21 +86,17 @@ label {
 	color: rgba(0, 0, 0, .7);
 	padding-bottom: 5px;
 }
-
 .usercode-area {
 	width: 100%;
 	display: inline;
 }
-
 .usercode-area input {
 	width: 70px;
 	margin-left: 20px;
 }
-
 .usercode-area label {
 	font-size: 1em;
 }
-
 #joinBtn {
 	margin-top: 50px;
 	margin-bottom: 100px;
@@ -117,78 +105,193 @@ label {
 	color: white;
 	font-size: 1.5em;
 }
-
 #joinBtn:hover {
 	cursor: pointer;
 	background-color: mediumaquamarine;
 }
+
+.msgBox{
+	display : none;
+	color:red;
+}
+
+
+
 </style>
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp"%>
 
+            <section class="join-form">
 
-	<script>
-		function checkMove() {
-			if (confirm("입력한 내용은 저장되지 않습니다. 이동하시겠습니까?") == true) {
-				location
-						.replace("http://127.0.0.1:5500/WEB/Login/Login01.html")
-			}
-		}
-	</script>
+                <div class="input-area">
 
-	<section class="join-form">
+                    <h1 id="pageTitle">회원가입</h1>
 
-		<div class="input-area">
+                    <form
+                        id="loginForm"
+                        action="<%=request.getContextPath()%>/insert.me"
+                        method="post">
+                        <div class="name-area area">
 
-			<h1 id="pageTitle">회원가입</h1>
+                            <label for="name">이름</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="userName"
+                                placeholder="이름 입력"
+                                required="required">
+                            <label for="email">이메일아이디</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="emailId"
+                                placeholder="이메일 입력"
+                                required="required">
+                            <button>인증하기</button>
+                            <br>
+
+                            <div class="pwd-area area">
+                                <label for="userPwd">비밀번호</label>
+                                <input
+                                    type="password"
+                                    class="password"
+                                    id="userPwd"
+                                    name="userPwd"
+                                    placeholder="비밀번호"
+                                    required="required"
+									onchange="check_pw()"
+									>
+                                <input
+                                    type="password"
+                                    class="password"
+                                    id="userPwd2"
+                                    name="userPwd2"
+                                    placeholder="비밀번호 확인"
+                                    required="required"
+									onchange="check_pw()">
+									<div id="msgBox" style="width:100%; font-size:0.8em; text-align: center;"></div>
+
+                            </div>
+
+                            <label for="userSsn">주민번호
+                            </label>
+                            <input
+                                type="text"
+                                id="userSsn"
+                                name="userSsn"
+                                placeholder="주민번호 입력"
+                                required="required">
+                            <label for="phone">전화번호</label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="전화번호 입력"
+                                required="required">
+
+                            <label for="address">주소
+                            </label>
+                            <input
+                                type="text"
+                                id="address"
+                                name="address"
+                                placeholder="주소 입력"
+                                required="required">
+                            <label>회원구분</label>
+
+                            <br>
+
+                            <div class="usercode-area">
+
+                                <input
+                                    type="radio"
+                                    class="usercode"
+                                    id="normal"
+                                    name="userCode"
+                                    value="02"
+                                    checked="checked"
+                                    onclick="hide();">
+                                <label for="normal">일반회원</label>
+                                <input
+                                    type="radio"
+                                    class="usercode"
+                                    id="business"
+                                    name="userCode"
+                                    value="03"
+                                    onclick="show();">
+                                <label for="business">
+                                    사업자회원</label>
+                            </div>
+                            <div id="businessArea" style="width: 100%; display: none;">
+
+                                <label for="bNumber">사업자번호
+                                </label>
+                                <input
+                                    type="text"
+                                    id="bNumber"
+                                    name="bNumber"
+                                    placeholder="사업자번호 입력"
+                                    style="width: 100%;">
+                                <br>
+
+                                <label for="bName">사업자명</label>
+                                <input
+                                    type="text"
+                                    id="bName"
+                                    name="bName"
+                                    placeholder="사업자명 입력"
+                                    style="width: 100%;">
+
+                            </div>
+                            <input id="joinBtn" type="submit" value="가입하기" onclick="welcome();">
+                        </div>
+                    </form>
+
+                    <script>
 
 
-			<div class="name-area area">
+						//비밀번호 유효성 검사  (미완료)
+                      function check_pw(){
 
-				<label for="name">이름</label> <input type="text" id="name"
-					name="name" placeholder="이름 입력"> <label for="email">이메일
-					아이디</label> <input type="email" id="email" name="email"
-					placeholder="이메일 입력">
-				<button>인증하기</button>
-				<br>
-
-				<div class="pwd-area area">
-					<label for="name">비밀번호</label> <input type="password"
-						id="password1" name="password1" placeholder="비밀번호"> <input
-						type="password" id="password2" name="password2"
-						placeholder="비밀번호 확인">
-
-				</div>
-
-
-				<label for="ssn">주민번호 </label> <input type="email" id="email"
-					name="email" placeholder="주민번호 입력"> <label for="tel">전화번호
-				</label> <input type="tel" id="tel" name="tel" placeholder="전화번호 입력">
-
-				<label for="email">주소 </label> <input type="email" id="email"
-					name="email" placeholder="주소 입력"> <label>회원구분</label> <br>
-				<div class="usercode-area">
-					<input type="radio" class=usercode id="normal" name="usercode"
-						value="일반회원"><label for="normal"> 일반회원</label> <input
-						type="radio" class=usercode id="business" name="usercode"
-						value="사업자회원"> <label for="business"> 사업자회원</label>
-				</div>
+						var pwd1 = document.getElementById("userPwd").value;
+						var pwd2 =  document.getElementById("userPwd2").value;
+						var msg = '';
+					
+						if(pwd1 != pwd2){
+							msg='<b style=color:orangered;>비밀번호가 일치하지 않습니다.</b>'
+						}else {
+							msg='<b style=color:gray;>비밀번호가 일치합니다.</b>'
+						}
+						$("#msgBox").html(msg);
 
 
 
-				<input id="joinBtn" type="submit" value="가입하기">
-			</div>
+					  }
 
+                      	//사업자 정보 입력 창 보이기
+                        function show() {
+                            $("#businessArea").css("display", "block");
+                        }
+                      	//사업자 정보 입력 창 숨기기
 
+                        function hide() {
+                            $("#businessArea").css("display", "none");
+                        }
+	
+                      	//가입 완료 메세지
+                        function welcome() {
+                            if ($("#businessArea").css("display") == "none") {
+                                alert("회원이 되신 것을 환영합니다! 가입 축하 선물로 20,000원의 적립금이 충전되었습니다.");
+                            } else {
+                                alert("회원이 되신 것을 환영합니다! 지금 당장 프로젝트를 오픈해서 좋은 서포터들을 만나보세요!");
 
+                            }
+                        }
+                    </script>
 
+                </div>
+            </section>
 
-
-
-
-		</div>
-	</section>
-
-</body>
-</html>
+        </body>
+    </html>
