@@ -4,8 +4,8 @@
 <%@ page import="com.kh.user.model.vo.User"%>
 
 <%
-	User loginUser = (User) session.getAttribute("loginUser");
-String msg = (String) session.getAttribute("msg");
+
+String contextPath = request.getContextPath();
 %>
 
 <!DOCTYPE html>
@@ -138,14 +138,17 @@ String msg = (String) session.getAttribute("msg");
 </style>
 
 <script type="text/javascript">
-	$(function(){
+	<%-- 
+		$(function(){
 		var msg = "<%=msg%>";
 		if(msg != "null") {
 			alert(msg);
 			<%session.removeAttribute("msg");%> //메세지를 띄우고 나면 msg 속성을 삭제한다.
 		}
 	})
+	--%>
 
+	
 	function loginValidate(){
 		if($("#userId").val().trim().length==0){
 			alert("아이디를 입력하세요");
@@ -168,13 +171,15 @@ String msg = (String) session.getAttribute("msg");
 <body>
 
 
-        	<%@ include file="../common/menubar.jsp"%>
+	<%@ include file="../common/menubar.jsp"%>
 
 
 
 	<section class="login-form">
 		<h1>로그인</h1>
-		<form id = "loginForm" action="<%=request.getContextPath()%>/login.me" method="post" > <!-- onsubmit="return loginValidate();" -->
+		<form id="loginForm" action="<%=request.getContextPath()%>/login.me"
+			method="post">
+			<!-- onsubmit="return loginValidate();" -->
 			<div class="int-area">
 				<input class="input-box" type="text" name="emailId" id="emailId"
 					autocomplete="off" required placeholder="이메일 아이디"> <label
@@ -205,8 +210,7 @@ String msg = (String) session.getAttribute("msg");
 	<script>
 	
 	function enrollPage(){
-		location.href = "<%=request.getContextPath()%>
-/enrollForm.me";
+		location.href = "<%= request.getContextPath() %>/enrollForm.me ";
 		}
 	</script>
 </body>

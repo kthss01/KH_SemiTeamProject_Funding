@@ -264,8 +264,7 @@ label {
 							msg='<b style=color:gray;>비밀번호가 일치합니다.</b>'
 						}
 						$("#msgBox").html(msg);
-
-
+			
 
 					  }
 
