@@ -2,11 +2,15 @@ package com.kh.user.controller;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.kh.user.model.service.UserService;
+import com.kh.user.model.vo.User;
 
 /**
  * Servlet implementation class UserUpdateServlet
@@ -31,31 +35,29 @@ public class UserUpdateServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 
-		String userId = request.getParameter("userId");
-		String userName = request.getParameter("userName");
+		String userId = ((User) request.getSession().getAttribute("loginUser")).getEmailId();
+		String userPwd = ((User) request.getSession().getAttribute("loginUser")).getUserPwd();
+		String newPwd = request.getParameter("userPwd");
 		String phone = request.getParameter("phone");
-		String email = request.getParameter("email");
 		String address = request.getParameter("address");
-		String[] interests = request.getParameterValues("interest");
-		String interest = "";
-		if (interest != null) {
+		 
+		User updateUser = null;
 
-			interest = String.join(",", interests);
-		}
-/*
-		User updateMem = new UserService()
-				.updateUser(new User(userId, userName, phone, email, address, interest));
-
-		if (updateMem != null) {
-			request.getSession().setAttribute("msg", "성공적으로 회원정보를 수정하였습니다.");
-			request.getSession().setAttribute("loginUser", updateMem);
-			response.sendRedirect(request.getContextPath());
+		if (userPwd != newPwd) { // 로그인유저의 비밀번호와 정보수정에서 넘어온 비밀번호가 다르면 비밀번호를 변경하는 것으로 판단
+			updateUser = new UserService() .updateUser(new User(userId,newPwd,phone,address));
 		} else {
-			request.setAttribute("msg", "로그인에 실패했습니다.");
-
-			request.getRequestDispatcher("views/common/errorPage.jsp");
+			updateUser = new UserService() .updateUser(new User(userId,userPwd,phone,address));
 		}
-		*/
+
+		RequestDispatcher view = request.getRequestDispatcher("views/user/myPage.jsp");
+		if (updateUser != null) {
+			request.setAttribute("sTag", "Y");
+			request.setAttribute("msg", "성공적으로 비밀번호를 변경하였습니다.");
+			request.getSession().setAttribute("loginUser", updateUser);
+		} else {
+			request.setAttribute("msg", "비밀번호 변경에 실패했습니다.");
+		}
+		view.forward(request, response);
 	}
 
 	/**
