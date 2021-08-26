@@ -9,20 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.user.model.service.UserService;
-import com.kh.user.model.vo.User;
-
 /**
- * Servlet implementation class UserPageServlet
+ * Servlet implementation class UserUpdateFormServlet
  */
-@WebServlet("/mypage.me")
-public class UserPageServlet extends HttpServlet {
+@WebServlet("/updateForm.me")
+public class UserUpdateFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserPageServlet() {
+    public UserUpdateFormServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,22 +28,8 @@ public class UserPageServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User loginUser = (User)request.getSession().getAttribute("loginUser");
 		
-		String userId = loginUser.getEmailId();
-		User User = new UserService().selectUser(userId);
-		System.out.println("User : " + User);
-		
-		RequestDispatcher view = null;
-		if(User != null) {
-			request.setAttribute("loginUser", User);
-			view = request.getRequestDispatcher("views/user/myPage.jsp");
-		}else {
-			request.setAttribute("msg", "마이페이지로 이동이 실패했습니다.");
-			
-			request.getRequestDispatcher("views/common/errorPage.jsp");
-		}
-		
+		RequestDispatcher view = request.getRequestDispatcher("views/user/userModifyForm.jsp");
 		view.forward(request, response);
 	}
 

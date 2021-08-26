@@ -132,25 +132,31 @@ public class UserDao {
 		return result;
 	}
 
-	public User selectUser(Connection conn, String userId) {
-		User mem = null;
+	public User selectUser(Connection conn, String emailId) {
+		User u = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 
 		String sql = prop.getProperty("selectUser");
+		//selectUser=SELECT * FROM USER_TB WHERE EMAIL_ID=? AND STATUS='N'
 
 		try {
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, userId);
+			pstmt.setString(1, emailId);
 			rset = pstmt.executeQuery();
 
 			if (rset.next()) {
-//				mem = new User(rset.getInt("USER_NO"), rset.getString("USER_ID"), rset.getString("USER_PWD"),
-//						rset.getString("USER_NAME"), rset.getString("PHONE"), rset.getString("EMAIL"),
-//						rset.getString("ADDRESS"), rset.getString("INTEREST"), rset.getDate("ENROLL_DATE"),
-//						rset.getDate("MODIFY_DATE"), rset.getString("STATUS"));
-
+				u = new User();
+				u.setUserCode(rset.getString("USER_CODE"));
+				u.setEmailId(emailId);
+				u.setUserPwd(rset.getString("USER_PWD"));
+				u.setUserName(rset.getString("USER_NAME"));
+				u.setUserPhone(rset.getString("PHONE_NUMBER"));
+				u.setUserAddress(rset.getString("USER_ADDRESS"));
+				u.setPoint(rset.getInt("POINT"));
+						
+						
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -160,7 +166,7 @@ public class UserDao {
 			close(pstmt);
 		}
 
-		return mem;
+		return u;
 	}
 
 	public int updateMmeber(Connection conn, User m) {

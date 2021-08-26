@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="com.kh.user.model.vo.User" %>
 
+<%
+	User loginUser = (User)session.getAttribute("loginUser");
+	String msg = (String)session.getAttribute("msg");
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,14 +42,20 @@
 				</div></li>
 		</ul>
 
-		<!-- 회원관리 오른쪽 붙이기 ml-auto -->
 		<ul class="navbar-nav ml-auto">
-			<!-- <span class="navbar-text"> <i class="fas fa-search"></i> </span> -->
-			<li class="nav-item"><a href="#" class="nav-link"> <i
-					class="fas fa-search fa-lg"></i>
-			</a></li>
+			<li class="nav-item">
+				<a href="#" class="nav-link"> 
+					<i class="fas fa-search fa-lg"></i> 
+				</a>
+			</li>
+			<%if (loginUser == null) { %>
 			<li class="nav-item"><a href="<%=request.getContextPath() %>/loginForm.me" class="nav-link">로그인</a></li>
 			<li class="nav-item"><a href="<%=request.getContextPath() %>/enrollForm.me"class="nav-link">회원가입</a></li>
+			<%} else { %>
+			<li class="nav-item"><a href="<%=request.getContextPath() %>/mypage.me" class="nav-link">마이페이지</a></li>
+			<li class="nav-item"><a href="<%=request.getContextPath() %>/logout.me"class="nav-link">로그아웃</a></li>
+			
+			<% } %>
 		</ul>
 	</nav>
 </body>
