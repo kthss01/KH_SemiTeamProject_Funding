@@ -32,18 +32,34 @@
         <style>
 
             .box {
-                width: 1200px;
-                height: 100vh;
+                width: 1300px;
+                height: 1000px;
+                margin: 0 auto;
 
             }
 
             .content1 {
+            	width:260px;
                 float: left;
+                margin : 0 auto;
+            }
+            
+             .profile {
+                width: 100%;
+                border: none;
+                border-right: lightgray solid 0.1px;
+
+            }
+
+            .profile div {
+                float: left;
+                width: 100%;
+                padding: 40px 20px 20px 10px;
+                text-align: center;
             }
 
             .content2 {
-                width: 70%;
-                height: 100vh;
+                width: 1040px;
                 float: left;
             }
 
@@ -51,13 +67,14 @@
                 width: 50%;
                 height: 100%;
                 float: left;
-                padding: 10px 10px 20px 30px;
+                padding-left:80px;
 
             }
             .section h3 {
                 font-size: 1.2em;
                 color: rgba(0, 0, 0, .8);
                 margin-bottom: 20px;
+                font-weight : bold;
             }
             .section li {
                 display: block;
@@ -73,42 +90,29 @@
 
             h1 {
                 position: relative;
-                left: 25%;
-                font-size: 30px;
+                left: 15%;
+                font-size: 35px;
                 text-align: left;
-                margin-top: 150px;
+                margin-top: 100px;
                 margin-bottom: 40px;
+                font-weight : bolder;
             }
-            .profile {
-                margin-left: 100px;
-                width: 240px;
-                height: 100vh;
-                border: none;
-                border-right: lightgray solid 0.1px;
-
-            }
-
-            .profile div {
-                float: left;
-                width: 100%;
-                padding: 40px 20px 20px 10px;
-                text-align: center;
-            }
+           
 
             .usericon {
                 font-size: 150px;
                 opacity: 0.1;
             }
-            .modify button {
+            .modify .profileBtn {
                 width: 100%;
                 height: 50px;
                 border-radius: 30px;
-                border: 3px solid rgb(100, 220, 167,.5);
+                border: 2px solid rgb(100, 220, 167,.5);
                 margin: 10px;
                 font-size: 1.3em;
                 color: gray;
             }
-            .modify button:hover {
+            .modify .profileBtn:hover {
                 cursor: pointer;
                 background: rgb(100, 220, 177,.8);
                 color: white;
@@ -124,7 +128,7 @@
         <div class="box">
             <div class="content1">
                 <div class="profile">
-                    <div class="profileImg">
+                    <div class="profileImg" style="margin:0 auto;">
                         <span class="material-icons-outlined usericon">account_circle</span>
                         <br>
                         <b style="font-size: 20px;">
@@ -133,9 +137,10 @@
                         <b style="font-size: 18px;">
                       		적립금 : <%=loginUser.getPoint()%> 원</b>
                     </div>
-                    <div class="modify">
-                        <button onclick="location.href=<%=request.getContextPath() %>/updateForm.me">정보수정</button><br>
-                        <button onclick="location.href=<%=request.getContextPath() %>/logout.me">로그아웃</button>
+                    <div class="modify" style="margin:0 auto;">
+                   
+                        <input class="profileBtn" type='button' value='정보수정' onclick="checkPwd();"></input> <br>
+                        <input class="profileBtn" type='button' value='로그아웃' onclick="logout();"></input>
                     </div>
                 </div>
             </div>
@@ -179,4 +184,27 @@
 	<%@ include file="../common/footer.jsp"%>
 
     </body>
+    
+    <script>
+	
+    function checkPwd(){
+    
+    	var input = prompt('비밀번호를 입력해주세요',"");
+    	if(input == "<%=loginUser.getUserPwd()%>"){
+    		update();
+    	} else if(input == null) {
+    		// prompt의 취소를 누르면 null을 반환 -> 아무 동작 없음
+    	} else{
+    		alert('비밀번호가 일치하지 않습니다.');
+
+    	}
+    }
+    
+	function logout(){
+		location.href = "<%= request.getContextPath() %>/logout.me ";
+		}
+	function update(){
+		location.href = "<%= request.getContextPath() %>/updateForm.me ";
+		}
+	</script>
 </html>

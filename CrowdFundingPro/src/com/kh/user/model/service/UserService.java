@@ -43,25 +43,25 @@ public class UserService {
 		return u;
 	}
 
-	public User updateUser(User m) {
+	public User updateUser(User u) {
 		Connection conn = getConnection();
 		
-		User updateMem = null;
-		int result = new UserDao().updateMmeber(conn,m);
+		User updateUser = null;
+		int result = new UserDao().updateMmeber(conn,u);
 		if(result>0) {
 			commit(conn);
-			updateMem = new UserDao().selectUser(conn, m.getEmailId());
+			updateUser = new UserDao().selectUser(conn, u.getEmailId());
 		}else {
 			rollback(conn);
 		}
 		close(conn);
-		return updateMem;
+		return updateUser;
 	}
 
-	public int deleteUser(String userId) {
+	public int deleteUser(String emailId) {
 		Connection conn = getConnection();
 		
-		int result = new UserDao().deleteUser(conn,userId);
+		int result = new UserDao().deleteUser(conn,emailId);
 		
 		if(result > 0 ) {
 			commit(conn);
@@ -71,21 +71,6 @@ public class UserService {
 		close(conn);
 
 		return result;
-	}
-
-	public User updatePwd(String userId, String userPwd, String newPwd) {
-Connection conn = getConnection();
-		
-		User updateMem = null;
-		int result = new UserDao().updatePwd(conn,userId, userPwd, newPwd);
-		if(result>0) {
-			commit(conn);
-			updateMem = new UserDao().selectUser(conn, userId);
-		}else {
-			rollback(conn);
-		}
-		close(conn);
-		return updateMem;
 	}
 
 }

@@ -18,7 +18,6 @@ public class UserDao {
 
 	public UserDao() {
 		String fileName = UserDao.class.getResource("/sql/user/user-query.properties").getPath();
-		System.out.println("fileName   " + fileName);
 		try {
 			prop.load(new FileReader(fileName));
 		} catch (FileNotFoundException e) {
@@ -105,7 +104,6 @@ public class UserDao {
 		STATUS			CHAR(2 BYTE)
 		 */
 		
-		System.out.println("userDao usrCode : " + u.getUserCode());
 		try {
 			pstmt = conn.prepareStatement(sql);
 
@@ -123,7 +121,6 @@ public class UserDao {
 			result = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
@@ -169,24 +166,22 @@ public class UserDao {
 		return u;
 	}
 
-	public int updateMmeber(Connection conn, User m) {
+	public int updateMmeber(Connection conn, User u) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("updatedUser");
-		// updateUser=UPDATE User SET USER_NAME=?, PHONE=?, EMAIL=?, ADDRESS=?,
-		// INTEREST=?, MODIFY_DATE=SYSDATE WHERE USER_ID=?
+		String sql = prop.getProperty("updateUser");
+//		updateUser=UPDATE USER_TB SET USER_PWD=?, PHONE_NUMBER=?, USER_ADDRESS=?, WHERE EMAIL_ID=?
+
 
 		try {
 			
 			pstmt = conn.prepareStatement(sql);
 
 			
-//			pstmt.setString(1, m.getUserName());
-//			pstmt.setString(2, m.getPhone());
-//			pstmt.setString(3, m.getEmail());
-//			pstmt.setString(4, m.getAddress());
-//			pstmt.setString(5, m.getInterest());
-//			pstmt.setString(5, m.getUserId());
+			pstmt.setString(1, u.getUserPwd());
+			pstmt.setString(2, u.getUserPhone());
+			pstmt.setString(3, u.getUserAddress());
+			pstmt.setString(4, u.getEmailId());
 
 			result = pstmt.executeUpdate();
 
@@ -200,18 +195,21 @@ public class UserDao {
 		return result;
 	}
 
-	public int deleteUser(Connection conn, String userId) {
+	public int deleteUser(Connection conn, String emailId) {
 		int result = 0;
+		System.out.println("userDao delete result : " + emailId);
+
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("deleteUser");
+		String sql = prop.getProperty("deleteupdateUser");
+//		deleteupdateUser=UPDATE USER_TB SET STATUS='Y' WHERE EMAIL_ID=?
 
 		try {
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, userId);
+			pstmt.setString(1, emailId);
 
 			result = pstmt.executeUpdate();
-
+			System.out.println("userDao delete result : " + result);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -222,33 +220,5 @@ public class UserDao {
 		return result;
 	}
 
-	public int updatePwd(Connection conn, String userId, String userPwd, String newPwd) {
-
-		// updatePwd=UPDATE User SET USER_PWD=?, MODIFY_DATE=SYSDATE WHERE USER_ID=?
-		// AND USER_PWD=?
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("updatePwd");
-
-		try {
-			
-			pstmt = conn.prepareStatement(sql);
-
-			
-			pstmt.setString(1, newPwd);
-			pstmt.setString(2, userId);
-			pstmt.setString(3, userPwd);
-			result = pstmt.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-
-		return result;
-
-	}
 
 }
