@@ -288,7 +288,7 @@
                 <!-- Modal body -->
                 <div class="modal-body">
 
-                    <form id="recruit_create_form" action="recruitCreate.do">
+                    <form id="recruit_create_form" action="recruitInsert.do">
 
 						<!-- 공고 종류 일반 / 상시 -->
                         <label>공고 종류</label>
@@ -497,8 +497,7 @@
                     $('.toast').toast('show');
                 }
                 
-                //alert('test');
-                return false;
+                return check;
             })
         });
     </script>
