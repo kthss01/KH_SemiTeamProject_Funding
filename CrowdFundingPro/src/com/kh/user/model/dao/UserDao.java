@@ -9,9 +9,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 import com.kh.user.model.vo.User;
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
 public class UserDao {
 	private Properties prop = new Properties();
@@ -214,6 +216,37 @@ public class UserDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int emailIdCheck(Connection conn, String emailId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("idCheck");
+		//idCheck=SELECT COUNT(*) FROM USER_TB WHERE EMAIL_ID=? AND STATUS='N'
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, emailId);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+
+			System.out.println("rset.getInt(1) result = " + result);
+			
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
 			close(pstmt);
 		}
 
