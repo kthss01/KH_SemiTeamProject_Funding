@@ -36,99 +36,115 @@ public class Recruitment {
 		this.content6 = content6;
 	}
 
-	int getId() {
+	public Recruitment(String title, String code, Date start, Date end, String time, String content1, String content2,
+			String content3, String content4, String content5, String content6) {
+		super();
+		this.title = title;
+		this.code = code;
+		this.start = start;
+		this.end = end;
+		this.time = time;
+		this.content1 = content1;
+		this.content2 = content2;
+		this.content3 = content3;
+		this.content4 = content4;
+		this.content5 = content5;
+		this.content6 = content6;
+	}
+
+	public int getId() {
 		return id;
 	}
 
-	void setId(int id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	String getTitle() {
+	public String getTitle() {
 		return title;
 	}
 
-	void setTitle(String title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	String getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	void setCode(String code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 
-	Date getStart() {
+	public Date getStart() {
 		return start;
 	}
 
-	void setStart(Date start) {
+	public void setStart(Date start) {
 		this.start = start;
 	}
 
-	Date getEnd() {
+	public Date getEnd() {
 		return end;
 	}
 
-	void setEnd(Date end) {
+	public void setEnd(Date end) {
 		this.end = end;
 	}
 
-	String getTime() {
+	public String getTime() {
 		return time;
 	}
 
-	void setTime(String time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 
-	String getContent1() {
+	public String getContent1() {
 		return content1;
 	}
 
-	void setContent1(String content1) {
+	public void setContent1(String content1) {
 		this.content1 = content1;
 	}
 
-	String getContent2() {
+	public String getContent2() {
 		return content2;
 	}
 
-	void setContent2(String content2) {
+	public void setContent2(String content2) {
 		this.content2 = content2;
 	}
 
-	String getContent3() {
+	public String getContent3() {
 		return content3;
 	}
 
-	void setContent3(String content3) {
+	public void setContent3(String content3) {
 		this.content3 = content3;
 	}
 
-	String getContent4() {
+	public String getContent4() {
 		return content4;
 	}
 
-	void setContent4(String content4) {
+	public void setContent4(String content4) {
 		this.content4 = content4;
 	}
 
-	String getContent5() {
+	public String getContent5() {
 		return content5;
 	}
 
-	void setContent5(String content5) {
+	public void setContent5(String content5) {
 		this.content5 = content5;
 	}
 
-	String getContent6() {
+	public String getContent6() {
 		return content6;
 	}
 
-	void setContent6(String content6) {
+	public void setContent6(String content6) {
 		this.content6 = content6;
 	}
 

@@ -20,13 +20,21 @@
     integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
 
-    <!-- recruit custom css -->
-    <link rel="stylesheet" href="../css/recruit_custom.css">
 
     <style>
         .popover {
             max-width: 80%;
         }
+               
+        .carousel-item {
+		    height: 300px;
+		}
+		
+		.carousel-item>img {
+		    width: 100%;
+		    height: 100%;
+		    object-fit: cover;
+		}
     </style>
 </head>
 

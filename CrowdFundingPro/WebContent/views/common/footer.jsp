@@ -48,7 +48,7 @@
 
             </div>
             <div class="media ml-3">
-                <img src="resources/images/support_icon.png" alt="support_icon">
+                <img src="<%= request.getContextPath() %>/resources/images/support_icon.png" alt="support_icon">
                 <div class="media-body">
                     <b>고객센터 000-0000</b><br>
                     <small>상담 가능 시간 : 평일 오전 9시 ~ 오후 6시

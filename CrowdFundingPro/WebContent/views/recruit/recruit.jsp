@@ -29,9 +29,6 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-    <!-- recruit custom css -->
-    <link rel="stylesheet" href="../css/recruit_custom.css">
-
     <style>
         .jumbotron {
             background: #fff;
@@ -61,13 +58,25 @@
             bottom: 0;
             visibility: show;
         }
+        
+        .carousel-item {
+		    height: 300px;
+		}
+		
+		.carousel-item>img {
+		    width: 100%;
+		    height: 100%;
+		    object-fit: cover;
+		}
     </style>
 
 	<script>
 		
-		const msg = <%= request.getParameter("msg") %>
-		if (msg !== null) {
+		const msg = '<%= (String)session.getAttribute("msg") %>';
+		//console.log(msg);
+		if (msg !== 'null') {
 			alert(msg);
+			<% session.removeAttribute("msg"); %> // msg 출력 후 제거
 		}
 	
 	</script>
@@ -91,13 +100,13 @@
         <!-- slideshow -->
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="../../resources/images/recruit_img1.png" alt="img1">
+                <img src="<%= request.getContextPath() %>/resources/images/recruit_img1.png" alt="img1">
             </div>
             <div class="carousel-item">
-                <img src="../../resources/images/recruit_img2.png" alt="img2">
+                <img src="<%= request.getContextPath() %>/resources/images/recruit_img2.png" alt="img2">
             </div>
             <div class="carousel-item">
-                <img src="../../resources/images/recruit_img3.png" alt="img3">
+                <img src="<%= request.getContextPath() %>/resources/images/recruit_img3.png" alt="img3">
             </div>
         </div>
 
@@ -129,7 +138,7 @@
                     </ul>
                 </div>
             </div>
-            <img class="rounded" src="../../resources/images/recruit_process.png" alt="recruit_process">
+            <img class="rounded" src="<%= request.getContextPath() %>/resources/images/recruit_process.png" alt="recruit_process">
         </div>
 
         <!-- 채용 진행과정 step 구현 시도 -->
@@ -288,13 +297,13 @@
                 <!-- Modal body -->
                 <div class="modal-body">
 
-                    <form id="recruit_create_form" action="recruitInsert.do">
+                    <form method="post" id="recruit_create_form" action="<%=request.getContextPath()%>/recruitInsert.do">
 
 						<!-- 공고 종류 일반 / 상시 -->
                         <label>공고 종류</label>
                         <div class="form-group">
                             <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" class="custom-control-input" id="recruitTime" name="recruitTime" value="일반 채용">
+                                <input type="radio" class="custom-control-input" id="recruitTime" name="recruitTime" value="일반 채용" checked>
                                 <label for="recruitTime" class="custom-control-label">일반 채용</label>
                             </div>
     
@@ -327,7 +336,7 @@
                         <div class="form-group">
                             <label for="recruitName">공고명</label>
                             <input form="recruit_create_form" type="text" class="form-control" id="recruitName"
-                                placeholder="내용을 입력해주세요">
+                                name="recruitName" placeholder="내용을 입력해주세요">
                         </div>
 
                         <!-- 직무구분 -->
@@ -429,16 +438,17 @@
                             </div>
                         </div>
                     </div>
+                    
+					<!-- toast -->
+					<div class="toast" style="position: absolute; bottom: 0; right: 0;">
+						<div class="toast-header">
+							내용이 비어 있습니다. 채워 넣어주세요
+						</div>
+						<div class="toast-body">
+						</div>
+					</div>
                 </div>
 
-				<!-- toast -->
-				<div class="toast" style="position: absolute; bottom: 0; right: 0;">
-					<div class="toast-header">
-						내용이 비어 있습니다. 채워 넣어주세요
-					</div>
-					<div class="toast-body">
-					</div>
-				</div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
@@ -453,6 +463,8 @@
         $(function () {
             const startDate = moment(); // 시작일
             const endDate = moment().add(30, 'day'); // 종료일 -> 현재 시간 + 30일
+            $('#recruitStartDate').val(startDate.format('YYYY-MM-DD'));
+            $('#recruitEndDate').val(endDate.format('YYYY-MM-DD'));
 
             $('#daterange span').html(startDate.format('YYYY-MM-DD') + ' ~ ' + endDate.format('YYYY-MM-DD'));
 
@@ -470,6 +482,15 @@
 
                 $('#daterange span').html(start.format('YYYY-MM-DD') + ' ~ ' + end.format(
                     'YYYY-MM-DD'));
+            });
+
+            $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+                //console.log(picker.startDate.format('YYYY-MM-DD'));
+                //console.log(picker.endDate.format('YYYY-MM-DD'));
+                const startDate = picker.startDate.format('YYYY-MM-DD');
+                const endDate = picker.endDate.format('YYYY-MM-DD');
+                $('#recruitStartDate').val(startDate);
+                $('#recruitEndDate').val(endDate);
             });
         });
     </script>
