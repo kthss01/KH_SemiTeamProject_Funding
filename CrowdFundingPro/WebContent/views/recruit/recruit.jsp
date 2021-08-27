@@ -63,6 +63,15 @@
         }
     </style>
 
+	<script>
+		
+		const msg = <%= request.getParameter("msg") %>
+		if (msg !== null) {
+			alert(msg);
+		}
+	
+	</script>
+
 </head>
 
 <body>
@@ -422,6 +431,15 @@
                     </div>
                 </div>
 
+				<!-- toast -->
+				<div class="toast" style="position: absolute; bottom: 0; right: 0;">
+					<div class="toast-header">
+						내용이 비어 있습니다. 채워 넣어주세요
+					</div>
+					<div class="toast-body">
+					</div>
+				</div>
+
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="submit" form="recruit_create_form" class="btn btn-dark mx-auto">등록하기</button>
@@ -453,6 +471,35 @@
                 $('#daterange span').html(start.format('YYYY-MM-DD') + ' ~ ' + end.format(
                     'YYYY-MM-DD'));
             });
+        });
+    </script>
+    
+    <!-- form content check -->
+    <!-- toast 사용 -->
+    <script>
+        $(function() {
+            $('#recruit_create_form').on("submit", function(e) {
+
+                let check = true;
+                let content = '';
+                $('.tab-content').find('textarea').each(function(index, item){
+                    if ($(item).val() === '') {
+                        //console.log($(item).parent().children('label').html());
+                        content += $(item).parent().children('label').text() + '<br>';
+                        check = false;
+                    }
+                });
+
+                if (!check) {
+                    $('.toast .toast-body').html(content);
+
+                    $('.toast').toast({delay: 2000});
+                    $('.toast').toast('show');
+                }
+                
+                //alert('test');
+                return false;
+            })
         });
     </script>
 </body>
