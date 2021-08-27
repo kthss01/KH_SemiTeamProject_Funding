@@ -73,4 +73,14 @@ public class UserService {
 		return result;
 	}
 
+	public int emailIdCheck(String emailId) {
+		Connection conn = getConnection();
+		
+		int result = new UserDao().emailIdCheck(conn,emailId);
+		
+		close(conn);
+
+		return result;
+	}
+
 }

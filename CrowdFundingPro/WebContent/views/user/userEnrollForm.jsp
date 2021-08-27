@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+	<%
+	String AuthenticationKey = (String)session.getAttribute("AuthenticationKey");
+	%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,17 +54,8 @@
 .input-area {
 	width: 400px;
 }
-.input-area button {
-	width: 25%;
-	height: 30px;
-	background: rgba(100, 200, 167, .5);
-	border: none;
-	border-radius: 5px;
-	font-size: 1em;
-	color: white;
-	margin-left: 300px;
-}
-.input-area input {
+
+.input-area input{
 	width: 100%;
 	padding: 15px 10px 10px;
 	line-height: 1.2em;
@@ -71,6 +66,28 @@
 	font-size: 19px;
 	color: black;
 	outline: none;
+}
+#sendMailBtn{
+	width: 30%;
+	height: 30px;
+	background: rgba(100, 200, 167, .5);
+	border: none;
+	border-radius: 5px;
+	font-size: 1em;
+	color: white;
+	margin-left: 280px;
+	padding:0px;
+}
+#emailCheckBtn{
+	width: 30%;
+	height: 30px;
+	background: rgba(100, 200, 167, .5);
+	border: none;
+	border-radius: 5px;
+	font-size: 1em;
+	color: white;
+	margin-left: 280px;
+	padding:0px;
 }
 .input-area input::placeholder {
 	opacity: 0.5;
@@ -144,11 +161,21 @@ label {
                             <label for="email">이메일아이디</label>
                             <input
                                 type="email"
-                                id="email"
+                                id="emailId"
                                 name="emailId"
                                 placeholder="이메일 입력"
                                 required="required">
-                            <button>인증하기</button>
+                            <input id="sendMailBtn" type="button" onclick="sendEmail()" value="인증메일발송">
+                            <div id="emailCodeArea" style="width: 100%; height: 100px; display: none;">
+                            <input
+                            	type="text"
+                                id="emailCode"
+                                name="emailCode"
+                                placeholder="인증코드 입력"
+                                required="required"
+                                autocomplete='off'>
+                            <input id="emailCheckBtn" type="button" onclick="codeCheck()" value="인증하기">
+                            </div>
                             <br>
 
                             <div class="pwd-area area">
@@ -247,84 +274,136 @@ label {
                         </div>
                     </form>
 
-                    <script>
-                    
-                    
-                    //입력값 유효성 검사
-                    function enrollAvailable(){
-                		
-               		 var pwd = $("#userPwd").val();
-            		 var pwd2 = $("#userPwd2").val();
-
-               		 var num = pwd.search(/[0-9]/g);
-               		 var eng = pwd.search(/[a-z]/ig);
-               		 var spe = pwd.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-               		 
-               		 if(pwd.length<8 || pwd.length>20 ){
-
-               			  alert("8자리 ~ 20자리 이내로 입력해주세요.");
-               			  
-               			 }else if(pwd.search(/\s/) != -1){
-               				 
-               			  alert("비밀번호는 공백 없이 입력해주세요.");
-               			  
-               			 }else if(num < 0 || eng < 0 || spe < 0 ){
-               				 
-               			  alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
-               			  
-               			 }else if(pwd != pwd2){
-               			  
-               			  alert("비밀번호 확인이 일치하지 않습니다.");
-
-               			 }else {
-               				 
-               				welcome(); //환영 메세지
-               				$("#loginForm").submit(); //Form 전송
-               			 }
-               		
-               	}
-
-
-						//비밀번호 일치 검사
-                      function check_pw(){
-
-						var pwd1 = document.getElementById("userPwd").value;
-						var pwd2 =  document.getElementById("userPwd2").value;
-						var msg = '';
-					
-						if(pwd1 != pwd2){
-							msg='<b style=color:orangered;>비밀번호가 일치하지 않습니다.</b>'
-						}else {
-							msg='<b style=color:gray;>비밀번호가 일치합니다.</b>'
-						}
-						$("#msgBox").html(msg);
-			
-
-					  }
-
-                      	//사업자 정보 입력 창 보이기
-                        function show() {
-                            $("#businessArea").css("display", "block");
-                        }
-                      	//사업자 정보 입력 창 숨기기
-
-                        function hide() {
-                            $("#businessArea").css("display", "none");
-                        }
-	
-                      	//가입 완료 메세지
-                        function welcome() {
-                            if ($("#businessArea").css("display") == "none") {
-                                alert("회원이 되신 것을 환영합니다! 가입 축하 선물로 20,000원의 적립금이 충전되었습니다.");
-                            } else {
-                                alert("회원이 되신 것을 환영합니다! 지금 당장 프로젝트를 오픈해서 좋은 서포터들을 만나보세요!");
-
-                            }
-                        }
-                    </script>
-
                 </div>
             </section>
+            
+            <script>
+            
+            $(function(){
+                var emailCodeCheck = false;  //  이메일 인증 성공 여부
+            })
+            
+            
+            
+            //입력값 유효성 검사 --> 통과 시 서블릿으로 전송 : 회원가입 실행
+            function enrollAvailable(){
+        		
+       		 var pwd = $("#userPwd").val();
+    		 var pwd2 = $("#userPwd2").val();
+
+       		 var num = pwd.search(/[0-9]/g);
+       		 var eng = pwd.search(/[a-z]/ig);
+       		 var spe = pwd.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+       		 
+       		 if(pwd.length<8 || pwd.length>20 ){
+
+       			  alert("8자리 ~ 20자리 이내로 입력해주세요.");
+       			  
+       			 }else if(pwd.search(/\s/) != -1){
+       				 
+       			  alert("비밀번호는 공백 없이 입력해주세요.");
+       			  
+       			 }else if(num < 0 || eng < 0 || spe < 0 ){
+       				 
+       			  alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
+       			  
+       			 }else if(pwd != pwd2){
+       			  
+       			  alert("비밀번호 확인이 일치하지 않습니다.");
+
+       			 }else if(emailCodeCheck == false){
+          		   alert("이메일 인증을 완료해주세요");
+
+       			 } else {
+       				 
+       				welcome(); //환영 메세지
+       				$("#loginForm").submit(); //Form 전송
+       			 }
+       	}
+
+
+				//비밀번호 일치 검사
+              function check_pw(){
+
+				var pwd1 = document.getElementById("userPwd").value;
+				var pwd2 =  document.getElementById("userPwd2").value;
+				var msg = '';
+			
+				if(pwd1 != pwd2){
+					msg='<b style=color:orangered;>비밀번호가 일치하지 않습니다.</b>'
+				}else {
+					msg='<b style=color:gray;>비밀번호가 일치합니다.</b>'
+				}
+				$("#msgBox").html(msg);
+	
+
+			  }
+
+              	//사업자 정보 입력 창 보이기
+                function show() {
+                    $("#businessArea").css("display", "block");
+                }
+              	//사업자 정보 입력 창 숨기기
+
+                function hide() {
+                    $("#businessArea").css("display", "none");
+                }
+
+              	//가입 완료 메세지
+                function welcome() {
+                    if ($("#businessArea").css("display") == "none") {
+                        alert("회원이 되신 것을 환영합니다! 가입 축하 선물로 20,000원의 적립금이 충전되었습니다.");
+                    } else {
+                        alert("회원이 되신 것을 환영합니다! 지금 당장 프로젝트를 오픈해서 좋은 서포터들을 만나보세요!");
+
+                    }
+                }
+            
+            function codeCheck(){
+               	var code = $("#emailCode").val();		
+               	if(code == "<%=AuthenticationKey%>"){
+					alert("이메일 인증을 성공했습니다.")
+					emailCodeCheck = true;
+                    $("#emailCodeArea").css("display", "none"); //오류 발생 시 삭제
+
+               	}else{
+					alert("이메일 인증을 실패했습니다. 인증 코드를 다시 확인해주세요.")
+               	}                  	
+            }
+                        
+    		function sendEmail(){
+        	    	var emailId = $("#emailId").val();
+        	    	if(emailId == null ||
+        	    	   emailId ==''){
+        	    		alert("이메일을 올바르게 입력해주세요.")
+        	    	}else{
+        				$.ajax({
+        					url : "sendEmail.me",
+        					type : "post",
+        					data : {
+        						emailId : emailId
+        					},
+        					async: "false",  
+        					success : function(result,msg){
+        						if(msg == "success"){
+        							alert('인증 메일이 발송되었습니다. 메일이 도착하지 않았을 경우 입력하신 이메일 주소를 다시 확인해주세요.')
+                                    $("#emailCodeArea").css("display", "block");
+
+        						}else if(msg == "duplicate"){
+        							alert("이미 가입 된 이메일입니다.")
+        						}else{
+        							alert("인증 메일 발송실패 : 관리자에게 문의해주세요")
+        						}
+        					},
+        					error : function(){
+        						console.log("서버 통신 실패");
+        					}
+        				})	
+        	    	}
+
+    		}
+            
+            </script>
 
         </body>
     </html>
