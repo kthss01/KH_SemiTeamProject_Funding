@@ -220,8 +220,7 @@ label {
                                     name="userCode"
                                     value="03"
                                     onclick="show();">
-                                <label for="business">
-                                    사업자회원</label>
+                                <label for="business"> 사업자회원</label>
                             </div>
                             <div id="businessArea" style="width: 100%; display: none;">
 
@@ -244,14 +243,49 @@ label {
                                     style="width: 100%;">
 
                             </div>
-                            <input id="joinBtn" type="submit" value="가입하기" onclick="welcome();">
+                            <input id="joinBtn" type="button" value="가입하기" onclick="enrollAvailable();">
                         </div>
                     </form>
 
                     <script>
+                    
+                    
+                    //입력값 유효성 검사
+                    function enrollAvailable(){
+                		
+               		 var pwd = $("#userPwd").val();
+            		 var pwd2 = $("#userPwd2").val();
+
+               		 var num = pwd.search(/[0-9]/g);
+               		 var eng = pwd.search(/[a-z]/ig);
+               		 var spe = pwd.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+               		 
+               		 if(pwd.length<8 || pwd.length>20 ){
+
+               			  alert("8자리 ~ 20자리 이내로 입력해주세요.");
+               			  
+               			 }else if(pwd.search(/\s/) != -1){
+               				 
+               			  alert("비밀번호는 공백 없이 입력해주세요.");
+               			  
+               			 }else if(num < 0 || eng < 0 || spe < 0 ){
+               				 
+               			  alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
+               			  
+               			 }else if(pwd != pwd2){
+               			  
+               			  alert("비밀번호 확인이 일치하지 않습니다.");
+
+               			 }else {
+               				 
+               				welcome(); //환영 메세지
+               				$("#loginForm").submit(); //Form 전송
+               			 }
+               		
+               	}
 
 
-						//비밀번호 유효성 검사  (미완료)
+						//비밀번호 일치 검사
                       function check_pw(){
 
 						var pwd1 = document.getElementById("userPwd").value;

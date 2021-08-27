@@ -15,6 +15,12 @@ String contextPath = request.getContextPath();
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LoginPage</title>
+
+<link
+	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
+            mily=Nanum+Gothic&family=Roboto&display=swap"
+	rel="stylesheet"/>
+
 <!-- bootstrap 4 -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -31,10 +37,7 @@ String contextPath = request.getContextPath();
 	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
 	crossorigin="anonymous" />
 
-<link
-	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
-            mily=Nanum+Gothic&family=Roboto&display=swap"
-	rel="stylesheet">
+
 <style>
 .login-form {
 	justify-content: center;
@@ -50,7 +53,8 @@ String contextPath = request.getContextPath();
 	text-align: left;
 	margin-top: 150px;
 	margin-bottom: 100px;
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Rajdhani', sans-serif;
+	font-weight:bold;
 }
 
 .login-btn {
@@ -137,34 +141,7 @@ String contextPath = request.getContextPath();
 }
 </style>
 
-<script type="text/javascript">
-	<%-- 
-		$(function(){
-		var msg = "<%=msg%>";
-		if(msg != "null") {
-			alert(msg);
-			<%session.removeAttribute("msg");%> //메세지를 띄우고 나면 msg 속성을 삭제한다.
-		}
-	})
-	--%>
 
-	
-	function loginValidate(){
-		if($("#userId").val().trim().length==0){
-			alert("아이디를 입력하세요");
-			$("#userId").focus();
-			return false;
-		}
-		
-		if($("#userPwd").val().trim().length==0){
-			alert("비밀번호를 입력하세요");
-			$("#userPwd").focus();
-			return false;
-		}
-		return true;
-	}
-
-</script>
 
 </head>
 
@@ -181,37 +158,49 @@ String contextPath = request.getContextPath();
 			method="post">
 			<!-- onsubmit="return loginValidate();" -->
 			<div class="int-area">
-				<input class="input-box" type="text" name="emailId" id="emailId"
-					autocomplete="off" required placeholder="이메일 아이디"> <label
-					for="id">ID</label>
+				<input 
+				class="input-box" 
+				type="email" 
+				name="emailId" 
+				id="emailId"
+				autocomplete="on" 
+				required placeholder="이메일 아이디"> 
+				<label for="id" >ID</label>
 
 				<!-- autocomplete : 자동완성기능,  required : 필수 작성 -->
 			</div>
 			<div class="int-area">
 
-				<input class="input-box" type="password" name="userPwd" id="userPwd"
-					autocomplete="off" required
-					placeholder="비밀번호 (영문, 숫자, 특수문자 포함 8자 이상)"> <label
-					for="pwd">PWD</label>
+				<input 
+				class="input-box" 
+				type="password" 
+				name="userPwd" 
+				id="userPwd"
+				autocomplete="off" 
+				required
+				placeholder="비밀번호 (영문, 숫자, 특수문자 포함 8자 이상 20자 이내)"> 
+				<label for="pwd">PWD</label>
 
-				<button class="login-btn" type="submit">LOGIN</button>
+				<button class="login-btn" id="loginBtn" type="submit">LOGIN</button>
 			</div>
 		</form>
-		<div class="caption">
-			<br> <a href="<%=request.getContextPath()%>/enrollForm.me"
-				style="font-size: 1em">아직 계정이 없으신가요?</a>
+		<div class="caption"><br>
+			 <a href="<%=request.getContextPath()%>/enrollForm.me"
+				style="font-size: 1em; diplay:inline">아직 계정이 없으신가요?</a>
+		<button id="joinBtn" onclick="enrollPage();" style="">회원가입</button>
 
-			<!-- <a  href="" style="font-size: 1em" >로그인 정보를 잊으셨나요?</a> -->
 		</div>
-		<button id="joinBtn" onclick="enrollPage();">회원가입</button>
 
 	</section>
 
 	<script>
+
+	
+	
 	
 	function enrollPage(){
 		location.href = "<%= request.getContextPath() %>/enrollForm.me ";
 		}
-	</script>
+</script>
 </body>
 </html>
