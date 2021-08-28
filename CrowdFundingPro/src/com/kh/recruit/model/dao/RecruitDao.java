@@ -169,4 +169,46 @@ public class RecruitDao {
 		return list;
 	}
 
+	public Recruitment selectRecruitment(Connection conn, int rid) {
+		Recruitment r = null;
+
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectRecruitment");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, rid);
+			
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				int id = rset.getInt("R_ID");
+				String title = rset.getString("R_TITLE");
+				String code = rset.getString("R_CODE");
+				Date start = rset.getDate("R_START");
+				Date end = rset.getDate("R_END");
+				String time = rset.getString("R_TIME");
+				String content1 = rset.getString("R_CONTENT1");
+				String content2 = rset.getString("R_CONTENT2");
+				String content3 = rset.getString("R_CONTENT3");
+				String content4 = rset.getString("R_CONTENT4");
+				String content5 = rset.getString("R_CONTENT5");
+				String content6 = rset.getString("R_CONTENT6");
+
+				r = new Recruitment(id, title, code, start, end, time, content1, content2, content3, content4, content5, content6);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return r;
+	}
+
 }

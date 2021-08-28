@@ -93,9 +93,24 @@ public class Recruitment {
 		this.end = end;
 	}
 	
+	public String getStartDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(start);
+	}
+
+	public String getEndDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(end);
+	}
+	
 	public String getDate() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd");
 		return sdf.format(start) + " ~ " + sdf.format(end);
+	}
+	
+	public String getDateWithDay() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd(E)");
+		return sdf.format(start) + " ~ " + sdf.format(end);		
 	}
 
 	public String getTime() {

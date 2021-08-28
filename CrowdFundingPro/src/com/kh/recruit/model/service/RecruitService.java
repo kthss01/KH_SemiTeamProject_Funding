@@ -60,5 +60,15 @@ public class RecruitService {
 		return list;
 	}
 
+	public Recruitment selectRecruitment(int rid) {
+		Connection conn = getConnection();
+		
+		Recruitment r = new RecruitDao().selectRecruitment(conn, rid);
+		
+		close(conn);
+		
+		return r;
+	}
+
 	
 }

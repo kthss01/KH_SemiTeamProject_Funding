@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.kh.recruit.model.vo.Recruitment" %>
 <%@ page import="com.kh.recruit.model.vo.RecruitCode" %>
@@ -93,6 +94,18 @@
 	ArrayList<Recruitment> list = (ArrayList<Recruitment>) request.getAttribute("list");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	ArrayList<RecruitCode> code = (ArrayList<RecruitCode>) request.getAttribute("code");
+	
+	if (list == null || pi == null || code == null) {
+		session.setAttribute("msg", "잘못된 접근입니다.");
+		
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("location.href = '" + request.getContextPath() + "/views/common/errorPage.jsp';");
+		script.println("</script>");
+		script.close();
+		
+		return;
+	}
 	
 	int listCount = pi.getListCount();
 	int currentPage = pi.getCurrentPage();

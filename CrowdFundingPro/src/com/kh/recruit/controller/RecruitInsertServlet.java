@@ -82,7 +82,7 @@ public class RecruitInsertServlet extends HttpServlet {
 			response.sendRedirect("views/recruit/recruit.jsp");
 		} else {
 			// 에러 페이지 처리
-			request.getSession().setAttribute("msg", "공고 등록 성공");
+			request.getSession().setAttribute("msg", "공고 등록 실패");
 			response.sendRedirect("views/common/errorPage.jsp");
 		}
 	}

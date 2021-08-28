@@ -65,23 +65,20 @@ public class RecruitListServlet extends HttpServlet {
 			endPage = maxPage;
 		}
 		
-//		System.out.println(endPage);
-		
 		PageInfo pi = new PageInfo(listCount, currentPage, startPage, endPage, maxPage, pageLimit, boardLimit);
-		
-		int startRow = (currentPage - 1) * boardLimit + 1;
-		int endRow = startRow + boardLimit - 1;
-//		System.out.println(startRow + " " + endRow);
+		request.setAttribute("pi", pi);
 		
 		// List 처리
+		int startRow = (currentPage - 1) * boardLimit + 1;
+		int endRow = startRow + boardLimit - 1;
+		
 		ArrayList<Recruitment> list = new RecruitService().selectList(startRow, endRow);
+		request.setAttribute("list", list);
 		
 		// Recruit Code 처리
 		ArrayList<RecruitCode> code = new RecruitService().selectRecruitCode();
-		
-		request.setAttribute("list", list);
-		request.setAttribute("pi", pi);
 		request.setAttribute("code", code);
+		
 		request.getRequestDispatcher("views/recruit/recruit.jsp").forward(request, response);
 	}
 
