@@ -1,7 +1,11 @@
 package com.kh.recruit.model.service;
 
 
+import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.getConnection;
+
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import com.kh.common.JDBCTemplate;
 import com.kh.recruit.model.dao.RecruitDao;
@@ -25,4 +29,25 @@ public class RecruitService {
 		return result;
 	}
 
+	public int getListCount() {
+		Connection conn = getConnection();
+		
+		int listCount = new RecruitDao().getListCount(conn);
+		
+		close(conn);
+		
+		return listCount;
+	}
+
+	public ArrayList<Recruitment> selectList(int startRow, int endRow) {
+		Connection conn = getConnection();
+		
+		ArrayList<Recruitment> list = new RecruitDao().selectList(conn, startRow, endRow);
+		
+		close(conn);
+		
+		return list;
+	}
+
+	
 }

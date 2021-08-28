@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList, com.kh.recruit.model.vo.Recruitment, com.kh.common.model.vo.PageInfo" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -82,6 +83,19 @@
 	</script>
 
 </head>
+
+<%
+
+	ArrayList<Recruitment> list = (ArrayList<Recruitment>) request.getAttribute("list");
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	
+	int listCount = pi.getListCount();
+	int currentPage = pi.getCurrentPage();
+	int maxPage = pi.getMaxPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
+	
+%>
 
 <body>
     <!-- navbar -->
@@ -205,73 +219,51 @@
         <article id="recruit_table">
             <table class="table table-hover mt-5">
                 <tbody>
+                	<% for (Recruitment r : list) { %>
                     <tr>
-                        <td class="table-recruit-category text-info">[개발직군]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
-                                href="./recruit_content.jsp">기술 기획 (경력)</a></td>
+                        <td class="table-recruit-category">
+                        	<a class="text-decoration-none text-info"
+                                href="<%= request.getContextPath() %>/recruitContentList.do?rid=<%= r.getId() %>">[<%= r.getCode() %>]</a>
+                        </td>
+                        <td class="table-recruit-name" style="min-width: 200px;">
+                        	<a class="text-decoration-none text-dark"
+                                href="<%= request.getContextPath() %>/recruitContentList.do?rid=<%= r.getId() %>"><%= r.getTitle() %></a>
+                        </td>
                         <td class="table-recruit-kind"><span
-                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
-                        <td class="table-recruit-date"><span class="text-secondary">2021.07.28 ~ 2021.08.31</span></td>
+                                class="border border-info rounded-lg py-1 px-3 text-info"><%= r.getTime() %></span></td>
+                        <td class="table-recruit-date"><span class="text-secondary"><%= r.getDate() %></span></td>
                     </tr>
-
-                    <tr>
-                        <td class="table-recruit-category text-info">[개발직군]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
-                                href="./recruit_content.jsp">프론트엔드 개발자 (신입)</a></td>
-                        <td class="table-recruit-kind"><span
-                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
-                        <td class="table-recruit-date"><span class="text-secondary">2021.08.02 ~ 2021.08.31</span></td>
-                    </tr>
-
-                    <tr>
-                        <td class="table-recruit-category text-info">[개발직군]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
-                                href="./recruit_content.jsp">자바 백엔드 개발자 (경력)</a></td>
-                        <td class="table-recruit-kind"><span
-                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
-                        <td class="table-recruit-date"><span class="text-secondary">2021.08.02 ~ 2021.08.31</span></td>
-                    </tr>
-
-                    <tr>
-                        <td class="table-recruit-category text-info">[개발직군]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
-                                href="./recruit_content.jsp">QA 팀장</a></td>
-                        <td class="table-recruit-kind"><span
-                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
-                        <td class="table-recruit-date"><span class="text-secondary">2021.08.12 ~ 2021.08.31</span></td>
-                    </tr>
-
-                    <tr>
-                        <td class="table-recruit-category text-info">[신사업]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
-                                href="./recruit_content.jsp">와디즈 스토어 사업 개발 팀장</a></td>
-                        <td class="table-recruit-kind"><span
-                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
-                        <td class="table-recruit-date"><span class="text-secondary">2021.07.28 ~ 2021.08.31</span></td>
-                    </tr>
+                    <% } %>
                 </tbody>
             </table>
 
             <!--  pagination -->
             <ul class="pagination justify-content-center">
+            	
+            	<% if (currentPage == 1) { %>
+                <li class="page-item px-5 disabled">
+                <% } else { %>
                 <li class="page-item px-5">
-                    <a href="#" class="page-link border-0">&lt;</a>
+                <% } %>
+                    <button onclick="location.href='<%= request.getContextPath() %>/recruitList.do?currentPage=<%= currentPage - 1 %>'" class="page-link border-0">&lt;</button>
                 </li>
 
+                <% for (int p = startPage; p <= endPage; p++) { %>
+                	<% if (p == currentPage) { %>
                 <li class="page-item px-3 active">
-                    <a href="#" class="page-link border-0">1</a>
-                </li>
-
+                	<% } else { %>
                 <li class="page-item px-3">
-                    <a href="#" class="page-link border-0">2</a>
+                	<% } %>
+                    <button onclick="location.href='<%= request.getContextPath() %>/recruitList.do?currentPage=<%= p %>'" class="page-link border-0"><%= p %></button>
                 </li>
+                <% } %>
 
-                <li class="page-item px-3">
-                    <a href="#" class="page-link border-0">3</a>
-                </li>
-
+				<% if (currentPage == maxPage) {%>
+                <li class="page-item px-5 disabled">
+                <% } else { %>
                 <li class="page-item px-5">
-                    <a href="#" class="page-link border-0">&gt;</a>
+                <% } %>
+                    <button onclick="location.href='<%= request.getContextPath() %>/recruitList.do?currentPage=<%= currentPage + 1 %>'" class="page-link border-0">&gt;</button>
                 </li>
 
             </ul>

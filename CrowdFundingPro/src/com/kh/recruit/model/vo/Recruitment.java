@@ -1,5 +1,6 @@
 package com.kh.recruit.model.vo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Recruitment {
@@ -90,6 +91,11 @@ public class Recruitment {
 
 	public void setEnd(Date end) {
 		this.end = end;
+	}
+	
+	public String getDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd");
+		return sdf.format(start) + " ~ " + sdf.format(end);
 	}
 
 	public String getTime() {

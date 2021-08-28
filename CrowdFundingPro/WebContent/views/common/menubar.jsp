@@ -29,7 +29,7 @@
 		<ul class="navbar-nav">
 			<li class="nav-item"><a href="#" class="nav-link">펀딩하기</a></li> <!-- 펀딩페이지 링크 -->
 
-			<li class="nav-item"><a href="<%= request.getContextPath() %>/views/recruit/recruit.jsp" class="nav-link">채용공고</a></li>
+			<li class="nav-item"><a href="<%= request.getContextPath() %>/recruitList.do" class="nav-link">채용공고</a></li>
 
 			<li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown"> 더보기 </a>
 				<div class="dropdown-menu">
