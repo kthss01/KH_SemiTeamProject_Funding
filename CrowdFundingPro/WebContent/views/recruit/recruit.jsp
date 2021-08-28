@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList, com.kh.recruit.model.vo.Recruitment, com.kh.common.model.vo.PageInfo" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.kh.recruit.model.vo.Recruitment" %>
+<%@ page import="com.kh.recruit.model.vo.RecruitCode" %>
+<%@ page import="com.kh.common.model.vo.PageInfo" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -88,6 +92,7 @@
 
 	ArrayList<Recruitment> list = (ArrayList<Recruitment>) request.getAttribute("list");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	ArrayList<RecruitCode> code = (ArrayList<RecruitCode>) request.getAttribute("code");
 	
 	int listCount = pi.getListCount();
 	int currentPage = pi.getCurrentPage();
@@ -183,26 +188,12 @@
     <section class="container mt-5">
         <!-- 직무 구분 카테고리 button groups badges -->
         <div id="recruit_category" class="btn-group">
+        	<% for (RecruitCode c : code) { %>
             <button type="button" class="btn btn-secondary">
-                #전체
-                <span class="badge badge-light">49</span>
+                <%= c.getCode() %>
+                <span class="badge badge-light"><%= c.getCount() %></span>
             </button>
-            <button type="button" class="btn btn-secondary">
-                #개발직군
-                <span class="badge badge-light">14</span>
-            </button>
-            <button type="button" class="btn btn-secondary">
-                #마케팅
-                <span class="badge badge-light">5</span>
-            </button>
-            <button type="button" class="btn btn-secondary">
-                #경영지원
-                <span class="badge badge-light">6</span>
-            </button>
-            <button type="button" class="btn btn-secondary">
-                #신사업
-                <span class="badge badge-light">2</span>
-            </button>
+            <% } %>
         </div>
 
         <!-- 직무 검색 input groups -->
@@ -335,10 +326,9 @@
                         <!-- Custom Select Menu -->
                         <label>직무구분</label>
                         <select form="recruit_create_form" name="recruitCode" id="recruitCode" class="custom-select">
-                            <option value="개발직군">개발직군</option>
-                            <option value="신입">신입</option>
-                            <option value="경영지원">경영지원</option>
-                            <option value="신사업">신사업</option>
+                        	<% for (RecruitCode c : code) { %>
+                            <option value="<%= c.getCode() %>"><%= c.getCode() %></option>
+                          	<% } %>
                         </select>
 
                     </form>

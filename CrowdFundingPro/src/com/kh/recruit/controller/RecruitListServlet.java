@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kh.common.model.vo.PageInfo;
 import com.kh.recruit.model.service.RecruitService;
+import com.kh.recruit.model.vo.RecruitCode;
 import com.kh.recruit.model.vo.Recruitment;
 
 /**
@@ -33,6 +34,7 @@ public class RecruitListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		// Page 처리
 		int listCount; // 총 게시글 갯수
 		int currentPage; // 현재 페이지(즉, 요청한 페이지)
 		int startPage; // 현재 페이지에 하단에 보여지는 페이징 바의 시작 수
@@ -63,7 +65,7 @@ public class RecruitListServlet extends HttpServlet {
 			endPage = maxPage;
 		}
 		
-		System.out.println(endPage);
+//		System.out.println(endPage);
 		
 		PageInfo pi = new PageInfo(listCount, currentPage, startPage, endPage, maxPage, pageLimit, boardLimit);
 		
@@ -71,10 +73,15 @@ public class RecruitListServlet extends HttpServlet {
 		int endRow = startRow + boardLimit - 1;
 //		System.out.println(startRow + " " + endRow);
 		
+		// List 처리
 		ArrayList<Recruitment> list = new RecruitService().selectList(startRow, endRow);
+		
+		// Recruit Code 처리
+		ArrayList<RecruitCode> code = new RecruitService().selectRecruitCode();
 		
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
+		request.setAttribute("code", code);
 		request.getRequestDispatcher("views/recruit/recruit.jsp").forward(request, response);
 	}
 
