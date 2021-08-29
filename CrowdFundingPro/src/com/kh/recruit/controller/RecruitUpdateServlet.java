@@ -61,7 +61,7 @@ public class RecruitUpdateServlet extends HttpServlet {
 			content6 == null || content6.equals("")) {
 			// 공고 수정 실패
 			request.getSession().setAttribute("msg", "공고 수정 실패");
-			response.sendRedirect(request.getContextPath() + "/recruitList.do");
+			response.sendRedirect(request.getContextPath() + "/recruitContentList.do?rid=" + id);
 		}
 	
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

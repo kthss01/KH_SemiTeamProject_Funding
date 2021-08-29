@@ -1,31 +1,31 @@
 package com.kh.recruit.model.service;
 
 
-import static com.kh.common.JDBCTemplate.close;
-import static com.kh.common.JDBCTemplate.getConnection;
+import static com.kh.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import com.kh.common.JDBCTemplate;
+import com.kh.common.model.vo.Attachment;
 import com.kh.recruit.model.dao.RecruitDao;
 import com.kh.recruit.model.vo.RecruitCode;
+import com.kh.recruit.model.vo.RecruitMember;
 import com.kh.recruit.model.vo.Recruitment;
 
 public class RecruitService {
 	
-	public int insertRecruitment(Recruitment rm) {
+	public int insertRecruitment(Recruitment r) {
 		Connection conn = getConnection();
 		
-		int result = new RecruitDao().insertRecruitment(conn, rm);
+		int result = new RecruitDao().insertRecruitment(conn, r);
 		
 		if (result > 0) {
-			JDBCTemplate.commit(conn);
+			commit(conn);
 		} else {
-			JDBCTemplate.rollback(conn);
+			rollback(conn);
 		}
 		
-		JDBCTemplate.close(conn);
+		close(conn);
 		
 		return result;
 	}
@@ -70,18 +70,18 @@ public class RecruitService {
 		return r;
 	}
 
-	public int updateRecruitment(Recruitment rm) {
+	public int updateRecruitment(Recruitment r) {
 		Connection conn = getConnection();
 		
-		int result = new RecruitDao().updateRecruitment(conn, rm);
+		int result = new RecruitDao().updateRecruitment(conn, r);
 		
 		if (result > 0) {
-			JDBCTemplate.commit(conn);
+			commit(conn);
 		} else {
-			JDBCTemplate.rollback(conn);
+			rollback(conn);
 		}
 		
-		JDBCTemplate.close(conn);
+		close(conn);
 		
 		return result;
 	}
@@ -92,14 +92,66 @@ public class RecruitService {
 		int result = new RecruitDao().deleteRecruitment(conn, id);
 		
 		if (result > 0) {
-			JDBCTemplate.commit(conn);
+			commit(conn);
 		} else {
-			JDBCTemplate.rollback(conn);
+			rollback(conn);
 		}
 		
-		JDBCTemplate.close(conn);
+		close(conn);
 		
 		return result;
+	}
+
+	public ArrayList<String> selectAllTitle() {
+		Connection conn = getConnection();
+		
+		ArrayList<String> list = new RecruitDao().selectAllTitle(conn);
+		
+		close(conn);
+		
+		return list;
+	}
+
+	public int insertRecruitMember(RecruitMember rm, Attachment at, String title) {
+		Connection conn = getConnection();
+		
+		int result1 = new RecruitDao().insertRecruitMember(conn, rm);
+		int result3 = 1;
+
+		if (at != null) {
+			result3 = new RecruitDao().insertAttachment(conn, at);			
+		}
+		
+		if (result1 * result3 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		Recruitment r =  new RecruitDao().findRecruitmentWithTitle(conn, title);
+		
+		rm = new RecruitDao().findRecruitMemberWithEmail(conn, rm.getEmail());
+		
+		int result2 = new RecruitDao().insertRecruitStatus(conn, r, rm);;
+		int result4 = 1;
+		
+		if (at != null) {
+			at = new RecruitDao().findAttachmentWithOriginName(conn, at.getOriginName());
+			result4 = new RecruitDao().insertPortfolio(conn, rm, at);
+		}
+		
+		if (result1 * result2 * result3 * result4 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+			if (result1 * result3 > 0) {
+				rollback(conn);
+			}
+		}
+		
+		close(conn);
+		
+		return result1 * result2 * result3 * result4;
 	}
 
 	

@@ -60,7 +60,7 @@ public class RecruitInsertServlet extends HttpServlet {
 			content6 == null || content6.equals("")) {
 			// 공고 등록 실패
 			request.getSession().setAttribute("msg", "공고 등록 실패");
-			response.sendRedirect("views/recruit/recruit.jsp");
+			response.sendRedirect(request.getContextPath() + "/recruitList.do");
 		}
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -73,9 +73,9 @@ public class RecruitInsertServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		Recruitment rm = new Recruitment(title, code, start, end, time, content1, content2, content3, content4, content5, content6); 
+		Recruitment r = new Recruitment(title, code, start, end, time, content1, content2, content3, content4, content5, content6); 
 		
-		int result = new RecruitService().insertRecruitment(rm);
+		int result = new RecruitService().insertRecruitment(r);
 		
 		if (result > 0) {
 			request.getSession().setAttribute("msg", "공고 등록 성공");

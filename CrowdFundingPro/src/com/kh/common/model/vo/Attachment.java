@@ -23,51 +23,51 @@ public class Attachment {
 		this.filePath = filePath;
 	}
 
-	int getFileNo() {
+	public int getFileNo() {
 		return fileNo;
 	}
 
-	void setFileNo(int fileNo) {
+	public void setFileNo(int fileNo) {
 		this.fileNo = fileNo;
 	}
 
-	int getRefNo() {
+	public int getRefNo() {
 		return refNo;
 	}
 
-	void setRefNo(int refNo) {
+	public void setRefNo(int refNo) {
 		this.refNo = refNo;
 	}
 
-	String getOriginName() {
+	public String getOriginName() {
 		return originName;
 	}
 
-	void setOriginName(String originName) {
+	public void setOriginName(String originName) {
 		this.originName = originName;
 	}
 
-	String getChangeName() {
+	public String getChangeName() {
 		return changeName;
 	}
 
-	void setChangeName(String changeName) {
+	public void setChangeName(String changeName) {
 		this.changeName = changeName;
 	}
 
-	Date getUploadDate() {
+	public Date getUploadDate() {
 		return uploadDate;
 	}
 
-	void setUploadDate(Date uploadDate) {
+	public void setUploadDate(Date uploadDate) {
 		this.uploadDate = uploadDate;
 	}
 
-	String getFilePath() {
+	public String getFilePath() {
 		return filePath;
 	}
 
-	void setFilePath(String filePath) {
+	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
 

@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 
+import com.kh.common.model.vo.Attachment;
 import com.kh.recruit.model.vo.RecruitCode;
+import com.kh.recruit.model.vo.RecruitMember;
 import com.kh.recruit.model.vo.Recruitment;
 
 public class RecruitDao {
@@ -34,7 +36,7 @@ public class RecruitDao {
 
 	}
 
-	public int insertRecruitment(Connection conn, Recruitment rm) {
+	public int insertRecruitment(Connection conn, Recruitment r) {
 		int result = 0;
 
 		PreparedStatement pstmt = null;
@@ -45,18 +47,18 @@ public class RecruitDao {
 			pstmt = conn.prepareStatement(sql);
 
 			int index = 1;
-			pstmt.setString(index++, rm.getTitle());
-			pstmt.setString(index++, rm.getCode());
+			pstmt.setString(index++, r.getTitle());
+			pstmt.setString(index++, r.getCode());
 			// util.Date -> sql.Date 변환
-			pstmt.setDate(index++, new java.sql.Date(rm.getStart().getTime()));
-			pstmt.setDate(index++, new java.sql.Date(rm.getEnd().getTime()));
-			pstmt.setString(index++, rm.getTime());
-			pstmt.setString(index++, rm.getContent1());
-			pstmt.setString(index++, rm.getContent2());
-			pstmt.setString(index++, rm.getContent3());
-			pstmt.setString(index++, rm.getContent4());
-			pstmt.setString(index++, rm.getContent5());
-			pstmt.setString(index++, rm.getContent6());
+			pstmt.setDate(index++, new java.sql.Date(r.getStart().getTime()));
+			pstmt.setDate(index++, new java.sql.Date(r.getEnd().getTime()));
+			pstmt.setString(index++, r.getTime());
+			pstmt.setString(index++, r.getContent1());
+			pstmt.setString(index++, r.getContent2());
+			pstmt.setString(index++, r.getContent3());
+			pstmt.setString(index++, r.getContent4());
+			pstmt.setString(index++, r.getContent5());
+			pstmt.setString(index++, r.getContent6());
 
 			result = pstmt.executeUpdate();
 
@@ -211,7 +213,7 @@ public class RecruitDao {
 		return r;
 	}
 
-	public int updateRecruitment(Connection conn, Recruitment rm) {
+	public int updateRecruitment(Connection conn, Recruitment r) {
 		int result = 0;
 
 		PreparedStatement pstmt = null;
@@ -222,19 +224,19 @@ public class RecruitDao {
 			pstmt = conn.prepareStatement(sql);
 
 			int index = 1;
-			pstmt.setString(index++, rm.getTitle());
-			pstmt.setString(index++, rm.getCode());
+			pstmt.setString(index++, r.getTitle());
+			pstmt.setString(index++, r.getCode());
 			// util.Date -> sql.Date 변환
-			pstmt.setDate(index++, new java.sql.Date(rm.getStart().getTime()));
-			pstmt.setDate(index++, new java.sql.Date(rm.getEnd().getTime()));
-			pstmt.setString(index++, rm.getTime());
-			pstmt.setString(index++, rm.getContent1());
-			pstmt.setString(index++, rm.getContent2());
-			pstmt.setString(index++, rm.getContent3());
-			pstmt.setString(index++, rm.getContent4());
-			pstmt.setString(index++, rm.getContent5());
-			pstmt.setString(index++, rm.getContent6());
-			pstmt.setInt(index++, rm.getId());
+			pstmt.setDate(index++, new java.sql.Date(r.getStart().getTime()));
+			pstmt.setDate(index++, new java.sql.Date(r.getEnd().getTime()));
+			pstmt.setString(index++, r.getTime());
+			pstmt.setString(index++, r.getContent1());
+			pstmt.setString(index++, r.getContent2());
+			pstmt.setString(index++, r.getContent3());
+			pstmt.setString(index++, r.getContent4());
+			pstmt.setString(index++, r.getContent5());
+			pstmt.setString(index++, r.getContent6());
+			pstmt.setInt(index++, r.getId());
 
 			result = pstmt.executeUpdate();
 
@@ -268,6 +270,251 @@ public class RecruitDao {
 		}
 
 		return result;
+	}
+
+	public ArrayList<String> selectAllTitle(Connection conn) {
+		ArrayList<String> list = new ArrayList<String>();
+
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectAllTitle");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				list.add(rset.getString(1));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return list;
+	}
+
+	public Recruitment findRecruitmentWithTitle(Connection conn, String rTitle) {
+		Recruitment r = null;
+
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("findRecruitmentWithTitle");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, rTitle);
+			
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				int id = rset.getInt("R_ID");
+				String title = rset.getString("R_TITLE");
+				String code = rset.getString("R_CODE");
+				Date start = rset.getDate("R_START");
+				Date end = rset.getDate("R_END");
+				String time = rset.getString("R_TIME");
+				String content1 = rset.getString("R_CONTENT1");
+				String content2 = rset.getString("R_CONTENT2");
+				String content3 = rset.getString("R_CONTENT3");
+				String content4 = rset.getString("R_CONTENT4");
+				String content5 = rset.getString("R_CONTENT5");
+				String content6 = rset.getString("R_CONTENT6");
+
+				r = new Recruitment(id, title, code, start, end, time, content1, content2, content3, content4, content5, content6);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return r;
+	}
+
+	public int insertRecruitMember(Connection conn, RecruitMember rm) {
+		int result = 0;
+
+		PreparedStatement pstmt = null;
+
+		String sql = prop.getProperty("insertRecruitMember");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			int index = 1;
+			pstmt.setString(index++, rm.getName());
+			pstmt.setString(index++, rm.getPhone());
+			pstmt.setString(index++, rm.getEducation());
+			pstmt.setString(index++, rm.getCareer());
+			pstmt.setString(index++, rm.getEmail());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int insertPortfolio(Connection conn, RecruitMember rm, Attachment at) {
+		int result = 0;
+
+		PreparedStatement pstmt = null;
+
+		String sql = prop.getProperty("insertPortfolio");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			int index = 1;
+			pstmt.setInt(index++, at.getFileNo());
+			pstmt.setInt(index++, rm.getId());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int insertAttachment(Connection conn, Attachment at) {
+		int result = 0;
+
+		PreparedStatement pstmt = null;
+
+		String sql = prop.getProperty("insertAttachment");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			int index = 1;
+			pstmt.setInt(index++, 1); // 참조파트 1이 공고
+			pstmt.setString(index++, at.getOriginName());
+			pstmt.setString(index++, at.getChangeName());
+			pstmt.setString(index++, at.getFilePath());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int insertRecruitStatus(Connection conn, Recruitment r, RecruitMember rm) {
+		int result = 0;
+
+		PreparedStatement pstmt = null;
+
+		String sql = prop.getProperty("insertRecruitStatus");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			int index = 1;
+			pstmt.setInt(index++, rm.getId());
+			pstmt.setInt(index++, r.getId());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public RecruitMember findRecruitMemberWithEmail(Connection conn, String email) {
+		RecruitMember rm = null;
+
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("findRecruitMemberWithEmail");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, email);
+			
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				int id = rset.getInt("RM_ID");
+				String name = rset.getString("RM_NAME");
+				String phone = rset.getString("RM_PHONE");
+				String education = rset.getString("RM_EDUCATION");
+                String career = rset.getString("RM_CAREER");
+			    String password = rset.getString("RM_PASSWORD");
+			    
+			    rm = new RecruitMember(id, name, phone, education, career, email, password);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return rm;
+	}
+
+	public Attachment findAttachmentWithOriginName(Connection conn, String originName) {
+		Attachment at = null;
+
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("findAttachmentWithOriginName");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, originName);
+			
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				int fileNo = rset.getInt("FILE_NO"); 
+				int refNo = rset.getInt("REF_NO");
+				String changeName = rset.getString("CHANGE_NAME");
+				java.sql.Date uploadDate = rset.getDate("UPLOAD_DATE");
+				String filePath = rset.getString("FILE_PATH");
+			    
+			    at = new Attachment(fileNo, refNo, originName, changeName, uploadDate, filePath);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return at;
 	}
 
 }

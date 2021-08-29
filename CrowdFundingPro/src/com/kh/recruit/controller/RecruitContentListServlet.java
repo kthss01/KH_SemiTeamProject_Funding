@@ -49,6 +49,10 @@ public class RecruitContentListServlet extends HttpServlet {
 		ArrayList<RecruitCode> code = new RecruitService().selectRecruitCode();
 		request.setAttribute("code", code);
 		
+		// RecruitmentTitle 조회
+		ArrayList<String> titles = new RecruitService().selectAllTitle();
+		request.setAttribute("titles", titles);
+		
 		request.getRequestDispatcher("views/recruit/recruit_content.jsp").forward(request, response);
 	}
 

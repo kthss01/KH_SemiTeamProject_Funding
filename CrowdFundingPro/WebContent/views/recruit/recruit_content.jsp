@@ -72,6 +72,8 @@
 	}
 
 	ArrayList<RecruitCode> code = (ArrayList<RecruitCode>) request.getAttribute("code");
+	
+	ArrayList<String> titles = (ArrayList<String>) request.getAttribute("titles");
 %>
 
 <body>
@@ -170,7 +172,7 @@
 
         <div class="d-flex justify-content-center mt-4">
             <a href="<%= request.getContextPath() %>/recruitList.do" class="btn btn-dark mx-2" style="width: 150px;">목록</a>
-            <button class="btn btn-dark mx-2" style="width: 150px;" data-toggle="modal" data-target="#recruit_apply_modal">지원서 작성</button>
+            <button class="btn btn-dark mx-2" style="width: 150px;" data-toggle="modal" data-target="#recruit_insert_modal">지원서 작성</button>
         </div>
     </section>
 
@@ -444,7 +446,7 @@
     </script>
 
     <!-- 지원서 작성하기 modal -->
-    <div class="modal fade" id="recruit_apply_modal">
+    <div class="modal fade" id="recruit_insert_modal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -455,17 +457,17 @@
                 
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    <form id="recruit_apply_form" action="recruitApply.do" method="POST">
+                    <form id="recruit_insert_form" action="recruitMemberInsert.do" method="POST" enctype="multipart/form-data">
+                        
+                        <input type="hidden" form="recruit_insert_form" class="form-control" name="recruitId" value="<%= r.getId() %>">
                         
                         <!-- 직무구분 dropdowns custom select -->
                         <div class="form-group">
                             <label for="recruitName">지원 포지션명</label>
                             <select name="recruitName" id="recruitName" class="custom-select">
-                                <option value="기술 기획 (경력)">기술 기획 (경력)</option>
-                                <option value="프론트엔드 개발자 (신입)">프론트엔드 개발자 (신입)</option>
-                                <option value="자바 백엔드 개발자 (경력)" selected>자바 백엔드 개발자 (경력)</option>
-                                <option value="QA 팀장">QA 팀장</option>
-                                <option value="와디즈 스토어 사업 개발 팀장">와디즈 스토어 사업 개발 팀장</option>
+                            <% for (String title : titles) { %>
+                                <option value="<%= title %>" <% if (title.equals(r.getTitle())) out.print("selected"); %>><%= title %></option>
+                            <% } %>
                             </select>
                         </div>
 
@@ -550,7 +552,7 @@
 
                         <!-- 내 자신에게 보내기 체크박스 -->
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck2" required>
+                            <input type="checkbox" class="custom-control-input" id="customCheck2">
                             <label for="customCheck2" class="custom-control-label small">내 자신에게 복사본 전송하기</label>
                         </div>
                     </form>
@@ -560,7 +562,7 @@
                 <div class="modal-footer">
 
                     <!-- 지원하기 버튼 -->
-                    <button form="recruit_apply_form" type="submit" class="btn btn-dark">지원하기</button>
+                    <button form="recruit_insert_form" type="submit" class="btn btn-dark">지원하기</button>
                 </div>
             </div>
         </div>
