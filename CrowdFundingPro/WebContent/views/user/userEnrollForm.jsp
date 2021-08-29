@@ -373,6 +373,7 @@ label {
                         
     		function sendEmail(){
         	    	var emailId = $("#emailId").val();
+        	    	console.log("<%=AuthenticationKey%>");
         	    	if(emailId == null ||
         	    	   emailId ==''){
         	    		alert("이메일을 올바르게 입력해주세요.")
