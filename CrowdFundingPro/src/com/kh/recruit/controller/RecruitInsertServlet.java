@@ -58,8 +58,8 @@ public class RecruitInsertServlet extends HttpServlet {
 			content4 == null || content4.equals("") ||	
 			content5 == null || content5.equals("") ||	
 			content6 == null || content6.equals("")) {
-			// 공고 양식 작성 실패
-			request.getSession().setAttribute("msg", "공고 양식 작성 실패");
+			// 공고 등록 실패
+			request.getSession().setAttribute("msg", "공고 등록 실패");
 			response.sendRedirect("views/recruit/recruit.jsp");
 		}
 		

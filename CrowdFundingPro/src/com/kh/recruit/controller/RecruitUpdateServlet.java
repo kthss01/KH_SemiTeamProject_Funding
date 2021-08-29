@@ -59,9 +59,9 @@ public class RecruitUpdateServlet extends HttpServlet {
 			content4 == null || content4.equals("") ||	
 			content5 == null || content5.equals("") ||	
 			content6 == null || content6.equals("")) {
-			// 공고 양식 작성 실패
-			request.getSession().setAttribute("msg", "공고 양식 수정 실패");
-			response.sendRedirect("views/recruit/recruit.jsp");
+			// 공고 수정 실패
+			request.getSession().setAttribute("msg", "공고 수정 실패");
+			response.sendRedirect(request.getContextPath() + "/recruitList.do");
 		}
 	
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -80,7 +80,7 @@ public class RecruitUpdateServlet extends HttpServlet {
 		
 		if (result > 0) {
 			request.getSession().setAttribute("msg", "공고 수정 성공");
-			response.sendRedirect(request.getContextPath() + "/recruitList.do?rid=" + id);
+			response.sendRedirect(request.getContextPath() + "/recruitContentList.do?rid=" + id);
 		} else {
 			// 에러 페이지 처리
 			request.getSession().setAttribute("msg", "공고 수정 실패");

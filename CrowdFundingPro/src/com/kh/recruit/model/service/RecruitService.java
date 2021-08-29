@@ -86,5 +86,21 @@ public class RecruitService {
 		return result;
 	}
 
+	public int deleteRecruitment(int id) {
+		Connection conn = getConnection();
+		
+		int result = new RecruitDao().deleteRecruitment(conn, id);
+		
+		if (result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
 	
 }
