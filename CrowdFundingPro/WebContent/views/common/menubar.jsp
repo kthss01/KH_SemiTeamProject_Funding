@@ -16,6 +16,7 @@
 <title>Document</title>
 
 
+
 </head>
 
 
@@ -53,7 +54,17 @@
 			<li class="nav-item"><a href="<%=request.getContextPath() %>/logout.me" class="nav-link">로그아웃</a></li>
 			
 			<% } %>
+			<li class="nav-item"><button id="colorTheme" class="nav-link" onclick="colorTheme();">다크모드</button></li>
+			
 		</ul>
 	</nav>
 </body>
+<script>
+
+	function colorTheme(){
+    	$('body').toggleClass('dark-theme');
+	}
+
+    
+    </script>
 </html>
