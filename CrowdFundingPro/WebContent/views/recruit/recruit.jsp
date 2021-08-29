@@ -79,7 +79,6 @@
 	<script>
 		
 		const msg = '<%= (String)session.getAttribute("msg") %>';
-		//console.log(msg);
 		if (msg !== 'null') {
 			alert(msg);
 			<% session.removeAttribute("msg"); %> // msg 출력 후 제거

@@ -211,4 +211,40 @@ public class RecruitDao {
 		return r;
 	}
 
+	public int updateRecruitment(Connection conn, Recruitment rm) {
+		int result = 0;
+
+		PreparedStatement pstmt = null;
+
+		String sql = prop.getProperty("updateRecruitment");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			int index = 1;
+			pstmt.setString(index++, rm.getTitle());
+			pstmt.setString(index++, rm.getCode());
+			// util.Date -> sql.Date 변환
+			pstmt.setDate(index++, new java.sql.Date(rm.getStart().getTime()));
+			pstmt.setDate(index++, new java.sql.Date(rm.getEnd().getTime()));
+			pstmt.setString(index++, rm.getTime());
+			pstmt.setString(index++, rm.getContent1());
+			pstmt.setString(index++, rm.getContent2());
+			pstmt.setString(index++, rm.getContent3());
+			pstmt.setString(index++, rm.getContent4());
+			pstmt.setString(index++, rm.getContent5());
+			pstmt.setString(index++, rm.getContent6());
+			pstmt.setInt(index++, rm.getId());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
 }

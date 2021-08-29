@@ -44,6 +44,16 @@
 		    object-fit: cover;
 		}
     </style>
+    
+    <script>
+		
+		const msg = '<%= (String)session.getAttribute("msg") %>';
+		if (msg !== 'null') {
+			alert(msg);
+			<% session.removeAttribute("msg"); %> // msg 출력 후 제거
+		}
+	
+	</script>
 </head>
 
 <%
@@ -178,11 +188,15 @@
                 </div>
 
                 <div class="modal-body">
-                    삭제하시겠습니까?
+					삭제하시겠습니까?
+                 	
+                 	<form id="recruit_delete_form" action="<%= request.getContextPath() %>/recruitDelete.do" method="post">
+                 		<input type="hidden" class="form-control" name="recruitId" value="<%= r.getId() %>">
+                 	</form>
                 </div>
 
                 <div class="modal-footer">
-                    <a href="<%= request.getContextPath() %>/recruitDelete.do" class="btn btn-danger" data-dismiss="modal">삭제하기</a>
+                    <button type="submit" form="recruit_delete_form" class="btn btn-danger">삭제하기</button>
                 </div>
 
             </div>
@@ -203,6 +217,8 @@
                 <div class="modal-body">
 
                     <form id="recruit_update_form" action="<%= request.getContextPath() %>/recruitUpdate.do" method="post">
+
+						<input type="hidden" class="form-control" name="recruitId" value="<%= r.getId() %>">
 
                         <!-- 공고 종류 일반 / 상시 -->
                         <label>공고 종류</label>

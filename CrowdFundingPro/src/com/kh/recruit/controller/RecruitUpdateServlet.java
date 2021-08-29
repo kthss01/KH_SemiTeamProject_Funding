@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,25 +15,26 @@ import com.kh.recruit.model.service.RecruitService;
 import com.kh.recruit.model.vo.Recruitment;
 
 /**
- * Servlet implementation class RecruitCreateServlet
+ * Servlet implementation class RecruitUpdateServlet
  */
-@WebServlet("/recruitInsert.do")
-public class RecruitInsertServlet extends HttpServlet {
+@WebServlet("/recruitUpdate.do")
+public class RecruitUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public RecruitInsertServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public RecruitUpdateServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		int id = Integer.parseInt(request.getParameter("recruitId"));
 		String title = request.getParameter("recruitName"); 
 		String code = request.getParameter("recruitCode"); 
 		String startStr = request.getParameter("recruitStartDate");
@@ -47,7 +47,8 @@ public class RecruitInsertServlet extends HttpServlet {
 		String content5 = request.getParameter("recruitContent5");
 		String content6 = request.getParameter("recruitContent6");
 		
-		if (title == null || title.equals("") ||
+		if (request.getParameter("recruitId") == null || request.getParameter("recruitId").equals("") ||
+			title == null || title.equals("") ||
 			code == null || code.equals("") ||
 			startStr == null || startStr.equals("") ||	
 			endStr == null || endStr.equals("") ||	
@@ -59,10 +60,10 @@ public class RecruitInsertServlet extends HttpServlet {
 			content5 == null || content5.equals("") ||	
 			content6 == null || content6.equals("")) {
 			// 공고 양식 작성 실패
-			request.getSession().setAttribute("msg", "공고 양식 작성 실패");
+			request.getSession().setAttribute("msg", "공고 양식 수정 실패");
 			response.sendRedirect("views/recruit/recruit.jsp");
 		}
-		
+	
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date start = new Date();
 		Date end = new Date();
@@ -73,26 +74,24 @@ public class RecruitInsertServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		Recruitment rm = new Recruitment(title, code, start, end, time, content1, content2, content3, content4, content5, content6); 
-		
-		int result = new RecruitService().insertRecruitment(rm);
+		Recruitment rm = new Recruitment(id, title, code, start, end, time, content1, content2, content3, content4, content5, content6); 
+
+		int result = new RecruitService().updateRecruitment(rm);
 		
 		if (result > 0) {
-			request.getSession().setAttribute("msg", "공고 등록 성공");
-			response.sendRedirect(request.getContextPath() + "/recruitList.do");
+			request.getSession().setAttribute("msg", "공고 수정 성공");
+			response.sendRedirect(request.getContextPath() + "/recruitList.do?rid=" + id);
 		} else {
 			// 에러 페이지 처리
-			request.getSession().setAttribute("msg", "공고 등록 실패");
+			request.getSession().setAttribute("msg", "공고 수정 실패");
 			response.sendRedirect("views/common/errorPage.jsp");
 		}
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

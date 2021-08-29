@@ -70,5 +70,21 @@ public class RecruitService {
 		return r;
 	}
 
+	public int updateRecruitment(Recruitment rm) {
+		Connection conn = getConnection();
+		
+		int result = new RecruitDao().updateRecruitment(conn, rm);
+		
+		if (result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
 	
 }
