@@ -271,7 +271,7 @@
 
             </ul>
 
-            <button type="button" id="recruit_create_btn" class="btn btn-dark" data-toggle="modal"
+            <button type="button" id="recruit_create_btn" class="btn btn-dark <% if (loginUser == null || !loginUser.getUserCode().equals("01")) out.print("invisible"); %>" data-toggle="modal"
                 data-target="#recruit_create_modal">공고 등록</button>
         </article>
     </section>

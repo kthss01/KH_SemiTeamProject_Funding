@@ -115,8 +115,8 @@
     <section class="container my-5">
         <!-- 공고 내용 -->
         <article class="container border p-5" style="position: relative;">
-        	<button class="btn btn-outline-dark btn-sm" style="position: absolute; top: 5px; right: 5px;" data-toggle="modal" data-target="#recruit_remove_modal">삭제</button>
-            <button class="btn btn-outline-dark btn-sm" style="position: absolute; top: 5px; right: 60px;" data-toggle="modal" data-target="#recruit_update_modal">수정</button>
+        	<button class="btn btn-outline-dark btn-sm <% if (loginUser == null || !loginUser.getUserCode().equals("01")) out.print("invisible"); %>" style="position: absolute; top: 5px; right: 5px;" data-toggle="modal" data-target="#recruit_remove_modal">삭제</button>
+            <button class="btn btn-outline-dark btn-sm <% if (loginUser == null || !loginUser.getUserCode().equals("01")) out.print("invisible"); %>" style="position: absolute; top: 5px; right: 60px;" data-toggle="modal" data-target="#recruit_update_modal">수정</button>
         
             <div id="recruitDate" class="text-info text-right mb-3">
                 <!-- 공고 종류 -->
