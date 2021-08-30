@@ -36,9 +36,15 @@
 				data-toggle="dropdown"> 더보기 </a>
 				<div class="dropdown-menu">
 					<a href="" class="dropdown-item">공지사항</a> <a href=""
-						class="dropdown-item">펀딩스쿨</a> <a href="" class="dropdown-item">문의하기</a>
+						class="dropdown-item">펀딩스쿨</a> <a href="#" class="dropdown-item" onclick="goFaq();">문의하기</a>
 				</div></li>
 		</ul>
+		<script>
+			/* 문의사항 == FAQ */
+			function goFaq(){
+				location.href="<%=request.getContextPath()%>/list.fq";
+			}
+		</script>
 
 		<!-- 회원관리 오른쪽 붙이기 ml-auto -->
 		<ul class="navbar-nav ml-auto">
