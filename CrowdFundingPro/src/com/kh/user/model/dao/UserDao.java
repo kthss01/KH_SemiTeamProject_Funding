@@ -9,11 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Properties;
 
 import com.kh.user.model.vo.User;
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
 public class UserDao {
 	private Properties prop = new Properties();

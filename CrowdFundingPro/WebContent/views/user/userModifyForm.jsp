@@ -223,6 +223,19 @@
 					url : "delete.me",
 					type : "post",
 					async:false,
+					beforeSend: function (){
+			              var width = 50;
+			              var height = 50;
+			              var left = 0;
+			              var top = 0;
+			              
+			              top = ($(window).height() - height) /2 + $(window).scrollTop();
+			              left = ($(window).width() - width)/2 + $(window).scrollLeft();
+			  
+			            	  $('html').append('<div id="div_ajax_load_image" class="spinner-border text-info" style="position:absolute; top:' + top + 
+			            	  'px; left:' + left + 'px; width:' + width + 'px; height:' + height +
+			            	  'px; z-index:9999; background:#fff; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; "></div>');
+			       },
 					success : function(result,msg){
 						console.log("서버 통신 성공");
 						console.log("modifyResult : " + result); //deleteSuccess
@@ -234,7 +247,10 @@
 							alert("회원탈퇴에 실패하였습니다.")
 						}
 					},
-					error : function(){
+					complete: function () {
+			              $("#div_ajax_load_image").hide();
+				    
+					},error : function(){
 						console.log("서버 통신 실패");
 					}
 				})	    		
