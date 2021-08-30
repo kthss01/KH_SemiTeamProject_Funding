@@ -29,9 +29,7 @@
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
             mily=Nanum+Gothic&family=Roboto&display=swap"
 	rel="stylesheet">
-<link
-	href="./resources/css/darkTheme.css"
-	rel="stylesheet">
+
 <style>
 .container_filed {
 	width: 100%;
