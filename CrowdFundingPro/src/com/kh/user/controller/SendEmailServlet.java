@@ -50,7 +50,6 @@ public class SendEmailServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		PrintWriter out = response.getWriter();
-		session.removeAttribute("AuthenticationKey");
 		
 		int duplicate = new UserService().emailIdCheck(emailId);
 		if(duplicate != 0) {
@@ -74,9 +73,13 @@ public class SendEmailServlet extends HttpServlet {
 
 			//인증 번호 생성기			
 			GenerateCertNumber gc = new GenerateCertNumber();
-			gc.setCertNumLength(5);
+			gc.setCertNumLength(6);
 			String AuthenticationKey = gc.excuteGenerate();
 			 
+			session.setAttribute("AuthenticationKey", AuthenticationKey);
+			System.out.println("AuthenticationKey : " +  AuthenticationKey);
+			
+			
 			Session mailSession = Session.getDefaultInstance(prop, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(user, password);
@@ -99,9 +102,7 @@ public class SendEmailServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();// TODO: handle exception
 			}
-			session.setAttribute("AuthenticationKey", AuthenticationKey);
 			out.print("sendSuccess");
-
 		}
 
 		out.flush();

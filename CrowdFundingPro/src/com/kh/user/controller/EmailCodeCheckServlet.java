@@ -32,20 +32,19 @@ public class EmailCodeCheckServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		PrintWriter out = response.getWriter();
-		
-		String code = request.getParameter("code");
-		System.out.println("인증코드 확인 서블릿 사용자 입력 코드  : " + code);
-		
-		String authKey = (String)session.getAttribute("authKey");
-		System.out.println("인증코드 확인 서블릿 세션 보유 코드  : " + authKey);
+
+		String emailCode = request.getParameter("emailCode");
+		System.out.println("인증코드 확인 서블릿 사용자 입력 코드  : " + emailCode);
+	
+		String AuthenticationKey = (String)session.getAttribute("AuthenticationKey");
+		System.out.println("인증코드 확인 서블릿 세션 보유 코드  : " + AuthenticationKey);
 		response.setCharacterEncoding("UTF-8");
-		System.out.println(authKey.equals(code));
-		if(authKey.equals(code)) {
-			out.print("succ");
+		System.out.println(AuthenticationKey.equals(emailCode));
+		if(AuthenticationKey.equals(emailCode)) {
+			out.print("check");
 		}else {
-			out.print("fail");
+			out.print("uncheck");
 		}
-		
 		out.flush();
 		out.close();
 		
