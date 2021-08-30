@@ -138,11 +138,6 @@ label {
 	color:red;
 }
 
-#colorTheme{
-  background:none;	
-  border:none;
-}
-
 </style>
 </head>
 <body>
