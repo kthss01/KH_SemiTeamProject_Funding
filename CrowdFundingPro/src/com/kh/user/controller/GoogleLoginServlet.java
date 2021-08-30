@@ -15,16 +15,16 @@ import com.kh.user.model.service.UserService;
 import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class UserDeleteServlet
+ *  ****************************** 테스트중
  */
-@WebServlet("/delete.me")
-public class UserDeleteServlet extends HttpServlet {
+@WebServlet("/gLogin.me")
+public class GoogleLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserDeleteServlet() {
+    public GoogleLoginServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,31 +33,42 @@ public class UserDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		
+		String emailId = request.getParameter("emailId");
+		String name = request.getParameter("name");
+		String pImg = request.getParameter("pImg");
+		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 
-		User loginUser = (User)session.getAttribute("loginUser");
+		User gLoginUser = new User();
+		gLoginUser.setEmailId(emailId);
+		gLoginUser.setUserName(name);
 		
-		String emailId = loginUser.getEmailId();
-		System.out.println("deleteServlet emailId : " + emailId);
-
-		int result = new UserService().deleteUser(emailId);
-		System.out.println("servlet result : " + result);
-		response.setContentType("text/html; charset=utf-8");
-		PrintWriter out = response.getWriter();
-
+		int result = new UserService().insertUser(gLoginUser); //insert작업으로 성공여부를 가져옴
+		
 		if(result > 0 ) {
-			out.print("deletesuccess");
-			session.removeAttribute("loginUser");
-			session.setAttribute("msg", "회원탈퇴가 완료되었습니다. 복구관련사항은 관리자에게 문의하세요");
+			request.getSession().setAttribute("msg", " 구글계정 회원가입 성공");
+			response.sendRedirect(request.getContextPath());
 		}else {
-			out.print("deletfail");
-			request.setAttribute("msg", "회원탈퇴가 실패했습니다.");
-			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp");
-			view.forward(request, response);
+			request.setAttribute("msg", " 구글계정 회원가입 실패");
+			
+			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp"); //request에 정보가 있으니 RequestDispatcher 로 에러페이지로 보냄
+			view.forward(request,response);
 		}
+		
+		
+		
+		int duplicate = new UserService().emailIdCheck(emailId);
+		if(duplicate != 0) {
+			out.print("duplicate");
+		}else {
+			session.setAttribute("loginUser",gLoginUser);
+			out.print("gLoginSuccess");
+		}
+
 		out.flush();
 		out.close();
+
 	}
 
 	/**

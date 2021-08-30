@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.kh.user.model.service.UserService;
+import com.kh.user.util.GenerateCertNumber;
 import com.kh.user.util.SHA256;
 
 /**
@@ -55,7 +56,6 @@ public class SendEmailServlet extends HttpServlet {
 		if(duplicate != 0) {
 			out.print("duplicate");
 		}else {
-			
 			String host = "smtp.gmail.com";
 			String user = "sunyoya2@gmail.com";
 			String password = "tpal1234!!";
@@ -72,9 +72,11 @@ public class SendEmailServlet extends HttpServlet {
 			prop.put("mail.smtp.starttls.required", "true");
 			prop.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
-			//인증 번호 생성기
-			String AuthenticationKey = SHA256.getSHA256(toEmail);
-
+			//인증 번호 생성기			
+			GenerateCertNumber gc = new GenerateCertNumber();
+			gc.setCertNumLength(5);
+			String AuthenticationKey = gc.excuteGenerate();
+			 
 			Session mailSession = Session.getDefaultInstance(prop, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(user, password);
@@ -98,7 +100,7 @@ public class SendEmailServlet extends HttpServlet {
 				e.printStackTrace();// TODO: handle exception
 			}
 			session.setAttribute("AuthenticationKey", AuthenticationKey);
-			out.print("success");
+			out.print("sendSuccess");
 
 		}
 
