@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.kh.recruit.model.vo.Recruitment" %>
+<%@ page import="com.kh.recruit.model.vo.RecruitCode" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -19,16 +24,57 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
     integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
-
-    <!-- recruit custom css -->
-    <link rel="stylesheet" href="../css/recruit_custom.css">
+    <!-- bootstarp4 date range picker -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <style>
         .popover {
             max-width: 80%;
         }
+               
+        .carousel-item {
+		    height: 300px;
+		}
+		
+		.carousel-item>img {
+		    width: 100%;
+		    height: 100%;
+		    object-fit: cover;
+		}
     </style>
+    
+    <script>
+		
+		const msg = '<%= (String)session.getAttribute("msg") %>';
+		if (msg !== 'null') {
+			alert(msg);
+			<% session.removeAttribute("msg"); %> // msg 출력 후 제거
+		}
+	
+	</script>
 </head>
+
+<%
+	Recruitment r = (Recruitment) request.getAttribute("r");
+
+	if (r == null) {
+		session.setAttribute("msg", "공고 조회 실패");
+		
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("location.href = '" + request.getContextPath() + "/views/common/errorPage.jsp';");
+		script.println("</script>");
+		script.close();
+		
+		return;
+	}
+
+	ArrayList<RecruitCode> code = (ArrayList<RecruitCode>) request.getAttribute("code");
+	
+	ArrayList<String> titles = (ArrayList<String>) request.getAttribute("titles");
+%>
 
 <body>
     <!-- navbar -->
@@ -47,13 +93,13 @@
         <!-- slideshow -->
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="../../resources/images/recruit_img1.png" alt="img1">
+                <img src="<%= request.getContextPath() %>/resources/images/recruit_img1.png" alt="img1">
             </div>
             <div class="carousel-item">
-                <img src="../../resources/images/recruit_img2.png" alt="img2">
+                <img src="<%= request.getContextPath() %>/resources/images/recruit_img2.png" alt="img2">
             </div>
             <div class="carousel-item">
-                <img src="../../resources/images/recruit_img3.png" alt="img3">
+                <img src="<%= request.getContextPath() %>/resources/images/recruit_img3.png" alt="img3">
             </div>
         </div>
 
@@ -68,128 +114,339 @@
 
     <section class="container my-5">
         <!-- 공고 내용 -->
-        <article class="container border p-5">
+        <article class="container border p-5" style="position: relative;">
+        	<button class="btn btn-outline-dark btn-sm <% if (loginUser == null || !loginUser.getUserCode().equals("01")) out.print("invisible"); %>" style="position: absolute; top: 5px; right: 5px;" data-toggle="modal" data-target="#recruit_remove_modal">삭제</button>
+            <button class="btn btn-outline-dark btn-sm <% if (loginUser == null || !loginUser.getUserCode().equals("01")) out.print("invisible"); %>" style="position: absolute; top: 5px; right: 60px;" data-toggle="modal" data-target="#recruit_update_modal">수정</button>
+        
             <div id="recruitDate" class="text-info text-right mb-3">
                 <!-- 공고 종류 -->
-                <span class="badge badge-info">일반채용</span>
+                <span class="badge badge-info"><%= r.getTime() %></span>
                 <!-- 공고 기간 -->
                 <span>
-                    2021.07.28(수)~2021.08.31(화)
+                    <%= r.getDateWithDay() %>
                 </span>
             </div>
 
             <!-- 공고명 -->
             <div id="recruitName">
-                <h2>자바 백엔드 개발자 (경력)</h2>
+                <h2><%= r.getTitle() %></h2>
                 <hr>
             </div>
 
             <!-- 소개 -->
             <div id="recruitContent1" class="my-5">
-                와디즈의 자바백엔드 개발자들은 Java 와 MySQL을 기반으로 와디즈펀딩 서비스를 개발합니다. <br>
-                <br>
-                기획자, 디자이너, QA, 프론트엔드 개발자들과 긴밀하게 소통하며 <br>
-                <br>
-                고객에게 더 나은 서비스를 제공하기 위한 방법을 제시합니다.<br>
-                <br>
-                급변하는 변화의 물살에 앞서 나가며 좋은 서비스를 잘 설계하고 작은 변화로 필요를 채워주는 등 <br>
-                <br>
-                빠른 호흡 전환을 즐기면서 함께 개발하실 분들을 기다립니다.<br>
+                <%= r.getContent1().replaceAll("\n", "<br>") %>
             </div>
 
             <!-- 주요 업무 -->
             <div id="recruitContent2" class="my-5">
                 <h6 class="mb-4 font-weight-bold">[주요 업무]</h6>
-                • 와디즈 펀딩하기/투자하기/스타트업찾기 웹서비스를 개발합니다. <br>
+                <%= r.getContent2().replaceAll("\n", "<br>") %>
             </div>
 
             <!-- 자격 조건 -->
             <div id="recruitContent3" class="my-5">
                 <h6 class="mb-4 font-weight-bold">[자격 조건]</h6>
-                • JAVA 및 객체지향 프로그래밍 개발 실무 3년차 이상의 역량을 보유하신 분 <br>
-                <br>
-                • Spring 프레임웍을 이용한 Web Application 개발 경험이 3년 이상 있으신 분 <br>
-                <br>
-                • MVC framework 기반의 웹 서비스나 RESTful API 개발 경험이 있으신 분 <br>
-                <br>
-                • RDBMS(MySQL 등)를 이해하고 비즈니스 데이터를 모델링 해 본 경험이 있으신 분 <br>
-                <br>
-                • Unix 기반 OS에서 웹서비스 개발에 필요한 기술을 보유하신 분 <br>
-                <br>
-                • 내부 고객과의 커뮤니케이션에 긍정적인 태도로 적극적으로 참여할 수 있는 분 <br>
-                <br>
-                • 비즈니스에 대한 이해를 바탕으로 상황에 맞는 장기적 또는 단기 해결책을 적극적으로 제시하고 적용할 수 있는 분 <br>
-                <br>
-                • 팀과 함께 성장하기 위해 역량 향상에 노력하며 지식을 공유하는 문화를 좋아하는 분 <br>
-                <br>
-                • 테스트 코드를 작성하며 개발하는 것에 부담이 없는 분 <br>
+                <%= r.getContent3().replaceAll("\n", "<br>") %>
             </div>
 
             <!-- 우대 사항 -->
             <div id="recruitContent4" class="my-5">
                 <h6 class="mb-4 font-weight-bold">[우대 사항]</h6>
-                • HTML5, javascript에 능숙한 분 <br>
-                <br>
-                • Confluence/Jira/Git 을 활용한 업무 관리 및 협업 경험이 있는 분 <br>
-                <br>
-                • MSA, JPA, Spring Cloud 기반 개발 경험이 있는 분 <br>
-                <br>
-                • Elastic Search 활용 경험이 있으신 분 <br>
-                <br>
-                • 크라우드펀딩 또는 핀테크 서비스에 대한 경험이 있으신 분 <br>
-                <br>
-                • 본인이 갖고 있는 기술을 이용하여 만들어 내는 사회적 가치를 중시하는 분 <br>
-                <br>
-                • GitHub/Bitbucket 등에 공개된 소스가 있는 분 <br>
+                <%= r.getContent4().replaceAll("\n", "<br>") %>
             </div>
 
             <!-- 혜택 및 복지 -->
             <div id="recruitContent5" class="my-5">
                 <h6 class="mb-4 font-weight-bold">[혜택 및 복지]</h6>
-                • 유연근무제, 재택근무제 <br>
-                <br>
-                • 3년 근무시 2주 리프레쉬 휴가  <br>
-                <br>
-                • 출근셔틀버스  <br>
-                <br>
-                • 사내 카페 <br>
-                <br>
-                • 무료 스낵바 <br>
-                <br>
-                • 피트니스센터 <br>
-                <br>
-                • 수면실 <br>
-                <br>
-                • 도서무한지원 <br>
-                <br>
-                • 건강검진 <br>
+                <%= r.getContent5().replaceAll("\n", "<br>") %>
             </div>
 
             <!-- 기타 사항 -->
             <div id="recruitContent6" class="my-5">
                 <h6 class="mb-4 font-weight-bold">**기타 사항</h6>
-                1. 지원서 작성 버튼을 클릭하여 지원해주세요.  <br>
-                <br>
-                2. 보훈대상자 및 장애인은 관련 법규에 의거하여 우대합니다.  <br>
-                <br>
-                3. 경력직은 3개월간 Probation 기간을 거치며 급여는 동일한 수준으로 지급됩니다.  <br>
-                <br>
-                <b>4. 채용 시 조기마감 될 수 있습니다. </b><br>
+                <%= r.getContent6().replaceAll("\n", "<br>") %>
             </div>
             
         </article>
 
         <div class="d-flex justify-content-center mt-4">
-            <a href="./recruit.jsp" class="btn btn-dark mx-2" style="width: 150px;">목록</a>
-            <button class="btn btn-dark mx-2" style="width: 150px;" data-toggle="modal" data-target="#recruit_apply_modal">지원서 작성</button>
+            <a href="<%= request.getContextPath() %>/recruitList.do" class="btn btn-dark mx-2" style="width: 150px;">목록</a>
+            <button class="btn btn-dark mx-2" style="width: 150px;" data-toggle="modal" data-target="#recruit_insert_modal">지원서 작성</button>
         </div>
     </section>
 
     <!-- footer -->
     <%@ include file="../common/footer.jsp" %>
 
+    <!-- 공고 삭제 modal -->
+    <div class="modal fade" id="recruit_remove_modal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">공고 삭제 확인</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+					삭제하시겠습니까?
+                 	
+                 	<form id="recruit_delete_form" action="<%= request.getContextPath() %>/recruitDelete.do" method="post">
+                 		<input type="hidden" class="form-control" name="recruitId" value="<%= r.getId() %>">
+                 	</form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" form="recruit_delete_form" class="btn btn-danger">삭제하기</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 공고 수정 modal -->
+    <div class="modal fade" id="recruit_update_modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">공고 등록</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                    <form id="recruit_update_form" action="<%= request.getContextPath() %>/recruitUpdate.do" method="post">
+
+						<input type="hidden" class="form-control" name="recruitId" value="<%= r.getId() %>">
+
+                        <!-- 공고 종류 일반 / 상시 -->
+                        <label>공고 종류</label>
+                        <div class="form-group">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="recruitTime" name="recruitTime" value="일반 채용" 
+                                <% if (r.getTime().equals("일반 채용")) out.print("checked"); %>
+                                >
+                                <label for="recruitTime" class="custom-control-label">일반 채용</label>
+                            </div>
+    
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="recruitTime2" name="recruitTime" value="상시 채용"
+                                <% if (r.getTime().equals("상시 채용")) out.print("checked"); %>
+                                >
+                                <label for="recruitTime2" class="custom-control-label">상시 채용</label>
+                            </div>
+                        </div>
+
+                        <!-- 공고 시작일 ~ 공고 종료일 달력 선택 -->
+                        <!-- <form-group>
+                                <label for="recruitStartDate">공고 시작일</label>
+                                <input type="date" class="form-control" id="recruitStartDate">
+                                <label for="recruitEndDate">공고 종료일</label>
+                                <input type="date" class="form-control" id="recruitEndDate">
+                            </form-group> -->
+
+                        <!-- <input type="text" class="form-control" id="daterange" name="daterange"/> -->
+                        <div class="form-group">
+                            <label>공고기간</label>
+                            <div id="daterange" class="form-control">
+                                <i class="fa fa-calendar"></i>&nbsp;
+                                <span></span>
+                            </div>
+                        </div>
+                        <input form="recruit_update_form" type="hidden" id="recruitStartDate" name="recruitStartDate">
+                        <input form="recruit_update_form" type="hidden" id="recruitEndDate" name="recruitEndDate">
+
+                        <!-- 공고명 -->
+                        <div class="form-group">
+                            <label for="recruitName">공고명</label>
+                            <input form="recruit_update_form" type="text" class="form-control" id="recruitName"
+                                name="recruitName" placeholder="내용을 입력해주세요" required
+                            	value="<%= r.getTitle() %>"    
+                            >
+                        </div>
+
+                        <!-- 직무구분 -->
+                        <!-- Custom Select Menu -->
+                        <label>직무구분</label>
+                        <select form="recruit_update_form" name="recruitCode" id="recruitCode" class="custom-select">
+                        <% for (RecruitCode c : code) { %>
+                            <option value="<%= c.getCode() %>" <% if (r.getCode().equals(c.getCode())) out.print("selected"); %>><%= c.getCode() %></option>
+                        <% } %>
+                        </select>
+
+                    </form>
+
+                    <!-- Nav pills or tabs with Dropdown -->
+                    <ul class="nav nav-tabs mt-3" role="tablist">
+                        <li class="nav-item">
+                            <a href="#recruitContentTab1" data-toggle="tab"
+                                class="text-secondary nav-link active">소개</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#recruitContentTab2" data-toggle="tab" class="text-secondary nav-link">주요 업무</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a href="#" class="text-secondary nav-link dropdown-toggle" data-toggle="dropdown">요구 사항</a>
+                            <div class="dropdown-menu">
+                                <a href="#recruitContentTab3" data-toggle="tab" class="text-secondary nav-link">자격 요건</a>
+                                <a href="#recruitContentTab4" data-toggle="tab" class="text-secondary nav-link">우대 사항</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a href="#" class="text-secondary nav-link dropdown-toggle" data-toggle="dropdown">혜택 및 기타</a>
+                            <div class="dropdown-menu">
+                                <a href="#recruitContentTab5" data-toggle="tab" class="text-secondary nav-link">혜택 및 복지</a>
+                                <a href="#recruitContentTab6" data-toggle="tab" class="text-secondary nav-link">기타 사항</a>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content mt-2">
+                        <div id="recruitContentTab1" class="container tab-pane active">
+                            <!-- 소개 -->
+                            <div class="form-group">
+                                <label for="recruitContent1">소개</label>
+                                <textarea form="recruit_update_form" name="recruitContent1" id="recruitContent1"
+                                    class="form-control" rows="10"><%= r.getContent1() %></textarea>
+                            </div>
+                        </div>
+
+                        <div id="recruitContentTab2" class="container tab-pane fade">
+                            <!-- 주요 업무 -->
+                            <div class="form-group">
+                                <label for="recruitContent2">주요 업무</label>
+                                <textarea form="recruit_update_form" name="recruitContent2" id="recruitContent2"
+                                    class="form-control" rows="10"><%= r.getContent2() %></textarea>
+                            </div>
+                        </div>
+
+                        <div id="recruitContentTab3" class="container tab-pane fade">
+                            <!-- 자격 요건 -->
+                            <div class="form-group">
+                                <label for="recruitContent3">자격 요건</label>
+                                <textarea form="recruit_update_form" name="recruitContent3" id="recruitContent3"
+                                    class="form-control" rows="10"><%= r.getContent3() %></textarea>
+                            </div>
+                        </div>
+
+                        <div id="recruitContentTab4" class="container tab-pane fade">
+                            <!-- 우대 사항 -->
+                            <div class="form-group">
+                                <label for="recruitContent4">우대 사항</label>
+                                <textarea form="recruit_update_form" name="recruitContent4" id="recruitContent4"
+                                    class="form-control" rows="10"><%= r.getContent4() %></textarea>
+                            </div>
+                        </div>
+
+                        <div id="recruitContentTab5" class="container tab-pane fade">
+                            <!-- 혜택 및 복지 -->
+                            <div class="form-group">
+                                <label for="recruitContent5">혜택 및 복지</label>
+                                <textarea form="recruit_update_form" name="recruitContent5" id="recruitContent5"
+                                    class="form-control" rows="10"><%= r.getContent5() %></textarea>
+                            </div>
+                        </div>
+
+                        <div id="recruitContentTab6" class="container tab-pane fade">
+                            <!-- 기타 사항 -->
+                            <div class="form-group">
+                                <label for="recruitContent6">기타 사항</label>
+                                <textarea form="recruit_update_form" name="recruitContent6" id="recruitContent6"
+                                    class="form-control" rows="10"><%= r.getContent6() %></textarea>
+                            </div>
+                        </div>
+
+                        <div class="toast" style="position: absolute; bottom: 0; right: 0;">
+                            <div class="toast-header">
+								내용이 비어 있습니다. 채워 넣어주세요
+                            </div>
+                            <div class="toast-body">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="recruitSubmitBtn" type="submit" form="recruit_update_form" class="btn btn-dark mx-auto">수정하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Date Range Picker -->
+    <script>
+        $(function () {
+            const startDate = moment('<%= r.getStartDate() %>', 'YYYY-MM-DD'); // 시작일
+            const endDate = moment('<%= r.getEndDate() %>', 'YYYY-MM-DD'); // 종료일 -> 현재 시간 + 30일
+            $('#recruitStartDate').val(startDate.format('YYYY-MM-DD'));
+            $('#recruitEndDate').val(endDate.format('YYYY-MM-DD'));
+
+            $('#daterange span').html(startDate.format('YYYY-MM-DD') + ' ~ ' + endDate.format('YYYY-MM-DD'));
+
+            $('#daterange').daterangepicker({
+                //opens: 'right',
+                //drops: 'up',
+                startDate, // 시작일 설정
+                endDate // 종료일 설정
+            }, function (start, end) {
+                //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                const startDate = start.format('YYYY-MM-DD');
+                const endDate = end.format('YYYY-MM-DD');
+                $('#recruitStartDate').val(startDate);
+                $('#recruitEndDate').val(endDate);
+
+                $('#daterange span').html(start.format('YYYY-MM-DD') + ' ~ ' + end.format(
+                    'YYYY-MM-DD'));
+            });
+
+            $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+                //console.log(picker.startDate.format('YYYY-MM-DD'));
+                //console.log(picker.endDate.format('YYYY-MM-DD'));
+                const startDate = picker.startDate.format('YYYY-MM-DD');
+                const endDate = picker.endDate.format('YYYY-MM-DD');
+                $('#recruitStartDate').val(startDate);
+                $('#recruitEndDate').val(endDate);
+            });
+        });
+    </script>
+
+    <!-- form content check -->
+    <!-- toast 사용 -->
+    <script>
+        $(function() {
+            $('#recruit_update_form').on("submit", function(e) {
+
+                let check = true;
+                let content = '';
+                $('.tab-content').find('textarea').each(function(index, item){
+                    if ($(item).val() === '') {
+                        //console.log($(item).parent().children('label').html());
+                        content += $(item).parent().children('label').text() + '<br>';
+                        check = false;
+                    }
+                });
+
+                if (!check) {
+                    $('.toast .toast-body').html(content);
+
+                    $('.toast').toast({delay: 2000});
+                    $('.toast').toast('show');
+                }
+                
+                return check;
+            })
+        });
+    </script>
+
     <!-- 지원서 작성하기 modal -->
-    <div class="modal fade" id="recruit_apply_modal">
+    <div class="modal fade" id="recruit_insert_modal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -200,17 +457,17 @@
                 
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    <form id="recruit_apply_form" action="recruitApply.do" method="POST">
+                    <form id="recruit_insert_form" action="recruitMemberInsert.do" method="POST" enctype="multipart/form-data">
+                        
+                        <input type="hidden" form="recruit_insert_form" class="form-control" name="recruitId" value="<%= r.getId() %>">
                         
                         <!-- 직무구분 dropdowns custom select -->
                         <div class="form-group">
                             <label for="recruitName">지원 포지션명</label>
                             <select name="recruitName" id="recruitName" class="custom-select">
-                                <option value="기술 기획 (경력)">기술 기획 (경력)</option>
-                                <option value="프론트엔드 개발자 (신입)">프론트엔드 개발자 (신입)</option>
-                                <option value="자바 백엔드 개발자 (경력)" selected>자바 백엔드 개발자 (경력)</option>
-                                <option value="QA 팀장">QA 팀장</option>
-                                <option value="와디즈 스토어 사업 개발 팀장">와디즈 스토어 사업 개발 팀장</option>
+                            <% for (String title : titles) { %>
+                                <option value="<%= title %>" <% if (title.equals(r.getTitle())) out.print("selected"); %>><%= title %></option>
+                            <% } %>
                             </select>
                         </div>
 
@@ -295,7 +552,7 @@
 
                         <!-- 내 자신에게 보내기 체크박스 -->
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck2" required>
+                            <input type="checkbox" class="custom-control-input" id="customCheck2">
                             <label for="customCheck2" class="custom-control-label small">내 자신에게 복사본 전송하기</label>
                         </div>
                     </form>
@@ -305,7 +562,7 @@
                 <div class="modal-footer">
 
                     <!-- 지원하기 버튼 -->
-                    <button form="recruit_apply_form" type="submit" class="btn btn-dark">지원하기</button>
+                    <button form="recruit_insert_form" type="submit" class="btn btn-dark">지원하기</button>
                 </div>
             </div>
         </div>
