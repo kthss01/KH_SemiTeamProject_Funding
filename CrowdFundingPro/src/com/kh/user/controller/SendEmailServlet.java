@@ -19,7 +19,6 @@ import javax.servlet.http.HttpSession;
 
 import com.kh.user.model.service.UserService;
 import com.kh.user.util.GenerateCertNumber;
-import com.kh.user.util.SHA256;
 
 /**
  * Servlet implementation class EmailCheckServlet

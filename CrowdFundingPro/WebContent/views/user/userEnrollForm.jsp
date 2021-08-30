@@ -337,7 +337,19 @@ label {
 						data : {
 							emailId : emailId
 						},
-						async : false,
+						beforeSend: function (){
+				              var width = 50;
+				              var height = 50;
+				              var left = 0;
+				              var top = 0;
+				              
+				              top = ($(window).height() - height) /2 + $(window).scrollTop();
+				              left = ($(window).width() - width)/2 + $(window).scrollLeft();
+				  
+				            	  $('html').append('<div id="div_ajax_load_image" class="spinner-border text-info" style="position:absolute; top:' + top + 
+				            	  'px; left:' + left + 'px; width:' + width + 'px; height:' + height +
+				            	  'px; z-index:9999; background:#fff; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; "></div>');
+				       },
 						success : function(msg) {
 							console.log("서버 통신 성공");
 							console.log("msg : " + msg);
@@ -350,8 +362,9 @@ label {
 							} else {
 								alert("인증 메일 발송실패 : 관리자에게 문의해주세요")
 							}
-						},
-						error : function() {
+						}, complete: function () {
+				              $("#div_ajax_load_image").hide();
+				       }, error : function() {
 							console.log("서버 통신 실패");
 						}
 					})
