@@ -26,6 +26,12 @@
          mily=Nanum+Gothic&family=Roboto&display=swap"
 	rel="stylesheet">
 
+<!-- fontawesome bootstrap 4 용 icon -->
+<link rel="stylesheet"
+	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+	crossorigin="anonymous" />
+
 <style>
 * {
 	margin: 0;
@@ -132,7 +138,10 @@ label {
 	color:red;
 }
 
-
+#colorTheme{
+  background:none;	
+  border:none;
+}
 
 </style>
 </head>
@@ -158,7 +167,7 @@ label {
                                 name="userName"
                                 placeholder="이름 입력"
                                 required="required">
-                            <label for="email">이메일아이디</label>
+                            <label for="emailId">이메일아이디</label>
                             <input
                                 type="email"
                                 id="emailId"
@@ -384,13 +393,16 @@ label {
         					data : {
         						emailId : emailId
         					},
-        					async: "false",  
+        					async: false,  
         					success : function(result,msg){
-        						if(msg == "success"){
+        						console.log("서버 통신 성공");
+        						console.log("sendEmailResult : " + result); //sendSuccess
+        						console.log("sendEmailMsg : " + msg); //success
+        						if(result == "sendSuccess"){
         							alert('인증 메일이 발송되었습니다. 메일이 도착하지 않았을 경우 입력하신 이메일 주소를 다시 확인해주세요.')
                                     $("#emailCodeArea").css("display", "block");
 
-        						}else if(msg == "duplicate"){
+        						}else if(result == "duplicate" ){
         							alert("이미 가입 된 이메일입니다.")
         						}else{
         							alert("인증 메일 발송실패 : 관리자에게 문의해주세요")

@@ -1,9 +1,5 @@
 @charset "UTF-8";
 
-#colorTheme{
-  background:none;	
-  border:none;
-}
  .dark-theme {
   background: rgba(0, 0, 0, .7);
   color: white;
@@ -32,4 +28,11 @@
 
 .dark-theme .list-group-item{
 	background:#808080;
+}
+
+
+
+#colorTheme{
+  background:none;	
+  border:none;
 }
