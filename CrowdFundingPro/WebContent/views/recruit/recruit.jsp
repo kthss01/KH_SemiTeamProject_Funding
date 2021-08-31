@@ -15,25 +15,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>펀딩사이트 프로젝트 - 채용 공고 페이지</title>
 
-    <!-- bootstrap 4 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!-- fontawesome bootstrap 4 용 icon -->
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <!-- bootstrap-steps -->
     <!-- <link rel="stylesheet" href="../css/bootstrap-steps.min.css"> -->
     <!-- cdn -->
     <!-- <link  href="https://cdn.jsdelivr.net/npm/bootstrap-steps@%5E1.0/dist/bootstrap-steps.min.css" rel="stylesheet"> -->
-
-    <!-- bootstarp4 date range picker -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <style>
         .jumbotron {
@@ -85,16 +72,16 @@
 		}
 		
 		$(function() {
-			$.ajax(function() {
+			$.ajax({
 				url : "recruitList.do",
-				done : function(result) {
+				success : function(result) {
 					console.log(result);
 				},
-				fail : function(e) {
+				error : function(e) {
 					console.log("ajax 통신 실패");
 				}
 			});
-		})
+		});
 	
 	</script>
 
