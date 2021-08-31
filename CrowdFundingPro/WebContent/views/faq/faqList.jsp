@@ -37,9 +37,10 @@
          mily=Nanum+Gothic&family=Roboto&display=swap"
 	rel="stylesheet">
 <style>      
-        body{
-        text-align: center;
-        
+    .container_filed{
+        width:100%;
+        height: auto;
+		text-align: center;
     }
 
     #top{
@@ -107,6 +108,8 @@
 </head>
 <body>
  	<%@ include file="../common/menubar.jsp"%>
+ 	
+ 	<div class="container_filed">
  	<div id = "top">
         <p>FAQ</p>
         <div id="under"></div>
@@ -195,6 +198,7 @@
             t2.to(".boxM", {duration: 1,y: 0, display: "none"}).to(".boxM", { opacity: 0}, "-=1");  
         });
     </script>
+    </div>
     <%@ include file="../common/footer.jsp"%>
 </body>
 </html>
