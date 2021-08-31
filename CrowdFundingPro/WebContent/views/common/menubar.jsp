@@ -37,13 +37,10 @@
 			<li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown"> 더보기 </a>
 				<div class="dropdown-menu">
 
-					<a href="" class="dropdown-item">공지사항</a> <a href=""
-						class="dropdown-item">펀딩스쿨</a> <a href="#" class="dropdown-item" onclick="goFaq();">문의하기</a>
-				</div></li>
-
-					<a href="" class="dropdown-item">공지사항</a>  <!-- 채용페이지 링크 -->
-					<a href="" class="dropdown-item">펀딩스쿨</a>  <!-- 강의페이지 링크 -->
-					<a href="" class="dropdown-item">문의하기</a>  <!-- FAQ페이지 링크 -->
+					<a href="" class="dropdown-item">공지사항</a> 
+					<a href="" class="dropdown-item">펀딩스쿨</a>
+					<a href="#" class="dropdown-item" onclick="goFaq();">문의하기</a>
+						
 				</div>
 			</li>
 

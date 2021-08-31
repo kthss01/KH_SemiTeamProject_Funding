@@ -192,17 +192,20 @@
                 </div>
                 <div class="section lecture">
                     <h3>내가 듣는 강의</h3>
+					<% for (ULecture l : lList) { %>
+                    
                     <div class="card" style="width:100%; margin-bottom:10px;">
                         <div class="card-img-top" style="width:100%;"></div>
                         <div class="card-body" style=" padding: 10px; height: 100px;">
-                            <h2 class="card-title h5" style="margin-bottom: 5px; margin-top: 5px;"><%=lList.get(0).getLTitle()  %></h2>
-                            <div class="small text-muted">경기도 안양시 동안구 시민대로 235
+                            <h2 class="card-title h5" style="margin-bottom: 5px; margin-top: 5px;"><%=l.getLTitle()  %></h2>
+                            <div class="small text-muted"><%=l.getLTopic() %>
+                            <div class="small text-muted"><%=l.getLDate() %>                                       
                             </div>
+                            
                         </div>
                     </div>
-
                 </div>
-        
+         <%} %>
             </div>
 
         </div>
