@@ -3,7 +3,6 @@ package com.kh.user.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,16 +14,16 @@ import com.kh.user.model.vo.ULecture;
 import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class UserPageServlet
+ * Servlet implementation class LectrueListServlet
  */
-@WebServlet("/mypage.me")
-public class UserPageServlet extends HttpServlet {
+@WebServlet("/lectrueList.me")
+public class LectrueListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserPageServlet() {
+    public LectrueListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,27 +32,13 @@ public class UserPageServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User loginUser = (User)request.getSession().getAttribute("loginUser");
 		
-		String emailId = loginUser.getEmailId();
-		System.out.println("emailId : " + emailId);
-		User User = new UserService().selectUser(emailId);
-		System.out.println("User : " + User);
+		String emailId = ((User)(request.getSession().getAttribute("loginUser"))).getEmailId();
 		
-		RequestDispatcher view = null;
-		if(User != null) {
-			request.setAttribute("loginUser", User);
-			ArrayList<ULecture> list = new UserService().selectLectureList(emailId);
-			System.out.println("list : " + list);
-			request.setAttribute("ULectureList",list);
-			view = request.getRequestDispatcher("views/user/myPage.jsp");
-		}else {
-			request.setAttribute("msg", "마이페이지로 이동이 실패했습니다.");
-			
-			request.getRequestDispatcher("views/common/errorPage.jsp");
-		}
-
-		view.forward(request, response);
+		ArrayList<ULecture> list = new UserService().selectLectureList(emailId);
+		System.out.println("list : " + list);
+		request.setAttribute("ULectureList",list);
+		request.getRequestDispatcher("views/user/myPage.jsp").forward(request, response);
 	}
 
 	/**

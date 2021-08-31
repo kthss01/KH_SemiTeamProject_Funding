@@ -4,8 +4,7 @@
 <%@ page import="com.kh.user.model.vo.User"%>
 
 <%
-	User loginUser = (User) session.getAttribute("loginUser");
-String msg = (String) session.getAttribute("msg");
+String contextPath = request.getContextPath();
 %>
 
 <!DOCTYPE html>
@@ -14,7 +13,16 @@ String msg = (String) session.getAttribute("msg");
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 앱의 클라이언트 ID 지정 -->
+<meta name="google-signin-client_id" content="31102830978-o5gc3ru1pkhi7nfe10ucob89s12t95ej.apps.googleusercontent.com">
+
 <title>LoginPage</title>
+
+<link
+	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
+            mily=Nanum+Gothic&family=Roboto&display=swap"
+	rel="stylesheet"/>
+
 <!-- bootstrap 4 -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -30,17 +38,18 @@ String msg = (String) session.getAttribute("msg");
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
 	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
 	crossorigin="anonymous" />
+	
+	<!-- Google Platform 라이브러리로드 -->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 
-<link
-	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
-            mily=Nanum+Gothic&family=Roboto&display=swap"
-	rel="stylesheet">
+
+
 <style>
 .login-form {
 	justify-content: center;
 	align-items: center;
 	width: 500px;
-	height: 100vh; /*vh : veiwport height*/
+	height: 100vh;
 	text-align: center;
 	margin: 0 auto;
 }
@@ -50,7 +59,8 @@ String msg = (String) session.getAttribute("msg");
 	text-align: left;
 	margin-top: 150px;
 	margin-bottom: 100px;
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Rajdhani', sans-serif;
+	font-weight:bold;
 }
 
 .login-btn {
@@ -135,79 +145,122 @@ String msg = (String) session.getAttribute("msg");
 	color: black;
 	font-size: 14px;
 }
+
+
+#googleBtn{
+	margin-top:50px;
+	margin-left:190px;
+}
+
 </style>
 
-<script type="text/javascript">
-	$(function(){
-		var msg = "<%=msg%>";
-		if(msg != "null") {
-			alert(msg);
-			<%session.removeAttribute("msg");%> //메세지를 띄우고 나면 msg 속성을 삭제한다.
-		}
-	})
 
-	function loginValidate(){
-		if($("#userId").val().trim().length==0){
-			alert("아이디를 입력하세요");
-			$("#userId").focus();
-			return false;
-		}
-		
-		if($("#userPwd").val().trim().length==0){
-			alert("비밀번호를 입력하세요");
-			$("#userPwd").focus();
-			return false;
-		}
-		return true;
-	}
-
-</script>
 
 </head>
 
 <body>
 
 
-        	<%@ include file="../common/menubar.jsp"%>
+	<%@ include file="../common/menubar.jsp"%>
 
 
 
 	<section class="login-form">
 		<h1>로그인</h1>
-		<form action="">
+		<form id="loginForm" action="<%=request.getContextPath()%>/login.me"
+			method="post">
 			<div class="int-area">
-				<input class="input-box" type="text" name="id" id="id"
-					autocomplete="off" required placeholder="이메일 아이디"> <label
-					for="id">ID</label>
-
-				<!-- autocomplete : 자동완성기능,  required : 필수 작성 -->
+				<input 
+				class="input-box" 
+				type="email" 
+				name="emailId" 
+				id="emailId"
+				autocomplete="on" 
+				required placeholder="이메일 아이디"> 
+				<label for="id" >ID</label>
 			</div>
 			<div class="int-area">
 
-				<input class="input-box" type="password" name="pwd" id="pwd"
-					autocomplete="off" required
-					placeholder="비밀번호 (영문, 숫자, 특수문자 포함 8자 이상)"> <label
-					for="pwd">PWD</label>
+				<input 
+				class="input-box" 
+				type="password" 
+				name="userPwd" 
+				id="userPwd"
+				autocomplete="off" 
+				required
+				placeholder="비밀번호 (영문, 숫자, 특수문자 포함 8자 이상 20자 이내)"> 
+				<label for="pwd">PWD</label>
 
-				<button class="login-btn" type="submit">LOGIN</button>
+				<button class="login-btn" id="loginBtn" type="submit">LOGIN</button>
 			</div>
+			<!--  구글 로그인(테스트중)
+			<div id="googleBtn" class="g-signin2" data-onsuccess="onSignIn"></div>
+			 -->
 		</form>
-		<div class="caption">
-			<br> <a href="<%=request.getContextPath()%>/enrollForm.me"
-				style="font-size: 1em">아직 계정이 없으신가요?</a>
+		<div class="caption"><br>
+			 <a href="<%=request.getContextPath()%>/enrollForm.me"
+				style="font-size: 1em; diplay:inline">아직 계정이 없으신가요?</a>
+		<button id="joinBtn" onclick="enrollPage();" style="">회원가입</button>
 
-			<!-- <a  href="" style="font-size: 1em" >로그인 정보를 잊으셨나요?</a> -->
 		</div>
-		<button id="joinBtn" onclick="enrollPage();">회원가입</button>
 
 	</section>
 
 	<script>
 	
-	function enrollPage(){
-		location.href = "<%=request.getContextPath()%>
-/enrollForm.me";
+	function onSignIn(googleUser) {
+		  var profile = googleUser.getBasicProfile();
+		  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+		  console.log('Name: ' + profile.getName());
+		  console.log('Image URL: ' + profile.getImageUrl());
+		  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+		  var emailId = profile.getEmail();
+		  var name = profile.getName();
+		  var pImg = profile.getImageUrl();
+
+	    	if(profile != null ){
+				$.ajax({
+					url : "gLogin.me",
+					type : "post",
+					dataType : "text",
+					data : {
+						emailId : emailId,
+						name : name,
+						pImg : pImg
+					},
+					async: false,
+					success : function(result){
+						console.log("서버 통신 성공");
+						console.log("googleloginresult : " + result);
+
+						if(msg == "gLoginSuccess"){
+							location.href="<%= request.getContextPath()%>"; 
+						}else if(test == "duplicate"){
+							signOut();
+							alert("이미 구글 이메일아이디로 가입되어있습니다. 가입 된 계정으로 로그인해주세요.");
+						}
+					},
+					error : function(){
+						console.log("서버 통신 실패");
+					}
+				})	    		
+	    	} else{
+	    		alert('goole 계정으로 로그인 실패');
+	    	}
+		  
 		}
-	</script>
+	
+	<!-- 구글 로그아웃 -->
+	function signOut(){
+		gapi.auth2.getAuthInstance().disconnect();
+	}
+
+	function enrollPage(){
+		location.href = "<%= request.getContextPath()%>/enrollForm.me";
+		}
+	
+	
+
+</script>
 </body>
 </html>

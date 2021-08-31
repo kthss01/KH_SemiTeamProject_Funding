@@ -29,6 +29,7 @@
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
             mily=Nanum+Gothic&family=Roboto&display=swap"
 	rel="stylesheet">
+
 <style>
 .container_filed {
 	width: 100%;
@@ -58,9 +59,12 @@ h4 {
 	font-weight: bold;
 	letter-spacing: -2px;
 }
+
+
 </style>
 
 </head>
+
 <body>
 
 	<%@ include file="views/common/menubar.jsp"%>
@@ -209,16 +213,7 @@ h4 {
 							</div>
 
 						</div>
-						<!-- Pagination <nav aria-label="Pagination"> <hr class="my-0" /> <ul
-                            class="pagination justify-content-center my-4"> <li class="page-item
-                            disabled"><a class="page-link" href="#" tabindex="-1"
-                            aria-disabled="true">Newer</a></li> <li class="page-item active"
-                            aria-current="page"><a class="page-link" href="#!">1</a></li> <li
-                            class="page-item"><a class="page-link" href="#!">2</a></li> <li
-                            class="page-item"><a class="page-link" href="#!">3</a></li> <li class="page-item
-                            disabled"><a class="page-link" href="#!">...</a></li> <li class="page-item"><a
-                            class="page-link" href="#!">15</a></li> <li class="page-item"><a
-                            class="page-link" href="#!">Older</a></li> </ul> </nav> -->
+
 					</div>
 					<!-- Side widgets-->
 					<div class="col-lg-3">
@@ -270,63 +265,8 @@ h4 {
 
 	</div>
 	<%@ include file="views/common/footer.jsp"%>
-	<!-- 
-        <footer class="container-fluid" style="margin-bottom: 50px; margin-top: 50px;">
-            <!-- navbar -->
-	<!--
-            <nav
-                class="navbar navbar-expand-md navbar-light mb-5"
-                style="border-top: 3px solid rgba(0, 0, 0, .5); border-bottom: 3px solid rgba(0, 0, 0, .5);  padding-left: 100px; padding-right:100px;">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">정책.약관</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">개인정보처리방침</a>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav ml-auto">
-                    <li class="navbar-item">
-                        <a href="#" class="nav-link">공지사항</a>
-                    </li>
-
-                    <li class="navbar-item">
-                        <a href="#" class="nav-link">문의사항</a>
-                    </li>
-                </ul>
-            </nav>
-
-            <div class="row">
-                <div class="col-md-3">
-                    <button class="btn btn-dark ml-4" style="width: 200px;">
-                        <i class="far fa-question-circle"></i>
-                        문의하기</button>
-                </div>
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    <b>KH(주)| 대표이사 ooo | 사업자 등록번호 000-00-000000</b>
-                    <br>
-                    <small>서울특별시 강남구 강남구 테헤란로14길 6</small>
-                </div>
-
-            </div>
-            <div class="media ml-3">
-                <img src="resources/images/support_icon.png" alt="support_icon">
-                <div class="media-body">
-                    <b>고객센터 000-0000</b><br>
-                    <small>상담 가능 시간 : 평일 오전 9시 ~ 오후 6시
-                        <br>
-                        (주말, 공휴일 제외)</small>
-                </div>
-            </div>
-            <!-- 문의하기 버튼 -->
-	<!-- 주소 및 사업자 등록번호 -->
-	<!-- 고객센터 -->
-	<!--  
-        </footer>
-        -->
 
 
 </body>
+
 </html>

@@ -5,24 +5,35 @@ import java.sql.Date;
 public class User {
 
 	private int userNo;
-	private int userCode;
-	private String emailId; //이메일아이디
-	private String userPwd;	//비밀번호
+	private String userCode;    // 01 : 관리자 , 02 : 일반회원 , 03 :  사업자회원
+	private String emailId;		//이메일아이디
+	private String userPwd;		//비밀번호
 	private String userName;	//이름
 	private String userSsn;		//주민번호
 	private String userPhone;	//전화번호
 	private String userAddress;	//주소
-	private int point;		//적립금
-	private String bNumber; //사업자번호
-	private String bName;	//사업자명
-	private Date joinDate; //가입일
-	private String status;	//상태  N: 가입 회원, Y:탈퇴회원 
+	private int point;			//적립금
+	private String bNumber; 	//사업자번호   **일반회원일 경우 null
+	private String bName;		//사업자명   **일반회원일 경우 null
+	private Date joinDate; 		//가입일
+	private String status;		//상태  N: 가입 회원, Y:탈퇴회원 
 	
 public User() {
 }
 
+//유저 업데이트용 생성자
+
+public User(String emailId, String userPwd, String userPhone, String userAddress) {
+	super();
+	this.emailId = emailId;
+	this.userPwd = userPwd;
+	this.userPhone = userPhone;
+	this.userAddress = userAddress;
+}
+
 //일반회원 생성자
-public User(int userCode, String emailId, String userPwd, String userName, String userSsn, String userPhone,
+
+public User(String userCode, String emailId, String userPwd, String userName, String userSsn, String userPhone,
 		String userAddress) {
 	super();
 	this.userCode = userCode;
@@ -32,11 +43,11 @@ public User(int userCode, String emailId, String userPwd, String userName, Strin
 	this.userSsn = userSsn;
 	this.userPhone = userPhone;
 	this.userAddress = userAddress;
-
+	
 }
 
 //사업자회원 생성자
-public User(int userCode, String emailId, String userPwd, String userName, String userSsn, String userPhone,
+public User(String userCode, String emailId, String userPwd, String userName, String userSsn, String userPhone,
 		String userAddress, String bNumber, String bName) {
 	super();
 	this.userCode = userCode;
@@ -60,11 +71,11 @@ public void setUserNo(int userNo) {
 	this.userNo = userNo;
 }
 
-public int getUserCode() {
+public String getUserCode() {
 	return userCode;
 }
 
-public void setUserCode(int userCode) {
+public void setUserCode(String userCode) {
 	this.userCode = userCode;
 }
 

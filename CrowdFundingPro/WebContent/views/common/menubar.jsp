@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="com.kh.user.model.vo.User" %>
 
 <%
-	String contextPath = request.getContextPath();
+	User loginUser = (User)session.getAttribute("loginUser");
+	String msg = (String)session.getAttribute("msg");
 %>
 
 <!DOCTYPE html>
@@ -13,31 +15,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
 
-
+<!-- 다크모드 css -->
+<link
+	href="./resources/css/darkTheme.css"
+	rel="stylesheet">
 </head>
 
 
 <body>
-	<!-- navbar -->
+	
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark"
-		style="padding-left: 200px; padding-right: 200px;">
-		<!-- brand -->
-		<a href="#" class="navbar-brand">사이트 이름</a>
+		style="padding-left: 130px; padding-right: 130px;">
+		<a href="<%=request.getContextPath() %>" class="navbar-brand" style="font-size:22px;">CROWD FUND!NG</a> <!-- 클릭하면 메인 페이지로 이동  -->
+		
 
-		<!-- links -->
 		<ul class="navbar-nav">
-			<li class="nav-item"><a href="#" class="nav-link">펀딩하기</a></li>
+			<li class="nav-item"><a href="#" class="nav-link">펀딩하기</a></li> <!-- 펀딩페이지 링크 -->
 
-			<li class="nav-item"><a href="#" class="nav-link">채용공고</a></li>
+			<li class="nav-item"><a href="<%= request.getContextPath() %>/recruitList.do" class="nav-link">채용공고</a></li>
 
-			<!-- dropdowns -->
-			<li class="nav-item dropdown"><a href="#"
-				class="nav-link dropdown-toggle" id="navbardrop"
-				data-toggle="dropdown"> 더보기 </a>
+			<li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown"> 더보기 </a>
 				<div class="dropdown-menu">
+
 					<a href="" class="dropdown-item">공지사항</a> <a href=""
 						class="dropdown-item">펀딩스쿨</a> <a href="#" class="dropdown-item" onclick="goFaq();">문의하기</a>
 				</div></li>
+
+					<a href="" class="dropdown-item">공지사항</a>  <!-- 채용페이지 링크 -->
+					<a href="" class="dropdown-item">펀딩스쿨</a>  <!-- 강의페이지 링크 -->
+					<a href="" class="dropdown-item">문의하기</a>  <!-- FAQ페이지 링크 -->
+				</div>
+			</li>
+
 		</ul>
 		<script>
 			/* 문의사항 == FAQ */
@@ -46,15 +55,30 @@
 			}
 		</script>
 
-		<!-- 회원관리 오른쪽 붙이기 ml-auto -->
 		<ul class="navbar-nav ml-auto">
-			<!-- <span class="navbar-text"> <i class="fas fa-search"></i> </span> -->
-			<li class="nav-item"><a href="#" class="nav-link"> <i
-					class="fas fa-search fa-lg"></i>
-			</a></li>
+			
+			<!--  검색 아이콘   **추가기능** -->
+			<li class="nav-item"> <a href="#" class="nav-link"> <i class="fas fa-search fa-lg"></i> </a> </li>
+			
+			<%if (loginUser == null) { %>  <!-- 로그인 전 -->
 			<li class="nav-item"><a href="<%=request.getContextPath() %>/loginForm.me" class="nav-link">로그인</a></li>
 			<li class="nav-item"><a href="<%=request.getContextPath() %>/enrollForm.me"class="nav-link">회원가입</a></li>
+			<%} else { %> <!-- 로그인 후 -->
+			<li class="nav-item"><a href="<%=request.getContextPath() %>/mypage.me" class="nav-link">마이페이지</a></li>
+			<li class="nav-item"><a href="<%=request.getContextPath() %>/logout.me" class="nav-link">로그아웃</a></li>
+			
+			<% } %>
+			<li class="nav-item"><button id="colorTheme" class="nav-link" onclick="colorTheme();">다크모드</button></li>
+			
 		</ul>
 	</nav>
 </body>
+<script>
+
+	function colorTheme(){
+    	$('body').toggleClass('dark-theme');
+	}
+
+    
+    </script>
 </html>

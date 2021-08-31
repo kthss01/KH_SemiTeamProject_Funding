@@ -14,11 +14,10 @@ public class JDBCTemplate {
 
 		Connection conn = null;
 
+
 		Properties prop = new Properties();
 
 		String fileName = JDBCTemplate.class.getResource("/sql/driver/driver.properties").getPath();
-
-		 System.out.println(fileName);
 
 		try {
 			prop.load(new FileReader(fileName));
@@ -35,7 +34,7 @@ public class JDBCTemplate {
 			conn = DriverManager.getConnection(url, user, password);
 
 			conn.setAutoCommit(false);
-
+		
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {

@@ -1,6 +1,7 @@
 package com.kh.user.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,21 +9,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.kh.user.model.service.UserService;
 import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class UserInsertServlet
+ *  ****************************** 테스트중
  */
-@WebServlet("/insert.me")
-public class UserInsertServlet extends HttpServlet {
+@WebServlet("/gLogin.me")
+public class GoogleLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserInsertServlet() {
+    public GoogleLoginServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,39 +33,42 @@ public class UserInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		
-		String userName = request.getParameter("userName");
 		String emailId = request.getParameter("emailId");
-		String userPwd = request.getParameter("userPwd");
-		String userSsn = request.getParameter("userSsn");
-		String phone = request.getParameter("phone");
-		String address = request.getParameter("address");
-		String userCode = request.getParameter("userCode");
-		String bNumber = request.getParameter("bNumber"); //사업자번호
-		String bName = request.getParameter("bName"); //사업자명
-		 
-		System.out.println("userCode : " + userCode);
+		String name = request.getParameter("name");
+		String pImg = request.getParameter("pImg");
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
 
-		User loginUser = new User(userCode, emailId, userPwd,userName, userSsn, phone, address);
-		if(userCode.equals("02")) {
-			loginUser.setbNumber(bNumber);
-			loginUser.setbName(bName);
-		}
+		User gLoginUser = new User();
+		gLoginUser.setEmailId(emailId);
+		gLoginUser.setUserName(name);
 		
-		int result = new UserService().insertUser(loginUser); //insert작업으로 성공여부를 가져옴
+		int result = new UserService().insertUser(gLoginUser); //insert작업으로 성공여부를 가져옴
 		
 		if(result > 0 ) {
-			request.getSession().setAttribute("msg", "회원가입성공");
+			request.getSession().setAttribute("msg", " 구글계정 회원가입 성공");
 			response.sendRedirect(request.getContextPath());
 		}else {
-			request.setAttribute("msg", "회원가입에 실패했습니다.");
+			request.setAttribute("msg", " 구글계정 회원가입 실패");
 			
 			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp"); //request에 정보가 있으니 RequestDispatcher 로 에러페이지로 보냄
 			view.forward(request,response);
 		}
 		
 		
+		
+		int duplicate = new UserService().emailIdCheck(emailId);
+		if(duplicate != 0) {
+			out.print("duplicate");
+		}else {
+			session.setAttribute("loginUser",gLoginUser);
+			out.print("gLoginSuccess");
+		}
+
+		out.flush();
+		out.close();
+
 	}
 
 	/**

@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.kh.recruit.model.vo.Recruitment" %>
+<%@ page import="com.kh.recruit.model.vo.RecruitCode" %>
+<%@ page import="com.kh.common.model.vo.PageInfo" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -28,9 +34,6 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
-    <!-- recruit custom css -->
-    <link rel="stylesheet" href="../css/recruit_custom.css">
 
     <style>
         .jumbotron {
@@ -61,9 +64,55 @@
             bottom: 0;
             visibility: show;
         }
+        
+        .carousel-item {
+		    height: 300px;
+		}
+		
+		.carousel-item>img {
+		    width: 100%;
+		    height: 100%;
+		    object-fit: cover;
+		}
     </style>
 
+	<script>
+		
+		const msg = '<%= (String)session.getAttribute("msg") %>';
+		if (msg !== 'null') {
+			alert(msg);
+			<% session.removeAttribute("msg"); %> // msg 출력 후 제거
+		}
+	
+	</script>
+
 </head>
+
+<%
+
+	ArrayList<Recruitment> list = (ArrayList<Recruitment>) request.getAttribute("list");
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	ArrayList<RecruitCode> code = (ArrayList<RecruitCode>) request.getAttribute("code");
+	
+	if (list == null || pi == null || code == null) {
+		session.setAttribute("msg", "잘못된 접근입니다.");
+		
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("location.href = '" + request.getContextPath() + "/views/common/errorPage.jsp';");
+		script.println("</script>");
+		script.close();
+		
+		return;
+	}
+	
+	int listCount = pi.getListCount();
+	int currentPage = pi.getCurrentPage();
+	int maxPage = pi.getMaxPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
+	
+%>
 
 <body>
     <!-- navbar -->
@@ -82,13 +131,13 @@
         <!-- slideshow -->
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="../../resources/images/recruit_img1.png" alt="img1">
+                <img src="<%= request.getContextPath() %>/resources/images/recruit_img1.png" alt="img1">
             </div>
             <div class="carousel-item">
-                <img src="../../resources/images/recruit_img2.png" alt="img2">
+                <img src="<%= request.getContextPath() %>/resources/images/recruit_img2.png" alt="img2">
             </div>
             <div class="carousel-item">
-                <img src="../../resources/images/recruit_img3.png" alt="img3">
+                <img src="<%= request.getContextPath() %>/resources/images/recruit_img3.png" alt="img3">
             </div>
         </div>
 
@@ -120,7 +169,7 @@
                     </ul>
                 </div>
             </div>
-            <img class="rounded" src="../../resources/images/recruit_process.png" alt="recruit_process">
+            <img class="rounded" src="<%= request.getContextPath() %>/resources/images/recruit_process.png" alt="recruit_process">
         </div>
 
         <!-- 채용 진행과정 step 구현 시도 -->
@@ -151,26 +200,12 @@
     <section class="container mt-5">
         <!-- 직무 구분 카테고리 button groups badges -->
         <div id="recruit_category" class="btn-group">
+        	<% for (RecruitCode c : code) { %>
             <button type="button" class="btn btn-secondary">
-                #전체
-                <span class="badge badge-light">49</span>
+                <%= c.getCode() %>
+                <span class="badge badge-light"><%= c.getCount() %></span>
             </button>
-            <button type="button" class="btn btn-secondary">
-                #개발직군
-                <span class="badge badge-light">14</span>
-            </button>
-            <button type="button" class="btn btn-secondary">
-                #마케팅
-                <span class="badge badge-light">5</span>
-            </button>
-            <button type="button" class="btn btn-secondary">
-                #경영지원
-                <span class="badge badge-light">6</span>
-            </button>
-            <button type="button" class="btn btn-secondary">
-                #신사업
-                <span class="badge badge-light">2</span>
-            </button>
+            <% } %>
         </div>
 
         <!-- 직무 검색 input groups -->
@@ -187,78 +222,56 @@
         <article id="recruit_table">
             <table class="table table-hover mt-5">
                 <tbody>
+                	<% for (Recruitment r : list) { %>
                     <tr>
-                        <td class="table-recruit-category text-info">[개발직군]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
-                                href="./recruit_content.jsp">기술 기획 (경력)</a></td>
+                        <td class="table-recruit-category">
+                        	<a class="text-decoration-none text-info"
+                                href="<%= request.getContextPath() %>/recruitContentList.do?rid=<%= r.getId() %>">[<%= r.getCode() %>]</a>
+                        </td>
+                        <td class="table-recruit-name" style="min-width: 200px;">
+                        	<a class="text-decoration-none text-dark"
+                                href="<%= request.getContextPath() %>/recruitContentList.do?rid=<%= r.getId() %>"><%= r.getTitle() %></a>
+                        </td>
                         <td class="table-recruit-kind"><span
-                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
-                        <td class="table-recruit-date"><span class="text-secondary">2021.07.28 ~ 2021.08.31</span></td>
+                                class="border border-info rounded-lg py-1 px-3 text-info"><%= r.getTime() %></span></td>
+                        <td class="table-recruit-date"><span class="text-secondary"><%= r.getDate() %></span></td>
                     </tr>
-
-                    <tr>
-                        <td class="table-recruit-category text-info">[개발직군]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
-                                href="./recruit_content.jsp">프론트엔드 개발자 (신입)</a></td>
-                        <td class="table-recruit-kind"><span
-                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
-                        <td class="table-recruit-date"><span class="text-secondary">2021.08.02 ~ 2021.08.31</span></td>
-                    </tr>
-
-                    <tr>
-                        <td class="table-recruit-category text-info">[개발직군]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
-                                href="./recruit_content.jsp">자바 백엔드 개발자 (경력)</a></td>
-                        <td class="table-recruit-kind"><span
-                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
-                        <td class="table-recruit-date"><span class="text-secondary">2021.08.02 ~ 2021.08.31</span></td>
-                    </tr>
-
-                    <tr>
-                        <td class="table-recruit-category text-info">[개발직군]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
-                                href="./recruit_content.jsp">QA 팀장</a></td>
-                        <td class="table-recruit-kind"><span
-                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
-                        <td class="table-recruit-date"><span class="text-secondary">2021.08.12 ~ 2021.08.31</span></td>
-                    </tr>
-
-                    <tr>
-                        <td class="table-recruit-category text-info">[신사업]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
-                                href="./recruit_content.jsp">와디즈 스토어 사업 개발 팀장</a></td>
-                        <td class="table-recruit-kind"><span
-                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
-                        <td class="table-recruit-date"><span class="text-secondary">2021.07.28 ~ 2021.08.31</span></td>
-                    </tr>
+                    <% } %>
                 </tbody>
             </table>
 
             <!--  pagination -->
             <ul class="pagination justify-content-center">
+            	
+            	<% if (currentPage == 1) { %>
+                <li class="page-item px-5 disabled">
+                <% } else { %>
                 <li class="page-item px-5">
-                    <a href="#" class="page-link border-0">&lt;</a>
+                <% } %>
+                    <button onclick="location.href='<%= request.getContextPath() %>/recruitList.do?currentPage=<%= currentPage - 1 %>'" class="page-link border-0">&lt;</button>
                 </li>
 
+                <% for (int p = startPage; p <= endPage; p++) { %>
+                	<% if (p == currentPage) { %>
                 <li class="page-item px-3 active">
-                    <a href="#" class="page-link border-0">1</a>
-                </li>
-
+                	<% } else { %>
                 <li class="page-item px-3">
-                    <a href="#" class="page-link border-0">2</a>
+                	<% } %>
+                    <button onclick="location.href='<%= request.getContextPath() %>/recruitList.do?currentPage=<%= p %>'" class="page-link border-0"><%= p %></button>
                 </li>
+                <% } %>
 
-                <li class="page-item px-3">
-                    <a href="#" class="page-link border-0">3</a>
-                </li>
-
+				<% if (currentPage == maxPage) {%>
+                <li class="page-item px-5 disabled">
+                <% } else { %>
                 <li class="page-item px-5">
-                    <a href="#" class="page-link border-0">&gt;</a>
+                <% } %>
+                    <button onclick="location.href='<%= request.getContextPath() %>/recruitList.do?currentPage=<%= currentPage + 1 %>'" class="page-link border-0">&gt;</button>
                 </li>
 
             </ul>
 
-            <button type="button" id="recruit_create_btn" class="btn btn-dark" data-toggle="modal"
+            <button type="button" id="recruit_create_btn" class="btn btn-dark <% if (loginUser == null || !loginUser.getUserCode().equals("01")) out.print("invisible"); %>" data-toggle="modal"
                 data-target="#recruit_create_modal">공고 등록</button>
         </article>
     </section>
@@ -279,7 +292,21 @@
                 <!-- Modal body -->
                 <div class="modal-body">
 
-                    <form id="recruit_create_form" action="recruitCreate.do">
+                    <form method="post" id="recruit_create_form" action="<%=request.getContextPath()%>/recruitInsert.do">
+
+						<!-- 공고 종류 일반 / 상시 -->
+                        <label>공고 종류</label>
+                        <div class="form-group">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="recruitTime" name="recruitTime" value="일반 채용" checked>
+                                <label for="recruitTime" class="custom-control-label">일반 채용</label>
+                            </div>
+    
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="recruitTime2" name="recruitTime" value="상시 채용">
+                                <label for="recruitTime2" class="custom-control-label">상시 채용</label>
+                            </div>
+                        </div>
 
                         <!-- 공고 시작일 ~ 공고 종료일 달력 선택 -->
                         <!-- <form-group>
@@ -304,17 +331,16 @@
                         <div class="form-group">
                             <label for="recruitName">공고명</label>
                             <input form="recruit_create_form" type="text" class="form-control" id="recruitName"
-                                placeholder="내용을 입력해주세요">
+                                name="recruitName" placeholder="내용을 입력해주세요">
                         </div>
 
                         <!-- 직무구분 -->
                         <!-- Custom Select Menu -->
                         <label>직무구분</label>
                         <select form="recruit_create_form" name="recruitCode" id="recruitCode" class="custom-select">
-                            <option value="개발직군">개발직군</option>
-                            <option value="신입">신입</option>
-                            <option value="경영지원">경영지원</option>
-                            <option value="신사업">신사업</option>
+                        	<% for (RecruitCode c : code) { %>
+                            <option value="<%= c.getCode() %>"><%= c.getCode() %></option>
+                          	<% } %>
                         </select>
 
                     </form>
@@ -406,7 +432,17 @@
                             </div>
                         </div>
                     </div>
+                    
+					<!-- toast -->
+					<div class="toast" style="position: absolute; bottom: 0; right: 0;">
+						<div class="toast-header">
+							내용이 비어 있습니다. 채워 넣어주세요
+						</div>
+						<div class="toast-body">
+						</div>
+					</div>
                 </div>
+
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
@@ -421,6 +457,8 @@
         $(function () {
             const startDate = moment(); // 시작일
             const endDate = moment().add(30, 'day'); // 종료일 -> 현재 시간 + 30일
+            $('#recruitStartDate').val(startDate.format('YYYY-MM-DD'));
+            $('#recruitEndDate').val(endDate.format('YYYY-MM-DD'));
 
             $('#daterange span').html(startDate.format('YYYY-MM-DD') + ' ~ ' + endDate.format('YYYY-MM-DD'));
 
@@ -439,6 +477,43 @@
                 $('#daterange span').html(start.format('YYYY-MM-DD') + ' ~ ' + end.format(
                     'YYYY-MM-DD'));
             });
+
+            $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+                //console.log(picker.startDate.format('YYYY-MM-DD'));
+                //console.log(picker.endDate.format('YYYY-MM-DD'));
+                const startDate = picker.startDate.format('YYYY-MM-DD');
+                const endDate = picker.endDate.format('YYYY-MM-DD');
+                $('#recruitStartDate').val(startDate);
+                $('#recruitEndDate').val(endDate);
+            });
+        });
+    </script>
+    
+    <!-- form content check -->
+    <!-- toast 사용 -->
+    <script>
+        $(function() {
+            $('#recruit_create_form').on("submit", function(e) {
+
+                let check = true;
+                let content = '';
+                $('.tab-content').find('textarea').each(function(index, item){
+                    if ($(item).val() === '') {
+                        //console.log($(item).parent().children('label').html());
+                        content += $(item).parent().children('label').text() + '<br>';
+                        check = false;
+                    }
+                });
+
+                if (!check) {
+                    $('.toast .toast-body').html(content);
+
+                    $('.toast').toast({delay: 2000});
+                    $('.toast').toast('show');
+                }
+                
+                return check;
+            })
         });
     </script>
 </body>

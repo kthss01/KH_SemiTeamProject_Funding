@@ -1,6 +1,7 @@
 package com.kh.user.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.kh.user.model.service.UserService;
+import com.kh.user.model.vo.User;
 
 /**
  * Servlet implementation class UserDeleteServlet
@@ -31,19 +33,31 @@ public class UserDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userId = request.getParameter("userId");
-		int result = new UserService().deleteUser(userId);
+		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
+
+		User loginUser = (User)session.getAttribute("loginUser");
 		
+		String emailId = loginUser.getEmailId();
+		System.out.println("deleteServlet emailId : " + emailId);
+
+		int result = new UserService().deleteUser(emailId);
+		System.out.println("servlet result : " + result);
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+
 		if(result > 0 ) {
-			HttpSession session = request.getSession();
+			out.print("deletesuccess");
 			session.removeAttribute("loginUser");
 			session.setAttribute("msg", "회원탈퇴가 완료되었습니다. 복구관련사항은 관리자에게 문의하세요");
-			response.sendRedirect(request.getContextPath());
 		}else {
-			request.setAttribute("msg", "로그인에 실패했습니다.");
+			out.print("deletfail");
+			request.setAttribute("msg", "회원탈퇴가 실패했습니다.");
 			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp");
 			view.forward(request, response);
 		}
+		out.flush();
+		out.close();
 	}
 
 	/**

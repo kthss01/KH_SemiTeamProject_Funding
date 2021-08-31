@@ -6,24 +6,26 @@ import static com.kh.common.JDBCTemplate.getConnection;
 import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import com.kh.user.model.dao.UserDao;
+import com.kh.user.model.vo.ULecture;
 import com.kh.user.model.vo.User;
 
 public class UserService {
 
-	public User loginUser(String userId, String userPwd) {
+	public User loginUser(String emailId, String userPwd) {
 		Connection conn = getConnection();
 	
-		User loginUser = new UserDao().loginUser(conn,userId,userPwd);
+		User loginUser = new UserDao().loginUser(conn,emailId,userPwd);
 		close(conn);
 		return loginUser;
 	}
 
-	public int insertUser(User mem) {
+	public int insertUser(User u) {
 		Connection conn = getConnection();
 		
-		int result = new UserDao().insertUser(conn,mem);
+		int result = new UserDao().insertUser(conn,u);
 		
 		if(result > 0 ) {
 			commit(conn);
@@ -35,33 +37,33 @@ public class UserService {
 		return result;
 	}
 
-	public User selectUser(String userId) {
+	public User selectUser(String emailId) {
 		Connection conn = getConnection();
 		
-		User mem = new UserDao().selectUser(conn, userId);
+		User u = new UserDao().selectUser(conn, emailId);
 		close(conn);
-		return mem;
+		return u;
 	}
 
-	public User updateUser(User m) {
+	public User updateUser(User u) {
 		Connection conn = getConnection();
 		
-		User updateMem = null;
-		int result = new UserDao().updateMmeber(conn,m);
+		User updateUser = null;
+		int result = new UserDao().updateMmeber(conn,u);
 		if(result>0) {
 			commit(conn);
-			updateMem = new UserDao().selectUser(conn, m.getEmailId());
+			updateUser = new UserDao().selectUser(conn, u.getEmailId());
 		}else {
 			rollback(conn);
 		}
 		close(conn);
-		return updateMem;
+		return updateUser;
 	}
 
-	public int deleteUser(String userId) {
+	public int deleteUser(String emailId) {
 		Connection conn = getConnection();
 		
-		int result = new UserDao().deleteUser(conn,userId);
+		int result = new UserDao().deleteUser(conn,emailId);
 		
 		if(result > 0 ) {
 			commit(conn);
@@ -73,19 +75,23 @@ public class UserService {
 		return result;
 	}
 
-	public User updatePwd(String userId, String userPwd, String newPwd) {
-Connection conn = getConnection();
+	public int emailIdCheck(String emailId) {
+		Connection conn = getConnection();
 		
-		User updateMem = null;
-		int result = new UserDao().updatePwd(conn,userId, userPwd, newPwd);
-		if(result>0) {
-			commit(conn);
-			updateMem = new UserDao().selectUser(conn, userId);
-		}else {
-			rollback(conn);
-		}
+		int result = new UserDao().emailIdCheck(conn,emailId);
+		
 		close(conn);
-		return updateMem;
+
+		return result;
+	}
+
+	public ArrayList<ULecture> selectLectureList(String emailId) {
+		Connection conn = getConnection();
+		ArrayList<ULecture> list = new UserDao().selectLectureList(conn, emailId);
+		close(conn);
+		
+		
+		return list;
 	}
 
 }

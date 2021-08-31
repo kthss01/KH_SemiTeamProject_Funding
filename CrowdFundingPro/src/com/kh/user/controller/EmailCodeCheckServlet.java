@@ -1,28 +1,26 @@
 package com.kh.user.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.kh.user.model.service.UserService;
-import com.kh.user.model.vo.User;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class UserUpdatePwdServlet
+ * Servlet implementation class EmailCodeCheckServlet
  */
-@WebServlet("/updatePwd.me")
-public class UserUpdatePwdServlet extends HttpServlet {
+@WebServlet("/emailCodeCheck.me")
+public class EmailCodeCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserUpdatePwdServlet() {
+    public EmailCodeCheckServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,21 +29,25 @@ public class UserUpdatePwdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userId = ((User)request.getSession().getAttribute("loginUser")).getEmailId();
-		String userPwd = request.getParameter("userPwd");
-		String newPwd = request.getParameter("newPwd");
-		
-		User updateMem = new UserService().updatePwd(userId, userPwd,newPwd);
-		
-		RequestDispatcher view = request.getRequestDispatcher("views/User/pwdUpdateForm.jsp");
-		if(updateMem != null) {
-			request.setAttribute("sTag", "Y");
-			request.setAttribute("msg", "성공적으로 비밀번호를 변경하였습니다.");
-			request.getSession().setAttribute("loginUser", updateMem);
+		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
+		PrintWriter out = response.getWriter();
+
+		String emailCode = request.getParameter("emailCode");
+		System.out.println("인증코드 확인 서블릿 사용자 입력 코드  : " + emailCode);
+	
+		String AuthenticationKey = (String)session.getAttribute("AuthenticationKey");
+		System.out.println("인증코드 확인 서블릿 세션 보유 코드  : " + AuthenticationKey);
+		response.setCharacterEncoding("UTF-8");
+		System.out.println(AuthenticationKey.equals(emailCode));
+		if(AuthenticationKey.equals(emailCode)) {
+			out.print("check");
 		}else {
-			request.setAttribute("msg", "비밀번호 변경에 실패했습니다.");
+			out.print("uncheck");
 		}
-		view.forward(request, response);
+		out.flush();
+		out.close();
+		
 	}
 
 	/**
