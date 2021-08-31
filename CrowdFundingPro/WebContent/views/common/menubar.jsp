@@ -32,13 +32,13 @@
 		<ul class="navbar-nav">
 			<li class="nav-item"><a href="#" class="nav-link">펀딩하기</a></li> <!-- 펀딩페이지 링크 -->
 
-			<li class="nav-item"><a href="<%= request.getContextPath() %>/recruitList.do" class="nav-link">채용공고</a></li>
+			<li class="nav-item"><a href="<%= request.getContextPath() %>/recruitPage.do" class="nav-link">채용공고</a></li>
 
 			<li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown"> 더보기 </a>
 				<div class="dropdown-menu">
 
-					<a href="" class="dropdown-item">공지사항</a> 
-					<a href="" class="dropdown-item">펀딩스쿨</a>
+					<a href="#" class="dropdown-item">공지사항</a> 
+					<a href="#" class="dropdown-item">펀딩스쿨</a>
 					<a href="#" class="dropdown-item" onclick="goFaq();">문의하기</a>
 						
 				</div>
@@ -65,7 +65,7 @@
 			<li class="nav-item"><a href="<%=request.getContextPath() %>/logout.me" class="nav-link">로그아웃</a></li>
 			
 			<% } %>
-			<li class="nav-item"><button id="colorTheme" class="nav-link" onclick="colorTheme();">다크모드</button></li>
+			<li class="nav-item"><a id="colorTheme" role="button" class="nav-link" onclick="colorTheme();">다크모드</a></li>
 			
 		</ul>
 	</nav>

@@ -83,36 +83,22 @@
 			alert(msg);
 			<% session.removeAttribute("msg"); %> // msg 출력 후 제거
 		}
+		
+		$(function() {
+			$.ajax(function() {
+				url : "recruitList.do",
+				done : function(result) {
+					console.log(result);
+				},
+				fail : function(e) {
+					console.log("ajax 통신 실패");
+				}
+			});
+		})
 	
 	</script>
 
 </head>
-
-<%
-
-	ArrayList<Recruitment> list = (ArrayList<Recruitment>) request.getAttribute("list");
-	PageInfo pi = (PageInfo)request.getAttribute("pi");
-	ArrayList<RecruitCode> code = (ArrayList<RecruitCode>) request.getAttribute("code");
-	
-	if (list == null || pi == null || code == null) {
-		session.setAttribute("msg", "잘못된 접근입니다.");
-		
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("location.href = '" + request.getContextPath() + "/views/common/errorPage.jsp';");
-		script.println("</script>");
-		script.close();
-		
-		return;
-	}
-	
-	int listCount = pi.getListCount();
-	int currentPage = pi.getCurrentPage();
-	int maxPage = pi.getMaxPage();
-	int startPage = pi.getStartPage();
-	int endPage = pi.getEndPage();
-	
-%>
 
 <body>
     <!-- navbar -->
@@ -200,12 +186,8 @@
     <section class="container mt-5">
         <!-- 직무 구분 카테고리 button groups badges -->
         <div id="recruit_category" class="btn-group">
-        	<% for (RecruitCode c : code) { %>
-            <button type="button" class="btn btn-secondary">
-                <%= c.getCode() %>
-                <span class="badge badge-light"><%= c.getCount() %></span>
-            </button>
-            <% } %>
+        	<%-- ajax 처리 시 수정 --%>
+        	
         </div>
 
         <!-- 직무 검색 input groups -->
@@ -222,53 +204,16 @@
         <article id="recruit_table">
             <table class="table table-hover mt-5">
                 <tbody>
-                	<% for (Recruitment r : list) { %>
-                    <tr>
-                        <td class="table-recruit-category">
-                        	<a class="text-decoration-none text-info"
-                                href="<%= request.getContextPath() %>/recruitContentList.do?rid=<%= r.getId() %>">[<%= r.getCode() %>]</a>
-                        </td>
-                        <td class="table-recruit-name" style="min-width: 200px;">
-                        	<a class="text-decoration-none text-dark"
-                                href="<%= request.getContextPath() %>/recruitContentList.do?rid=<%= r.getId() %>"><%= r.getTitle() %></a>
-                        </td>
-                        <td class="table-recruit-kind"><span
-                                class="border border-info rounded-lg py-1 px-3 text-info"><%= r.getTime() %></span></td>
-                        <td class="table-recruit-date"><span class="text-secondary"><%= r.getDate() %></span></td>
-                    </tr>
-                    <% } %>
+                	<%-- ajax 처리시 수정 --%>
+                	
                 </tbody>
             </table>
 
             <!--  pagination -->
             <ul class="pagination justify-content-center">
             	
-            	<% if (currentPage == 1) { %>
-                <li class="page-item px-5 disabled">
-                <% } else { %>
-                <li class="page-item px-5">
-                <% } %>
-                    <button onclick="location.href='<%= request.getContextPath() %>/recruitList.do?currentPage=<%= currentPage - 1 %>'" class="page-link border-0">&lt;</button>
-                </li>
-
-                <% for (int p = startPage; p <= endPage; p++) { %>
-                	<% if (p == currentPage) { %>
-                <li class="page-item px-3 active">
-                	<% } else { %>
-                <li class="page-item px-3">
-                	<% } %>
-                    <button onclick="location.href='<%= request.getContextPath() %>/recruitList.do?currentPage=<%= p %>'" class="page-link border-0"><%= p %></button>
-                </li>
-                <% } %>
-
-				<% if (currentPage == maxPage) {%>
-                <li class="page-item px-5 disabled">
-                <% } else { %>
-                <li class="page-item px-5">
-                <% } %>
-                    <button onclick="location.href='<%= request.getContextPath() %>/recruitList.do?currentPage=<%= currentPage + 1 %>'" class="page-link border-0">&gt;</button>
-                </li>
-
+            	<%-- ajax 처리시 수정 --%>
+            	
             </ul>
 
             <button type="button" id="recruit_create_btn" class="btn btn-dark <% if (loginUser == null || !loginUser.getUserCode().equals("01")) out.print("invisible"); %>" data-toggle="modal"
@@ -338,9 +283,8 @@
                         <!-- Custom Select Menu -->
                         <label>직무구분</label>
                         <select form="recruit_create_form" name="recruitCode" id="recruitCode" class="custom-select">
-                        	<% for (RecruitCode c : code) { %>
-                            <option value="<%= c.getCode() %>"><%= c.getCode() %></option>
-                          	<% } %>
+                        	<%-- ajax 처리시 수정 --%>
+                        	
                         </select>
 
                     </form>
