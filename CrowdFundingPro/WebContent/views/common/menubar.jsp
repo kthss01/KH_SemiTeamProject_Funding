@@ -25,8 +25,8 @@
 <body>
 	
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark"
-		style="padding-left: 200px; padding-right: 200px;">
-		<a href="<%=request.getContextPath() %>" class="navbar-brand">사이트 이름</a> <!-- 클릭하면 메인 페이지로 이동  -->
+		style="padding-left: 130px; padding-right: 130px;">
+		<a href="<%=request.getContextPath() %>" class="navbar-brand" style="font-size:22px;">CROWD FUND!NG</a> <!-- 클릭하면 메인 페이지로 이동  -->
 		
 
 		<ul class="navbar-nav">

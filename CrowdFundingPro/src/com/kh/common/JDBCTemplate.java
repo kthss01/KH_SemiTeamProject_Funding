@@ -15,7 +15,6 @@ public class JDBCTemplate {
 
 	public static Connection getConnection() {
 
-		if (conn == null) {
 
 			Properties prop = new Properties();
 
@@ -45,7 +44,7 @@ public class JDBCTemplate {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		
 
 		return conn;
 

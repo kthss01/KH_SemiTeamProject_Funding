@@ -9,8 +9,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
+import com.kh.user.model.vo.ULecture;
 import com.kh.user.model.vo.User;
 
 public class UserDao {
@@ -136,6 +138,7 @@ public class UserDao {
 
 		String sql = prop.getProperty("selectUser");
 		//selectUser=SELECT * FROM USER_TB WHERE EMAIL_ID=? AND STATUS='N'
+//selectUser=SELECT * FROM USER_TB WHERE EMAIL_ID=? AND STATUS='N'
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -151,10 +154,10 @@ public class UserDao {
 				u.setUserName(rset.getString("USER_NAME"));
 				u.setUserPhone(rset.getString("PHONE_NUMBER"));
 				u.setUserAddress(rset.getString("USER_ADDRESS"));
-				u.setPoint(rset.getInt("POINT"));
-						
-						
+				u.setPoint(rset.getInt("POINT"));		
 			}
+			
+			System.out.println("userDao User : " + u);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -249,6 +252,41 @@ public class UserDao {
 		}
 
 		return result;
+	}
+
+	public ArrayList<ULecture> selectLectureList(Connection conn, String emailId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;		
+		ArrayList<ULecture> list = new ArrayList<ULecture>();
+		String sql = "SELECT * FROM VW_LEC_INFO WHERE EMAIL_ID =?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, emailId);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+
+				list.add(new ULecture(
+						rset.getInt("USER_NO"),
+						rset.getString("EMAIL_ID"),
+						rset.getString("LECTURE_CODE"),
+						rset.getString("LECTURE_TITLE"),
+						rset.getString("LECTURE_TOPIC"),
+						rset.getDate("LECTURE_DATE")
+						));
+			
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 	}
 
 
