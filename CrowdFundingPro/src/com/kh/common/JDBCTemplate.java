@@ -12,6 +12,7 @@ import java.util.Properties;
 public class JDBCTemplate {
 	public static Connection getConnection() {
 
+		Connection conn = null;
 
 
 		Properties prop = new Properties();
@@ -33,15 +34,6 @@ public class JDBCTemplate {
 			conn = DriverManager.getConnection(url, user, password);
 
 			conn.setAutoCommit(false);
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		
 		} catch (IOException e) {
 			e.printStackTrace();
