@@ -43,7 +43,7 @@
 
             .box {
                 width: 1300px;
-                height: 1000px;
+                height: 1200px;
                 margin: 0 auto;
 
             }
@@ -75,7 +75,7 @@
 
             .section {
                 width: 50%;
-                height: 700px;
+                height: 600px;
                 float: left;
                 padding-left:30px;
                 padding-right:30px;
@@ -98,8 +98,17 @@
                 text-decoration: none;
 
             }
+            #myPageTitle{
+             width:100%;
+             height:220px;
+             background-color: rgb(100, 220, 177,.3); 
+             padding-bottom: 40px;
+             padding-top:100px; 
+             margin-bottom:20px;
+            }
+            
 
-            #myPage h1 {
+            #myPageTitle h1 {
                 position: relative;
                 left: 20%;
                 font-size: 35px;
@@ -118,7 +127,7 @@
             }
             .modify .profileBtn {
                 width: 100%;
-                height: 50px;
+                height: 40px;
                 border-radius: 30px;
                 border: 2px solid rgb(100, 220, 167,.5);
                 margin: 10px;
@@ -149,70 +158,104 @@
 				margin-bottom:5px;
 				margin-top:5px;
 			}
+			
+			.card:hover{
+    		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.2);
+    		cursor:pointer;
+
+			}
+
         </style>
     </head>
     <body>
 	<%@ include file="../common/menubar.jsp"%>
-		<div id="myPage" style="width:100%; height:220px; background-color: rgb(100, 220, 177,.3);  padding-bottom: 40px; padding-top:100px; margin-bottom:20px;">
+		<div id="myPageTitle">
 		        <h1>마이페이지</h1>
 		</div>
 
-        <div class="box">
-            <div class="content1">
-                <div class="profile">
-                    <div class="profileImg" style="margin:0 auto;">
-                        <img src="https://us.123rf.com/450wm/thesomeday123/thesomeday1231712/thesomeday123171200008/91087328-%EC%97%AC%EC%84%B1%EC%9A%A9-%EA%B8%B0%EB%B3%B8-%EC%95%84%EB%B0%94%ED%83%80-%ED%94%84%EB%A1%9C%ED%95%84-%EC%95%84%EC%9D%B4%EC%BD%98-%ED%9A%8C%EC%83%89-%EC%82%AC%EC%A7%84-%EC%9E%90%EB%A6%AC-%ED%91%9C%EC%8B%9C-%EC%9E%90-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%EB%B2%A1%ED%84%B0.jpg?ver=6"
-                        width=200px; height=200px;>
-                        <br>
-                        <p style="font-size: 20px;">
-                           <b> <%=loginUser.getUserName()%></b>님 어서오세요!</p>
-                        <p style="font-size: 18px;">
-                      		적립금 : <%=loginUser.getPoint()%> 원</p>
-                    </div>
-                    <div class="modify" style="margin:0 auto;">
-                   
-                        <input class="profileBtn" type='button' value='정보수정' onclick="checkPwd();"></input> <br>
-                        <input class="profileBtn" type='button' value='로그아웃' onclick="logout();"></input>
-                    </div>
-                </div>
-            </div>
+	<div class="box">
+		<div class="content1">
+			<div class="profile">
+				<div class="profileImg" style="margin: 0 auto;">
+					<img id="pImg"
+						src=""
+						width=200px; height=200px;/> <br>
+					<p style="font-size: 20px;">
+						<b> <%=loginUser.getUserName()%></b>님 어서오세요!
+					</p>
+					<p style="font-size: 18px;">
+						POINT :
+						<b><%=loginUser.getPoint()%></b>
+						원
+					</p>
+				</div>
+				<div class="modify" style="margin: 0 auto;">
 
-            <div class="content2">
- 			 <div class="section project ">
-                    <h3>내가 참여한 프로젝트</h3>
-                    <div class="card"">
-                        <div class="card-img-top"></div>
-                        <div class="card-body">
-                            <h2 class="card-title h5">티셔츠 입고 보육원 후원하자</h2>
-                            <div class="small text-muted">수 많은 보육시설 아이들을 지켜주세요
-                            </div>
-                        </div>
-                    </div>
- 
-                </div>
-                <div class="section lecture">
-                    <h3>내가 듣는 강의</h3>
-					<% for (ULecture l : lList) { %>
-                    
-                    <div class="card" style="width:100%; margin-bottom:10px;">
-                        <div class="card-img-top" style="width:100%;"></div>
-                        <div class="card-body" style=" padding: 10px; height: 100px;">
-                            <h2 class="card-title h5" style="margin-bottom: 5px; margin-top: 5px;"><%=l.getLTitle()  %></h2>
-                            <div class="small text-muted"><%=l.getLTopic() %>
-                            <div class="small text-muted"><%=l.getLDate() %>                                       
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-         <%} %>
-            </div>
+					<input class="profileBtn" type='button' value='정보수정'
+						onclick="checkPwd();"></input> <br> <input class="profileBtn"
+						type='button' value='로그아웃' onclick="logout();"></input>
+				</div>
+			</div>
+		</div>
 
-        </div>
-        
-	<%@ include file="../common/footer.jsp"%>
+		<div class="content2">
+			<div class="section project ">
+				<h3>내가 참여한 프로젝트</h3>
+				<div class="card">
+					<div class="card-img-top"></div>
+					<div class="card-body">
+						<h2 class="card-title h5">티셔츠 입고 보육원 후원하자</h2>
+						<div class="small text-muted">수 많은 보육시설 아이들을 지켜주세요</div>
+					</div>
+				</div>
 
-    </body>
+			</div>
+			
+			
+			<div class="section project ">
+				<h3>나의 관심 프로젝트</h3>
+				<div class="card">
+					<div class="card-img-top"></div>
+					<div class="card-body">
+						<h2 class="card-title h5">티셔츠 입고 보육원 후원하자</h2>
+						<div class="small text-muted">수 많은 보육시설 아이들을 지켜주세요</div>
+					</div>
+				</div>
+
+			</div>
+			
+		
+			
+			<div class="section lecture" style="width:100%;">
+				<h3>내가 듣는 강의</h3>
+				<%
+					for (ULecture l : lList) {
+				%>
+				<div class="card" >
+					<div class="card-img-top"></div>
+					<div class="card-body">
+						<h2 class="card-title h5"><%=l.getLTitle()%></h2>
+						<div class="small text-muted"><%=l.getLTopic()%>
+							<div class="small text-muted"><%=l.getLDate()%>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<%
+					}
+				%>
+				
+			</div>
+		</div>
+	</div>
+
+	<div class="footer">
+		<%@ include file="../common/footer.jsp"%>
+
+	</div>
+
+</body>
     
     <script>
 	
@@ -235,5 +278,26 @@
 	function update(){
 		location.href = "<%= request.getContextPath() %>/updateForm.me ";
 		}
+	
+	$(function(){
+		
+		// 성별에 따른 동적 프로필 이미지 src 할당
+		
+		var ssn = "<%= loginUser.getUserSsn() %>";
+		var g = ssn.charAt(7);
+		if(g=='2' || g=='4'){
+		//여자 프로필이미지
+			$("#pImg").attr("src","https://us.123rf.com/450wm/thesomeday123/thesomeday1231712/thesomeday123171200008/91087328-%EC%97%AC%EC%84%B1%EC%9A%A9-%EA%B8%B0%EB%B3%B8-%EC%95%84%EB%B0%94%ED%83%80-%ED%94%84%EB%A1%9C%ED%95%84-%EC%95%84%EC%9D%B4%EC%BD%98-%ED%9A%8C%EC%83%89-%EC%82%AC%EC%A7%84-%EC%9E%90%EB%A6%AC-%ED%91%9C%EC%8B%9C-%EC%9E%90-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%EB%B2%A1%ED%84%B0.jpg?ver=6")
+			console.log($("#pImg"))
+		
+		}else{
+		//남자 프로필이미지
+
+			$("#pImg").attr("src","https://us.123rf.com/450wm/thesomeday123/thesomeday1231712/thesomeday123171200009/91087331-%EB%82%A8%EC%84%B1%EC%9D%84%EC%9C%84%ED%95%9C-%EA%B8%B0%EB%B3%B8-%EC%95%84%EB%B0%94%ED%83%80-%ED%94%84%EB%A1%9C%ED%95%84-%EC%95%84%EC%9D%B4%EC%BD%98-%ED%9A%8C%EC%83%89-%EC%82%AC%EC%A7%84-%EC%9E%90%EB%A6%AC-%ED%91%9C%EC%8B%9C-%EC%9E%90-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%EB%B2%A1%ED%84%B0.jpg?ver=6")
+			console.log($("#pImg"))			
+		}
+	});
+
+
 	</script>
 </html>
