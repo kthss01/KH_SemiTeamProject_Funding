@@ -14,27 +14,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>마이페이지</title>
-        <link
-            href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
-            rel="stylesheet"/>
 
-        <!-- bootstrap 4 -->
-        <link
-            rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script
-            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-        <!-- fontawesome bootstrap 4 용 icon -->
-        <link
-            rel="stylesheet"
-            href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-            integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-            crossorigin="anonymous"/>
-
+       
 		<link
 			href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
 		         mily=Nanum+Gothic&family=Roboto&display=swap"
