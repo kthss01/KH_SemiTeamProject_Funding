@@ -28,7 +28,7 @@
 		
 
 		<ul class="navbar-nav">
-			<li class="nav-item"><a href="#" class="nav-link">펀딩하기</a></li> <!-- 펀딩페이지 링크 -->
+			<li class="nav-item"><a href="views/project/projectListView.jsp" class="nav-link">펀딩하기</a></li> <!-- 펀딩페이지 링크 -->
 
 			<li class="nav-item"><a href="#" class="nav-link">채용공고</a></li> <!-- 채용페이지 링크 -->
 
