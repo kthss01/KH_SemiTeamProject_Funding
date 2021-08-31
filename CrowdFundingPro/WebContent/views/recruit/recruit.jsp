@@ -440,6 +440,7 @@
 				url : 'recruitListCode.do',
 				success : function(code) {
 					setCode(code);
+					setModalCode(code);
 				},
 				error : function(e) {
 					console.log("ajax 통신 실패");
@@ -476,6 +477,16 @@
 	          		</button>
 				`);
 				
+			});
+		}
+		
+		function setModalCode(codes) {
+			$('#recruitCode').html('');
+			
+			codes.forEach((code) => {
+				$('#recruitCode').append(`
+					<option value="\${code.code}">\${code.code}</option>
+				`);
 			});
 		}
 		
