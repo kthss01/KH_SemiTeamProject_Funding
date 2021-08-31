@@ -6,8 +6,10 @@ import static com.kh.common.JDBCTemplate.getConnection;
 import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import com.kh.user.model.dao.UserDao;
+import com.kh.user.model.vo.ULecture;
 import com.kh.user.model.vo.User;
 
 public class UserService {
@@ -81,6 +83,15 @@ public class UserService {
 		close(conn);
 
 		return result;
+	}
+
+	public ArrayList<ULecture> selectLectureList(String emailId) {
+		Connection conn = getConnection();
+		ArrayList<ULecture> list = new UserDao().selectLectureList(conn, emailId);
+		close(conn);
+		
+		
+		return list;
 	}
 
 }
