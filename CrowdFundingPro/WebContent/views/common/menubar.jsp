@@ -39,8 +39,8 @@
 </head>
 
 
-<body>
-	
+<body>	
+충돌테스트충돌테스트충돌테스트충돌테스트충돌테스트충돌테스트충돌테스트충돌테스트
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark"
 		style="padding-left: 130px; padding-right: 130px;">
 		<a href="<%=request.getContextPath() %>" class="navbar-brand" style="font-size:22px;">CROWD FUND!NG</a> <!-- 클릭하면 메인 페이지로 이동  -->
@@ -55,7 +55,7 @@
 				<div class="dropdown-menu">
 
 					<a href="#" class="dropdown-item">공지사항</a> 
-					<a href="#" class="dropdown-item">펀딩스쿨</a>
+					<a href="<%= request.getContextPath() %>/lecture.le" class="dropdown-item">펀딩스쿨</a>
 					<a href="#" class="dropdown-item" onclick="goFaq();">문의하기</a>
 						
 				</div>
