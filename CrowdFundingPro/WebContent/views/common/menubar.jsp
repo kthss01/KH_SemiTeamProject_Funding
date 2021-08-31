@@ -15,10 +15,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
 
-<!-- 다크모드 css -->
+	<!-- 다크모드 css -->
 <link
 	href="./resources/css/darkTheme.css"
 	rel="stylesheet">
+	
+	<!-- bootstrap 4 -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- fontawesome bootstrap 4 용 icon -->
+<link rel="stylesheet"
+	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+	crossorigin="anonymous" />
+	
 </head>
 
 
@@ -37,8 +54,8 @@
 			<li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown"> 더보기 </a>
 				<div class="dropdown-menu">
 
-					<a href="" class="dropdown-item">공지사항</a> 
-					<a href="" class="dropdown-item">펀딩스쿨</a>
+					<a href="#" class="dropdown-item">공지사항</a> 
+					<a href="#" class="dropdown-item">펀딩스쿨</a>
 					<a href="#" class="dropdown-item" onclick="goFaq();">문의하기</a>
 						
 				</div>
@@ -65,8 +82,7 @@
 			<li class="nav-item"><a href="<%=request.getContextPath() %>/logout.me" class="nav-link">로그아웃</a></li>
 			
 			<% } %>
-			<li class="nav-item"><button id="colorTheme" class="nav-link" onclick="colorTheme();">다크모드</button></li>
-			
+			<li class="nav-item"><a id="colorTheme" role="button" class="nav-link" onclick="colorTheme();">다크모드</a></li>
 		</ul>
 	</nav>
 </body>
