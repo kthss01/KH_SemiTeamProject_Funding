@@ -36,7 +36,7 @@
             font-weight: bold;
         }
 
-        #recruit_category button {
+        #recruit_code button {
             margin: 0.1rem;
             border-radius: 5rem;
         }
@@ -63,26 +63,12 @@
 		}
     </style>
 
-	<script>
-		
+	<script>		
 		const msg = '<%= (String)session.getAttribute("msg") %>';
 		if (msg !== 'null') {
 			alert(msg);
 			<% session.removeAttribute("msg"); %> // msg 출력 후 제거
 		}
-		
-		$(function() {
-			$.ajax({
-				url : "recruitList.do",
-				success : function(result) {
-					console.log(result);
-				},
-				error : function(e) {
-					console.log("ajax 통신 실패");
-				}
-			});
-		});
-	
 	</script>
 
 </head>
@@ -172,9 +158,8 @@
 
     <section class="container mt-5">
         <!-- 직무 구분 카테고리 button groups badges -->
-        <div id="recruit_category" class="btn-group">
-        	<%-- ajax 처리 시 수정 --%>
-        	
+        <div id="recruit_code" class="btn-group">
+        	<%-- ajax 처리 시 setCode --%>
         </div>
 
         <!-- 직무 검색 input groups -->
@@ -191,16 +176,13 @@
         <article id="recruit_table">
             <table class="table table-hover mt-5">
                 <tbody>
-                	<%-- ajax 처리시 수정 --%>
-                	
+                	<%-- ajax 처리시 setTable--%>
                 </tbody>
             </table>
 
             <!--  pagination -->
             <ul class="pagination justify-content-center">
-            	
-            	<%-- ajax 처리시 수정 --%>
-            	
+            	<%-- ajax 처리시 setPageInfo --%>
             </ul>
 
             <button type="button" id="recruit_create_btn" class="btn btn-dark <% if (loginUser == null || !loginUser.getUserCode().equals("01")) out.print("invisible"); %>" data-toggle="modal"
@@ -446,6 +428,136 @@
                 return check;
             })
         });
+    </script>
+    
+    <!-- ajax -->
+    <script>
+    
+		$(function() {
+			getData();
+			
+			$.ajax({
+				url : 'recruitListCode.do',
+				success : function(code) {
+					setCode(code);
+				},
+				error : function(e) {
+					console.log("ajax 통신 실패");
+				}
+			});
+		});
+		
+		function getData(currentPage = 1) {
+			$.ajax({
+				url : "recruitList.do",
+				type : 'get',
+				data : {
+					currentPage
+				},
+				success : function(result) {
+					//console.log(result);
+					setTable(result.list);
+					setPageInfo(result.pi);
+				},
+				error : function(e) {
+					console.log("ajax 통신 실패");
+				}
+			});
+		}
+	 
+		function setCode(codes) {
+			$("#recruit_code").html('');
+			
+			codes.forEach((code) => {
+				$("#recruit_code").append(`
+					<button type="button" class="btn btn-secondary">
+	                \${code.code}
+	                <span class="badge badge-light">\${code.count}</span>
+	          		</button>
+				`);
+				
+			});
+		}
+		
+		function setTable(list) {
+			$("#recruit_table table tbody").html('');
+			
+			list.forEach((r) => {
+				$("#recruit_table table tbody").append(`
+					<tr>
+	                    <td class="table-recruit-category">
+	                    	<a class="text-decoration-none text-info"
+	                            href="<%= request.getContextPath() %>/recruitContentList.do?rid=\${r.id}">[\${r.code}]</a>
+	                    </td>
+	                    <td class="table-recruit-name" style="min-width: 200px;">
+	                    	<a class="text-decoration-none text-dark"
+	                            href="<%= request.getContextPath() %>/recruitContentList.do?rid=\${r.id}">\${r.title}</a>
+	                    </td>
+	                    <td class="table-recruit-kind"><span
+	                            class="border border-info rounded-lg py-1 px-3 text-info">\${r.time}</span></td>
+	                    <td class="table-recruit-date"><span class="text-secondary">\${getDate(r.start, r.end)}</span></td>
+	                </tr>
+				`);
+				
+			});
+		}
+		
+		function getDate(startDate, endDate) {
+			//console.log(startDate.replace(/[월,]/g, '').split(' '));
+			let [month, day, year] = startDate.replace(/[월,]/g, '').split(' ');
+			let date = [year, month, day].join('.');
+			const start = date;
+			
+			[month, day, year] = endDate.replace(/[월,]/g, '').split(' ');
+			date = [year, month, day].join('.');
+			const end = date;
+			
+			return start + " ~ " + end;
+		}
+		
+		function setPageInfo(pi) {
+			const pg = $('#recruit_table ul.pagination');
+			pg.html('');
+			
+			const {currentPage, startPage, endPage, maxPage} = {...pi};
+			let tag = '';
+			if (currentPage === 1) {
+				tag += '<li class="page-item px-5 disabled">';
+			} else {
+				tag += '<li class="page-item px-5">';
+			}
+			
+			tag += `
+					<button onclick="getData(\${currentPage - 1})" class="page-link border-0">&lt;</button>
+				</li>
+			`;
+			
+			for (let p = startPage; p <= endPage; p++) {
+				
+				if (p === currentPage) {
+					tag += '<li class="page-item px-3 active">';
+				} else {
+					tag += '<li class="page-item px-3">';
+				}
+				tag += `
+						<button onclick="getData(\${p})" class="page-link border-0">\${p}</button>
+	                </li>
+				`;
+			}
+			
+			if (currentPage === maxPage) {
+				tag += '<li class="page-item px-5 disabled">';
+			} else {
+				tag += '<li class="page-item px-5">';
+			}
+			tag += `
+				<button onclick="getData(\${currentPage + 1})" class="page-link border-0">&gt;</button>
+	            </li>
+			`;
+			
+			pg.append(tag);
+		}
+    
     </script>
 </body>
 

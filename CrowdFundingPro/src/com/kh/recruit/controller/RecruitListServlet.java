@@ -76,15 +76,11 @@ public class RecruitListServlet extends HttpServlet {
 		
 		ArrayList<Recruitment> list = new RecruitService().selectList(startRow, endRow);
 		
-		// Recruit Code 처리
-		ArrayList<RecruitCode> code = new RecruitService().selectRecruitCode();
-
 		response.setContentType("application/json; charset=utf-8");
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("pi", pi);
 		result.put("list", list);
-		result.put("code", code);
 		
 		new Gson().toJson(result, response.getWriter());
 	}
