@@ -28,10 +28,16 @@
                     </li>
 
                     <li class="navbar-item">
-                        <a href="#" class="nav-link">문의사항</a>
+                        <a href="#" class="nav-link" onclick="goFaq();">문의사항</a>
                     </li>
                 </ul>
             </nav>
+			<script>
+				/* 문의사항 == FAQ */
+				function goFaq(){
+					location.href="<%=request.getContextPath()%>/list.fq";
+				}
+			</script>
 
             <div class="row">
                 <div class="col-md-3">
