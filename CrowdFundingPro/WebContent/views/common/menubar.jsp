@@ -40,7 +40,6 @@
 
 
 <body>	
-충돌테스트충돌테스트충돌테스트충돌테스트충돌테스트충돌테스트충돌테스트충돌테스트
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark"
 		style="padding-left: 130px; padding-right: 130px;">
 		<a href="<%=request.getContextPath() %>" class="navbar-brand" style="font-size:22px;">CROWD FUND!NG</a> <!-- 클릭하면 메인 페이지로 이동  -->
