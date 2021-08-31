@@ -8,33 +8,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
-
+//*****************수정하지마세요*********************
 public class JDBCTemplate {
-
-	private static Connection conn = null;
-
 	public static Connection getConnection() {
 
 
-			Properties prop = new Properties();
 
-			String fileName = JDBCTemplate.class.getResource("/sql/driver/driver.properties").getPath();
+		Properties prop = new Properties();
 
-			try {
-				prop.load(new FileReader(fileName));
+		String fileName = JDBCTemplate.class.getResource("/sql/driver/driver.properties").getPath();
 
-				String driver = prop.getProperty("driver");
-				String url = prop.getProperty("url");
-				String user = prop.getProperty("username");
-				String password = prop.getProperty("password");
+		try {
+			prop.load(new FileReader(fileName));
 
-				// 1. 클래스 객체 등록, Driver 등록
-				Class.forName(driver);
+			String driver = prop.getProperty("driver");
+			String url = prop.getProperty("url");
+			String user = prop.getProperty("username");
+			String password = prop.getProperty("password");
 
-				// 2. DBMS와 연결
-				conn = DriverManager.getConnection(url, user, password);
+			// 1. 클래스 객체 등록, Driver 등록
+			Class.forName(driver);
 
-				conn.setAutoCommit(false);
+			// 2. DBMS와 연결
+			conn = DriverManager.getConnection(url, user, password);
+
+			conn.setAutoCommit(false);
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -45,6 +43,14 @@ public class JDBCTemplate {
 				e.printStackTrace();
 			}
 		
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return conn;
 
