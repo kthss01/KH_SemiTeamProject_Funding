@@ -9,27 +9,29 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.kh.user.model.dao.UserDao;
+import com.kh.user.model.vo.IProject;
 import com.kh.user.model.vo.ULecture;
+import com.kh.user.model.vo.UProject;
 import com.kh.user.model.vo.User;
 
 public class UserService {
 
 	public User loginUser(String emailId, String userPwd) {
 		Connection conn = getConnection();
-	
-		User loginUser = new UserDao().loginUser(conn,emailId,userPwd);
+
+		User loginUser = new UserDao().loginUser(conn, emailId, userPwd);
 		close(conn);
 		return loginUser;
 	}
 
 	public int insertUser(User u) {
 		Connection conn = getConnection();
-		
-		int result = new UserDao().insertUser(conn,u);
-		
-		if(result > 0 ) {
+
+		int result = new UserDao().insertUser(conn, u);
+
+		if (result > 0) {
 			commit(conn);
-		}else {
+		} else {
 			rollback(conn);
 		}
 		close(conn);
@@ -39,7 +41,7 @@ public class UserService {
 
 	public User selectUser(String emailId) {
 		Connection conn = getConnection();
-		
+
 		User u = new UserDao().selectUser(conn, emailId);
 		close(conn);
 		return u;
@@ -47,13 +49,13 @@ public class UserService {
 
 	public User updateUser(User u) {
 		Connection conn = getConnection();
-		
+
 		User updateUser = null;
-		int result = new UserDao().updateMmeber(conn,u);
-		if(result>0) {
+		int result = new UserDao().updateMmeber(conn, u);
+		if (result > 0) {
 			commit(conn);
 			updateUser = new UserDao().selectUser(conn, u.getEmailId());
-		}else {
+		} else {
 			rollback(conn);
 		}
 		close(conn);
@@ -62,12 +64,12 @@ public class UserService {
 
 	public int deleteUser(String emailId) {
 		Connection conn = getConnection();
-		
-		int result = new UserDao().deleteUser(conn,emailId);
-		
-		if(result > 0 ) {
+
+		int result = new UserDao().deleteUser(conn, emailId);
+
+		if (result > 0) {
 			commit(conn);
-		}else {
+		} else {
 			rollback(conn);
 		}
 		close(conn);
@@ -77,9 +79,9 @@ public class UserService {
 
 	public int emailIdCheck(String emailId) {
 		Connection conn = getConnection();
-		
-		int result = new UserDao().emailIdCheck(conn,emailId);
-		
+
+		int result = new UserDao().emailIdCheck(conn, emailId);
+
 		close(conn);
 
 		return result;
@@ -89,8 +91,21 @@ public class UserService {
 		Connection conn = getConnection();
 		ArrayList<ULecture> list = new UserDao().selectLectureList(conn, emailId);
 		close(conn);
-		
-		
+
+		return list;
+	}
+
+	public ArrayList<IProject> selectIProjectList(String emailId) {
+		Connection conn = getConnection();
+		ArrayList<IProject> list = new UserDao().selectIProjectList(conn, emailId);
+		close(conn);
+		return list;
+	}
+
+	public ArrayList<UProject> selectUProjectList(String emailId) {
+		Connection conn = getConnection();
+		ArrayList<UProject> list = new UserDao().selectUProjectList(conn, emailId);
+		close(conn);
 		return list;
 	}
 
