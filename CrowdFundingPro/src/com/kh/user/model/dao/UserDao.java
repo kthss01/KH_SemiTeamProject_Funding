@@ -12,7 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.kh.user.model.vo.IProject;
 import com.kh.user.model.vo.ULecture;
+import com.kh.user.model.vo.UProject;
 import com.kh.user.model.vo.User;
 
 public class UserDao {
@@ -39,8 +41,9 @@ public class UserDao {
 		ResultSet rset = null;
 
 		String sql = prop.getProperty("loginUser");
-		//loginUser=SELECT * FROM USER_TB WHERE EMAIL_ID=? AND USER_PWD=? AND STATUS='N'
-		
+		// loginUser=SELECT * FROM USER_TB WHERE EMAIL_ID=? AND USER_PWD=? AND
+		// STATUS='N'
+
 		System.out.println("dao : " + emailId);
 		System.out.println("dao : " + userPwd);
 		try {
@@ -54,7 +57,7 @@ public class UserDao {
 
 			if (rset.next()) {
 				loginUser = new User();
-				
+
 				loginUser.setUserCode(rset.getString("USER_CODE"));
 				loginUser.setEmailId(rset.getString("EMAIL_ID"));
 				loginUser.setUserPwd(rset.getString("USER_PWD"));
@@ -63,14 +66,13 @@ public class UserDao {
 				loginUser.setUserPhone(rset.getString("PHONE_NUMBER"));
 				loginUser.setUserAddress(rset.getString("USER_ADDRESS"));
 				loginUser.setPoint(rset.getInt("POINT"));
-				
-				if(rset.getString("USER_CODE").equals("03")) {
+
+				if (rset.getString("USER_CODE").equals("03")) {
 					loginUser.setbNumber(rset.getString("BUSINESS_NUMBER"));
 					loginUser.setbName(rset.getString("BUSINESS_NAME"));
-				}				
-				
-			}
+				}
 
+			}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -82,30 +84,23 @@ public class UserDao {
 		}
 		System.out.println("UserDao loginUser : " + loginUser);
 		return loginUser;
-		
+
 	}
 
 	public int insertUser(Connection conn, User u) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertUser");
-		//insertUser=INSERT INTO USER_TB VALUES(SEQ_USER_NO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, DEFAULT,DEFAULT)
+		// insertUser=INSERT INTO USER_TB VALUES(SEQ_USER_NO.NEXTVAL, ?, ?, ?, ?, ?, ?,
+		// ?, ?, ?, ?, DEFAULT,DEFAULT)
 		/*
-		USER_NO			VARCHAR2(3 BYTE)
-		USER_CODE		VARCHAR2(3 BYTE)
-		EMAIL_ID		VARCHAR2(100 BYTE)
-		USER_PWD		VARCHAR2(20 BYTE)
-		USER_NAME		VARCHAR2(20 BYTE)
-		USER_SSN		VARCHAR2(20 BYTE)
-		PHONE_NUMBER	VARCHAR2(20 BYTE)
-		USER_ADDRESS	VARCHAR2(200 BYTE)
-		POINT			NUMBER
-		BUSINESS_NUMBER	VARCHAR2(20 BYTE)
-		BUSINESS_NAME	VARCHAR2(20 BYTE)
-		JOIN_DATE		DATE
-		STATUS			CHAR(2 BYTE)
+		 * USER_NO VARCHAR2(3 BYTE) USER_CODE VARCHAR2(3 BYTE) EMAIL_ID VARCHAR2(100
+		 * BYTE) USER_PWD VARCHAR2(20 BYTE) USER_NAME VARCHAR2(20 BYTE) USER_SSN
+		 * VARCHAR2(20 BYTE) PHONE_NUMBER VARCHAR2(20 BYTE) USER_ADDRESS VARCHAR2(200
+		 * BYTE) POINT NUMBER BUSINESS_NUMBER VARCHAR2(20 BYTE) BUSINESS_NAME
+		 * VARCHAR2(20 BYTE) JOIN_DATE DATE STATUS CHAR(2 BYTE)
 		 */
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 
@@ -137,7 +132,7 @@ public class UserDao {
 		ResultSet rset = null;
 
 		String sql = prop.getProperty("selectUser");
-		//selectUser=SELECT * FROM USER_TB WHERE EMAIL_ID=? AND STATUS='N'
+		// selectUser=SELECT * FROM USER_TB WHERE EMAIL_ID=? AND STATUS='N'
 //selectUser=SELECT * FROM USER_TB WHERE EMAIL_ID=? AND STATUS='N'
 
 		try {
@@ -154,9 +149,9 @@ public class UserDao {
 				u.setUserName(rset.getString("USER_NAME"));
 				u.setUserPhone(rset.getString("PHONE_NUMBER"));
 				u.setUserAddress(rset.getString("USER_ADDRESS"));
-				u.setPoint(rset.getInt("POINT"));		
+				u.setPoint(rset.getInt("POINT"));
 			}
-			
+
 			System.out.println("userDao User : " + u);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -175,12 +170,10 @@ public class UserDao {
 		String sql = prop.getProperty("updateUser");
 //		updateUser=UPDATE USER_TB SET USER_PWD=?, PHONE_NUMBER=?, USER_ADDRESS=?, WHERE EMAIL_ID=?
 
-
 		try {
-			
+
 			pstmt = conn.prepareStatement(sql);
 
-			
 			pstmt.setString(1, u.getUserPwd());
 			pstmt.setString(2, u.getUserPhone());
 			pstmt.setString(3, u.getUserAddress());
@@ -227,21 +220,20 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		int result = 0;
-		
+
 		String sql = prop.getProperty("idCheck");
-		//idCheck=SELECT COUNT(*) FROM USER_TB WHERE EMAIL_ID=? AND STATUS='N'
+		// idCheck=SELECT COUNT(*) FROM USER_TB WHERE EMAIL_ID=? AND STATUS='N'
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
+
 			pstmt.setString(1, emailId);
-			
+
 			rset = pstmt.executeQuery();
-			if(rset.next()) {
+			if (rset.next()) {
 				result = rset.getInt(1);
 			}
 
 			System.out.println("rset.getInt(1) result = " + result);
-			
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -256,29 +248,24 @@ public class UserDao {
 
 	public ArrayList<ULecture> selectLectureList(Connection conn, String emailId) {
 		PreparedStatement pstmt = null;
-		ResultSet rset = null;		
+		ResultSet rset = null;
 		ArrayList<ULecture> list = new ArrayList<ULecture>();
 		String sql = "SELECT * FROM VW_LEC_INFO WHERE EMAIL_ID =?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, emailId);
-			
-			rset = pstmt.executeQuery();
-			while(rset.next()) {
 
-				list.add(new ULecture(
-						rset.getInt("USER_NO"),
-						rset.getString("EMAIL_ID"),
-						rset.getString("LECTURE_CODE"),
-						rset.getString("LECTURE_TITLE"),
-						rset.getString("LECTURE_TOPIC"),
-						rset.getDate("LECTURE_DATE")
-						));
-			
+			pstmt.setString(1, emailId);
+
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+
+				list.add(new ULecture(rset.getInt("USER_NO"), rset.getString("EMAIL_ID"),
+						rset.getString("LECTURE_CODE"), rset.getString("LECTURE_TITLE"),
+						rset.getString("LECTURE_TOPIC"), rset.getDate("LECTURE_DATE")));
+
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -289,5 +276,77 @@ public class UserDao {
 		return list;
 	}
 
+	public ArrayList<IProject> selectIProjectList(Connection conn, String emailId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<IProject> list = new ArrayList<IProject>();
+		String sql = "SELECT * FROM VW_INTER_PRO WHERE EMAIL_ID=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, emailId);
+
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+
+				list.add(new IProject(
+						rset.getInt("USER_NO"),
+						rset.getString("EMAIL_ID"),
+						rset.getString("PROJECT_CODE"),
+						rset.getString("PROJECT_NAME"),
+						rset.getInt("AMOUNT_GOAL"),
+						rset.getInt("AMOUNT_PRESENT"),
+						rset.getString("DETAIL_INTRO")
+
+				));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public ArrayList<UProject> selectUProjectList(Connection conn, String emailId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<UProject> list = new ArrayList<UProject>();
+		String sql = "SELECT * FROM VW_SIGN_PRO WHERE EMAIL_ID=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, emailId);
+
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+
+				list.add(new UProject(
+						rset.getInt("USER_NO"),
+						rset.getString("EMAIL_ID"),
+						rset.getString("PROJECT_CODE"),
+						rset.getString("PROJECT_NAME"),
+						rset.getInt("AMOUNT_GOAL"),
+						rset.getInt("AMOUNT_PRESENT"),
+						rset.getString("DETAIL_INTRO")
+
+				));
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
 
 }
