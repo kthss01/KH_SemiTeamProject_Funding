@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<%@ page import="com.kh.user.model.vo.ULecture" %>
-<%@ page import="java.util.ArrayList" %>
 
-    <%
-    	ArrayList<ULecture> lList = (ArrayList<ULecture>) request.getAttribute("ULectureList");
-    %>
+<%@ page import="com.kh.user.model.vo.ULecture"%>
+<%@ page import="com.kh.user.model.vo.UProject"%>
+<%@ page import="com.kh.user.model.vo.IProject"%>
+<%@ page import="java.util.ArrayList"%>
+
+<%
+	ArrayList<ULecture> lList = (ArrayList<ULecture>) request.getAttribute("ULectureList");
+	ArrayList<UProject> UPList = (ArrayList<UProject>) request.getAttribute("UProjectList");
+	ArrayList<IProject> IPList = (ArrayList<IProject>) request.getAttribute("InProjectPList");
+%>
 <!DOCTYPE html>
 <html lang="ko">
     <head>
@@ -14,7 +18,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>마이페이지</title>
-
        
 		<link
 			href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
@@ -26,7 +29,6 @@
                 width: 1300px;
                 height: 1200px;
                 margin: 0 auto;
-
             }
 
             .content1 {
@@ -60,10 +62,9 @@
                 float: left;
                 padding-left:30px;
                 padding-right:30px;
-
             }
             .section h3 {
-                font-size: 1.2em;
+                font-size: 1.4em;
                 color: rgba(0, 0, 0, .8);
                 margin-bottom: 20px;
                 font-weight : bold;
@@ -86,8 +87,7 @@
              padding-bottom: 40px;
              padding-top:100px; 
              margin-bottom:20px;
-            }
-            
+            }  
 
             #myPageTitle h1 {
                 position: relative;
@@ -95,13 +95,9 @@
                 font-size: 35px;
                 text-align: left;
 				font-family: 'Roboto', 'sans-serif';
-				font-weight:900;
-				
-               <!-- margin-top: 100px;-->
-               <!-- margin-bottom: 40px; -->
-            }
-           
+				font-weight:bold;
 
+            }
             .usericon {
                 font-size: 150px;
                 opacity: 0.1;
@@ -126,19 +122,28 @@
             .card{
 				width:100%;
 				margin-bottom:10px;
+				padding:5px;
 			}
 			
 			.card-img-top{
 				width:100%;
 			}
 			.card-body {
-				padding:15px;
 				height:100px;
+				padding:5px !important;
 			}
+			
+			.card-body h2{
+				font-size:1rem;
+				font-family: 'Roboto', 'sans-serif';
+				font-weight:600;
+			}
+			
 			.card-title{
 				margin-bottom:5px;
 				margin-top:5px;
 			}
+
 			
 			.card:hover{
     		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.2);
@@ -146,12 +151,18 @@
 
 			}
 
+			#point{
+			  font-size: 18px;
+			  font-family: 'Jua', 'sans-serif';
+			  
+			}
+
         </style>
     </head>
     <body>
 	<%@ include file="../common/menubar.jsp"%>
 		<div id="myPageTitle">
-		        <h1>마이페이지</h1>
+		        <h1>마이페이지</h1>		     
 		</div>
 
 	<div class="box">
@@ -161,13 +172,12 @@
 					<img id="pImg"
 						src=""
 						width=200px; height=200px;/> <br>
-					<p style="font-size: 20px;">
-						<b> <%=loginUser.getUserName()%></b>님 어서오세요!
-					</p>
-					<p style="font-size: 18px;">
-						POINT :
-						<b><%=loginUser.getPoint()%></b>
-						원
+					<p id="point" style="font-size: 20px;">
+						<b> <%=loginUser.getUserName()%></b>
+						님 어서오세요 !
+						<br>
+						충전금액 : 
+						<b><%=loginUser.getPoint()%></b> 원
 					</p>
 				</div>
 				<div class="modify" style="margin: 0 auto;">
@@ -182,27 +192,37 @@
 		<div class="content2">
 			<div class="section project ">
 				<h3>내가 참여한 프로젝트</h3>
+				<%
+					for (UProject up : UPList) {
+				%>
 				<div class="card">
 					<div class="card-img-top"></div>
-					<div class="card-body">
-						<h2 class="card-title h5">티셔츠 입고 보육원 후원하자</h2>
-						<div class="small text-muted">수 많은 보육시설 아이들을 지켜주세요</div>
+					<div class="card-body" id="cBody">
+						<h2 class="card-title h5"><%=up.getProjectName() %></h2>
+						<div class="small text-muted"><%=up.getProDetail() %></div>
 					</div>
 				</div>
-
+				<%
+					}
+				%>
 			</div>
 			
 			
 			<div class="section project ">
 				<h3>나의 관심 프로젝트</h3>
+				<%
+					for (IProject ip : IPList) {
+				%>
 				<div class="card">
 					<div class="card-img-top"></div>
 					<div class="card-body">
-						<h2 class="card-title h5">티셔츠 입고 보육원 후원하자</h2>
-						<div class="small text-muted">수 많은 보육시설 아이들을 지켜주세요</div>
+						<h2 class="card-title h5"><%=ip.getProjectName() %></h2>
+						<div class="small text-muted"><%=ip.getProDetail() %></div>
 					</div>
 				</div>
-
+				<%
+					}
+				%>
 			</div>
 			
 		

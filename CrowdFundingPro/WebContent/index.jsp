@@ -112,7 +112,7 @@ h4 {
 									<div class="card-body">
 										<div class="small text-muted">January 1, 2021</div>
 										<h2 class="card-title h4">프로젝트명</h2>
-										<a class="btn btn-primary" href="#!">신청하기 →</a>
+										<a class="btn btn-primary" href="views/project/registrationView.jsp">신청하기 →</a>
 
 									</div>
 								</div>
