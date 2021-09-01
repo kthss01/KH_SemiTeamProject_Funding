@@ -2,6 +2,8 @@ package com.kh.recruit.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.kh.common.model.vo.PageInfo;
 import com.kh.recruit.model.service.RecruitService;
 import com.kh.recruit.model.vo.RecruitCode;
@@ -66,20 +69,20 @@ public class RecruitListServlet extends HttpServlet {
 		}
 		
 		PageInfo pi = new PageInfo(listCount, currentPage, startPage, endPage, maxPage, pageLimit, boardLimit);
-		request.setAttribute("pi", pi);
 		
 		// List 처리
 		int startRow = (currentPage - 1) * boardLimit + 1;
 		int endRow = startRow + boardLimit - 1;
 		
 		ArrayList<Recruitment> list = new RecruitService().selectList(startRow, endRow);
-		request.setAttribute("list", list);
 		
-		// Recruit Code 처리
-		ArrayList<RecruitCode> code = new RecruitService().selectRecruitCode();
-		request.setAttribute("code", code);
+		response.setContentType("application/json; charset=utf-8");
 		
-		request.getRequestDispatcher("views/recruit/recruit.jsp").forward(request, response);
+		Map<String, Object> result = new HashMap<>();
+		result.put("pi", pi);
+		result.put("list", list);
+		
+		new Gson().toJson(result, response.getWriter());
 	}
 
 	/**

@@ -15,25 +15,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>펀딩사이트 프로젝트 - 채용 공고 페이지</title>
 
-    <!-- bootstrap 4 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!-- fontawesome bootstrap 4 용 icon -->
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <!-- bootstrap-steps -->
     <!-- <link rel="stylesheet" href="../css/bootstrap-steps.min.css"> -->
     <!-- cdn -->
     <!-- <link  href="https://cdn.jsdelivr.net/npm/bootstrap-steps@%5E1.0/dist/bootstrap-steps.min.css" rel="stylesheet"> -->
-
-    <!-- bootstarp4 date range picker -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <style>
         .jumbotron {
@@ -49,7 +36,7 @@
             font-weight: bold;
         }
 
-        #recruit_category button {
+        #recruit_code button {
             margin: 0.1rem;
             border-radius: 5rem;
         }
@@ -76,43 +63,15 @@
 		}
     </style>
 
-	<script>
-		
+	<script>		
 		const msg = '<%= (String)session.getAttribute("msg") %>';
 		if (msg !== 'null') {
 			alert(msg);
 			<% session.removeAttribute("msg"); %> // msg 출력 후 제거
 		}
-	
 	</script>
 
 </head>
-
-<%
-
-	ArrayList<Recruitment> list = (ArrayList<Recruitment>) request.getAttribute("list");
-	PageInfo pi = (PageInfo)request.getAttribute("pi");
-	ArrayList<RecruitCode> code = (ArrayList<RecruitCode>) request.getAttribute("code");
-	
-	if (list == null || pi == null || code == null) {
-		session.setAttribute("msg", "잘못된 접근입니다.");
-		
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("location.href = '" + request.getContextPath() + "/views/common/errorPage.jsp';");
-		script.println("</script>");
-		script.close();
-		
-		return;
-	}
-	
-	int listCount = pi.getListCount();
-	int currentPage = pi.getCurrentPage();
-	int maxPage = pi.getMaxPage();
-	int startPage = pi.getStartPage();
-	int endPage = pi.getEndPage();
-	
-%>
 
 <body>
     <!-- navbar -->
@@ -169,7 +128,9 @@
                     </ul>
                 </div>
             </div>
-            <img class="rounded" src="<%= request.getContextPath() %>/resources/images/recruit_process.png" alt="recruit_process">
+            <div class="d-flex justify-content-center">
+            	<img class="rounded" src="<%= request.getContextPath() %>/resources/images/recruit_process.png" alt="recruit_process">
+            </div>
         </div>
 
         <!-- 채용 진행과정 step 구현 시도 -->
@@ -199,13 +160,8 @@
 
     <section class="container mt-5">
         <!-- 직무 구분 카테고리 button groups badges -->
-        <div id="recruit_category" class="btn-group">
-        	<% for (RecruitCode c : code) { %>
-            <button type="button" class="btn btn-secondary">
-                <%= c.getCode() %>
-                <span class="badge badge-light"><%= c.getCount() %></span>
-            </button>
-            <% } %>
+        <div id="recruit_code" class="btn-group">
+        	<%-- ajax 처리 시 setCode --%>
         </div>
 
         <!-- 직무 검색 input groups -->
@@ -222,53 +178,20 @@
         <article id="recruit_table">
             <table class="table table-hover mt-5">
                 <tbody>
-                	<% for (Recruitment r : list) { %>
-                    <tr>
-                        <td class="table-recruit-category">
-                        	<a class="text-decoration-none text-info"
-                                href="<%= request.getContextPath() %>/recruitContentList.do?rid=<%= r.getId() %>">[<%= r.getCode() %>]</a>
+                	<%-- ajax 처리시 setTable--%>
+                	<tr>
+                		<td class="text-center">
+                            <span class="spinner-grow spinner-grow-sm"></span>&nbsp;&nbsp;
+                            <span class="spinner-grow spinner-grow-sm"></span>&nbsp;&nbsp;
+                            <span class="spinner-grow spinner-grow-sm"></span>
                         </td>
-                        <td class="table-recruit-name" style="min-width: 200px;">
-                        	<a class="text-decoration-none text-dark"
-                                href="<%= request.getContextPath() %>/recruitContentList.do?rid=<%= r.getId() %>"><%= r.getTitle() %></a>
-                        </td>
-                        <td class="table-recruit-kind"><span
-                                class="border border-info rounded-lg py-1 px-3 text-info"><%= r.getTime() %></span></td>
-                        <td class="table-recruit-date"><span class="text-secondary"><%= r.getDate() %></span></td>
-                    </tr>
-                    <% } %>
+                	</tr>
                 </tbody>
             </table>
 
             <!--  pagination -->
             <ul class="pagination justify-content-center">
-            	
-            	<% if (currentPage == 1) { %>
-                <li class="page-item px-5 disabled">
-                <% } else { %>
-                <li class="page-item px-5">
-                <% } %>
-                    <button onclick="location.href='<%= request.getContextPath() %>/recruitList.do?currentPage=<%= currentPage - 1 %>'" class="page-link border-0">&lt;</button>
-                </li>
-
-                <% for (int p = startPage; p <= endPage; p++) { %>
-                	<% if (p == currentPage) { %>
-                <li class="page-item px-3 active">
-                	<% } else { %>
-                <li class="page-item px-3">
-                	<% } %>
-                    <button onclick="location.href='<%= request.getContextPath() %>/recruitList.do?currentPage=<%= p %>'" class="page-link border-0"><%= p %></button>
-                </li>
-                <% } %>
-
-				<% if (currentPage == maxPage) {%>
-                <li class="page-item px-5 disabled">
-                <% } else { %>
-                <li class="page-item px-5">
-                <% } %>
-                    <button onclick="location.href='<%= request.getContextPath() %>/recruitList.do?currentPage=<%= currentPage + 1 %>'" class="page-link border-0">&gt;</button>
-                </li>
-
+            	<%-- ajax 처리시 setPageInfo --%>
             </ul>
 
             <button type="button" id="recruit_create_btn" class="btn btn-dark <% if (loginUser == null || !loginUser.getUserCode().equals("01")) out.print("invisible"); %>" data-toggle="modal"
@@ -338,9 +261,8 @@
                         <!-- Custom Select Menu -->
                         <label>직무구분</label>
                         <select form="recruit_create_form" name="recruitCode" id="recruitCode" class="custom-select">
-                        	<% for (RecruitCode c : code) { %>
-                            <option value="<%= c.getCode() %>"><%= c.getCode() %></option>
-                          	<% } %>
+                        	<%-- ajax 처리시 수정 --%>
+                        	
                         </select>
 
                     </form>
@@ -358,21 +280,16 @@
                         <li class="nav-item dropdown">
                             <a href="#" class="text-secondary nav-link dropdown-toggle" data-toggle="dropdown">요구 사항</a>
                             <div class="dropdown-menu">
-                                <a href="#recruitContentTab3" data-toggle="tab" class="text-secondary nav-link">자격
-                                    요건</a>
-                                <a href="#recruitContentTab4" data-toggle="tab" class="text-secondary nav-link">우대
-                                    사항</a>
+                                <a href="#recruitContentTab3" data-toggle="tab" class="text-secondary nav-link">자격 요건</a>
+                                <a href="#recruitContentTab4" data-toggle="tab" class="text-secondary nav-link">우대 사항</a>
                             </div>
                         </li>
 
                         <li class="nav-item dropdown">
-                            <a href="#" class="text-secondary nav-link dropdown-toggle" data-toggle="dropdown">혜택 및
-                                기타</a>
+                            <a href="#" class="text-secondary nav-link dropdown-toggle" data-toggle="dropdown">혜택 및 기타</a>
                             <div class="dropdown-menu">
-                                <a href="#recruitContentTab5" data-toggle="tab" class="text-secondary nav-link">혜택 및
-                                    복지</a>
-                                <a href="#recruitContentTab6" data-toggle="tab" class="text-secondary nav-link">기타
-                                    사항</a>
+                                <a href="#recruitContentTab5" data-toggle="tab" class="text-secondary nav-link">혜택 및 복지</a>
+                                <a href="#recruitContentTab6" data-toggle="tab" class="text-secondary nav-link">기타 사항</a>
                             </div>
                         </li>
                     </ul>
@@ -515,6 +432,147 @@
                 return check;
             })
         });
+    </script>
+    
+    <!-- ajax -->
+    <script>
+    
+		$(function() {
+			getData();
+			
+			$.ajax({
+				url : 'recruitListCode.do',
+				success : function(code) {
+					setCode(code);
+					setModalCode(code);
+				},
+				error : function(e) {
+					console.log("ajax 통신 실패");
+				}
+			});
+		});
+		
+		function getData(currentPage = 1) {
+			$.ajax({
+				url : "recruitList.do",
+				type : 'get',
+				data : {
+					currentPage
+				},
+				success : function(result) {
+					//console.log(result);
+					setTable(result.list);
+					setPageInfo(result.pi);
+				},
+				error : function(e) {
+					console.log("ajax 통신 실패");
+				}
+			});
+		}
+	 
+		function setCode(codes) {
+			$("#recruit_code").html('');
+			
+			codes.forEach((code) => {
+				$("#recruit_code").append(`
+					<button type="button" class="btn btn-secondary">
+	                \${code.code}
+	                <span class="badge badge-light">\${code.count}</span>
+	          		</button>
+				`);
+				
+			});
+		}
+		
+		function setModalCode(codes) {
+			$('#recruitCode').html('');
+			
+			codes.forEach((code) => {
+				$('#recruitCode').append(`
+					<option value="\${code.code}">\${code.code}</option>
+				`);
+			});
+		}
+		
+		function setTable(list) {
+			$("#recruit_table table tbody").html('');
+			
+			list.forEach((r) => {
+				$("#recruit_table table tbody").append(`
+					<tr>
+	                    <td class="table-recruit-category">
+	                    	<a class="text-decoration-none text-info"
+	                            href="<%= request.getContextPath() %>/recruitContentList.do?rid=\${r.id}">[\${r.code}]</a>
+	                    </td>
+	                    <td class="table-recruit-name" style="min-width: 200px;">
+	                    	<a class="text-decoration-none text-dark"
+	                            href="<%= request.getContextPath() %>/recruitContentList.do?rid=\${r.id}">\${r.title}</a>
+	                    </td>
+	                    <td class="table-recruit-kind"><span
+	                            class="border border-info rounded-lg py-1 px-3 text-info">\${r.time}</span></td>
+	                    <td class="table-recruit-date"><span class="text-secondary">\${getDate(r.start, r.end)}</span></td>
+	                </tr>
+				`);
+				
+			});
+		}
+		
+		function getDate(startDate, endDate) {
+			//console.log(startDate.replace(/[월,]/g, '').split(' '));
+			let [month, day, year] = startDate.replace(/[월,]/g, '').split(' ');
+			let date = [year, month, day].join('.');
+			const start = date;
+			
+			[month, day, year] = endDate.replace(/[월,]/g, '').split(' ');
+			date = [year, month, day].join('.');
+			const end = date;
+			
+			return start + " ~ " + end;
+		}
+		
+		function setPageInfo(pi) {
+			const pg = $('#recruit_table ul.pagination');
+			pg.html('');
+			
+			const {currentPage, startPage, endPage, maxPage} = {...pi};
+			let tag = '';
+			if (currentPage === 1) {
+				tag += '<li class="page-item px-5 disabled">';
+			} else {
+				tag += '<li class="page-item px-5">';
+			}
+			
+			tag += `
+					<button onclick="getData(\${currentPage - 1})" class="page-link border-0">&lt;</button>
+				</li>
+			`;
+			
+			for (let p = startPage; p <= endPage; p++) {
+				
+				if (p === currentPage) {
+					tag += '<li class="page-item px-3 active">';
+				} else {
+					tag += '<li class="page-item px-3">';
+				}
+				tag += `
+						<button onclick="getData(\${p})" class="page-link border-0">\${p}</button>
+	                </li>
+				`;
+			}
+			
+			if (currentPage === maxPage) {
+				tag += '<li class="page-item px-5 disabled">';
+			} else {
+				tag += '<li class="page-item px-5">';
+			}
+			tag += `
+				<button onclick="getData(\${currentPage + 1})" class="page-link border-0">&gt;</button>
+	            </li>
+			`;
+			
+			pg.append(tag);
+		}
+    
     </script>
 </body>
 
