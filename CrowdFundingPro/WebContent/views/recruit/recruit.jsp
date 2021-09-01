@@ -179,13 +179,6 @@
             <table class="table table-hover mt-5">
                 <tbody>
                 	<%-- ajax 처리시 setTable--%>
-                	<tr>
-                		<td class="text-center">
-                            <span class="spinner-grow spinner-grow-sm"></span>&nbsp;&nbsp;
-                            <span class="spinner-grow spinner-grow-sm"></span>&nbsp;&nbsp;
-                            <span class="spinner-grow spinner-grow-sm"></span>
-                        </td>
-                	</tr>
                 </tbody>
             </table>
 
@@ -261,8 +254,7 @@
                         <!-- Custom Select Menu -->
                         <label>직무구분</label>
                         <select form="recruit_create_form" name="recruitCode" id="recruitCode" class="custom-select">
-                        	<%-- ajax 처리시 수정 --%>
-                        	
+                        	<%-- ajax 처리 setModalCode --%>
                         </select>
 
                     </form>
@@ -438,6 +430,7 @@
     <script>
     
 		$(function() {
+			initTable();
 			getData();
 			
 			$.ajax({
@@ -452,7 +445,29 @@
 			});
 		});
 		
+		function getDataWithCode(code) {
+			initTable();
+			
+			$.ajax({
+				url : "recruitListWithCode.do",
+				type : 'get',
+				data : {
+					code
+				},
+				success : function(result) {
+					//console.log(result);
+					setTable(result.list);
+					setPageInfo(result.pi);
+				},
+				error : function(e) {
+					console.log("ajax 통신 실패");
+				}
+			});
+		}
+		
 		function getData(currentPage = 1) {
+			initTable();
+			
 			$.ajax({
 				url : "recruitList.do",
 				type : 'get',
@@ -475,12 +490,11 @@
 			
 			codes.forEach((code) => {
 				$("#recruit_code").append(`
-					<button type="button" class="btn btn-secondary">
+					<button type="button" class="btn btn-secondary" onclick="getDataWithCode(\${code.code});">
 	                \${code.code}
 	                <span class="badge badge-light">\${code.count}</span>
 	          		</button>
 				`);
-				
 			});
 		}
 		
@@ -492,6 +506,18 @@
 					<option value="\${code.code}">\${code.code}</option>
 				`);
 			});
+		}
+		
+		function initTable() {
+			$("#recruit_table table tbody").html(`
+				<tr>
+            		<td class="text-center">
+                        <span class="spinner-grow spinner-grow-sm"></span>&nbsp;&nbsp;
+                        <span class="spinner-grow spinner-grow-sm"></span>&nbsp;&nbsp;
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                    </td>
+            	</tr>
+			`);
 		}
 		
 		function setTable(list) {
