@@ -1,20 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ page import="com.kh.user.model.vo.User" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title> </title>
 
 <link href="resources/css/menubar.css" rel="stylesheet" type="text/css">
-<link href="resources/css/lecture/lectureMain.css" rel="stylesheet"
-	type="text/css">
+<link href="resources/css/lecture/lectureMain.css" rel="stylesheet" type="text/css">
 
 
 <style>
-@charset "EUC-KR";
+@charset "UTF-8";
 
 ul {
 	list-style: none;
@@ -250,13 +249,15 @@ input {
 </head>
 <body>
 
-
+<%--
 	<jsp:include page="/views/common/menubar.jsp" />
+ --%>
+	<%@ include file="../common/menubar.jsp"%>
 
-	<!-- È­¸é Áß¾Ó ±¸Çö ºÎ-->
+	<!-- í™”ë©´ ì¤‘ì•™ êµ¬í˜„ ë¶€-->
 	<div class="main">
 
-		<!-- È­¸é »ó´Ü ÀÌ¹ÌÁö ½½¶óÀÌµå-->
+		<!-- í™”ë©´ ìƒë‹¨ ì´ë¯¸ì§€ ìŠ¬ë¼ì´ë“œ-->
 		<div class="main_top">
 			<div id="top_banner">
 				<ul class="slider">
@@ -270,7 +271,7 @@ input {
 			</div>
 		</div>
 		<script src="resources/script/lecture/lectureSlider.js"></script>
-		<!-- ÀÌ¹ÌÁö ½½¶óÀÌµå ³¡-->
+		<!-- ì´ë¯¸ì§€ ìŠ¬ë¼ì´ë“œ ë-->
 
 		<div class="center">
 			<div class="left">
@@ -280,8 +281,8 @@ input {
 
 						<div class="details">
 							<div class="content">
-								<a href="<%=request.getContextPath()%>/lectureDetail.le">Çàº¹ÇÑ
-									ÆÝµù ¼¼»ó </a>
+								<a href="<%=request.getContextPath()%>/lectureDetail.le">í–‰ë³µí•œ
+									íŽ€ë”© ì„¸ìƒ </a>
 
 							</div>
 						</div>
@@ -320,54 +321,54 @@ input {
 					<div class="modal_overlay"></div>
 					<div class="modal_content">
 
-						<div class="top">½Å±Ô °­ÀÇ µî·Ï</div>
+						<div class="top">ì‹ ê·œ ê°•ì˜ ë“±ë¡</div>
 
 						<form class="regist" method="POST">
 							<div class="preview" id="top">
 								<img src="resources/images/no_image.png" class="lectureImage">
 
-								<button id="selectImg">»çÁø ¾÷·Îµå</button>
+								<button id="selectImg">ì‚¬ì§„ ì—…ë¡œë“œ</button>
 							</div>
 
 							<div class="information">
 								<span class="box"> <label class="labels"><b>
-											°­»ç </b></label> <input type="text" class="lecturer" placeholder="°­»çÀÌ¸§">
+											ê°•ì‚¬ </b></label> <input type="text" class="lecturer" placeholder="ê°•ì‚¬ì´ë¦„">
 											<!--  <input type="text" value=" loginUser" readonly> -->
 								</span>
 								<div class="box">
-									<label class="labels"><b> °­ÀÇ Á¦¸ñ </b></label> <input type="text"
-										class ="lectureTItle" placeholder="°­ÀÇ Á¦¸ñ">
+									<label class="labels"><b> ê°•ì˜ ì œëª© </b></label> <input type="text"
+										class ="lectureTItle" placeholder="ê°•ì˜ ì œëª©">
 								</div>
 								<div class="box">
-									<label class="labels"><b> °­ÀÇ ³¯Â¥ </b></label> <input
-										class ="lectureDate" type="datetime-local" placeholder="°­ÀÇ ³¯Â¥">
+									<label class="labels"><b> ê°•ì˜ ë‚ ì§œ </b></label> <input
+										class ="lectureDate" type="datetime-local" placeholder="ê°•ì˜ ë‚ ì§œ">
 								</div>
 								<div class="box">
-									<label class="labels"><b> °­ÀÇ ÁÖ¼Ò </b></label> <input type="text"
-										class ="lectureAddress" placeholder="°­ÀÇ ÁÖ¼Ò">
+									<label class="labels"><b> ê°•ì˜ ì£¼ì†Œ </b></label> <input type="text"
+										class ="lectureAddress" placeholder="ê°•ì˜ ì£¼ì†Œ">
 								</div>
 								<div class="box">
-									<label class="labels"><b> °­ÀÇ ÀÎ¿ø </b></label> <input type="number"
-										class ="lectureNumber" placeholder="°­ÀÇ ÀÎ¿ø">
+									<label class="labels"><b> ê°•ì˜ ì¸ì› </b></label> <input type="number"
+										class ="lectureNumber" placeholder="ê°•ì˜ ì¸ì›">
 								</div>
 								<div class="box">
-									<label class="labels"><b> °­ÀÇ ÁÖÁ¦ </b></label> <input type="text"
-										class ="lectureTopic" placeholder="°­ÀÇ ÀÎ¿ø">
+									<label class="labels"><b> ê°•ì˜ ì£¼ì œ </b></label> <input type="text"
+										class ="lectureTopic" placeholder="ê°•ì˜ ì¸ì›">
 								</div>
 								<div class="box">
-									<label class="labels"><b> °­ÀÇ ½Ã°£ </b></label> <input type="number"
-										class ="lectureTime" placeholder="°­ÀÇ ÀÎ¿ø (ºÐ)">
+									<label class="labels"><b> ê°•ì˜ ì‹œê°„ </b></label> <input type="number"
+										class ="lectureTime" placeholder="ê°•ì˜ ì¸ì› (ë¶„)">
 								</div>
 								
 								<div class="box">
-									<label class="labels"><b> °­ÀÇ ¼¼ºÎ³»¿ë </b></label> <br>
+									<label class="labels"><b> ê°•ì˜ ì„¸ë¶€ë‚´ìš© </b></label> <br>
 									<textarea cols="40" rows="25" class ="lectureDatail"></textarea>
 								</div>
 							</div>
 						</form>
 
-						<input type="submit" value="µî·Ï">
-						<button class="closeBtn">Ãë¼Ò</button>
+						<input type="submit" value="ë“±ë¡">
+						<button class="closeBtn">ì·¨ì†Œ</button>
 
 					</div>
 				</div>

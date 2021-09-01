@@ -45,9 +45,7 @@ String msg = (String) session.getAttribute("msg");
 
 </head>
 
-
-<body>
-
+<body>	
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark"
 		style="padding-left: 130px; padding-right: 130px;">
 		<a href="<%=request.getContextPath()%>" class="navbar-brand"
@@ -56,8 +54,8 @@ String msg = (String) session.getAttribute("msg");
 
 
 		<ul class="navbar-nav">
-			<li class="nav-item"><a href="#" class="nav-link">펀딩하기</a></li>
-			<!-- 펀딩페이지 링크 -->
+
+			<li class="nav-item"><a href="views/project/projectListView.jsp" class="nav-link">펀딩하기</a></li> <!-- 펀딩페이지 링크 -->
 
 			<li class="nav-item"><a
 				href="<%=request.getContextPath()%>/recruitPage.do"
@@ -68,11 +66,13 @@ String msg = (String) session.getAttribute("msg");
 				data-toggle="dropdown"> 더보기 </a>
 				<div class="dropdown-menu">
 
-					<a href="#" class="dropdown-item">공지사항</a> <a href="#"
-						class="dropdown-item">펀딩스쿨</a> <a href="#" class="dropdown-item"
-						onclick="goFaq();">문의하기</a>
 
-				</div></li>
+					<a href="#" class="dropdown-item">공지사항</a> 
+					<a href="<%= request.getContextPath() %>/lecture.le" class="dropdown-item">펀딩스쿨</a>
+					<a href="#" class="dropdown-item" onclick="goFaq();">문의하기</a>
+						
+				</div>
+			</li>
 
 		</ul>
 		<script>

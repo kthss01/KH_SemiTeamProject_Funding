@@ -29,7 +29,10 @@
 <body>
 	
 	<jsp:include page="/views/common/menubar.jsp" />
-	<div class="mainContent">
+	
+
+		
+	<div class="mainContent" >
         
         <div class ="mainTop"> 
         <img id = "thumbnail" src="resources/images/no_image.png">
@@ -69,7 +72,8 @@
   		</div>
   		 
     </div>
-    
+	
+
     <!-- 
      <script>
     	/*
