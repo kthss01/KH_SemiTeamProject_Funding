@@ -177,6 +177,13 @@
             <table class="table table-hover mt-5">
                 <tbody>
                 	<%-- ajax 처리시 setTable--%>
+                	<tr>
+                		<td class="text-center">
+                            <span class="spinner-grow spinner-grow-sm"></span>&nbsp;&nbsp;
+                            <span class="spinner-grow spinner-grow-sm"></span>&nbsp;&nbsp;
+                            <span class="spinner-grow spinner-grow-sm"></span>
+                        </td>
+                	</tr>
                 </tbody>
             </table>
 
@@ -271,21 +278,16 @@
                         <li class="nav-item dropdown">
                             <a href="#" class="text-secondary nav-link dropdown-toggle" data-toggle="dropdown">요구 사항</a>
                             <div class="dropdown-menu">
-                                <a href="#recruitContentTab3" data-toggle="tab" class="text-secondary nav-link">자격
-                                    요건</a>
-                                <a href="#recruitContentTab4" data-toggle="tab" class="text-secondary nav-link">우대
-                                    사항</a>
+                                <a href="#recruitContentTab3" data-toggle="tab" class="text-secondary nav-link">자격 요건</a>
+                                <a href="#recruitContentTab4" data-toggle="tab" class="text-secondary nav-link">우대 사항</a>
                             </div>
                         </li>
 
                         <li class="nav-item dropdown">
-                            <a href="#" class="text-secondary nav-link dropdown-toggle" data-toggle="dropdown">혜택 및
-                                기타</a>
+                            <a href="#" class="text-secondary nav-link dropdown-toggle" data-toggle="dropdown">혜택 및 기타</a>
                             <div class="dropdown-menu">
-                                <a href="#recruitContentTab5" data-toggle="tab" class="text-secondary nav-link">혜택 및
-                                    복지</a>
-                                <a href="#recruitContentTab6" data-toggle="tab" class="text-secondary nav-link">기타
-                                    사항</a>
+                                <a href="#recruitContentTab5" data-toggle="tab" class="text-secondary nav-link">혜택 및 복지</a>
+                                <a href="#recruitContentTab6" data-toggle="tab" class="text-secondary nav-link">기타 사항</a>
                             </div>
                         </li>
                     </ul>
