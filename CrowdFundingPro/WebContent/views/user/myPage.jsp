@@ -58,7 +58,7 @@
 
             .section {
                 width: 50%;
-                height: 600px;
+                height: 500px;
                 float: left;
                 padding-left:30px;
                 padding-right:30px;
@@ -82,18 +82,30 @@
             }
             #myPageTitle{
              width:100%;
-             height:220px;
-             background-color: rgb(100, 220, 177,.3); 
+             height:250px;
              padding-bottom: 40px;
              padding-top:100px; 
              margin-bottom:20px;
-            }  
+             position:relative;
+			 z-index:1;
+            }
+			
+			#myPageTitle::after{
+			width:100%;
+            height:250px;
+			content:"";
+			background : url('<%=request.getContextPath() %>/resources/images/myPageBannerImg.jpg');
+			opacity: .7;
+			position:absolute;
+			top:0;
+			left:0;
+			z-index:-1;
+		}
+	
 
             #myPageTitle h1 {
-                position: relative;
-                left: 20%;
-                font-size: 35px;
-                text-align: left;
+            	margin-left:20%;
+                font-size: 42px;
 				font-family: 'Roboto', 'sans-serif';
 				font-weight:bold;
 

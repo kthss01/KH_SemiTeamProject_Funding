@@ -44,6 +44,30 @@ String msg = (String) session.getAttribute("msg");
 	crossorigin="anonymous" />
 
 </head>
+<style>
+#search{
+width:250px;
+height:35px;
+background-color: rgba(255,255,255,.8);
+border:none;
+border-radius: 20px;
+margin-right:10px;
+margin-top:3px;
+}
+#search::placeholder{
+font-size:13px;
+text-align:center;
+}
+
+#search:hover{
+border:solid 0.2px white;
+background-color: white;
+
+}
+
+
+
+</style>
 
 <body>	
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark"
@@ -67,7 +91,7 @@ String msg = (String) session.getAttribute("msg");
 				<div class="dropdown-menu">
 
 
-					<a href="#" class="dropdown-item">공지사항</a> 
+					<a href="<%= request.getContextPath() %>/event.do" class="dropdown-item">EVENT</a> 
 					<a href="<%= request.getContextPath() %>/lecture.le" class="dropdown-item">펀딩스쿨</a>
 					<a href="#" class="dropdown-item" onclick="goFaq();">문의하기</a>
 						
@@ -85,10 +109,10 @@ String msg = (String) session.getAttribute("msg");
 		<ul class="navbar-nav ml-auto">
 
 			<!--  검색 아이콘   **추가기능** -->
-			<li class="nav-item"><a href="#" class="nav-link"> <i
-					class="fas fa-search fa-lg"></i>
+			<input id="search" type="text" placeholder="어떤 프로젝트를 찾고 계신가요?">
+			<li class="nav-item"><a href="<%=request.getContextPath()%>/search.do" class="nav-link"> 
+			<i class="fas fa-search fa-lg"></i>
 			</a></li>
-
 			<%
 				if (loginUser == null) {
 			%>

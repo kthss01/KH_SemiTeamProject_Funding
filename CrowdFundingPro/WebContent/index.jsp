@@ -40,10 +40,10 @@
 
 h4 {
 	font-family: 'Roboto', 'sans-serif';
-	margin-top: 30px;
+	margin-top: 30px !important;
 	font-size: 2em;
-	font-weight: bold;
-	letter-spacing: -2px;
+	font-weight: 600 !important;
+	letter-spacing: -1px;
 }
 
 
@@ -98,7 +98,11 @@ h4 {
 					<div class="col-lg-9">
 						<!-- Featured blog post-->
 						<div class="preview">
+						<%if(loginUser != null) {%>
+							<h4><%=loginUser.getUserName() %>님, 이 프로젝트 어때요 ?</h4>
+							<%} else { %>
 							<h4>이 프로젝트 어때요 ?</h4>
+							<%} %>
 						</div>
 
 						<!-- Nested row for non-featured blog posts-->
