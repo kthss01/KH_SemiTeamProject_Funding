@@ -42,9 +42,9 @@ public class ProjectService {
 	}
 
 	public int insertProject() {
-		// TODO Auto-generated method stub
-		//new ProjectDao().insertProject()
-		//new ProjectDao().insertAttachment()
+		
+		new ProjectDao().insertProject()
+		new ProjectDao().insertAttachment()
 		return 0;
 	}
 

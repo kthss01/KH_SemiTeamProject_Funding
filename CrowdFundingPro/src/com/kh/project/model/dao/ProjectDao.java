@@ -42,6 +42,7 @@ public class ProjectDao {
 		ResultSet rset = null;
 		
 		String sql = prop.getProperty("selectList");
+		
 		try {
 			pstmt=conn.prepareStatement(sql);
 			rset=pstmt.executeQuery();
@@ -51,11 +52,12 @@ public class ProjectDao {
 				//코드 이미지 이름 현재금액
 				pj.setProjectCode(rset.getString("PROJECT_CODE"));
 				pj.setProjectName(rset.getString("PROJECT_NAME"));
-				pj.setFileNo(rset.getInt("FILE_NO"));
+				pj.setAmountGoal(rset.getInt("AMOUNT_COAL"));
+				//pj.setFileNo(rset.getInt("FILE_NO"));
 				
 				//pj.setAmountPresent(rset.getString("AMOUNT_PRESENT"));
 				
-				list.add(b);
+				list.add(pj);
 				
 			}
 		} catch (SQLException e) {

@@ -1,8 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ page import="java.util.ArrayList" %>
+
+<%@ page import="com.kh.project.model.vo.Project" %>
+<%@ page import="com.kh.common.model.vo.Attachment" %>
+    
 <%
 Project pj=(Project)(request.getAttribute("pj"));
-Attachment at=(Attachment)(request.getAttirbute("at"));
+Attachment at=(Attachment)(request.getAttribute("at"));
+
 %>
 <!DOCTYPE html>
 <html>
@@ -11,13 +18,13 @@ Attachment at=(Attachment)(request.getAttirbute("at"));
 <title>Insert title here</title>
 <style>
 
-.container_filed{
-    width:100%;
-    height:1700px;
+		.container_filed{
+		    width:100%;
+		    height:1700px;
+		
+		}
 
-}
-
-.wrap{
+		.wrap{
             /*border:1px solid black;*/
             width:100%;
             height:1300px;
@@ -98,6 +105,8 @@ Attachment at=(Attachment)(request.getAttirbute("at"));
 </style>
 </head>
 <body>
+<%@ include file="../common/menubar.jsp"%>
+
 <div class="container_filed">
     <br><br>
 
@@ -138,6 +147,8 @@ Attachment at=(Attachment)(request.getAttirbute("at"));
             </div>
             
         </div>
+        
+         <%@ include file="../common/footer.jsp"%>
 
 </div>
 
