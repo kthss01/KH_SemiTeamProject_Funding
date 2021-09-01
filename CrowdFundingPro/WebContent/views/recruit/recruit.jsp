@@ -430,11 +430,11 @@
     <script>
     
 		$(function() {
-			initTable();
 			getData();
 			
 			$.ajax({
 				url : 'recruitListCode.do',
+				beforeSend: initTable(),
 				success : function(code) {
 					setCode(code);
 					setModalCode(code);
@@ -446,14 +446,13 @@
 		});
 		
 		function getDataWithCode(code) {
-			initTable();
-			
 			$.ajax({
 				url : "recruitListWithCode.do",
 				type : 'get',
 				data : {
 					code
 				},
+				beforeSend: initTable(),
 				success : function(result) {
 					//console.log(result);
 					setTable(result.list);
@@ -466,8 +465,6 @@
 		}
 		
 		function getData(currentPage = 1) {
-			initTable();
-			
 			$.ajax({
 				url : "recruitList.do",
 				type : 'get',
