@@ -128,7 +128,9 @@
                     </ul>
                 </div>
             </div>
-            <img class="rounded" src="<%= request.getContextPath() %>/resources/images/recruit_process.png" alt="recruit_process">
+            <div class="d-flex justify-content-center">
+            	<img class="rounded" src="<%= request.getContextPath() %>/resources/images/recruit_process.png" alt="recruit_process">
+            </div>
         </div>
 
         <!-- 채용 진행과정 step 구현 시도 -->
