@@ -123,14 +123,7 @@ Attachment at=(Attachment)(request.getAttribute("at"));
                     <b>현재금액</b><br>
                     <b>종료일</b><br>
                     <b>배송료</b><br>
-                    <!-- <select name="national">
-                        <option selected>수량</option>
-                    </select><br> -->
-
-                    <!-- <b>수량</b><br>
-                    <button type="button" onclick="fnCalCount('p',this);">+</button>
-                    <input type="text" name="pop_out" vallue="0" readonly="readonly" style="text-align: center;" size="19"/>
-                    <button type="button" onclick="fnCalCount('m',thist);">-</button><br> -->
+                  
                     <b>수량</b><br>
                     <input type="text" name="amount" id="input1" value="1" size="3" onchange="change();">
                     <input type="button" value=" + " onclick="add();"><input type="button" value=" - " onclick="del();"><br><br>
