@@ -250,7 +250,6 @@ String contextPath = request.getContextPath();
 		  
 		}
 	
-	<!-- 구글 로그아웃 -->
 	function signOut(){
 		gapi.auth2.getAuthInstance().disconnect();
 	}
