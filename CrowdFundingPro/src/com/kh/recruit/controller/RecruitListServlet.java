@@ -37,6 +37,9 @@ public class RecruitListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		// code 구분
+		String code = request.getParameter("code");
+		
 		// Page 처리
 		int listCount; // 총 게시글 갯수
 		int currentPage; // 현재 페이지(즉, 요청한 페이지)
@@ -47,7 +50,11 @@ public class RecruitListServlet extends HttpServlet {
 		int pageLimit; // 한 페이지 하단에 보여질 페이지 최대 개수
 		int boardLimit; // 한 페이지에 보여질 게시글 최대 갯수
 		
-		listCount = new RecruitService().getListCount();
+		if (code == null || code.equals("")) {
+			listCount = new RecruitService().getListCount();
+		} else {
+			listCount = new RecruitService().getListCountWithCode(code);
+		}
 		
 		currentPage = 1;
 		
@@ -74,7 +81,13 @@ public class RecruitListServlet extends HttpServlet {
 		int startRow = (currentPage - 1) * boardLimit + 1;
 		int endRow = startRow + boardLimit - 1;
 		
-		ArrayList<Recruitment> list = new RecruitService().selectList(startRow, endRow);
+		ArrayList<Recruitment> list = null;
+		
+		if (code == null || code.equals("")) {
+			list = new RecruitService().selectList(startRow, endRow);
+		} else {
+			list = new RecruitService().selectListWithCode(startRow, endRow, code);
+		}
 		
 		response.setContentType("application/json; charset=utf-8");
 		
