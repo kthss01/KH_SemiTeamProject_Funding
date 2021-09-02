@@ -1,8 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ page import="java.util.ArrayList" %>
+
+<%@ page import="com.kh.project.model.vo.Project" %>
+<%@ page import="com.kh.common.model.vo.Attachment" %>
+    
 <%
 Project pj=(Project)(request.getAttribute("pj"));
-Attachment at=(Attachment)(request.getAttirbute("at"));
+Attachment at=(Attachment)(request.getAttribute("at"));
+
 %>
 <!DOCTYPE html>
 <html>
@@ -11,13 +18,13 @@ Attachment at=(Attachment)(request.getAttirbute("at"));
 <title>Insert title here</title>
 <style>
 
-.container_filed{
-    width:100%;
-    height:1700px;
+		.container_filed{
+		    width:100%;
+		    height:1700px;
+		
+		}
 
-}
-
-.wrap{
+		.wrap{
             /*border:1px solid black;*/
             width:100%;
             height:1300px;
@@ -98,6 +105,8 @@ Attachment at=(Attachment)(request.getAttirbute("at"));
 </style>
 </head>
 <body>
+<%@ include file="../common/menubar.jsp"%>
+
 <div class="container_filed">
     <br><br>
 
@@ -114,14 +123,7 @@ Attachment at=(Attachment)(request.getAttirbute("at"));
                     <b>현재금액</b><br>
                     <b>종료일</b><br>
                     <b>배송료</b><br>
-                    <!-- <select name="national">
-                        <option selected>수량</option>
-                    </select><br> -->
-
-                    <!-- <b>수량</b><br>
-                    <button type="button" onclick="fnCalCount('p',this);">+</button>
-                    <input type="text" name="pop_out" vallue="0" readonly="readonly" style="text-align: center;" size="19"/>
-                    <button type="button" onclick="fnCalCount('m',thist);">-</button><br> -->
+                  
                     <b>수량</b><br>
                     <input type="text" name="amount" id="input1" value="1" size="3" onchange="change();">
                     <input type="button" value=" + " onclick="add();"><input type="button" value=" - " onclick="del();"><br><br>
@@ -138,6 +140,8 @@ Attachment at=(Attachment)(request.getAttirbute("at"));
             </div>
             
         </div>
+        
+         <%@ include file="../common/footer.jsp"%>
 
 </div>
 

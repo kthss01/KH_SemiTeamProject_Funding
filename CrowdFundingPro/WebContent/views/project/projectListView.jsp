@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.kh.project.model.vo.Project" %>
+    
+    
 <%
-	ArrayList<Project> list=request.getAttribute("list");
+	ArrayList<Project> list= (ArrayList<Project>)request.getAttribute("list");
 %>
 <!DOCTYPE html>
 <html>
@@ -10,61 +15,110 @@
 <title>Insert title here</title>
 <style>
 
-.container_filed{
-    border:1px solid black;
-    width:100%;
-    height:1700px;
+		.container_filed{
+		    border:1px solid black;
+		    width:1300px;
+		    margin: 0 auto;
+		    padding:15px;
+		    
+		}
 
-}
+		.div1111:after{
+		content:'';
+		display:block;
+		clear:both;
+		}
 
-.div1{
-            border:1px solid white;
-            width:320px;
-            height:350px;
-            background-color:aquamarine;
-
-            margin-top: 5%;
-            margin-right: 2%;
-            
-        }
         .div1111{
             width:1090px;
-            height:800px;
             /* background-color:lightgray ;
             border:1px solid lightgray; */
-            display:flex;
-            flex-wrap: wrap;
-
+           
             /* align-content:flex-start; */
             
             /*margin:0 auto;/*중앙으로 정렬*/
             
         }
+        
+        .div1{
+            border:1px solid white;
+            width:320px;
+            height:350px;
+            background-color:aquamarine;
+    		float:left;
+            margin-top: 20px;
+            margin-right: 10px;
+            
+        }
+        
         #categoryName{
             width:100%;
             height:60px;
         }
 
-        img{
+        .div1 img{
             width:100%;
             height:80%;
         }
 
+		
+		.carousel-item {
+			height: 400px;
+		}
 
+		.carousel-item>img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
 
        
-.header{
+		.header{
             border:1px solid black;
             width:100%;
-            height:19%;
+            height:200px;
         }
         
 
 </style>
 </head>
 <body>
+
+	<%@ include file="../common/menubar.jsp"%>
+
+
+		<!-- carousel -->
+		<div id="intro" class="carousel slide" data-ride="carousel">
+			<!-- indicators -->
+			<ul class="carousel-indicators">
+				<li data-target="#intro" data-slide-to="0" class="active"></li>
+				<li data-target="#intro" data-slide-to="1"></li>
+				<li data-target="#intro" data-slide-to="2"></li>
+			</ul>
+
+			<!-- slideshow -->
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<img src="resources/images/recruit_img1.png" alt="img1">
+				</div>
+				<div class="carousel-item">
+					<img src="resources/images/recruit_img2.png" alt="img2">
+				</div>
+				<div class="carousel-item">
+					<img src="resources/images/recruit_img3.png" alt="img3">
+				</div>
+			</div>
+
+			<!-- left and right controls -->
+			<a href="#intro" class="carousel-control-prev" data-slide="prev">
+				<span class="carousel-control-prev-icon"></span>
+			</a> <a href="#intro" class="carousel-control-next" data-slide="next">
+				<span class="carousel-control-next-icon"></span>
+			</a>
+		</div>
+
+
 <div class="container_filed">
-    <div class="header"><h2>홍보이미지슬라이드</h2></div><br>
     <form class="searchArea" >
         <select id="cName" name="cName">
             <option value="travel">여행,레저</option>
@@ -90,50 +144,25 @@
     </div>
     
     <div class="div1111">
-    	<% for( Project pj:list){%>
+    	<% for(Project pj:list){%>
         <div class="div1">
         	<input type="hidden" value="<%=pj.getProjectCode()%>">
-            <img  src="<%=request.getContextPath() %>/resources/board_upfiles/<%= pj.getTitleImg() %>" width="100%" height="80%">
+        <%--   <img  src="<%=request.getContextPath() %>/resources/board_upfiles/<%= pj.getTitleImg() %>" width="100%" height="80%"> --%> 
             <p class="caption"><%=pj.getProjectName() %><br>
                 	현재금액
             </p>
         </div>&nbsp;
         <% }%>
-       
-        
-        <div class="div1">
-            <img src="">
-            <p class="caption">프로젝트 제목<br>
-               	 현재금액
-            </p>
-        </div>&nbsp;
-        <div class="div1">
-            <img src="">
-            <p class="caption">프로젝트 제목<br>
-                	현재금액
-            </p>
-        </div>&nbsp;
-        <div class="div1">
-            <img src="">
-            <p class="caption">프로젝트 제목<br>
-                	현재금액
-            </p>
-        </div>&nbsp;
-        <div class="div1">
-            <img src="">
-            <p class="caption">프로젝트 제목<br>
-                	현재금액
-            </p>
-        </div>&nbsp;
-        <div class="div1">
-            <img src="">
-            <p class="caption">프로젝트 제목<br>
-               	 현재금액
-            </p>
-        </div>
-       <button onclick="location.href='<%=request.getContextPath() %>/insertForm.th'">작성하기</button>
+
+       <button id="insertBtn" onclick="location.href='<%=request.getContextPath() %>/insertForm.th'">작성하기</button>
     </div>
 
+</div>
+
+
+
+	<%@ include file="../common/footer.jsp"%>
+</body>
    <script>
 		
 			$(function(){
@@ -143,7 +172,4 @@
 				});
 			});
 		</script>
-
-</div>
-</body>
 </html>

@@ -40,7 +40,7 @@ public class ProjectRegisterServlet extends HttpServlet {
 		if(ServletFileUpload.isMultipartContent(request)) {
 	         int maxSize=10*1024*1024 ;
 	         String resources =request.getSession().getServletContext().getRealPath("/resources");
-	         String savePath=resources+ "\\board_upfiles\\";     
+	         String savePath=resources+ "\\upfiles\\";     
 	         
 	         MultipartRequest multiRequest=new MultipartRequest(request,savePath,maxSize,"UTF-8",new MyFileNamePolicy());
 	         
