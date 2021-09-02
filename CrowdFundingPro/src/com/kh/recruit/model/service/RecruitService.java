@@ -154,5 +154,25 @@ public class RecruitService {
 		return result1 * result2 * result3 * result4;
 	}
 
+	public int getListCountWithCode(String code) {
+		Connection conn = getConnection();
+		
+		int listCount = new RecruitDao().getListCountWithCode(conn, code);
+		
+		close(conn);
+		
+		return listCount;
+	}
+
+	public ArrayList<Recruitment> selectListWithCode(int startRow, int endRow, String code) {
+		Connection conn = getConnection();
+		
+		ArrayList<Recruitment> list = new RecruitDao().selectListWithCode(conn, startRow, endRow, code);
+		
+		close(conn);
+		
+		return list;
+	}
+
 	
 }

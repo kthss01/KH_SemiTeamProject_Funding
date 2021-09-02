@@ -160,7 +160,7 @@
 
     <section class="container mt-5">
         <!-- 직무 구분 카테고리 button groups badges -->
-        <div id="recruit_code" class="btn-group">
+        <div id="recruit_code" class="btn-group btn-group-toggle" data-toggle="buttons">
         	<%-- ajax 처리 시 setCode --%>
         </div>
 
@@ -179,13 +179,6 @@
             <table class="table table-hover mt-5">
                 <tbody>
                 	<%-- ajax 처리시 setTable--%>
-                	<tr>
-                		<td class="text-center">
-                            <span class="spinner-grow spinner-grow-sm"></span>&nbsp;&nbsp;
-                            <span class="spinner-grow spinner-grow-sm"></span>&nbsp;&nbsp;
-                            <span class="spinner-grow spinner-grow-sm"></span>
-                        </td>
-                	</tr>
                 </tbody>
             </table>
 
@@ -261,8 +254,7 @@
                         <!-- Custom Select Menu -->
                         <label>직무구분</label>
                         <select form="recruit_create_form" name="recruitCode" id="recruitCode" class="custom-select">
-                        	<%-- ajax 처리시 수정 --%>
-                        	
+                        	<%-- ajax 처리 setModalCode --%>
                         </select>
 
                     </form>
@@ -391,8 +383,7 @@
                 $('#recruitStartDate').val(startDate);
                 $('#recruitEndDate').val(endDate);
 
-                $('#daterange span').html(start.format('YYYY-MM-DD') + ' ~ ' + end.format(
-                    'YYYY-MM-DD'));
+                $('#daterange span').html(start.format('YYYY-MM-DD') + ' ~ ' + end.format('YYYY-MM-DD'));
             });
 
             $('#daterange').on('apply.daterangepicker', function(ev, picker) {
@@ -442,6 +433,7 @@
 			
 			$.ajax({
 				url : 'recruitListCode.do',
+				beforeSend: loading(),
 				success : function(code) {
 					setCode(code);
 					setModalCode(code);
@@ -451,13 +443,18 @@
 				}
 			});
 		});
-		
-		function getData(currentPage = 1) {
+
+		function getData(currentPage=1) {
+			let code = $('#recruit_code label.active input').attr('id');
+			code = code === '전체' ? '' : code;
+			//console.log(code);
+			
 			$.ajax({
 				url : "recruitList.do",
 				type : 'get',
 				data : {
-					currentPage
+					currentPage,
+					code
 				},
 				success : function(result) {
 					//console.log(result);
@@ -471,16 +468,30 @@
 		}
 	 
 		function setCode(codes) {
+			const totalCnt = codes.reduce((sum, code) => sum + code.count, 0);
+			
 			$("#recruit_code").html('');
+			$("#recruit_code").append(`
+				<label class="btn btn-secondary rounded-pill m-1 active">
+                	<input type="radio" name="recruit_code" id="전체" autocomplete="off" checked>
+                	전체
+                	<span class="badge badge-light">\${totalCnt}</span>
+              	</label>
+			`);
+			
 			
 			codes.forEach((code) => {
 				$("#recruit_code").append(`
-					<button type="button" class="btn btn-secondary">
-	                \${code.code}
-	                <span class="badge badge-light">\${code.count}</span>
-	          		</button>
+	          		<label class="btn btn-secondary rounded-pill m-1">
+	                	<input type="radio" name="recruit_code" id="\${code.code}" autocomplete="off" checked>
+	                	\${code.code}
+	                	<span class="badge badge-light">\${code.count}</span>
+	              	</label>
 				`);
-				
+			});
+			
+			$("#recruit_code input").on("click", function() {
+				getData();
 			});
 		}
 		
@@ -492,6 +503,26 @@
 					<option value="\${code.code}">\${code.code}</option>
 				`);
 			});
+		}
+		
+		function loading() {
+			$("#recruit_code").html(`
+				<label class="btn btn-secondary rounded-pill m-1 active">
+               	<span class="spinner-border spinner-border-sm"></span>
+               	<input type="radio" name="recruit_code" id="전체" autocomplete="off" checked>
+               	Loading...
+              	</label>
+			`);
+			
+			$("#recruit_table table tbody").html(`
+				<tr>
+            		<td class="text-center">
+                        <span class="spinner-grow spinner-grow-sm"></span>&nbsp;&nbsp;
+                        <span class="spinner-grow spinner-grow-sm"></span>&nbsp;&nbsp;
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                    </td>
+            	</tr>
+			`);
 		}
 		
 		function setTable(list) {

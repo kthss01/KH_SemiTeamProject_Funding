@@ -517,4 +517,76 @@ public class RecruitDao {
 		return at;
 	}
 
+	public int getListCountWithCode(Connection conn, String code) {
+		int listCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("getListCountWithCode");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, code);
+
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				// 이렇게 쓰면 가독성 문제로 컬럼명으로 보통 한다고 함
+				listCount = rset.getInt(1); // count
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return listCount;
+	}
+
+	public ArrayList<Recruitment> selectListWithCode(Connection conn, int startRow, int endRow, String code) {
+		ArrayList<Recruitment> list = new ArrayList<>();
+
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectListWithCode");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				int id = rset.getInt("R_ID");
+				String title = rset.getString("R_TITLE");
+				Date start = rset.getDate("R_START");
+				Date end = rset.getDate("R_END");
+				String time = rset.getString("R_TIME");
+				String content1 = rset.getString("R_CONTENT1");
+				String content2 = rset.getString("R_CONTENT2");
+				String content3 = rset.getString("R_CONTENT3");
+				String content4 = rset.getString("R_CONTENT4");
+				String content5 = rset.getString("R_CONTENT5");
+				String content6 = rset.getString("R_CONTENT6");
+
+				list.add(new Recruitment(id, title, code, start, end, time, content1, content2, content3, content4,
+						content5, content6));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return list;
+	}
+
 }
