@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 <style>
         .container_filed{
-            border:1px solid black;
-            width:100%;
-            height:100%;
+            width:400px;
+            height:1200px;
+            margin: 0 auto ;
 
         }
         #btn1{
@@ -25,7 +25,7 @@
     </style>
 </head>
 <body>
-	
+	<%@ include file="../common/menubar.jsp"%>
 	
 	<div class="container_filed">
 <form action="<%=request.getContextPath()%>/register.do" method="post" enctype="multipart/form-data">
@@ -95,5 +95,7 @@
         <input id="btn1" type="button" value="완료하기"><br>
     </form>
     </div>
+    
+    <%@ include file="../common/footer.jsp"%>
 </body>
 </html>
