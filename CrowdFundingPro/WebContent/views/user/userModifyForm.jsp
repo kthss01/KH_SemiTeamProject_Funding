@@ -41,16 +41,16 @@
     <style>
     	
  
-  
-        h1{
-            font-size: 30px;
-            text-align: left;
+ 	#modifyTitle h1{
+ 	       font-size: 42px;
+            text-align: center;
             margin-top: 150px;
             margin-bottom: 100px;
             font-weight:bolder;
-            font-family: 'Rajdhani','sans-serif';
-            
-        }
+            font-family: 'Roboto','sans-serif';
+ 	}
+ 
+
         label{
             line-height: 50px;
             font-size: 20px;
@@ -62,6 +62,8 @@
         .input-area{
             width: 400px;
             margin:0 auto;
+            margin-bottom:150px;
+
         }
         .input-area button{
             width: 25%;
@@ -112,11 +114,17 @@
             color: white;
             font-size: 1.5em;
         }
+        
+        #deleteBtn{
+            font-size: 1.5em;
+        }
 
         #modifyBtn:hover{
-            cursor: pointer;
             background-color: mediumaquamarine;
-
+        }
+        
+        #deleteBtn:hover{
+        	border : solid 1px mediumaquamarine;
         }
    
     </style>
@@ -125,10 +133,12 @@
 
 	<%@ include file="../common/menubar.jsp"%>
 
+		<div id="modifyTitle">
+			   <h1>회원정보</h1>			
+		</div>
 
         <div class="input-area">
 
-            <h1>회원정보수정</h1>
             <p style="font-size:12px;">이름과 아이디는 수정이 불가합니다.</p>
 
 				<form id="updateForm" action="<%=request.getContextPath()%>/update.me"  method="post">
@@ -160,7 +170,7 @@
                
                 <input id="modifyBtn" type="button" value="수정완료" onclick="uadateAvailable();">
 			</form>
-                <input id="#deleteBtn" type="button" value="회원탈퇴" onclick="deleteCheck()">  <!-- ajax -->
+                <input id="deleteBtn" type="button" value="회원탈퇴" onclick="deleteCheck()">  <!-- ajax -->
                
 			
         </div>

@@ -1,12 +1,12 @@
 package com.kh.event.model.vo;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Event {
 
-	private int eNo;
-	private String eName;
-	private String eContent;
+	private int eNo;			//이벤트번호	
+	private String eName;		//이벤트명
+	private String eContent;	//이벤트내용이미지 
 	private Date regDate;
 	private Date startDate;
 	private Date endDate;	
@@ -15,6 +15,7 @@ public class Event {
 	public Event() {
 		// TODO Auto-generated constructor stub
 	}
+	
 	
 
 	public Event(int eNo, String eName, String eContent, Date regDate, Date startDate, Date endDate, String status) {
@@ -26,6 +27,16 @@ public class Event {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.status = status;
+	}
+
+
+
+	public Event(String eName,String eContent, Date startDate, Date endDate) {
+		super();
+		this.eName = eName;
+		this.eContent = eContent;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 
 
