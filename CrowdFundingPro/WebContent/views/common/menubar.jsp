@@ -4,7 +4,7 @@
 
 <%
 	User loginUser = (User) session.getAttribute("loginUser");
-String msg = (String) session.getAttribute("msg");
+	String msg = (String) session.getAttribute("msg");
 %>
 
 <!DOCTYPE html>

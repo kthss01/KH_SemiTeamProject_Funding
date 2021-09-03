@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.kh.common.model.vo.Attachment;
+import com.kh.event.model.vo.Event;
 import com.kh.recruit.model.dao.RecruitDao;
 import com.kh.recruit.model.vo.RecruitCode;
 import com.kh.recruit.model.vo.RecruitMember;
@@ -153,6 +154,7 @@ public class RecruitService {
 		
 		return result1 * result2 * result3 * result4;
 	}
+
 
 	
 }
