@@ -39,8 +39,6 @@ public class EventDao {
 		PreparedStatement pstmt = null;
 
 		String sql = prop.getProperty("insertEvent");
-//		insertEvent= INSERT INTO EVENT_TB (SEQ_EVENT_NO.NEXTVAL,?,?,DEFAULT,'N',?,?);
-// 		insertEvent= INSERT INTO EVENT_TB (SEQ_EVENT_NO.NEXTVAL,?,?,DEFAULT,'N',?,?)
 
         long startDate = event.getStartDate().getTime();
         long endDate = event.getEndDate().getTime();
