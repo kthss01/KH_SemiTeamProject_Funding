@@ -100,7 +100,7 @@
 			top:0;
 			left:0;
 			z-index:-1;
-		}
+			}
 	
 
             #myPageTitle h1 {
@@ -174,7 +174,13 @@
     <body>
 	<%@ include file="../common/menubar.jsp"%>
 		<div id="myPageTitle">
-		        <h1>마이페이지</h1>		     
+		
+		<%if(loginUser.getUserCode().equals("01")){ %>		
+		        <h1>관리자 페이지</h1>
+		   <%} else { %>
+		   		 <h1>마이 페이지</h1>
+		   
+		   <%} %>		     
 		</div>
 
 	<div class="box">
@@ -204,14 +210,31 @@
 		<div class="content2">
 			<div class="section project ">
 				<h3>내가 참여한 프로젝트</h3>
+				
 				<%
-					for (UProject up : UPList) {
+				if(!UPList.isEmpty()){
+					for (UProject up : UPList) {				
 				%>
 				<div class="card">
 					<div class="card-img-top"></div>
 					<div class="card-body" id="cBody">
 						<h2 class="card-title h5"><%=up.getProjectName() %></h2>
 						<div class="small text-muted"><%=up.getProDetail() %></div>
+					</div>
+				</div>
+				<%
+					}
+				} else {
+				%>
+				<div class="card">
+					<div class="card-img-top"></div>
+					<div class="card-body" id="cBody">
+						<h2 class="card-title h5">
+							<a href="#">프로젝트 구경가기</a>
+						</h2>
+						<div class="small text-muted">
+							<p>아직 참여중인 프로젝트가 없으시네요!</p>
+						</div>
 					</div>
 				</div>
 				<%
