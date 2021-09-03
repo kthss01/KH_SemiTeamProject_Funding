@@ -553,6 +553,15 @@
             </div>
         </div>
     </div>
+    
+     
+    <!-- file upload 파일명 입력 처리 -->
+    <script>
+    	$(".custom-file-input").on("change", function() {
+    		const fileName = $(this).val().split("\\").pop();
+    		$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    	});
+    </script>
 
     <!-- 개인정보 수집 및 이용수칙 내용 popover -->
     <script>
