@@ -247,8 +247,8 @@
             $('#daterange').daterangepicker({
                 //opens: 'right',
                 //drops: 'up',
-                startDate,   // 시작일 설정
-                endDate // 종료일 설정
+                startDate,  
+                endDate 
             }, function (start, end) {
                 //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
                 const startDate = start.format('YYYY-MM-DD');
