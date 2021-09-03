@@ -29,6 +29,10 @@
 		    height: 100%;
 		    object-fit: cover;
 		}
+		
+		.tooltip-inner {
+    		max-width: 100% !important;
+		}
     </style>
     
     <script>
@@ -177,7 +181,6 @@
 
                 <div class="modal-body">
 					삭제하시겠습니까?
-                 	
                  	<form id="recruit_delete_form" action="<%= request.getContextPath() %>/recruitDelete.do" method="post">
                  		<input type="hidden" class="form-control" name="recruitId" value="<%= r.getId() %>">
                  	</form>
@@ -477,21 +480,21 @@
 
                         <!-- 학력사항 -->
                         <div class="form-group">
-                            <label for="recruitMemberEducation">학력사항</label>
+                            <label id="educationLabel" data-toggle="tooltip" for="recruitMemberEducation">학력사항</label>
                             <input type="text" class="form-control" id="recruitMemberEducation" name="recruitMemberEducation" placeholder="학력사항을 입력해주세요">
                         </div>
 
                         <!-- 경력사항 -->
                         <div class="form-group">
-                            <label for="recruitMemberCareer">경력사항</label>
+                            <label id="careerLabel" for="recruitMemberCareer" data-toggle="tooltip">경력사항</label>
                             <input type="text" class="form-control" id="recruitMemberCareer" name="recruitMemberCareer" placeholder="경력사항을 입력해주세요">
                         </div>
 
                         <!-- 이력서 및 경력기술서 / 포트폴리오 파일 올리는걸로 처리 -->
                         <div class="form-group">
-                            <label for="recruitPortfolio">이력서 및 경력기술서 / 포트폴리오</label>
+                            <label id="portfolioLabel" data-toggle="tooltip" for="recruitPortfolio">이력서 및 경력기술서 / 포트폴리오</label>
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="recruitPortfolio" name="recruitPortfolio">
+                                <input type="file" role="button" class="custom-file-input" id="recruitPortfolio" name="recruitPortfolio">
                                 <label for="recruitPortfolio" class="custom-file-label" data-browse="업로드">파일을 올려주세요</label>
                             </div>
                         </div>
@@ -553,17 +556,48 @@
             </div>
         </div>
     </div>
+    
+     
+    <!-- file upload 파일명 입력 처리 -->
+    <script>
+    	$(".custom-file-input").on("change", function() {
+    		const fileName = $(this).val().split("\\").pop();
+    		$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    	});
+    </script>
 
-    <!-- 개인정보 수집 및 이용수칙 내용 popover -->
     <script>
         $(function() {
-            //$('[data-toggle="popover"]').popover();
+		    <!-- 개인정보 수집 및 이용수칙 내용 popover -->
+        	//$('[data-toggle="popover"]').popover();
             $('#privacy_popover').popover({
                 html: true,
-                placement: 'top',
+                placement: 'right',
                 trigger: 'hover',
                 title: '개인정보 수집 및 이용수칙',
                 content: $('#privacy_popover_content').html()
+            });
+    	
+            <!-- 경력사항, 이력사항 tooltip 처리 -->
+            
+            const delay = {show: 100, hide:1000};
+
+            
+            $('#educationLabel').tooltip({
+            	placement: "right",
+            	title: "예시) OO학교 OO학과 학사 졸업",
+            	delay,
+            });
+            $('#careerLabel').tooltip({
+            	placement: "right",
+            	title: "예시) OO컴퍼니/OO팀, ㅁㅁ컴퍼니/ㅁㅁ팀 (최근 근무순)",
+            	delay,
+            });
+            $('#portfolioLabel').tooltip({
+            	placement: "right",
+            	html: true,
+            	title: "(선택/자유양식)<br> 이력서 또는 경력기술서를 첨부해주시기 바랍니다.",
+            	delay,
             });
         });
     </script>

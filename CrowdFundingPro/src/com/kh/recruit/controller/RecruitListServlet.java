@@ -37,6 +37,9 @@ public class RecruitListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		// title 구분
+		String title = request.getParameter("title");
+		
 		// code 구분
 		String code = request.getParameter("code");
 		
@@ -50,10 +53,14 @@ public class RecruitListServlet extends HttpServlet {
 		int pageLimit; // 한 페이지 하단에 보여질 페이지 최대 개수
 		int boardLimit; // 한 페이지에 보여질 게시글 최대 갯수
 		
-		if (code == null || code.equals("")) {
+		if ((code == null || code.equals("")) && (title == null || title.equals(""))) {
 			listCount = new RecruitService().getListCount();
-		} else {
+		} else if ((code == null || code.equals(""))) {
+			listCount = new RecruitService().getListCountWithTitle(title);
+		} else if ((title == null || title.equals(""))) {
 			listCount = new RecruitService().getListCountWithCode(code);
+		} else {
+			listCount = new RecruitService().getListCountWithCodeTitle(code, title);
 		}
 		
 		currentPage = 1;
@@ -84,9 +91,19 @@ public class RecruitListServlet extends HttpServlet {
 		ArrayList<Recruitment> list = null;
 		
 		if (code == null || code.equals("")) {
-			list = new RecruitService().selectList(startRow, endRow);
+			
 		} else {
+			
+		}
+		
+		if ((code == null || code.equals("")) && (title == null || title.equals(""))) {
+			list = new RecruitService().selectList(startRow, endRow);
+		} else if ((code == null || code.equals(""))) {
+			list = new RecruitService().selectListWithTitle(startRow, endRow, title);
+		} else if ((title == null || title.equals(""))) {
 			list = new RecruitService().selectListWithCode(startRow, endRow, code);
+		} else {
+			list = new RecruitService().selectListWithCodeTitle(startRow, endRow, code, title);
 		}
 		
 		response.setContentType("application/json; charset=utf-8");

@@ -175,6 +175,45 @@ public class RecruitService {
 		return list;
 	}
 
+	public int getListCountWithTitle(String title) {
+		Connection conn = getConnection();
+		
+		int listCount = new RecruitDao().getListCountWithTitle(conn, title);
+		
+		close(conn);
+		
+		return listCount;
+	}
+
+	public int getListCountWithCodeTitle(String code, String title) {
+		Connection conn = getConnection();
+		
+		int listCount = new RecruitDao().getListCountWithCodeTitle(conn, code, title);
+		
+		close(conn);
+		
+		return listCount;
+	}
+
+	public ArrayList<Recruitment> selectListWithTitle(int startRow, int endRow, String title) {
+		Connection conn = getConnection();
+		
+		ArrayList<Recruitment> list = new RecruitDao().selectListWithTitle(conn, startRow, endRow, title);
+		
+		close(conn);
+		
+		return list;
+	}
+
+	public ArrayList<Recruitment> selectListWithCodeTitle(int startRow, int endRow, String code, String title) {
+		Connection conn = getConnection();
+		
+		ArrayList<Recruitment> list = new RecruitDao().selectListWithCodeTitle(conn, startRow, endRow, code, title);
+		
+		close(conn);
+		
+		return list;
+	}
 
 	
 }

@@ -166,11 +166,11 @@
 
         <!-- 직무 검색 input groups -->
         <div class="input-group mt-5">
-            <input type="text" class="form-control" placeholder="직무 검색하기">
+            <input id="recruit_search" type="text" class="form-control" placeholder="직무 검색하기">
             <div class="input-group-append">
-                <a href="#" class="btn btn-secondary">
+                <button class="btn btn-secondary" onclick="getData();">
                     <i class="fas fa-search fa-lg"></i>
-                </a>
+                </button>
             </div>
         </div>
 
@@ -442,6 +442,14 @@
 					console.log("ajax 통신 실패");
 				}
 			});
+			
+			// enter key 이벤트 처리
+			$('#recruit_search').on("keyup", function(key) {
+				//console.log("test", key.key, key.code);
+				if(key.code === 'Enter') {
+					getData();
+				}
+			});
 		});
 
 		function getData(currentPage=1) {
@@ -449,12 +457,15 @@
 			code = code === '전체' ? '' : code;
 			//console.log(code);
 			
+			const title = $('#recruit_search').val();
+			
 			$.ajax({
 				url : "recruitList.do",
 				type : 'get',
 				data : {
 					currentPage,
-					code
+					code,
+					title
 				},
 				success : function(result) {
 					//console.log(result);

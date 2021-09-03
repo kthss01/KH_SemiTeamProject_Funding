@@ -589,4 +589,152 @@ public class RecruitDao {
 		return list;
 	}
 
+	public int getListCountWithTitle(Connection conn, String title) {
+		int listCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("getListCountWithTitle");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "%" + title + "%");
+
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				// 이렇게 쓰면 가독성 문제로 컬럼명으로 보통 한다고 함
+				listCount = rset.getInt(1); // count
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return listCount;
+	}
+
+	public int getListCountWithCodeTitle(Connection conn, String code, String title) {
+		int listCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("getListCountWithCodeTitle");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, code);
+			pstmt.setString(2, "%" + title + "%");
+
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				// 이렇게 쓰면 가독성 문제로 컬럼명으로 보통 한다고 함
+				listCount = rset.getInt(1); // count
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return listCount;
+	}
+
+	public ArrayList<Recruitment> selectListWithTitle(Connection conn, int startRow, int endRow, String title) {
+		ArrayList<Recruitment> list = new ArrayList<>();
+
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectListWithTitle");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + title + "%");
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				int id = rset.getInt("R_ID");
+				title = rset.getString("R_TITLE");
+				Date start = rset.getDate("R_START");
+				Date end = rset.getDate("R_END");
+				String code = rset.getString("R_CODE");
+				String time = rset.getString("R_TIME");
+				String content1 = rset.getString("R_CONTENT1");
+				String content2 = rset.getString("R_CONTENT2");
+				String content3 = rset.getString("R_CONTENT3");
+				String content4 = rset.getString("R_CONTENT4");
+				String content5 = rset.getString("R_CONTENT5");
+				String content6 = rset.getString("R_CONTENT6");
+
+				list.add(new Recruitment(id, title, code, start, end, time, content1, content2, content3, content4,
+						content5, content6));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return list;
+	}
+
+	public ArrayList<Recruitment> selectListWithCodeTitle(Connection conn, int startRow, int endRow, String code,
+			String title) {
+		ArrayList<Recruitment> list = new ArrayList<>();
+
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectListWithCodeTitle");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			pstmt.setString(2, "%" + title + "%");
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, endRow);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				int id = rset.getInt("R_ID");
+				Date start = rset.getDate("R_START");
+				Date end = rset.getDate("R_END");
+				title = rset.getString("R_TITLE");
+				String time = rset.getString("R_TIME");
+				String content1 = rset.getString("R_CONTENT1");
+				String content2 = rset.getString("R_CONTENT2");
+				String content3 = rset.getString("R_CONTENT3");
+				String content4 = rset.getString("R_CONTENT4");
+				String content5 = rset.getString("R_CONTENT5");
+				String content6 = rset.getString("R_CONTENT6");
+
+				list.add(new Recruitment(id, title, code, start, end, time, content1, content2, content3, content4,
+						content5, content6));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return list;
+	}
+
 }
