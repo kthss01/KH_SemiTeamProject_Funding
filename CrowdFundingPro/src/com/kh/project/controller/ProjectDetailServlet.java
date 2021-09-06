@@ -30,14 +30,13 @@ public class ProjectDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String pCode=request.getParameter("pjCode");
+		String pCode=request.getParameter("pCode");
 		
 		Project pj=new ProjectService().projectSelect(pCode);
-		Attachment at=new ProjectService().attachmentSelect(pCode);
-		if(pj !=null && at !=null) {
+		//Attachment at=new ProjectService().attachmentSelect(pCode);
+		if(pj !=null) {
 			request.setAttribute("pj", pj);
-			request.setAttribute("at", at);
-			request.getRequestDispatcher("projectDetailView.jsp");
+			request.getRequestDispatcher("views/project/projectDetailView.jsp");
 		
 		}
 	}
