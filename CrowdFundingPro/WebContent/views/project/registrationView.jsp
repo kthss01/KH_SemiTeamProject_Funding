@@ -42,7 +42,7 @@
 
         <label><b>대표이미지</b></label><br>
         <label>파일선택:</label>
-    <input type="file" name="uploadfile"><br><br>
+    	<input type="file" name="uploadfile"><br><br>
 
     <label><b>카테고리선택:</b></label>
     
@@ -92,7 +92,7 @@
     <label for="confirm2">모두 동의합니다.</label><br>
     <hr><br>
 
-        <input id="btn1" type="button" value="완료하기"><br>
+        <input id="btn1" type="submit" value="완료하기"><br>
     </form>
     </div>
     

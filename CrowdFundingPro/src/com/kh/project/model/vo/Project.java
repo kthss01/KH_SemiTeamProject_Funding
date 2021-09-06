@@ -3,8 +3,8 @@ package com.kh.project.model.vo;
 import java.util.Date;
 
 public class Project {
-	private String projectCode;
-	private String userNo;
+	private int projectCode;
+	private int userNo;
 	private String projectName;
 	private int amountGoal;
 	private int amountPresent;
@@ -14,6 +14,8 @@ public class Project {
 	private String detailIntro;
 	private String categoryNo;
 	private int fileNo;
+	private String titleImg;
+
 	
 	public Project() {
 		
@@ -31,8 +33,8 @@ public class Project {
 	}
 	
 	
-	public Project(String projectCode, String userNo, String projectName, int amountGoal, int amountPresent, Date ddln,
-			int deliveryCharge, int supportNum, String detailIntro, String categoryNo, int fileNo) {
+	public Project(int projectCode, int userNo, String projectName, int amountGoal, int amountPresent, Date ddln,
+			int deliveryCharge, int supportNum, String detailIntro, String categoryNo) {
 		super();
 		this.projectCode = projectCode;
 		this.userNo = userNo;
@@ -44,22 +46,22 @@ public class Project {
 		this.supportNum = supportNum;
 		this.detailIntro = detailIntro;
 		this.categoryNo = categoryNo;
-		this.fileNo = fileNo;
+
 	}
 
-	public String getProjectCode() {
+	public int getProjectCode() {
 		return projectCode;
 	}
 
-	public void setProjectCode(String projectCode) {
+	public void setProjectCode(int projectCode) {
 		this.projectCode = projectCode;
 	}
 
-	public String getUserNo() {
+	public int getUserNo() {
 		return userNo;
 	}
 
-	public void setUserNo(String userNo) {
+	public void setUserNo(int userNo) {
 		this.userNo = userNo;
 	}
 
@@ -134,6 +136,13 @@ public class Project {
 	public void setFileNo(int fileNo) {
 		this.fileNo = fileNo;
 	}
+	public String getTitleImg() {
+		return titleImg;
+	}
+	public void setTitleImg(String titleImg) {
+		this.titleImg=titleImg;
+	}
+	
 
 	@Override
 	public String toString() {

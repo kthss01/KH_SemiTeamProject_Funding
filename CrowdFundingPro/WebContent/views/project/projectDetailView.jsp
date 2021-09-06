@@ -115,7 +115,7 @@ Attachment at=(Attachment)(request.getAttribute("at"));
     
             <div class="wrap2">
                 <div id="info" class="information"><h2>이미지</h2>
-                    <img width="" height="" id="titleImg" src="<%=request.getContextPath() %>/resources/board_upfiles/<%= at.getChangeName() %>">
+                    <img width="" height="" id="titleImg" src="<%=request.getContextPath() %>/resources/board_upfiles/<%= pj.getChangeName() %>">
                 </div>
                 <div class="information"><h2>프로젝트정보</h2><br>
                     <b>프로젝트명</b><br>
