@@ -4,8 +4,15 @@
 <%@ page import="com.kh.event.model.vo.Event"%>
 <%@ page import="java.util.ArrayList"%>
 
+<%@ page import="java.sql.Date"%>
+<%@ page import="java.time.*"%>
+
 <%
 	ArrayList<Event> eList = (ArrayList<Event>) request.getAttribute("eList");
+	
+	LocalDate currentDate = LocalDate.now();	
+	Date today = Date.valueOf(LocalDate.of(currentDate.getYear(),currentDate.getMonth(),currentDate.getDayOfMonth()));
+
 %>
 
 <!DOCTYPE html>
@@ -60,21 +67,21 @@
 	justify-content: center;
 	align-items: center;
 	width: 800px;
-	height: 100vh;
 	margin: 0 auto;
+	padding-bottom:200px;
 }
 
-.event-form .info {
+.info {
 	width: 800px;
-	height: 140px;
+	height: 170px;
 	border-bottom: solid 0.2px rgb(0, 0, 0, .2);
 	margin-bottom: 20px;
 	padding-bottom: 20px;
 }
 
-.info .title {
+.title {
 	width: 650px;
-	height: 90px;
+	height: 120px;
 	font-size: 20px;
 	color: #1d2129;
 	font-family: 'Roboto', sans-serif;
@@ -83,15 +90,30 @@
 	float: left;
 }
 
+.eStatus{
+	float:left;
+	width:650px;
+	height:20px;
+	margin-bottom:10px;
+	color:rgb(0,0,0,.7);
+	}
+
 #img {
-	float: left;
-	width: 140px;
+	float:left;
+	width: 150px;
 	height: 120px;
-	margin-left: 10px;
-	background-color: rgb(0, 0, 0, .8);
-	text-align: center;
-	color: white;
+	overflow:hidden;
+	text-align:right;
 }
+
+#thumbnail{
+    width:100%;
+    height:initial;
+    object-fit:cover;
+    margin-top:-15%;
+}
+
+
 
 #newEventBtn {
 	text-align: right;
@@ -122,6 +144,7 @@
 .info:hover > .title{
 	text-decoration: underline;
 }
+
 </style>
 
 <body>
@@ -150,20 +173,39 @@
 			<%
 				}
 			%>
-	
-			<% 
-				if (!eList.isEmpty()){
-					for(Event e : eList){
-				
+
+			<%
+				if (!eList.isEmpty()) {
+				for (Event e : eList) {
 			%>
 			<div class="info">
 				
-				<div class="title"><%=e.geteName()%></div>
-				<input id="eno" type="hidden" name="eno" value="<%= e.geteNo() %>">
-				<div id="img">
-				<%-- <img alt="이미지로딩실패" src= "<%=request.getContextPath()%>/resources/upfiles/<%=e.geteContent()%>">--%>
+				<div class=eStatus>
+				
+				<%
+					if ((!today.before(e.getStartDate()) || e.getStartDate().equals(today)) && ( !today.after(e.getEndDate())
+						|| e.getEndDate().equals(today))) {
+				%>
+				<b style="color:#4462EE; font-szie:13px; font-family: 'Roboto', sans-serif">[진행중]</b>
+				<%
+					} else {
+				%>
+				<b style="color:#696F75; font-szie:13px; font-family: 'Roboto', sans-serif">[시작 예정 이거나 종료 된 이벤트입니다]</b>
+				<%
+					}
+				%>
 				</div>
+				
+				<div class="title"><%=e.geteName()%></div>
+				
+				<div id="img">
+				<img id="thumbnail" alt="이미지로딩실패" src= "<%=request.getContextPath()%>/resources/upfiles/<%=e.geteContent()%>">
+				</div>
+				
+				<input type="hidden" id="eno" name="eno" value=<%=e.geteNo() %>>
+				
 			</div>
+			
 			<%
 				}
 			} else {
@@ -177,6 +219,20 @@
 			}
 			%>
 		</div>
+	<script>
+	
+		$(function(){
+		
+			$(".info").click(function(){
+				
+				var eno = $(this).children("#eno").val();
+				console.log(eno);
+				location.href="<%=request.getContextPath()%>/eDetail.do?eno="+eno;
+			})
+	
+		})
+		</script>
+
 	<%@ include file="../common/footer.jsp"%>
 
 	<!-- 이벤트 등록 modal -->
@@ -199,24 +255,22 @@
 							</div>
 						</div>
 						<input form="event_form" type="hidden" id="eventStartDate"
-							name="eventStartDate"> 
+							name="eventStartDate" required>  
 						<input form="event_form"
-							type="hidden" id="eventEndDate" name="eventEndDate">
+							type="hidden" id="eventEndDate" name="eventEndDate" required>
 
-						<!-- 공고명 -->
 						<div class="form-group">
 							<label for="eventName">이벤트 명</label> <input form="event_form"
 								type="text" class="form-control" id="eventName" name="eventName"
-								placeholder="내용을 입력해주세요">
+								placeholder="내용을 입력해주세요" required>
 						</div>
 
 
-						<!-- 컨텐츠 이미지로 올리기 -->
 						<div class="form-group">
 							<label for="eventio">컨텐츠 이미지</label>
 							<div class="custom-file">
 								<input type="file" class="custom-file-input"
-									id="eventio" name="eventio">
+									id="eventio" name="eventio" required>
 									 <label for="eventio"
 									class="custom-file-label" data-browse="업로드">파일을 올려주세요</label>
 							</div>
@@ -270,17 +324,5 @@
             });
         });
         
-        
-	<%if(!eList.isEmpty()){%>
-			$(function(){
-				$(".info").click(function(){
-					var eno = $("#eno").val();
-					console.log(eno);
-					
-					location.href="<%=request.getContextPath()%>/eDetail.do?eno="+eno;
-				})
-			})
-	<%}%>
-
     </script>
 </html>

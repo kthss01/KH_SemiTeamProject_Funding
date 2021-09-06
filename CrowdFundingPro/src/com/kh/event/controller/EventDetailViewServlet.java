@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.kh.event.model.service.EventService;
 import com.kh.event.model.vo.Event;
@@ -33,10 +34,11 @@ public class EventDetailViewServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();//세션정보를 가져와 담아주고 세션에 유저의 정보를 담는다.
 
 		int eno = Integer.parseInt(request.getParameter("eno"));
 		Event e = new EventService().selectEvent(eno);
-
+		System.out.println(eno);
 		if (e != null) {
 			request.setAttribute("event", e);
 			request.getRequestDispatcher("views/event/eventDetailView.jsp").forward(request, response);

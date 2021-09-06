@@ -1,6 +1,7 @@
 package com.kh.event.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,16 +40,17 @@ public class EventDeleteServlet extends HttpServlet {
 		int eno = Integer.parseInt(request.getParameter("eno"));
 		System.out.println("eno : " + eno);
 		int result = new EventService().deleteEvent(eno);
-
+		ArrayList<Event> eList = new EventService().selectEventList();
+		request.setAttribute("eList", eList);
+		
 		if(result > 0 ) {
-			session.removeAttribute("loginUser");
 			session.setAttribute("msg", "이벤트 삭제 완료");
-			RequestDispatcher view = request.getRequestDispatcher("views/event/event.jsp");
+			request.getRequestDispatcher("views/event/event.jsp").forward(request, response);
+			
 
 		}else {
 			request.setAttribute("msg", "이벤트 삭제 실패");
-			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp");
-			view.forward(request, response);
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 
 	}

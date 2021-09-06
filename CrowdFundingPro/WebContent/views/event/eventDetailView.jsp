@@ -67,6 +67,7 @@
 	margin-bottom: 100px;
 	text-decoration : underline;
 	text-underline-position: under;
+	text-align:center;
 
 }
 
@@ -91,6 +92,10 @@
 #deleteEventBtn input:hover {
 	text-decoration: underline;
 	font-style: normal;
+}
+
+.eContent{
+text-align:center;
 }
 
 

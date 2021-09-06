@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
@@ -81,9 +82,13 @@ public class EventInsertServlet extends HttpServlet {
 
 
 			// 파일 업로드 처리
-			
 			Attachment at = null;
+			
+			//등록할 이벤트 객체
 			Event event = null;
+			
+			
+			
 			if (multiRequest.getOriginalFileName("eventio") != null) {
 				String originName = multiRequest.getOriginalFileName("eventio");
 				String changeName = multiRequest.getFilesystemName("eventio");
@@ -102,7 +107,8 @@ public class EventInsertServlet extends HttpServlet {
 
 			if (result > 0) {
 				request.getSession().setAttribute("msg", "이벤트 등록 성공");
-				response.sendRedirect("views/event/event.jsp");		
+				response.sendRedirect(request.getContextPath() + "/eList.do");
+
 
 			} else {
 				if (at != null) {
