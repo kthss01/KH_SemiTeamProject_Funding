@@ -8,10 +8,10 @@
 	ArrayList<Faq> mList = new ArrayList<Faq>();
 
 	for(Faq f : list){
-		if(f.getTargetUser().charAt(0) == 'S'){ //서포터이면
+		if(f.getTargetUser() == 'S'){ //서포터이면
 			sList.add(f);
 		}
-		else if(f.getTargetUser().charAt(0) == 'M'){	//메이커이면
+		else if(f.getTargetUser() == 'M'){	//메이커이면
 			mList.add(f);
 		}
 	} 
@@ -31,7 +31,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <link
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
          mily=Nanum+Gothic&family=Roboto&display=swap"
@@ -95,10 +95,11 @@
         font-weight: bold;       
     }
 
-    .box, .boxM {
+    .boxS, .boxM {
         display: none;
+        word-wrap: break-word;
         width: 80%; 
-        height: 50px;
+        min-height: 50px;
         text-align: center;
         margin: 1% 10%;
         float: left;
@@ -119,7 +120,7 @@
             <div class="userType1" id="s">서포터</div>
             
         	<% for(Faq f : sList){ %>
-				<div class="box"><%= f.getQuestion() %></div>
+				<button class="boxS"><%= f.getQuestion() %></button>
 			<%} %>
 
         </div>
@@ -127,7 +128,7 @@
             <div class="userType1" id="m">메이커</div>
             
             <% for(Faq f : mList){ %>
-				<div class="boxM"><%= f.getQuestion() %></div>
+				<button class="boxM"><%= f.getQuestion() %></button>
 			<%} %>
 
         </div>
@@ -135,17 +136,38 @@
 		
 	<script>
 	
+		
 		//각 질문을 클릭하면 상세로 이동
-	    var box = document.getElementsByClassName("box");
-	    
-	    for(var i = 0; i < box.length; i++){
-	        console.log(box[i]);
-	        box[i].addEventListener('click', goFaqDetail);
-	    }
+		$(function(){
+        	$(".boxS").each(function(i, item){
+	            var idval = "boxS" + i;	//id = "boxS1"
+	            
+	            $(item).attr('id', idval);//각 버튼에 id부여
+	            
+	            var idSel = "#"+ idval;	//id지정자 idSel = "#idval"
+	            
+	            var question = $(idSel).text();	//button태그 내 텍스트
+	            
+	            $(idSel).click(function(){
+	            	location.href="<%=request.getContextPath()%>/detail.fq?question="+question;
+            	}); 
+        	})
+           
+          	$(".boxM").each(function(i, item){
+	            var idval = "boxM" + i;	//id = "boxM1"
+	            
+	            $(item).attr('id', idval);//각 버튼에 id부여
+	            
+	            var idSel = "#"+ idval;	//id지정자 idSel = "#idval"
+	            
+	            var question = $(idSel).text();	//button태그 내 텍스트
+	            
+	            $(idSel).click(function(){
+	            	location.href="<%=request.getContextPath()%>/detail.fq?question="+question;
+            	});
 
-		function goFaqDetail(){
-				location.href="<%=request.getContextPath()%>/detail.fq";
-		}
+          	})
+		})
 	</script>
     <script>
         // userType(t1, t2)에 마우스를 올리면
@@ -163,17 +185,17 @@
             s.to("#s", {duration: 1, y: -120, opacity: 1})
 
             var tl = gsap.timeline();
-            tl.to(".box", {duration: 1, y: -250, display: "block",  opacity: 1});
+            tl.to(".boxS", {duration: 1, y: -250, display: "block",  opacity: 1});
             
         });
 
         t1.addEventListener('mouseout', (event) => {
             
             var s = gsap.timeline();
-            s.to("#s", {duration: 1, y: 0, opacity: 1}).to(".box", { opacity: 0}, "-=1");
+            s.to("#s", {duration: 1, y: 0, opacity: 1}).to(".boxS", { opacity: 0}, "-=1");
 
             var tl = gsap.timeline();
-            tl.to(".box", {duration: 1,y: 0, display: "none"}).to(".box", { opacity: 0}, "-=1");  
+            tl.to(".boxS", {duration: 1,y: 0, display: "none"}).to(".boxS", { opacity: 0}, "-=1");  
         });
 
         // 메이커

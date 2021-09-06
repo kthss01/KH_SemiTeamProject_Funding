@@ -33,27 +33,36 @@ public class FaqDao {
 		}
 	}
 	
-	public ArrayList<Faq> selectList(Connection conn) {
+	public ArrayList<Faq> selectList(Connection conn, String userCode) {
 		
 		ArrayList<Faq> list = new ArrayList<Faq>();
 		
 		PreparedStatement pstmt = null;
-//		Statement stmt = null;
 		ResultSet rset = null;
 		
-		String sql = prop.getProperty("selectList");
+		String sql = null;
 		
 		try {
+			if(userCode.equals("01")) {
+				sql = prop.getProperty("selectAll");
+			}
+			else{
+				sql = prop.getProperty("selectList");
+			}
+			
 			pstmt = conn.prepareStatement(sql);
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
 				list.add(new Faq(rset.getString("F_NO"),
-								rset.getString("TARGET_USER"),
+								rset.getString("TARGET_USER").charAt(0),
 								rset.getString("QUESTION")
 						));
 			}
 			
+			for(int i = 0; i < list.size(); i++) {
+				System.out.println(list.get(i));
+			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -65,5 +74,42 @@ public class FaqDao {
 		
 		return list;
 	}
+
+	public Faq selectFaq(Connection conn, String question) {
+		
+		Faq f = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectFaq");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, question);
+			
+			rset = pstmt.executeQuery();
+			
+			
+			while(rset.next()) {
+				f = new Faq(rset.getString("F_NO"),
+							rset.getString("TARGET_USER").charAt(0),
+							rset.getString("QUESTION"),
+							rset.getString("ANSWER")
+						);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(conn);
+		}
+		
+		return f;
+	}
+
+	
 
 }
