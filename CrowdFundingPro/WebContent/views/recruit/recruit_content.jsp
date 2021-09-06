@@ -541,7 +541,7 @@
 
                         <!-- 내 자신에게 보내기 체크박스 -->
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck2">
+                            <input type="checkbox" class="custom-control-input" id="customCheck2" name="sendMyResume">
                             <label for="customCheck2" class="custom-control-label small">내 자신에게 복사본 전송하기</label>
                         </div>
                     </form>
