@@ -96,6 +96,7 @@ public class RecruitMemberInsertServlet extends HttpServlet {
 			String sendMyResume = multiRequest.getParameter("sendMyResume");
 			// 체크한 경우
 			if (sendMyResume.equals("on")) {
+				MailService.setPagePath(getServletContext().getRealPath(""));
 				MailService.sendResume(rid, rm, at);
 			}
 			
