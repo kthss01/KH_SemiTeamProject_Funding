@@ -39,27 +39,40 @@ public class UserPageServlet extends HttpServlet {
 		
 		String emailId = loginUser.getEmailId();
 		System.out.println("emailId : " + emailId);
-		User User = new UserService().selectUser(emailId);
-		System.out.println("User : " + User);
+		User user = new UserService().selectUser(emailId);
+		System.out.println("User : " + user);
 		
 		RequestDispatcher view = null;
-		if(User != null) {
-			request.setAttribute("loginUser", User);
+		if(user != null) {
+			request.setAttribute("loginUser", user);
 			
-			//강의리스트
-			ArrayList<ULecture> ULlist = new UserService().selectLectureList(emailId);	
-			//참여프로젝트리스트
-			ArrayList<UProject> UPlist = new UserService().selectUProjectList(emailId);
-			//관심프로젝트리스트
-			ArrayList<IProject> IPlist = new UserService().selectIProjectList(emailId);
-		
-			request.setAttribute("ULectureList",ULlist);		
-			request.setAttribute("UProjectList",UPlist);		
-			request.setAttribute("InProjectPList",IPlist);
+			if(user.getUserCode().equals("01")) {
+				
+				
+				view = request.getRequestDispatcher("views/user/adminPage.jsp");
+
+			}else {
+				
+				
+				//강의리스트
+				ArrayList<ULecture> ULlist = new UserService().selectLectureList(emailId);	
+				//참여프로젝트리스트
+				ArrayList<UProject> UPlist = new UserService().selectUProjectList(emailId);
+				//관심프로젝트리스트
+				ArrayList<IProject> IPlist = new UserService().selectIProjectList(emailId);
 			
+				request.setAttribute("ULectureList",ULlist);		
+				request.setAttribute("UProjectList",UPlist);		
+				request.setAttribute("InProjectPList",IPlist);
+				
+				
+				view = request.getRequestDispatcher("views/user/myPage.jsp");
+				
+				
+			}
+
 			
-			
-			view = request.getRequestDispatcher("views/user/myPage.jsp");
+
 		}else {
 			request.setAttribute("msg", "마이페이지로 이동이 실패했습니다.");
 			
