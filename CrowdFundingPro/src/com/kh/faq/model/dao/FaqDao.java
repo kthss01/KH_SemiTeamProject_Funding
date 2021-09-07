@@ -45,23 +45,29 @@ public class FaqDao {
 		try {
 			if(userCode.equals("01")) {
 				sql = prop.getProperty("selectAll");
+				
+				pstmt = conn.prepareStatement(sql);
+				rset = pstmt.executeQuery();
+				
+				while(rset.next()) {
+					list.add(new Faq(rset.getString("F_NO"),
+									rset.getString("QUESTION"),
+									rset.getString("CREATOR_ID")
+							));
+				}
 			}
 			else{
 				sql = prop.getProperty("selectList");
-			}
-			
-			pstmt = conn.prepareStatement(sql);
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				list.add(new Faq(rset.getString("F_NO"),
-								rset.getString("TARGET_USER").charAt(0),
-								rset.getString("QUESTION")
-						));
-			}
-			
-			for(int i = 0; i < list.size(); i++) {
-				System.out.println(list.get(i));
+				
+				pstmt = conn.prepareStatement(sql);
+				rset = pstmt.executeQuery();
+				
+				while(rset.next()) {
+					list.add(new Faq(rset.getString("F_NO"),
+									rset.getString("TARGET_USER").charAt(0),
+									rset.getString("QUESTION")
+							));
+				}
 			}
 			
 		} catch (SQLException e) {
@@ -108,6 +114,46 @@ public class FaqDao {
 		}
 		
 		return f;
+	}
+
+	public Faq selectDetailAll(Connection conn, String fno) {
+		Faq faq = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectDetailAll");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, fno);
+			
+			rset = pstmt.executeQuery();
+			
+			
+			while(rset.next()) {
+				faq = new Faq(rset.getString("F_NO"),
+							rset.getString("TARGET_USER").charAt(0),
+							rset.getString("QUESTION"),
+							rset.getString("ANSWER"),
+							rset.getString("CREATOR_ID"),
+							rset.getDate("CREATE_DATE"),
+							rset.getString("UPDATER_ID"),
+							rset.getDate("UPDATE_DATE"),
+							rset.getString("SHOW_YN").charAt(0)
+						);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(conn);
+		}
+		
+		return faq;
 	}
 
 	

@@ -33,6 +33,16 @@ public class FaqService {
 		return f;
 	}
 
+	public Faq selectDetailAll(String fno) {
+		Connection conn = getConnection();
+		
+		Faq faq = new FaqDao().selectDetailAll(conn, fno);
+		
+		close(conn);
+
+		return faq;
+	}
+
 
 
 }

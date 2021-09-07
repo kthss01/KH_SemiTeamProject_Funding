@@ -49,6 +49,13 @@ public class Faq {
 	}
 
 
+	public Faq(String fNo, String question, String creatorId) {
+		super();
+		this.fNo = fNo;
+		this.question = question;
+		this.creatorId = creatorId;
+	}
+
 	public String getfNo() {
 		return fNo;
 	}
