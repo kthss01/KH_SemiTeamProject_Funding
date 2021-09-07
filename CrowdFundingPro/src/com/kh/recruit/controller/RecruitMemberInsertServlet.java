@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
+import com.kh.common.MailService;
 import com.kh.common.MyFileRenamePolicy;
 import com.kh.common.model.vo.Attachment;
 import com.kh.recruit.model.service.RecruitService;
@@ -90,7 +91,14 @@ public class RecruitMemberInsertServlet extends HttpServlet {
 				at.setOriginName(originName);
 				at.setChangeName(changeName);
 			}
-					
+			
+			// 이력서 내 자신에게 보내기 체크
+			String sendMyResume = multiRequest.getParameter("sendMyResume");
+			// 체크한 경우
+			if (sendMyResume.equals("on")) {
+				MailService.sendResume(rid, rm, at);
+			}
+			
 			int result = new RecruitService().insertRecruitMember(rm, at, title);
 			
 			if (result > 0) {
