@@ -26,6 +26,11 @@
 	margin: 0 auto;
 }
 
+
+.eventDetailForm{
+padding-bottom : 200px;
+}
+
 #pageTitle {
 	font-size: 48px;
 	text-align: center;

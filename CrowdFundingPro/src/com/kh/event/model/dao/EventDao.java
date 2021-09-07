@@ -43,13 +43,13 @@ public class EventDao {
         long startDate = event.getStartDate().getTime();
         long endDate = event.getEndDate().getTime();
 //
-//        E_NO		NUMBER	Yes					1	이벤트번호
-//        E_NAME	VARCHAR2(200 BYTE)	No		2	이벤트명
-//        E_CONTENT	VARCHAR2(1024 BYTE)	No		3	컨텐츠파일명
-//        REG_DATE	DATE	Yes	SYSDATE			4	등록날짜
-//        STATUS	CHAR(4 BYTE)	Yes			5	진행상황
-//        START_DATE	DATE	Yes	SYSDATE		6	시작일
-//        END_DATE	DATE	Yes	SYSDATE			7	종료일
+//        E_NO			NUMBER				Yes					1	이벤트번호
+//        E_NAME		VARCHAR2(200 BYTE)	No					2	이벤트명
+//        E_CONTENT		VARCHAR2(1024 BYTE)	No					3	컨텐츠파일명
+//        REG_DATE		DATE				Yes	SYSDATE			4	등록날짜
+//        STATUS		CHAR(4 BYTE)		Yes					5	진행상황
+//        START_DATE	DATE				Yes	SYSDATE			6	시작일
+//        END_DATE		DATE				Yes	SYSDATE			7	종료일
 //        
 //        
         
@@ -60,7 +60,6 @@ public class EventDao {
 			pstmt.setString(2, event.geteContent());
 			pstmt.setDate(3, new java.sql.Date(startDate));
 			pstmt.setDate(4, new java.sql.Date(endDate));
-
 
 			result = pstmt.executeUpdate();
 
