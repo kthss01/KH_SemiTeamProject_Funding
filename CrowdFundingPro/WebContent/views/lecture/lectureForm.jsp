@@ -207,7 +207,7 @@ input {
 					<%
 					for (Lecture l : lectureList) {
 					%>
-
+  
 					<div class="lec_Item" onclick ='moveToDetail()'>
 						<img src="<%l.getLectureImage();%>">
 						<div class="details">
