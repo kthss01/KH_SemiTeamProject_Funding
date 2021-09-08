@@ -1,7 +1,6 @@
 package com.kh.lecture.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,21 +9,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.lecture.model.service.LectureService;
-import com.kh.lecture.model.vo.Lecture;
-import com.kh.user.model.vo.User;
-
 /**
- * Servlet implementation class LectureFormServlet
+ * Servlet implementation class LectureInsertFormServlet
  */
-@WebServlet("/lecture.le")
-public class LectureFormServlet extends HttpServlet {
+@WebServlet("/lecInsertForm.le")
+public class LectureInsertFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+       
     /**
-     * Default constructor. 
+     * @see HttpServlet#HttpServlet()
      */
-    public LectureFormServlet() {
+    public LectureInsertFormServlet() {
+        super();
         // TODO Auto-generated constructor stub
     }
 
@@ -33,13 +29,7 @@ public class LectureFormServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
-		ArrayList<Lecture> list = new LectureService().selectLectureList();
-		User loginUser = (User)request.getSession().getAttribute("loginUser");
-		
-		request.setAttribute("lectureList", list);
-		request.setAttribute("loginUser", loginUser);
-		RequestDispatcher view = request.getRequestDispatcher("views/lecture/lectureForm.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("views/lecture/lectureInsertForm.jsp");
 		view.forward(request, response);
 	}
 
