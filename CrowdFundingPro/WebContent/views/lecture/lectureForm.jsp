@@ -189,7 +189,7 @@ input {
 
 	<!-- 화면 중앙 구현 부-->
 	<div class="main">
-
+ 
 		<!-- 화면 상단 이미지 슬라이드-->
 		<div class="main_top">
 			<div id="top_banner">
