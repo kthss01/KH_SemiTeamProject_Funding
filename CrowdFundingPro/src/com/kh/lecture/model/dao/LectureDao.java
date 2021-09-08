@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -159,6 +160,34 @@ public class LectureDao {
 		
 		
 		return result;
+	}
+	public Lecture selectLecture(Connection conn, String lecId) {
+		
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		Lecture lecture;
+		String sql = prop.getProperty("selectLectur");
+
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, lecId);
+			
+			lecture = ( rs != null) ? new Lecture(rs.getString("LECTURE_CODE"),
+												  rs.getString("LECTURE_TITLE"),
+												  rs.getInt("LECTURE_NUM"),
+												  rs.getString("LECTURE_ADDRESS"),
+												  rs.getString("LECTURE_TOPIC"),
+												  rs.getDate("LECTURE_DATE"),
+												  rs.getInt("LECTURE_TIME"),
+												  rs.getInt("LECTURE_IMAGE"),
+												  rs.getString("LECTRE") : null;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return lecture;
 	}
 	
 	

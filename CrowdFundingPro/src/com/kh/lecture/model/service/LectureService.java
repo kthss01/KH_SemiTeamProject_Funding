@@ -7,6 +7,7 @@ import static com.kh.common.JDBCTemplate.*;
 
 import com.kh.lecture.model.dao.LectureDao;
 import com.kh.lecture.model.vo.Lecture;
+import com.kh.user.model.vo.User;
 
 
 public class LectureService {
@@ -66,9 +67,22 @@ public class LectureService {
 	public Lecture selectLecture(String lecId) {
 		
 		Connection conn = getConnection();
-		Lecture lecture = new LectureDao().selectLecture(conn);
+		Lecture lecture = new LectureDao().selectLecture(conn,lecId);
 		close(conn);
 		return lecture;
+	}
+
+	public int signInLecture(User u) {
+		
+		Connection conn = getConnection();
+		int result = new LectureDao().signInLecture(conn,u);
+		
+		if (result > 0) commit(conn);
+		else rollback(conn);
+		
+		close(conn);
+		
+		return result;
 	}
 	
 //	
