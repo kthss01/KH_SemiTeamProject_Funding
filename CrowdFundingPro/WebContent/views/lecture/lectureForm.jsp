@@ -50,7 +50,7 @@ ul {
 	width: 900px;
 	height: 400px;
 	position: relative;
-	background-color: antiquewhite;
+	background-color: rgb(52,58,64);
 	overflow: hidden;
 }
 
@@ -62,6 +62,7 @@ ul {
 }
 
 .slider_item {
+	margin: 15px 0px 0px 0px
 	width: 1200px;
 	height: 400px;
 	text-align: center;
@@ -195,11 +196,11 @@ input {
 			<div id="top_banner">
 				<ul class="slider">
 					<li class="slider_item"><img
-						src="/resources/lectureImage/lectureImage_1.jpeg"></li>
+						src="resources/lectureImage/lectureImage_4.png" ></li>
 					<li class="slider_item"><img
-						src="/resources/lectureImages/lectureImage_8.png"></li>
+						src="resources/lectureImage/lectureImage_8.png"></li>
 					<li class="slider_item"><img
-						src="/resources/lectureImages/lectureImage_9.png"></li>
+						src="resources/lectureImage/lectureImage_9.png"></li>
 				</ul>
 			</div>
 		</div>
