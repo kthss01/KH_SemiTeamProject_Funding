@@ -13,6 +13,7 @@ import java.util.Properties;
 import static com.kh.common.JDBCTemplate.*;
 
 import com.kh.lecture.model.vo.Lecture;
+import com.kh.user.model.vo.User;
 
 public class LectureDao {
 
@@ -96,6 +97,40 @@ public class LectureDao {
 		return result;
 	}
 
+	public ArrayList<Lecture> selectLectureList(Connection conn,int startRow, int endRow) {
+		
+		ArrayList<Lecture> result = new ArrayList<>();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		String sql = prop.getProperty("selectLectureList");
+		try {
+			 pstm = conn.prepareStatement(sql);
+			 pstm.setInt(1, startRow);
+			 pstm.setInt(2, endRow);
+			 
+			 rs = pstm.executeQuery();
+			while(rs.next()) {
+			
+				result.add(new Lecture( 
+						rs.getInt("LECTURE_IMAGE"),
+						rs.getString("LECTURE_TOPIC"),
+						rs.getString("LECTURE_TITLE"),
+						rs.getDate("LECTURE_DATE"),
+						rs.getString("LECTURER"),
+						rs.getInt("LECTURE_TIME"),
+						rs.getInt("LECTURE_NUM")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstm);
+			close(rs);
+		}
+		return result;
+	}
+	
 	public ArrayList<Lecture> selectLectureList(Connection conn) {
 		
 		ArrayList<Lecture> result = new ArrayList<>();
@@ -108,8 +143,9 @@ public class LectureDao {
 					*/
 		try {
 			 pstm = conn.prepareStatement(sql);
-			
+			 
 			 rs = pstm.executeQuery();
+			 
 				
 			while(rs.next()) {
 			
@@ -122,23 +158,42 @@ public class LectureDao {
 						rs.getInt("LECTURE_TIME"),
 						rs.getInt("LECTURE_NUM")));
 			}
-			
-			
-			
-			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			
 			close(pstm);
 			close(rs);
-			
 		}
-		
-		
 		return result;
 	}
+	
+	public Lecture selectLecture(Connection conn, String lecId) {
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		Lecture lecture = null;
+		String sql = prop.getProperty("selectLectur");
+
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, lecId);
+			
+			lecture = ( rs != null) ? new Lecture(rs.getString("LECTURE_CODE"),
+												  rs.getString("LECTURE_TITLE"),
+												  rs.getInt("LECTURE_NUM"),
+												  rs.getString("LECTURE_ADDRESS"),
+												  rs.getString("LECTURE_TOPIC"),
+												  rs.getDate("LECTURE_DATE"),
+												  rs.getInt("LECTURE_TIME"),
+												  rs.getInt("LECTURE_IMAGE"),
+												  rs.getString("LECTRE")) : null;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return lecture;
+	}
+	
 	public int deleteLecture(Connection conn, String lecId) {
 		
 		int result = 0;
@@ -161,35 +216,8 @@ public class LectureDao {
 		
 		return result;
 	}
-	public Lecture selectLecture(Connection conn, String lecId) {
-		
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		Lecture lecture;
-		String sql = prop.getProperty("selectLectur");
-
-		try {
-			pstm = conn.prepareStatement(sql);
-			pstm.setString(1, lecId);
-			
-			lecture = ( rs != null) ? new Lecture(rs.getString("LECTURE_CODE"),
-												  rs.getString("LECTURE_TITLE"),
-												  rs.getInt("LECTURE_NUM"),
-												  rs.getString("LECTURE_ADDRESS"),
-												  rs.getString("LECTURE_TOPIC"),
-												  rs.getDate("LECTURE_DATE"),
-												  rs.getInt("LECTURE_TIME"),
-												  rs.getInt("LECTURE_IMAGE"),
-												  rs.getString("LECTRE") : null;
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		
-		return lecture;
+	public int signInLecture(Connection conn, User u) {
+		return 0;
 	}
-	
-	
 
 }
