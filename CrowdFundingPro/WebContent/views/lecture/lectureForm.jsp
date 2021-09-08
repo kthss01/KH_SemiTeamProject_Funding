@@ -195,11 +195,11 @@ input {
 			<div id="top_banner">
 				<ul class="slider">
 					<li class="slider_item"><img
-						src="resources/images/lectureImage_1.jpeg"></li>
+						src="/resources/lectureImage/lectureImage_1.jpeg"></li>
 					<li class="slider_item"><img
-						src="resources/images/lectureImage_2.jpg"></li>
+						src="/resources/lectureImages/lectureImage_8.png"></li>
 					<li class="slider_item"><img
-						src="resources/images/lectureImage_9.png"></li>
+						src="/resources/lectureImages/lectureImage_9.png"></li>
 				</ul>
 			</div>
 		</div>
