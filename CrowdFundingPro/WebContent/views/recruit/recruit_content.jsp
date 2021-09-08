@@ -161,7 +161,7 @@
         </article>
 
         <div class="d-flex justify-content-center mt-4">
-            <a href="<%= request.getContextPath() %>/recruitList.do" class="btn btn-dark mx-2" style="width: 150px;">목록</a>
+            <a href="views/recruit/recruit.jsp" class="btn btn-dark mx-2" style="width: 150px;">목록</a>
             <button class="btn btn-dark mx-2" style="width: 150px;" data-toggle="modal" data-target="#recruit_insert_modal">지원서 작성</button>
         </div>
     </section>
