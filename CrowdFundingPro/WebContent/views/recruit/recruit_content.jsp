@@ -579,10 +579,8 @@
             });
     	
             <!-- 경력사항, 이력사항 tooltip 처리 -->
-            
             const delay = {show: 100, hide:1000};
 
-            
             $('#educationLabel').tooltip({
             	placement: "right",
             	title: "예시) OO학교 OO학과 학사 졸업",
