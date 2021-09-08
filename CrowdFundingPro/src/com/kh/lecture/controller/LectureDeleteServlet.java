@@ -1,9 +1,8 @@
 package com.kh.lecture.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,19 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kh.lecture.model.service.LectureService;
 import com.kh.lecture.model.vo.Lecture;
-import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class LectureFormServlet
+ * Servlet implementation class LectureDeleteServlet
  */
-@WebServlet("/lecture.le")
-public class LectureFormServlet extends HttpServlet {
+@WebServlet("/lectureDelete.le")
+public class LectureDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+       
     /**
-     * Default constructor. 
+     * @see HttpServlet#HttpServlet()
      */
-    public LectureFormServlet() {
+    public LectureDeleteServlet() {
+        super();
         // TODO Auto-generated constructor stub
     }
 
@@ -34,13 +33,19 @@ public class LectureFormServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-		ArrayList<Lecture> list = new LectureService().selectLectureList();
-		User loginUser = (User)request.getSession().getAttribute("loginUser");
+		String lecId = request.getParameter("lectureId");
+		Lecture lec = new LectureService().selectLecture(lecId);
 		
-		request.setAttribute("lectureList", list);
-		request.setAttribute("loginUser", loginUser);
-		RequestDispatcher view = request.getRequestDispatcher("views/lecture/lectureForm.jsp");
-		view.forward(request, response);
+		int result = (lec != null) ? new LectureService().deleteLecture(lecId) : 0 ;
+		
+		if ( result > 0 ) {
+			request.setAttribute("msg", "성공적으로 강의를 삭제했습니다.");
+			response.sendRedirect("views/lecture/lectureform.jsp");
+			
+		} else {
+			request.setAttribute("msg","강의 삭제 실패. 에러 발생.");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		}
 	}
 
 	/**
