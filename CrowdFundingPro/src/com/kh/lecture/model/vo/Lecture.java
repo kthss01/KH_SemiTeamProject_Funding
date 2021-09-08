@@ -14,6 +14,7 @@ public class Lecture {
 	int lectureTime = 0;
 	int lectureImage = 0;
 	String lectureContent = null;
+	String lecturer = null;
 	
 	
 	
@@ -48,6 +49,7 @@ public class Lecture {
 		this.lectureImage = lectureImage;
 		this.lectureContent = lectureContent;
 	}
+	
 
 
 	public Lecture(String lectureTitle, int lectureNum, String lectureAddress, String lectureTopic, Date lectureDate,
@@ -62,7 +64,36 @@ public class Lecture {
 		this.lectureImage = lectureImage;
 		this.lectureContent = lectureContent;
 	}
+	
+	public Lecture(String lectureTitle, int lectureNum, String lectureAddress, String lectureTopic, Date lectureDate,
+			int lectureTime, int lectureImage, String lectureContent, String lecturer) {
+		super();
+		this.lectureTitle = lectureTitle;
+		this.lectureNum = lectureNum;
+		this.lectureAddress = lectureAddress;
+		this.lectureTopic = lectureTopic;
+		this.lectureDate = lectureDate;
+		this.lectureTime = lectureTime;
+		this.lectureImage = lectureImage;
+		this.lectureContent = lectureContent;
+		this.lecturer = lecturer;
+	}
 
+	
+	public Lecture(int lectureImage,String lectureTopic, String lectureTitle,Date lectureDate,String lecturer,int lectureTime, int lectureNum) {
+		super();
+		this.lectureImage = lectureImage;
+		this.lectureTopic = lectureTopic;
+		this.lectureTitle = lectureTitle;
+		this.lectureDate = lectureDate;
+		this.lecturer = lecturer;
+		this.lectureTime = lectureTime;
+		this.lectureNum = lectureNum;
+	}
+	
+
+	
+	
 
 	public String getLectureCode() {
 		return lectureCode;
@@ -118,6 +149,15 @@ public class Lecture {
 	public void setLectureContent(String lectureContent) {
 		this.lectureContent = lectureContent;
 	}
+
+	public String getLecturer() {
+		return lecturer;
+	}
+
+	public void setLecturer(String lecturer) {
+		this.lecturer = lecturer;
+	}
+	
 	
 	
 	

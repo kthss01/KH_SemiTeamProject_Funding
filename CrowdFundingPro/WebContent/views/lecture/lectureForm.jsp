@@ -1,6 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.kh.user.model.vo.User" %>
+<%@ page import="com.kh.lecture.model.vo.Lecture"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="com.kh.common.model.vo.PageInfo" %>
+
+<%
+String contextPath = request.getContextPath();
+ArrayList<Lecture> lectureList = (ArrayList<Lecture>) request.getAttribute("lectureList");
+PageInfo pi = (PageInfo)request.getAttribute("pi");
+
+int listCount = pi.getListCount();
+int currentPage = pi.getCurrentPage();
+int maxPage = pi.getMaxPage();
+int startPage = pi.getStartPage();
+int endPage = pi.getEndPage();
+%>
+
+
+<%//User loginUser = (User) request.getAttribute("loginUser");%>
 
 <!DOCTYPE html>
 <html>
@@ -135,109 +153,13 @@ ul img {
 	align-self: flex-end;
 }
 
-.modal {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	opacity: 1;
-	transition: opacity 1s;
-}
+#inserLecture{
 
-.modal.opaque {
-	opacity: 1;
-	transition: opacitiy 1s;
-}
-
-.modal.unstaged {
-	bottom: -100px;
-	height: 0;
-}
-
-.modal-close:hover {
-	background-color: #ffd500;
-}
-
-.modal_overlay {
-	background-color: rgba(0, 0, 0, .70);
-	width: 100%;
-	height: 100%;
-	position: absolute;
-}
-
-.modal_content {
-	background-color: white;
-	padding: 10px 60px 50px 60px;
-	align-items: center;
-	text-align: center;
-	position: relative;
-	top: 0px;
-	border-radius: 15px;
-	box-shadow: 0 5px 20px rgba(0, 0, 0, .25), 0 10px 10px
-		rgba(0, 0, 0, .80);
-	width: 800px;
-	height: 900px;;
-	border: 10px solid gray;
-	overflow-y: scroll;
-}
-
-.hidden {
-	display: none;
-}
-
-.top {
-	background-color: rgb(80, 80, 80);
-	border-radius: 10px;
-	color: white;
-	margin-bottom: 100px;
-}
-
-.labels {
-	background-color: rgb(80, 80, 80);
-	color: white;
-	border-radius: 10px;
-	padding: 5px 10px 5px 10px;
-	font-size: 20px;
-}
-
-.preview {
-	margin: 0 auto;
-	width: 500px;
-	height: 300px;
-}
-
-.preview img {
-	left: 0;
-	bottom: 0;
-	align-self: flex-start;
-	border: 1px dashed black;
-}
-
-#selectImg {
-	margin: 0px 0px 10px 10px;
-	font-family: 'Nanum Brush Script', cursive;
-	border: 0px;
 	border-radius: 5px;
+    background-color: gray;
+    color: white;
 }
 
-.box {
-	display: table;
-	height: 85px;
-	width: 350px;
-	margin: 0 auto;
-	text-align: center;
-}
-
-textarea {
-	margin-top: 20px;
-	margin-bottom: 20px;
-	display: block;
-	width: 600px;
-}
 
 input {
 	margin-left: 25px;
@@ -276,108 +198,204 @@ input {
 		<div class="center">
 			<div class="left">
 				<div class="lecWrapper">
-					<div class="lec_Item">
-						<img src="resources/images/sample1.png">
+
+					<%
+					if (lectureList != null && !(lectureList.isEmpty())) {
+					%>
+		
+	
+					<%
+					for (Lecture l : lectureList) {
+					%>
+
+					<div class="lec_Item" onclick ='moveToDetail()'>
+						<img src="<%l.getLectureImage();%>">
+						<div class="details">
+								<table>
+								<tbody>
+									<tr>
+										<td> 주제 :<%=l.getLectureTopic()%> </td>
+									</tr>
+									<tr>
+										<td> 제목 :<%=l.getLectureTitle()%></td>
+									</tr>
+									<tr>
+										<td> 날짜 :<%=l.getLectureDate()%> </td>
+									</tr>
+									<tr>
+										<td> 강사 :<%=l.getLecturer()%>
+										</td>
+									</tr>
+									<tr>
+										<td> 강의 시간: <%=l.getLectureTime()%> / </td>
+										<td> 강의 인원:<%=l.getLectureNum()%>
+									</tr>
+									<tr>
+										<td style="color='white'"><%=l.getLectureCode()%></td>
+									</tr>
+								</tbody>
+								</table>
+						</div>
+					</div>
+					<% } 
+					} else { %>
+						<div class="lec_Item">
+						<img src="resources/images/NoImage.png">
 
 						<div class="details">
 							<div class="content">
-								<a href="<%=request.getContextPath()%>/lectureDetail.le">행복한
-									펀딩 세상 </a>
-
+								<table>
+								<tbody>
+									<tr><td>등록된 강의 정보가 없습니다.</td></tr>
+								</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
-
-					<div class="lec_Item">
-						<img src="resources/images/no_image.png">
-						<div class="details">
-
-							<div class="content">
-								<p> ---- </p>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="lec_Item">
-						<img src="resources/images/no_image.png">
-						<div class="details">
-
-							<div class="content">
-								<p> ----</p>
-							</div>
-						</div>
-					</div>
+					<% } %>
 				</div>
 			</div>
+			
+				<!-- 페이징바 만들기 -->
+		<div class="pagingArea" align="center">
+			<!-- 맨 처음으로 (<<) -->
+			<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=1'"> &lt;&lt; </button>
+		
+			<!-- 이전페이지로(<) -->
+			<%if(currentPage == 1){ %>
+			<button disabled> &lt; </button>
+			<%}else{ %>
+			<button onclick="location.href='<%= contextPath %>/list.bo?currentPage=<%= currentPage-1 %>'"> &lt; </button>
+			<%} %>
+			
+			<!-- 페이지 목록 -->
+			<%for(int p=startPage; p<=endPage; p++){ %>
+				
+				<%if(p == currentPage){ %>
+				<button disabled> <%= p %> </button>
+				<%}else{ %>
+				<button onclick="location.href='<%=contextPath %>/list.bo?currentPage=<%= p %>'"> <%= p %> </button>
+				<%} %>
+				
+			<%} %>
+			
+			<!-- 다음페이지로(>) -->
+			<%if(currentPage == maxPage){ %>
+			<button disabled> &gt; </button>
+			<%}else { %>
+			<button onclick="location.href='<%= contextPath %>/list.bo?currentPage=<%= currentPage+1 %>'"> &gt; </button>
+			<%} %>
+		
+			<!-- 맨 끝으로 (>>) -->
+			<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
+		</div> 
+		<br><br>
+		<div align="center">
+		<% if(loginUser != null){ %>
+		<button onclick="location.href='enrollForm.bo'">작성하기</button>
+		<% } %>
+		</div>
+			
+			<script>
+					<%if(!lectureList.isEmpty()){%>
+					$(function(){
+						$(".details>table>tbody>tr").click(function(){
+							var lecCode = $(this).children().eq(7).text();
+							location.href="<%=request.getContextPath()%>/lectureDetail.le?lecCodeo="+lecCode;
+						})
+					})
+					<%}%>
+				
+			<%--
+			const moveToDetail () => {
+				
+				var lecCode = 
+					
+				window.location.href = " <%=request.getContextPath()%>/leDetail.le?lId=";
+				
+				<%  if(!list.isEmpty()){ %>
+				$(function(){
+					$(".listArea>tbody>tr").click(function(){
+						var nno = $(this).children().eq(0).text();
+						
+						
+						location.href="<%=request.getContextPath()%>/detail.no?nno="+nno;
+					})
+				})
+				
+				<% } %> 
+			}  --%>
+			
+			
+				
+			<%-- 
+				window.addEvenetListener('scroll',() = > {
+					
+					const {scrollheight,scrollTop,clientheight} = document.documentElement;
+					if(scrollTop + clientHeight >= scrollHeight -5) {
+						
+						<% if ( count <= lectureList.size()){
+							l = lectureList.get(count++); %>
+							setTimeout(addLec,1500);
+						<% } %>
+					  }
+					}
+					
+				})
+				
+				function addLec(){
+					
+					const lec = document.createElement('div');
+					lec.className = 'lec_Item';
+					lec.innerHTML = '
+						<img src="<%l.getLectureImage();%>">
+					<div class="details">
+						<div class="content">
+							<table>
+								<tr>
+									<td> 주제 :<%=l.getLectureTopic()%> </td>
+								</tr>
+								<tr>
+									<td> 제목 :<%=l.getLectureTitle()%></td>
+								</tr>
+								<tr>
+									<td> 날짜 :<%=l.getLectureDate()%> </td>
+								</tr>
+								<tr>
+									<td> 강사 :<%=l.getLecturer()%>
+									</td>
+								</tr>
+								<tr>
+									<td> 강의 시간: <%=l.getLectureTime()%><p>/</p></td>
+									<td> 강의 인원:<%=l.getLectureNum()%>
+								</tr>
+							</table>
+						</div>
+					</div>
+					';
+					
+					
+					document.querySelector(".lecWrapper").appendChild(lec);
+					
+				}
+	 		--%>		
+			</script>
+			
+			
+			
 
 			<div class="right">
 				<div class="area"></div>
+				
 
-
-
-				<button class="openBtn">OPEN MODEL</button>
-				<div class="modal hidden">
-					<div class="modal_overlay"></div>
-					<div class="modal_content">
-
-						<div class="top">신규 강의 등록</div>
-
-						<form class="regist" method="POST">
-							<div class="preview" id="top">
-								<img src="resources/images/no_image.png" class="lectureImage">
-
-								<button id="selectImg">사진 업로드</button>
-							</div>
-
-							<div class="information">
-								<span class="box"> <label class="labels"><b>
-											강사 </b></label> <input type="text" class="lecturer" placeholder="강사이름">
-											<!--  <input type="text" value=" loginUser" readonly> -->
-								</span>
-								<div class="box">
-									<label class="labels"><b> 강의 제목 </b></label> <input type="text"
-										class ="lectureTItle" placeholder="강의 제목">
-								</div>
-								<div class="box">
-									<label class="labels"><b> 강의 날짜 </b></label> <input
-										class ="lectureDate" type="datetime-local" placeholder="강의 날짜">
-								</div>
-								<div class="box">
-									<label class="labels"><b> 강의 주소 </b></label> <input type="text"
-										class ="lectureAddress" placeholder="강의 주소">
-								</div>
-								<div class="box">
-									<label class="labels"><b> 강의 인원 </b></label> <input type="number"
-										class ="lectureNumber" placeholder="강의 인원">
-								</div>
-								<div class="box">
-									<label class="labels"><b> 강의 주제 </b></label> <input type="text"
-										class ="lectureTopic" placeholder="강의 인원">
-								</div>
-								<div class="box">
-									<label class="labels"><b> 강의 시간 </b></label> <input type="number"
-										class ="lectureTime" placeholder="강의 인원 (분)">
-								</div>
-								
-								<div class="box">
-									<label class="labels"><b> 강의 세부내용 </b></label> <br>
-									<textarea cols="40" rows="25" class ="lectureDatail"></textarea>
-								</div>
-							</div>
-						</form>
-
-						<input type="submit" value="등록">
-						<button class="closeBtn">취소</button>
-
-					</div>
+				
+				<div class="area2">
+					<ul>
+						<li>
+						  <a href="<%= request.getContextPath() %>/lecInsertForm.le"> 신규 강의 등록</a>
+						</li>
+					</ul>
 				</div>
-
-
-
-				<script type="text/javascript"
-					src="resources/script/lecture/lectureRegistIn.js"></script>
-
 			</div>
 
 		</div>
@@ -385,6 +403,10 @@ input {
 
 
 	</div>
+	<script>
+	
+	</script>	
+	
 
 	<jsp:include page="/views/common/footer.jsp" />
 
