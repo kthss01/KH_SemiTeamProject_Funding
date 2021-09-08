@@ -53,7 +53,7 @@ public class RecruitContentListServlet extends HttpServlet {
 		ArrayList<String> titles = new RecruitService().selectAllTitle();
 		request.setAttribute("titles", titles);
 		
-		request.getRequestDispatcher("views/recruit/recruit_content.jsp").forward(request, response);
+		request.getRequestDispatcher(request.getContextPath() + "/recruitPage.do").forward(request, response);
 	}
 
 	/**

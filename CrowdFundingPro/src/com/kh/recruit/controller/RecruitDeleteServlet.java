@@ -35,14 +35,14 @@ public class RecruitDeleteServlet extends HttpServlet {
 		if (request.getParameter("recruitId") == null) {
 			// 공고 삭제 실패
 			request.getSession().setAttribute("msg", "공고 삭제 실패");
-			response.sendRedirect("views/recruit/recruit.jsp");
+			response.sendRedirect(request.getContextPath() + "/recruitPage.do");
 		}
 		
 		int result = new RecruitService().deleteRecruitment(id);
 		
 		if (result > 0) {
 			request.getSession().setAttribute("msg", "공고 삭제 성공");
-			response.sendRedirect("views/recruit/recruit.jsp");
+			response.sendRedirect(request.getContextPath() + "/recruitPage.do");
 		} else {
 			// 에러 페이지 처리
 			request.getSession().setAttribute("msg", "공고 삭제 실패");
