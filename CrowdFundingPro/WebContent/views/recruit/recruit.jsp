@@ -220,17 +220,24 @@
                 </div>
 
                 <!-- body -->
-                <!-- Modal Body -->
                 <div class="modal-body">
-                    <form id="recruitmember_update_form" action="<%=request.getContextPath()%>/recruitMemberUpdate.do" method="POST" enctype="multipart/form-data">
+                    <form id="recruitmember_update_form" action="recruitMemberUpdate.do" method="POST" enctype="multipart/form-data">
                         
+                        <!-- 직원 공고 선택 dropdowns custom select -->
+                        <div class="form-group">
+                            <label for="recruitName">지원 공고 선택</label>
+                            <select name="recruitName" id="recruitName" class="custom-select">
+                                <%-- ajax 처리시 setModalTitle --%>
+                            </select>
+                        </div>
+
                         <!-- 공고 조회를 위한 이메일 입력 및 비밀번호 발송 -->
                         <div class="form-group">
                             <label for="recruitMemberEmail">공고 지원서 조회</label>
                             <div class="input-group">
                                 <input type="text" id="recruitMemberEmail" class="form-control form-control-sm" placeholder="email 입력해주세요">
                                 <div class="input-group-append">
-                                    <button onclick="sendRecruitMemberPassword();" class="btn btn-outline-info btn-sm" type="button">비밀번호 발송</button>
+                                    <button class="btn btn-outline-info btn-sm" type="button">비밀번호 발송</button>
                                 </div>
                             </div>
                         </div>
@@ -240,65 +247,63 @@
                             <div class="input-group">
                                 <input type="text" id="recruitMemberPassword" class="form-control form-control-sm" placeholder="발급 받은 비밀번호를 입력해주세요">
                                 <div class="input-group-append">
-                                    <button onclick="searchRecruitMember();" class="btn btn-outline-dark btn-sm" type="button">지원서 조회</button>
+                                    <button class="btn btn-outline-dark btn-sm" type="button">지원서 조회</button>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 직무구분 dropdowns custom select -->
-                        <div class="form-group">
-                            <label for="recruitName">지원 포지션명</label>
-                            <select name="recruitName" id="recruitName" class="custom-select">
-                                <%-- ajax 처리 setModalTitle --%>
-                            </select>
-                        </div>
-
-                        <div class="form-row">
-                            <!-- 성명 -->
-                            <div class="form-group col">
-                                <label for="recruitMemberName">성명</label>
-                                <input type="text" class="form-control" id="recruitMemberName" name="recruitMemberName" placeholder="이름을 입력해주세요">
+                        <fieldset style="border: 1px dotted gray; padding: 20px;">
+                            <div class="form-row">
+                                <!-- 성명 -->
+                                <div class="form-group col">
+                                    <label for="recruitMemberName">성명</label>
+                                    <input type="text" class="form-control" id="recruitMemberName" name="recruitMemberName" placeholder="이름을 입력해주세요">
+                                </div>
+        
+                                <!-- 연락처 -->
+                                <div class="form-group col">
+                                    <label for="recruitMemberPhone">연락처</label>
+                                    <input type="tel" class="form-control" id="recruitMemberPhone" name="recruitMemberPhone" placeholder="연락처를 입력해주세요">
+                                </div>
                             </div>
-    
-                            <!-- 연락처 -->
-                            <div class="form-group col">
-                                <label for="recruitMemberPhone">연락처</label>
-                                <input type="tel" class="form-control" id="recruitMemberPhone" name="recruitMemberPhone" placeholder="연락처를 입력해주세요">
+
+                            <!-- 메일주소 -->
+                            <div class="form-group">
+                                <label for="recruitMemberEmail">이메일</label>
+                                <input type="email" class="form-control" id="recruitMemberEmail" name="recruitMemberEmail" placeholder="이메일을 입력해주세요">
                             </div>
-                        </div>
 
-                        <!-- 메일주소 -->
-                        <div class="form-group">
-                            <label for="recruitMemberEmail">이메일</label>
-                            <input type="email" class="form-control" id="recruitMemberEmail" name="recruitMemberEmail" placeholder="이메일을 입력해주세요">
-                        </div>
-
-                        <!-- 학력사항 -->
-                        <div class="form-group">
-                            <label id="educationLabel" data-toggle="tooltip" for="recruitMemberEducation">학력사항</label>
-                            <input type="text" class="form-control" id="recruitMemberEducation" name="recruitMemberEducation" placeholder="학력사항을 입력해주세요">
-                        </div>
-
-                        <!-- 경력사항 -->
-                        <div class="form-group">
-                            <label id="careerLabel" for="recruitMemberCareer" data-toggle="tooltip">경력사항</label>
-                            <input type="text" class="form-control" id="recruitMemberCareer" name="recruitMemberCareer" placeholder="경력사항을 입력해주세요">
-                        </div>
-
-                        <!-- 이력서 및 경력기술서 / 포트폴리오 파일 올리는걸로 처리 -->
-                        <div class="form-group">
-                            <label id="portfolioLabel" data-toggle="tooltip" for="recruitPortfolio">이력서 및 경력기술서 / 포트폴리오</label>
-                            <div class="custom-file">
-                                <input type="file" role="button" class="custom-file-input" id="recruitPortfolio" name="recruitPortfolio">
-                                <label for="recruitPortfolio" class="custom-file-label" data-browse="업로드">파일을 올려주세요</label>
+                            <!-- 학력사항 -->
+                            <div class="form-group">
+                                <label id="educationLabel" data-toggle="tooltip" for="recruitMemberEducation">학력사항</label>
+                                <input type="text" class="form-control" id="recruitMemberEducation" name="recruitMemberEducation" placeholder="학력사항을 입력해주세요">
                             </div>
-                        </div>
 
-                        <!-- 내 자신에게 보내기 체크박스 -->
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck2" name="sendMyResume">
-                            <label for="customCheck2" class="custom-control-label small">내 자신에게 수정된 지원서 전송하기</label>
-                        </div>
+                            <!-- 경력사항 -->
+                            <div class="form-group">
+                                <label id="careerLabel" for="recruitMemberCareer" data-toggle="tooltip">경력사항</label>
+                                <input type="text" class="form-control" id="recruitMemberCareer" name="recruitMemberCareer" placeholder="경력사항을 입력해주세요">
+                            </div>
+
+                            <!-- 이력서 및 경력기술서 / 포트폴리오 파일 올리는걸로 처리 -->
+                            <div class="form-group">
+                                <label id="portfolioLabel" data-toggle="tooltip" for="recruitPortfolio">이력서 및 경력기술서 / 포트폴리오</label>
+                                <div class="custom-file">
+                                    <input type="file" role="button" class="custom-file-input" id="recruitPortfolio" name="recruitPortfolio">
+                                    <label for="recruitPortfolio" class="custom-file-label" data-browse="업로드">파일을 올려주세요</label>
+                                </div>
+                            </div>
+                            <!-- <div class="form-group">
+                                <label for="recruitPortfolio">이력서 및 경력기술서 / 포트폴리오</label>
+                                <input id="recruitPortfolio" type="file" class="form-control-file border">
+                            </div> -->
+
+                            <!-- 내 자신에게 보내기 체크박스 -->
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck2" name="sendMyResume">
+                                <label for="customCheck2" class="custom-control-label small">내 자신에게 수정된 지원서 전송하기</label>
+                            </div>
+                        </fieldset>
                     </form>
                 </div>
                 
@@ -319,6 +324,24 @@
     	
     	function searchRecruitMember() {
     		
+    	}
+    	
+    	// ajax 처리  async await 이용
+    	window.addEventListener("DOMContentLoaded", setModalTitle);
+    	
+    	async function setModalTitle() {
+    		try {
+    			const response = await fetch('recruitListTitle.do', {
+    				method : "post",
+    				body : JSON.stringify({
+    					"name" : "hello"	
+    				})
+    			});
+    			const result = await response.text();
+    			console.log(result);
+    		} catch (error) {
+    			console.log(error);
+    		}
     	}
     </script>
 

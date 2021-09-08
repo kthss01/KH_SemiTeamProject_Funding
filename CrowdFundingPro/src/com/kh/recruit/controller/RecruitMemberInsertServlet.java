@@ -76,6 +76,8 @@ public class RecruitMemberInsertServlet extends HttpServlet {
 			
 			RecruitMember rm = new RecruitMember(name, phone, education, career, email);
 
+			// 비밀번호 생성해서 등록하기
+			
 			// 파일 업로드 처리
 			
 			Attachment at = null;
