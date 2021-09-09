@@ -359,6 +359,7 @@ public class RecruitDao {
 			pstmt.setString(index++, rm.getEducation());
 			pstmt.setString(index++, rm.getCareer());
 			pstmt.setString(index++, rm.getEmail());
+			pstmt.setString(index++, rm.getPassword());
 
 			result = pstmt.executeUpdate();
 
