@@ -156,6 +156,34 @@ public class FaqDao {
 		return faq;
 	}
 
+	public int insertFaq(Connection conn, Faq f) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertFaq");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, String.valueOf(f.getTargetUser()));
+			pstmt.setString(2, f.getQuestion());
+			pstmt.setString(3, f.getAnswer());
+			pstmt.setString(4, f.getCreatorId());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 	
 
 }

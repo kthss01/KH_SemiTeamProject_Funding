@@ -55,20 +55,20 @@ public class FaqMDetailServlet extends HttpServlet {
 			target = "메이커";
 		}
 		
-		String show = "";
-		if(showYn == 'Y') {
-			show = "<input type='radio' id='y' value='Y' checked><label for='y'>예</label><input type='radio' id='n' value='N'><label for='n'>아니오</label>";
-		}
-		else {
-			show = "<input type='radio' id='y' value='Y'><label for='y'>예</label><input type='radio' id='n' value='N' checked><label for='n'>아니오</label>";
-		}
-		
 		String update = "";
 		if(updaterId != null) {
 			update = "<th>최근 수정인</th><td>" + updaterId + "</td><th>최근 수정일</th><td>" + updateDate + "</td>";
 		}
 		else {
 			update = "<th>최근 수정인</th><td></td><th>최근 수정일</th><td></td>";
+		}
+		
+		String show = "";
+		if(showYn == 'Y') {
+			show = "<input type='radio' name='showYN' id='y' value='Y' checked><label for='y'>예</label><input type='radio' name='showYN' id='n' value='N'><label for='n'>아니오</label>";
+		}
+		else {
+			show = "<input type='radio' name='showYN' id='y' value='Y'><label for='y'>예</label><input type='radio' name='showYN' id='n' value='N' checked><label for='n'>아니오</label>";
 		}
 		
 		String rTable = "<form method='GET' id='detail'><table id='dTable'> <tr style='height: 50px;'><th style='width: 150px;'>글번호</th><td style='width: 200px;'>"+ fNo + "</td><th style='width: 150px;'>사용자</th><td style='width: 200px;'>" + target + "</td></tr><tr style='height: 50px;'><th>작성인</th><td>" + creatorId + "</td><th>작성일</th><td>" + createDate + "</td></tr><tr style='height: 80px;'><th>질문내용</th><td colspan='3'><textarea name='question'>" + question + "</textarea></td></tr><tr style='height: 100px;'><th>답변 내용</th><td colspan='3'><textarea name='answer'>" + answer + "</textarea></td></tr><tr style='height: 50px;'>" + update + "</tr><tr><th>노출 여부</th><td colspan='3'>" + show + "</td></tr></table></form>";
