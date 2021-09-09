@@ -109,4 +109,11 @@ public class UserService {
 		return list;
 	}
 
+	public ArrayList<User> selectUserList() {
+		Connection conn = getConnection();
+		ArrayList<User> list = new UserDao().selectUserList(conn);
+		close(conn);
+		return list;
+	}
+
 }

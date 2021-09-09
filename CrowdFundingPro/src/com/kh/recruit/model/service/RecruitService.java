@@ -195,7 +195,7 @@ public class RecruitService {
 		return listCount;
 	}
 
-	public ArrayList<Recruitment> selectListWithTitle(int startRow, int endRow, String title) {
+	public ArrayList<Recruitment> lectureCode(int startRow, int endRow, String title) {
 		Connection conn = getConnection();
 		
 		ArrayList<Recruitment> list = new RecruitDao().selectListWithTitle(conn, startRow, endRow, title);

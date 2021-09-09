@@ -50,7 +50,7 @@ ul {
 	width: 900px;
 	height: 400px;
 	position: relative;
-	background-color: antiquewhite;
+	background-color: rgb(52,58,64);
 	overflow: hidden;
 }
 
@@ -62,6 +62,7 @@ ul {
 }
 
 .slider_item {
+	margin: 15px 0px 0px 0px
 	width: 1200px;
 	height: 400px;
 	text-align: center;
@@ -87,6 +88,7 @@ ul img {
 .left {
 	height: 1200px;
 	width: 50%;
+	float : 
 }
 
 .right {
@@ -118,6 +120,16 @@ ul img {
 	margin-bottom: 10px;
 	border-radius: 5px;
 }
+
+.lecturePage {
+	
+	margin : 15px 10px 15px 10px;
+	width : 120px;
+	
+	
+}
+
+
 
 .details {
 	background-color: white;
@@ -178,17 +190,17 @@ input {
 
 	<!-- 화면 중앙 구현 부-->
 	<div class="main">
-
+ 
 		<!-- 화면 상단 이미지 슬라이드-->
 		<div class="main_top">
 			<div id="top_banner">
 				<ul class="slider">
 					<li class="slider_item"><img
-						src="resources/images/no_image.png"></li>
+						src="resources/lectureImage/lectureImage_4.png" ></li>
 					<li class="slider_item"><img
-						src="resources/images/no_image.png"></li>
+						src="resources/lectureImage/lectureImage_8.png"></li>
 					<li class="slider_item"><img
-						src="resources/images/no_image.png"></li>
+						src="resources/lectureImage/lectureImage_9.png"></li>
 				</ul>
 			</div>
 		</div>
@@ -198,15 +210,8 @@ input {
 		<div class="center">
 			<div class="left">
 				<div class="lecWrapper">
-
-					<%
-					if (lectureList != null && !(lectureList.isEmpty())) {
-					%>
-		
-	
-					<%
-					for (Lecture l : lectureList) {
-					%>
+					<% if (lectureList != null && !(lectureList.isEmpty())) { %>
+					<% for (Lecture l : lectureList) { %>
   
 					<div class="lec_Item" onclick ='moveToDetail()'>
 						<img src="<%l.getLectureImage();%>">
@@ -214,24 +219,24 @@ input {
 								<table>
 								<tbody>
 									<tr>
-										<td> 주제 :<%=l.getLectureTopic()%> </td>
+										<td class="topic"> 주제 :<%=l.getLectureTopic()%> </td>
 									</tr>
 									<tr>
-										<td> 제목 :<%=l.getLectureTitle()%></td>
+										<td class="title"> 제목 :<%=l.getLectureTitle()%></td>
 									</tr>
 									<tr>
-										<td> 날짜 :<%=l.getLectureDate()%> </td>
+										<td class="date"> 날짜 :<%=l.getLectureDate()%> </td>
 									</tr>
 									<tr>
-										<td> 강사 :<%=l.getLecturer()%>
+										<td class="human"> 강사 :<%=l.getLecturer()%>
 										</td>
 									</tr>
 									<tr>
-										<td> 강의 시간: <%=l.getLectureTime()%> / </td>
-										<td> 강의 인원:<%=l.getLectureNum()%>
+										<td class="time"> 강의 시간: <%=l.getLectureTime()%> / </td>
+										<td class="number"> 강의 인원:<%=l.getLectureNum()%>
 									</tr>
 									<tr>
-										<td style="color='white'"><%=l.getLectureCode()%></td>
+										<td class="lectureCode" style="color='white'"><%=l.getLectureCode()%></td>
 									</tr>
 								</tbody>
 								</table>
@@ -253,49 +258,43 @@ input {
 						</div>
 					</div>
 					<% } %>
+					
+					
+					
+				<div class="lecturePage" align="center">
+			
+					<button class="pageButton" onclick="location.href='<%=contextPath%>/list.le?currentPage=1'"> &lt;&lt; </button>
+						<%if(currentPage == 1){ %>
+					<button class="pageButton" disabled> &lt; </button>
+						<%}else{ %>
+					<button onclick="location.href='<%= contextPath %>/list.le?currentPage=<%= currentPage-1 %>'"> &lt; </button>
+						<%} %>
+			
+					<!-- 페이지 목록 -->
+						<%for(int p=startPage; p<=endPage; p++){ %>
+				
+						<%if(p == currentPage){ %>
+					<button class="pageButton" disabled> <%= p %> </button>
+						<%}else{ %>
+					<button class="pageButton" onclick="location.href='<%=contextPath %>/list.le?currentPage=<%= p %>'"> <%= p %> </button>
+						<%} %>
+					<%} %>
+					<%if(currentPage == maxPage){ %>
+					<button class="pageButton" disabled> &gt; </button>
+					<%}else { %>
+					<button class="pageButton" onclick="location.href='<%= contextPath %>/list.le?currentPage=<%= currentPage+1 %>'"> &gt; </button>
+					<%} %>
+					<button class="pageButton" onclick="location.href='<%=contextPath%>/list.le?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
+				</div> 
 				</div>
-			</div>
-			
-				<!-- 페이징바 만들기 -->
-		<div class="pagingArea" align="center">
-			<!-- 맨 처음으로 (<<) -->
-			<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=1'"> &lt;&lt; </button>
-		
-			<!-- 이전페이지로(<) -->
-			<%if(currentPage == 1){ %>
-			<button disabled> &lt; </button>
-			<%}else{ %>
-			<button onclick="location.href='<%= contextPath %>/list.bo?currentPage=<%= currentPage-1 %>'"> &lt; </button>
-			<%} %>
-			
-			<!-- 페이지 목록 -->
-			<%for(int p=startPage; p<=endPage; p++){ %>
 				
-				<%if(p == currentPage){ %>
-				<button disabled> <%= p %> </button>
-				<%}else{ %>
-				<button onclick="location.href='<%=contextPath %>/list.bo?currentPage=<%= p %>'"> <%= p %> </button>
-				<%} %>
 				
-			<%} %>
-			
-			<!-- 다음페이지로(>) -->
-			<%if(currentPage == maxPage){ %>
-			<button disabled> &gt; </button>
-			<%}else { %>
-			<button onclick="location.href='<%= contextPath %>/list.bo?currentPage=<%= currentPage+1 %>'"> &gt; </button>
-			<%} %>
-		
-			<!-- 맨 끝으로 (>>) -->
-			<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
-		</div> 
-		<br><br>
-		<div align="center">
-		<% if(loginUser != null){ %>
-		<button onclick="location.href='enrollForm.bo'">작성하기</button>
-		<% } %>
+				
 		</div>
 			
+			
+		
+					
 			<script>
 					<%if(!lectureList.isEmpty()){%>
 					$(function(){
