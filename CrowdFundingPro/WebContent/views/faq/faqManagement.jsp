@@ -3,7 +3,6 @@
     
 <%
 	ArrayList<Faq> list  = (ArrayList<Faq>)request.getAttribute("list");
-
 %> 
 <!DOCTYPE html>
 <html>
@@ -162,7 +161,7 @@
                 </div>
                 <div class="c1 mid" id="c1Mid">
                     
-                    <button style="float: right; margin-bottom: 10px;">작성</button>
+                    <button style="float: right; margin-bottom: 10px;" onclick = "location.href='insertForm.fq'">작성</button>
                     <table id="lTable">
                         <tr>
                             <th style="width: 100px;">글번호</th>
@@ -178,12 +177,11 @@
                         <%} %>
                         
                     </table>
-                    
+                 
                 </div>
                 <div class="c1 bot" id="c1Bot">
                     <button class="pages">&lt;</button><button class="pages">1</button><button class="pages">2</button>
                     <button class="pages">3</button><button class="pages">4</button><button class="pages">5</button><button class="pages">&gt;</button>
-                   
                 </div>
             </div>
             <script type = "text/javascript">
@@ -219,8 +217,8 @@
                 
                 </div>
                 <div class="c2 bot" id="c2Bot" style="text-align: right;">                
-                    <input form="detail" type="submit" style="display: inline-block; margin-left: 5px; margin-right: 5px;" value="수정" name="showYN"></input>
-                    <input form="detail" type="submit" style="display: inline-block; margin-left: 5px; margin-right: 5px;" value="삭제" name="showYN"></input>
+                    <input form="detail" type="submit" style="display: inline-block; margin-left: 5px; margin-right: 5px;" value="수정"></input>
+                    <input form="detail" type="submit" style="display: inline-block; margin-left: 5px; margin-right: 5px;" value="삭제"></input>
                 </div>
             </div>
         </div>
