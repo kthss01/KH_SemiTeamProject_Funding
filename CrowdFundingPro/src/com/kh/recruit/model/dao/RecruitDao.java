@@ -767,4 +767,34 @@ public class RecruitDao {
 		return map;
 	}
 
+	public String selectRecruitMemberPasswordWithIdAndEmail(Connection conn, String rid, String email) {
+		String password = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectRecruitMemberPasswordWithIdAndEmail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(rid));
+			pstmt.setString(2, email);
+			
+			rset = pstmt.executeQuery();
+			
+			if (rset.next()) {
+				password = rset.getString(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return password;
+	}
+
 }

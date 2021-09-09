@@ -228,5 +228,13 @@ public class RecruitService {
 		return map;
 	}
 
+	public String selectRecruitMemberPasswordWithIdAndEmail(String rid, String email) {
+		Connection conn = getConnection();
+		
+		String password = new RecruitDao().selectRecruitMemberPasswordWithIdAndEmail(conn, rid, email);
+		
+		return password;
+	}
+
 	
 }

@@ -237,7 +237,7 @@
                             <div class="input-group">
                                 <input type="text" id="recruitCheckEmail" class="form-control form-control-sm" placeholder="email 입력해주세요">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-info btn-sm" type="button">비밀번호 발송</button>
+                                    <button onclick="sendRecruitMemberPassword();" class="btn btn-outline-info btn-sm" type="button">비밀번호 발송</button>
                                 </div>
                             </div>
                         </div>
@@ -247,7 +247,7 @@
                             <div class="input-group">
                                 <input type="text" id="recruitMemberPassword" class="form-control form-control-sm" placeholder="발급 받은 비밀번호를 입력해주세요">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-dark btn-sm" type="button">지원서 조회</button>
+                                    <button onclick="searchRecruitMember();" class="btn btn-outline-dark btn-sm" type="button">지원서 조회</button>
                                 </div>
                             </div>
                         </div>
@@ -318,12 +318,86 @@
     
     <!-- 공고 지원서 메일 발송 및 조회 스크립트 -->
     <script>
-    	function sendRecruitMemberPassword() {
+    	async function sendRecruitMemberPassword() {
+    		const rid = document.querySelector("#recruitId").value;
+    		const email = document.querySelector("#recruitCheckEmail").value;
     		
+    		//console.log(rid, email);
+    		
+    		try {
+    			const response = await fetch('recruitMemberPassword.do', {
+    				method: "post",
+    				body : JSON.stringify({
+    					"rid" : rid,
+    					"email" : email,
+    				})
+    			});
+    			
+   				const result = await response.text();
+   				//console.log(result);
+   				
+   				if (result === "fail") {
+   					showNoFoundRecruitAlert();
+   				} else {
+   					showFoundRecruitAlert();
+   				}
+    			
+    		} catch (error) {
+    			console.log(error);
+    		}
+    	}
+    	
+    	function showNoFoundRecruitAlert() {
+    		$('#recruitmember_update_form').prepend(`
+   	            <div id="noFoundRecruitAlert" class="alert alert-warning alert-dismissible fade show" role="alert" style="position: absolute; top: -65px; left: 12px;">
+   	                <strong>공고 지원서가 없습니다!</strong> 
+   	                <p style="font-size: 15px;">
+   	                    공고에 해당 이메일로 등록된 지원서가 존재하지 않습니다. <br> 다시 확인해주세요
+   	                </p>
+   	                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+   	                  <span aria-hidden="true">&times;</span>
+   	                </button>
+   	            </div>`);
+			setTimeout(function() {
+	                $('#noFoundRecruitAlert').alert('close');
+	        }, 3000);
+    	}
+    	
+    	function showFoundRecruitAlert() {
+    		$('#recruitmember_update_form').prepend(`
+   	            <div id="foundRecruitAlert" class="alert alert-success alert-dismissible fade show" role="alert" style="position: absolute; top: -65px; left: 12px;">
+   	                <strong>이메일로 비밀번호를 발송하였습니다.</strong> 
+   	                <p style="font-size: 15px;">
+						공고 지원서에 등록한 이메일로 비밀번호를 발송하였습니다. <br> 확인하여 비밀번호를 입력해주세요
+   	                </p>
+   	                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+   	                  <span aria-hidden="true">&times;</span>
+   	                </button>
+   	            </div>`);
+   			setTimeout(function() {
+   	                $('#foundRecruitAlert').alert('close');
+   	        }, 4000);
     	}
     	
     	function searchRecruitMember() {
     		
+    	}
+    	
+    	function showPasswordWronAlert() {
+    		$('#recruitmember_update_form').prepend(`
+   	            <div id="passwordWrongAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="position: absolute; top: -60px; left: 22px;">
+   	                <strong>비밀번호가 잘못되었습니다!</strong> 
+   	                <p style="font-size: 15px;">
+   	                    	입력한 비밀번호가 잘못되었습니다! 다시 확인해주세요
+   	                </p>
+   	                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+   	                  <span aria-hidden="true">&times;</span>
+   	                </button>
+   	            </div>`);
+
+            setTimeout(function() {
+                $('#passwordWrongAlert').alert('close');
+            }, 3000);
     	}
     	
     	// ajax 처리  async await 이용
