@@ -37,20 +37,12 @@ public class UserDao {
 
 	public User loginUser(Connection conn, String emailId, String userPwd) {
 		User loginUser = null;
-
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-
 		String sql = prop.getProperty("loginUser");
-		// loginUser=SELECT * FROM USER_TB WHERE EMAIL_ID=? AND USER_PWD=? AND
-		// STATUS='N'
-
-		System.out.println("dao : " + emailId);
-		System.out.println("dao : " + userPwd);
+		// loginUser=SELECT * FROM USER_TB WHERE EMAIL_ID=? AND USER_PWD=? AND STATUS='N' 
 		try {
-
 			pstmt = conn.prepareStatement(sql);
-
 			pstmt.setString(1, emailId);
 			pstmt.setString(2, userPwd);
 
@@ -92,16 +84,8 @@ public class UserDao {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertUser");
-		// insertUser=INSERT INTO USER_TB VALUES(SEQ_USER_NO.NEXTVAL, ?, ?, ?, ?, ?, ?,
-		// ?, ?, ?, ?, DEFAULT,DEFAULT)
-		/*
-		 * USER_NO VARCHAR2(3 BYTE) USER_CODE VARCHAR2(3 BYTE) EMAIL_ID VARCHAR2(100
-		 * BYTE) USER_PWD VARCHAR2(20 BYTE) USER_NAME VARCHAR2(20 BYTE) USER_SSN
-		 * VARCHAR2(20 BYTE) PHONE_NUMBER VARCHAR2(20 BYTE) USER_ADDRESS VARCHAR2(200
-		 * BYTE) POINT NUMBER BUSINESS_NUMBER VARCHAR2(20 BYTE) BUSINESS_NAME
-		 * VARCHAR2(20 BYTE) JOIN_DATE DATE STATUS CHAR(2 BYTE)
-		 */
-
+		// insertUser=INSERT INTO USER_TB VALUES(SEQ_USER_NO.NEXTVAL, ?, ?, ?,
+		//														 ?, ?, ?, ?, ?, ?, ?, DEFAULT,DEFAULT)
 		try {
 			pstmt = conn.prepareStatement(sql);
 

@@ -70,16 +70,22 @@
 
 	function drawCurveTypes() {
 		var data = new google.visualization.DataTable();
+		var rowNum = 0;
+		
 		data.addColumn('number', 'X');
 		data.addColumn('number', 'Dogs');
 		data.addColumn('number', 'Cats');
 
-		data.addRows([ [ 0, 0, 0 ], [ 1, 10, 5 ], [ 2, 23, 15 ], [ 3, 17, 9 ],
+		
+		
+		
+		/*
+		data.addRows([ [ rowNum, 0, 0 ], [rowNum++, 10, 5 ], [ 2, 23, 15 ], [ 3, 17, 9 ],
 				[ 4, 18, 10 ], [ 5, 9, 5 ], [ 6, 11, 3 ], [ 7, 17, 19 ],
 				[ 8, 11, 25 ], [ 9, 30, 32 ], [ 10, 5, 24 ], [ 11, 30, 27 ],
 				[ 12, 30, 50 ], [ 13, 40, 42 ], [ 14, 42, 21 ], [ 15, 47, 15 ],
 				[ 16, 44, 36 ], [ 17, 48, 40 ], ]);
-
+		*/
 		var options = {
 			hAxis : {
 				title : 'Time'
@@ -143,16 +149,6 @@ border: 1px solid rgba(0,0,0,.225);
 					<ol class="breadcrumb mb-4">
 					</ol>
 
-					<div class="card mb-4">
-						<div class="card-header">
-							<i class="fas fa-chart-area me-1"></i> 회원 비율
-						</div>
-						<div class="card-body">
-							<div id="myAreaChart" width="100%" height="30"></div>
-						</div>
-						<div class="card-footer small text-muted">Updated yesterday
-							at 11:59 PM</div>
-					</div>
 					<div class="row">
 						<div class="col-lg-6">
 							<div class="card mb-4">
@@ -168,7 +164,7 @@ border: 1px solid rgba(0,0,0,.225);
 						<div class="col-lg-6">
 							<div class="card mb-4">
 								<div class="card-header">
-									<i class="fas fa-chart-pie me-1"></i> Pie Chart Example
+									<i class="fas fa-chart-pie me-1"></i> 펀딩 카테고리 통계
 								</div>
 								<div class="card-body">
 									<div id="donutchart" width="100%" height="50"></div>
@@ -250,7 +246,7 @@ $(function(){
 
 	$("#searchText").on("keyup",function(){
 		var value = $(this).val().toLowerCase();
-		$("tr").filter(function(){
+		$("tbody tr").filter(function(){
 			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 		});
 	});
