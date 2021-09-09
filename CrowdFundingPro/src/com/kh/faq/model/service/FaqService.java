@@ -1,7 +1,9 @@
 package com.kh.faq.model.service;
 
 import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.commit;
 import static com.kh.common.JDBCTemplate.getConnection;
+import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -41,6 +43,23 @@ public class FaqService {
 		close(conn);
 
 		return faq;
+	}
+
+	public int insertFaq(Faq f) {
+		Connection conn = getConnection();
+		
+		int result = new FaqDao().insertFaq(conn, f);
+		
+		if(result > 0) {
+			commit(conn);
+		}
+		else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
 	}
 
 

@@ -43,11 +43,22 @@ public class LectureService {
 		return result;
 		
 	}
-
+	
 	public ArrayList<Lecture> selectLectureList() {
 		
 		Connection conn = getConnection();
 		ArrayList<Lecture> result = new LectureDao().selectLectureList(conn);
+		
+		close(conn);
+		return result;
+	}
+
+	
+	public ArrayList<Lecture> selectLectureList(int startRow,int endRow) {
+		
+		Connection conn = getConnection();
+		ArrayList<Lecture> result = new LectureDao().selectLectureList(conn,startRow,endRow);
+		
 		close(conn);
 		return result;
 	}

@@ -63,6 +63,18 @@ public User(String userCode, String emailId, String userPwd, String userName, St
 
 
 
+public User(String userCode, String emailId, String userName, String userSsn,
+		String userPhone,Date joinDate, String status) {
+	super();
+	this.userCode = userCode;
+	this.emailId = emailId;
+	this.userName = userName;
+	this.userSsn = userSsn;
+	this.userPhone = userPhone;
+	this.joinDate = joinDate;
+	this.status = status;
+}
+
 public int getUserNo() {
 	return userNo;
 }

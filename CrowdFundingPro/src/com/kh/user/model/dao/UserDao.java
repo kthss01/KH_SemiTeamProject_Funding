@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -290,14 +291,9 @@ public class UserDao {
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 
-				list.add(new IProject(
-						rset.getInt("USER_NO"),
-						rset.getString("EMAIL_ID"),
-						rset.getString("PROJECT_CODE"),
-						rset.getString("PROJECT_NAME"),
-						rset.getInt("AMOUNT_GOAL"),
-						rset.getInt("AMOUNT_PRESENT"),
-						rset.getString("DETAIL_INTRO")
+				list.add(new IProject(rset.getInt("USER_NO"), rset.getString("EMAIL_ID"),
+						rset.getString("PROJECT_CODE"), rset.getString("PROJECT_NAME"), rset.getInt("AMOUNT_GOAL"),
+						rset.getInt("AMOUNT_PRESENT"), rset.getString("DETAIL_INTRO")
 
 				));
 			}
@@ -326,18 +322,47 @@ public class UserDao {
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 
-				list.add(new UProject(
-						rset.getInt("USER_NO"),
-						rset.getString("EMAIL_ID"),
-						rset.getString("PROJECT_CODE"),
-						rset.getString("PROJECT_NAME"),
-						rset.getInt("AMOUNT_GOAL"),
-						rset.getInt("AMOUNT_PRESENT"),
-						rset.getString("DETAIL_INTRO")
+				list.add(new UProject(rset.getInt("USER_NO"), rset.getString("EMAIL_ID"),
+						rset.getString("PROJECT_CODE"), rset.getString("PROJECT_NAME"), rset.getInt("AMOUNT_GOAL"),
+						rset.getInt("AMOUNT_PRESENT"), rset.getString("DETAIL_INTRO")
 
 				));
 
 			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public ArrayList<User> selectUserList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<User> list = new ArrayList<User>();
+		String sql = "SELECT * FROM USER_TB";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				list.add(new User(			
+						rset.getString("USER_CODE"),
+						rset.getString("EMAIL_ID"),
+						rset.getString("USER_NAME"),
+						rset.getString("USER_SSN"), 
+						rset.getString("PHONE_NUMBER"),
+						rset.getDate("JOIN_DATE"),
+						rset.getString("STATUS")
+				));
+			}
+			
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
