@@ -219,12 +219,12 @@
 
 					</div>
 
-					<label for="userSsn" class = "labelA" >주민번호 </label> <input class = "inputT"
-					 type="text" id="userSsn"
-						name="userSsn" placeholder="주민번호 입력" required="required">
-					<label for="phone" class = "labelA" >전화번호</label> <input class = "inputT"
-					 type="tel" id="phone"
-						name="phone" placeholder="전화번호 입력" required="required"> 
+					<label for="userSsn" class = "labelA" >주민번호 </label> 
+					<input class = "inputT" type="text" id="userSsn"
+						name="userSsn" placeholder="주민번호 입력" maxlength='14' required="required">
+					<label for="phone" class = "labelA" >전화번호</label> 
+					<input class = "inputT" id="tel" type="tel" id="phone"
+						name="phone" placeholder="전화번호 입력" maxlength='13' required="required"> 
 					<label class = "labelA"
 						for="address">주소 </label> <input class = "inputT"
 						 type="text" id="address"
@@ -243,10 +243,11 @@
 					</div>
 					<div id="businessArea" style="width: 100%; display: none;">
 
-						<label for="bNumber" class =  "labelA">사업자번호 </label> <input  class = "inputT"
-						type="text"
+						<label for="bNumber" class =  "labelA">사업자번호 </label>
+						 <input  class = "inputT"
+						type="text" maxlength='11'
 							id="bNumber" name="bNumber" placeholder="사업자번호 입력"
-							style="width: 100%;"> <br> <label for="bName">사업자명</label>
+							style="width: 100%;"> <br> <label for="bName" class =  "labelA">사업자명</label>
 						<input class = "inputT"
 						 type="text" id="bName" name="bName" placeholder="사업자명 입력"
 							style="width: 100%;">
@@ -671,6 +672,23 @@
 </body>
 
 <script>
+
+// 전화번호에 '-' 자동 삽입
+$("#tel").on("keyup",function(){
+	$(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );	
+})
+
+//주민번호에 '-' 자동삽입
+$("#userSsn").on("keyup",function(){
+	$(this).val(($(this).val().replace(/(\d{6})(\d{7})/g, '$1-$2')));
+})
+
+//사업자번호에 '-' 자동삽입
+$("#bNumber").on("keyup",function(){
+	$(this).val(($(this).val().replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3')));
+})
+
+
 
 //동의 모두선택 / 해제
 const agreeChkAll = document.querySelector('input[name=agree_all]');

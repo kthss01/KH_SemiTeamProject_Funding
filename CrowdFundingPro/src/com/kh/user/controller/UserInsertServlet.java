@@ -51,10 +51,9 @@ public class UserInsertServlet extends HttpServlet {
 			loginUser.setbName(bName);
 		}
 		
-		int result = new UserService().insertUser(loginUser); //insert작업으로 성공여부를 가져옴
+		int result = new UserService().insertUser(loginUser); //insert 작업 성공여부를 가져옴
 		
 		if(result > 0 ) {
-			request.getSession().setAttribute("msg", "회원가입성공");
 			response.sendRedirect(request.getContextPath());
 		}else {
 			request.setAttribute("msg", "회원가입에 실패했습니다.");

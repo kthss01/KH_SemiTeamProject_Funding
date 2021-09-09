@@ -145,32 +145,37 @@
             
 
                 <label for="name">*이름</label>
-                <input type="text" id="name" name="name" placeholder=<%=loginUser.getUserName()%> readonly>
+                <input type="text" id="name" name="name" 
+                placeholder=<%=loginUser.getUserName()%> readonly>
 
                 <label for="emailId">*이메일 아이디</label>
-                <input type="email" id="emailId" name="emailId" placeholder=<%=loginUser.getEmailId()%> readonly>
-                <br><br>
-
+                <input type="email" id="emailId" name="emailId" 
+                placeholder=<%=loginUser.getEmailId()%> readonly> <br><br>
+               
 
                 <div class="pwd-area area" >
                     <label for="password">비밀번호</label>
-                    <input type="password" id="userPwd" name="userPwd" onchange="check_pw()" value=<%=loginUser.getUserPwd()%>>
-                    <input type="password" id="userPwd2" name="userPwd2" onchange="check_pw()" value=<%=loginUser.getUserPwd()%>>
+                    <input type="password" id="userPwd" name="userPwd" 
+                    onchange="check_pw()" value=<%=loginUser.getUserPwd()%>>
+                    <input type="password" id="userPwd2" name="userPwd2" 
+                    onchange="check_pw()" value=<%=loginUser.getUserPwd()%>>
                 	
 					<div id="msgBox" style="width:100%; font-size:0.8em; text-align: center;"></div>
                 </div>
                 
                 <label for="tel">전화번호 </label>
-                <input type="tel" id="tel" name="phone" value=<%=loginUser.getUserPhone()%>>
+                <input type="tel" id="tel" name="phone" 
+                value=<%=loginUser.getUserPhone()%>>
 
                 <label for="address"text"">주소 </label>
-                <input type="text" id="address" name="address" value="<%=loginUser.getUserAddress()%>">
+                <input type="text" id="address" name="address" 
+                value="<%=loginUser.getUserAddress()%>">
 
 
                
                 <input id="modifyBtn" type="button" value="수정완료" onclick="uadateAvailable();">
 			</form>
-                <input id="deleteBtn" type="button" value="회원탈퇴" onclick="deleteCheck()">  <!-- ajax -->
+                <input id="deleteBtn" type="button" value="회원탈퇴" onclick="deleteCheck()"> 
                
 			
         </div>
@@ -183,26 +188,18 @@
 		
 		 var pwd = $("#userPwd").val();
 		 var pwd2 = $("#userPwd2").val();
-		 var num = pwd.search(/[0-9]/g);
+		 var num = pwd.search(/[0-9]/g); // 
 		 var eng = pwd.search(/[a-z]/ig);
 		 var spe = pwd.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-		 
 		 if(pwd.length < 8 || pwd.length > 20){
 
-			  alert("비밀번호는 8자리 ~ 20자리 이내로 입력해주세요.");
-			  
-			 }else if(pwd.search(/\s/) != -1){
-				 
-			  alert("비밀번호는 공백 없이 입력해주세요.");
-			  
-			 }else if(num < 0 || eng < 0 || spe < 0 ){
-				 
-			  alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
-			  
-			 }else if(pwd != pwd2){
-			  
+			  alert("비밀번호는 8자리 ~ 20자리 이내로 입력해주세요.");		  
+			 }else if(pwd.search(/\s/) != -1){			 
+			  alert("비밀번호는 공백 없이 입력해주세요.");		  
+			 }else if(num < 0 || eng < 0 || spe < 0 ){			 
+			  alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");	  
+			 }else if(pwd != pwd2){  
 			  alert("비밀번호 확인이 일치하지 않습니다.");
-
 			 } else {
     				$("#updateForm").submit(); //Form 전송
 			 }
