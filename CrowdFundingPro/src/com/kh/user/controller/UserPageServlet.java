@@ -49,7 +49,7 @@ public class UserPageServlet extends HttpServlet {
 			if(user.getUserCode().equals("01")) {
 				
 				
-				view = request.getRequestDispatcher("views/user/adminPage.jsp");
+				view = request.getRequestDispatcher("/userList.do");
 
 			}else {
 				
