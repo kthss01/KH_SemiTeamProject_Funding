@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import com.kh.common.model.vo.Attachment;
@@ -735,6 +737,33 @@ public class RecruitDao {
 		}
 
 		return list;
+	}
+
+	public Map<Integer, String> selectAllTitleWithId(Connection conn) {
+		Map<Integer, String> map = new HashMap<>();
+
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectAllTitleWithId");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				map.put(rset.getInt(1), rset.getString(2));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return map;
 	}
 
 }

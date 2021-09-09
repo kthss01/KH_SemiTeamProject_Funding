@@ -225,9 +225,9 @@
                         
                         <!-- 직원 공고 선택 dropdowns custom select -->
                         <div class="form-group">
-                            <label for="recruitName">지원 공고 선택</label>
-                            <select name="recruitName" id="recruitName" class="custom-select">
-                                <%-- ajax 처리시 setModalTitle --%>
+                            <label for="recruitId">지원 공고 선택</label>
+                            <select name="recruitId" id="recruitId" class="custom-select">
+                                <%-- ajax 처리시 setModalIdAndTitle --%>
                             </select>
                         </div>
 
@@ -235,7 +235,7 @@
                         <div class="form-group">
                             <label for="recruitMemberEmail">공고 지원서 조회</label>
                             <div class="input-group">
-                                <input type="text" id="recruitMemberEmail" class="form-control form-control-sm" placeholder="email 입력해주세요">
+                                <input type="text" id="recruitCheckEmail" class="form-control form-control-sm" placeholder="email 입력해주세요">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-info btn-sm" type="button">비밀번호 발송</button>
                                 </div>
@@ -300,7 +300,7 @@
 
                             <!-- 내 자신에게 보내기 체크박스 -->
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck2" name="sendMyResume">
+                                <input type="checkbox" class="custom-control-input" id="customCheck2" name="sendMyResume" checked>
                                 <label for="customCheck2" class="custom-control-label small">내 자신에게 수정된 지원서 전송하기</label>
                             </div>
                         </fieldset>
@@ -327,18 +327,27 @@
     	}
     	
     	// ajax 처리  async await 이용
-    	window.addEventListener("DOMContentLoaded", setModalTitle);
+    	window.addEventListener("DOMContentLoaded", setModalIdAndTitle);
     	
-    	async function setModalTitle() {
+    	async function setModalIdAndTitle() {
     		try {
     			const response = await fetch('recruitListTitle.do', {
     				method : "post",
-    				body : JSON.stringify({
+    				/*body : JSON.stringify({
     					"name" : "hello"	
-    				})
+    				})*/
     			});
-    			const result = await response.text();
-    			console.log(result);
+    			const result = await response.json();
+    			//console.log(result);
+    			
+    			const recruitTitles = document.querySelector('#recruitId');
+    			Object.keys(result).forEach((id) => {
+    				const $option = document.createElement('option')
+    				$option.value = id;
+    				$option.textContent = result[id];
+    				recruitTitles.appendChild($option);
+    			});
+    			
     		} catch (error) {
     			console.log(error);
     		}

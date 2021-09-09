@@ -1,6 +1,7 @@
 package com.kh.recruit.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+
+import com.google.gson.Gson;
+import com.kh.recruit.model.service.RecruitService;
 
 /**
  * Servlet implementation class RecruitListTitleServlet
@@ -62,7 +66,15 @@ public class RecruitListTitleServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		// 테스트
-		practice(request);
+//		practice(request);
+		
+		// Recruitment의 id와 title 가져오는 servlet
+		
+		Map<Integer, String> map = new RecruitService().selectAllTitleWithId();
+		
+		response.setContentType("application/json; charset=utf-8");
+		
+		new Gson().toJson(map, response.getWriter());
 
 	}
 

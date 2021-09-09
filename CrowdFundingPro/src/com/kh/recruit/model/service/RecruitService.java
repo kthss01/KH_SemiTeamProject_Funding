@@ -1,13 +1,16 @@
 package com.kh.recruit.model.service;
 
 
-import static com.kh.common.JDBCTemplate.*;
+import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.commit;
+import static com.kh.common.JDBCTemplate.getConnection;
+import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.kh.common.model.vo.Attachment;
-import com.kh.event.model.vo.Event;
 import com.kh.recruit.model.dao.RecruitDao;
 import com.kh.recruit.model.vo.RecruitCode;
 import com.kh.recruit.model.vo.RecruitMember;
@@ -213,6 +216,16 @@ public class RecruitService {
 		close(conn);
 		
 		return list;
+	}
+
+	public Map<Integer, String> selectAllTitleWithId() {
+		Connection conn = getConnection();
+		
+		Map<Integer, String> map = new RecruitDao().selectAllTitleWithId(conn);
+		
+		close(conn);
+		
+		return map;
 	}
 
 	
