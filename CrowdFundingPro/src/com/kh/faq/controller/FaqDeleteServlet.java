@@ -1,7 +1,6 @@
 package com.kh.faq.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,20 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.faq.model.service.FaqService;
-import com.kh.faq.model.vo.Faq;
-import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class FaqInserServlet
+ * Servlet implementation class FaqDeleteServlet
  */
-@WebServlet("/insert.fq")
-public class FaqInserServlet extends HttpServlet {
+@WebServlet("/delete.fq")
+public class FaqDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FaqInserServlet() {
+    public FaqDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,21 +28,10 @@ public class FaqInserServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		char targetUser = request.getParameter("targetUser").charAt(0);
-		String question = request.getParameter("question");
-		String answer = request.getParameter("answer");
 		
-		User loginUser = (User)request.getSession().getAttribute("loginUser");
-		String creatorId = loginUser.getEmailId();
+		String fNo = request.getParameter("fNo");
 		
-		Faq f = new Faq();
-		f.setTargetUser(targetUser);
-		f.setQuestion(question);
-		f.setAnswer(answer);
-		f.setCreatorId(creatorId);
-		
-		int result = new FaqService().insertFaq(f);
+		int result = new FaqService().deleteFaq(fNo);
 		if(result > 0) {
 			response.sendRedirect("list.fq");
 		}

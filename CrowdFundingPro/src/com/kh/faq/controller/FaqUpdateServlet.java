@@ -13,16 +13,16 @@ import com.kh.faq.model.vo.Faq;
 import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class FaqInserServlet
+ * Servlet implementation class FaqUpdateServlet
  */
-@WebServlet("/insert.fq")
-public class FaqInserServlet extends HttpServlet {
+@WebServlet("/update.fq")
+public class FaqUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FaqInserServlet() {
+    public FaqUpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,20 +32,25 @@ public class FaqInserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		char targetUser = request.getParameter("targetUser").charAt(0);
+		String fNo = request.getParameter("fNo");
 		String question = request.getParameter("question");
 		String answer = request.getParameter("answer");
 		
 		User loginUser = (User)request.getSession().getAttribute("loginUser");
-		String creatorId = loginUser.getEmailId();
+		String updaterId = loginUser.getEmailId();
+		
+		char showYN = request.getParameter("showYN").charAt(0);
 		
 		Faq f = new Faq();
-		f.setTargetUser(targetUser);
+		
+		f.setfNo(fNo);
 		f.setQuestion(question);
 		f.setAnswer(answer);
-		f.setCreatorId(creatorId);
+		f.setUpdaterId(updaterId);
+		f.setShowYn(showYN);
 		
-		int result = new FaqService().insertFaq(f);
+		int result = new FaqService().updateFaq(f);
+		
 		if(result > 0) {
 			response.sendRedirect("list.fq");
 		}

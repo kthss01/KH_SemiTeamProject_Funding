@@ -62,6 +62,40 @@ public class FaqService {
 		return result;
 	}
 
+	public int updateFaq(Faq f) {
+		Connection conn = getConnection();
+		
+		int result = new FaqDao().updateFaq(conn, f);
+		
+		if(result > 0) {
+			commit(conn);
+		}
+		else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public int deleteFaq(String fNo) {
+		Connection conn = getConnection();
+		
+		int result = new FaqDao().deleteFaq(conn, fNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}
+		else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+
 
 
 }

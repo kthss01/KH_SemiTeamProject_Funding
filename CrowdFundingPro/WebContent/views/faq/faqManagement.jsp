@@ -142,7 +142,11 @@
     	border: none;
     	background-color: white;
     }
-    
+    .btns2{
+       	display: inline-block;
+       	margin-left: 5px; 
+       	margin-right: 5px;
+    }
 </style>
 </head>
 <body>
@@ -205,7 +209,6 @@
 	            			
 	            		})
 	            	})
-               
     			})
               
            	</script>
@@ -217,14 +220,16 @@
                 
                 </div>
                 <div class="c2 bot" id="c2Bot" style="text-align: right;">                
-                    <input form="detail" type="submit" style="display: inline-block; margin-left: 5px; margin-right: 5px;" value="수정"></input>
-                    <input form="detail" type="submit" style="display: inline-block; margin-left: 5px; margin-right: 5px;" value="삭제"></input>
+                    <input form="detail" class="btns2" type="submit"  value="수정" formaction="<%=request.getContextPath()%>/update.fq"/>
+                    <input form="detail" class="btns2" type="submit"  value="삭제" formaction="<%=request.getContextPath()%>/delete.fq"/>
                 </div>
             </div>
+       
         </div>
     </div>  
 
     <script>
+    
         $(function(){          
 
             $("#y").click(function()
