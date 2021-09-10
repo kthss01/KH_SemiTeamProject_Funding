@@ -244,5 +244,13 @@ public class RecruitService {
 		return rm;
 	}
 
+	public Attachment selectAttachmentWithIdAndEmail(String rid, String email) {
+		Connection conn = getConnection();
+		
+		Attachment at = new RecruitDao().selectAttachmentWithIdAndEmail(conn, rid, email);
+		
+		return at;
+	}
+
 	
 }

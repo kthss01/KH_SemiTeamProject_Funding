@@ -253,6 +253,8 @@
                         </div>
 
                         <fieldset style="border: 1px dotted gray; padding: 20px;">
+                        	<input type="hidden" id="recruitAttachmentNo" name="recruitAttachmentNo">
+                        
                             <div class="form-row">
                                 <!-- 성명 -->
                                 <div class="form-group col">
@@ -403,7 +405,29 @@
     			} else if(result === 'password fail') {
     				showPasswordWrongAlert();
     			} else {    				
-    				//console.log(JSON.parse(result));
+    				const jsonResult = JSON.parse(result);
+    				
+  					console.log(jsonResult);
+  					
+  					const { at, rm } = jsonResult;
+    				
+    				const rmName = document.querySelector('#recruitMemberName');
+    				const rmPhone = document.querySelector('#recruitMemberPhone');
+    				const rmEmail = document.querySelector('#recruitMemberEmail');
+    				const rmEducation = document.querySelector('#recruitMemberEducation');
+    				const rmCareer = document.querySelector('#recruitMemberCareer');
+    				const rmAttachment = document.querySelector('.custom-file-label');
+    				const rmAttachmentNo = document.querySelector('#recruitAttachmentNo');
+    				
+    				rmName.value = rm.name;
+    				rmPhone.value = rm.phone;
+    				rmEmail.vlaue = rm.email;
+    				rmEducation.value = rm.education;
+    				rmCareer.value = rm.career;
+    				
+    				rmAttachment.classList.add('selected');
+    				rmAttachment.innerHTML = at.originName;
+    				rmAttachmentNo.value = at.fileNo;
     			}
     			
     		} catch (error) {
@@ -454,6 +478,14 @@
     			console.log(error);
     		}
     	}
+    </script>
+
+    <!-- file upload 파일명 입력 처리 -->
+    <script>
+    	$(".custom-file-input").on("change", function() {
+    		const fileName = $(this).val().split("\\").pop();
+    		$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    	});
     </script>
 
     <!-- 공고 등록 modal -->

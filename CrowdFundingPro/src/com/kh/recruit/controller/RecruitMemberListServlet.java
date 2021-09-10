@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import com.google.gson.Gson;
+import com.kh.common.model.vo.Attachment;
 import com.kh.recruit.model.service.RecruitService;
 import com.kh.recruit.model.vo.RecruitMember;
 
@@ -41,8 +42,11 @@ public class RecruitMemberListServlet extends HttpServlet {
 		String email = (String) obj.get("email");
 		String password = (String) obj.get("password");
 		
+		// 공고 지원서 가져오기
 		RecruitMember rm = new RecruitService().selectRecruitMemberWithIdAndEmail(rid, email);
 		
+		// 첨부파일 가져오기
+		Attachment at = new RecruitService().selectAttachmentWithIdAndEmail(rid, email);
 		
 		if (rm == null) {
 			// 조회 되지 않은 경우
@@ -52,7 +56,14 @@ public class RecruitMemberListServlet extends HttpServlet {
 			response.getWriter().print("password fail");
 		} else {
 			response.setContentType("application/json; charset=utf-8");
-			new Gson().toJson(rm, response.getWriter());
+			Gson gson = new Gson();
+			
+			JSONObject jobj = new JSONObject();
+			jobj.put("rm", rm);
+			jobj.put("at", at);
+			
+			//response.getWriter().print(jobj);
+			new Gson().toJson(jobj, response.getWriter());
 		}
 		
 	}

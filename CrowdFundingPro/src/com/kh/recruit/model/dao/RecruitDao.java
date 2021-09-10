@@ -834,4 +834,41 @@ public class RecruitDao {
 		return rm;
 	}
 
+	public Attachment selectAttachmentWithIdAndEmail(Connection conn, String rid, String email) {
+		Attachment at = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAttachmentWithIdAndEmail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(rid));
+			pstmt.setString(2, email);
+			
+			rset = pstmt.executeQuery();
+			
+			if (rset.next()) {
+				int fileNo = rset.getInt("FILE_NO");
+				int refNo = rset.getInt("REF_NO");
+				String originName = rset.getString("ORIGIN_NAME");
+				String changeName = rset.getString("CHANGE_NAME");
+				java.sql.Date uploadDate = rset.getDate("UPLOAD_DATE");
+				String filePath = rset.getString("FILE_PATH");
+				
+				at = new Attachment(fileNo, refNo, originName, changeName, uploadDate, filePath);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return at;
+	}
+
 }
