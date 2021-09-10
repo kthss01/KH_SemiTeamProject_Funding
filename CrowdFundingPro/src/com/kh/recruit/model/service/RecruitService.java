@@ -236,5 +236,13 @@ public class RecruitService {
 		return password;
 	}
 
+	public RecruitMember selectRecruitMemberWithIdAndEmail(String rid, String email) {
+		Connection conn = getConnection();
+		
+		RecruitMember rm = new RecruitDao().selectRecruitMemberWithIdAndEmail(conn, rid, email);
+		
+		return rm;
+	}
+
 	
 }

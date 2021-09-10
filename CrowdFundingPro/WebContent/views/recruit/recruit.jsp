@@ -379,11 +379,39 @@
    	        }, 4000);
     	}
     	
-    	function searchRecruitMember() {
+    	async function searchRecruitMember() {
+    		const rid = document.querySelector("#recruitId").value;
+    		const email = document.querySelector("#recruitCheckEmail").value;
+    		const password = document.querySelector('#recruitMemberPassword').value;
     		
+    		try {
+    			
+    			const response = await fetch('recruitMemberList.do', {
+    				method: "post",
+    				body : JSON.stringify({
+    					"rid" : rid,
+    					"email" : email,
+    					"password" : password,
+    				})
+    			});
+    			
+    			const result = await response.text();
+    			
+    			//console.log(result);
+    			if (result === 'search fail') {
+    				showNoFoundRecruitAlert();
+    			} else if(result === 'password fail') {
+    				showPasswordWrongAlert();
+    			} else {    				
+    				//console.log(JSON.parse(result));
+    			}
+    			
+    		} catch (error) {
+    			console.log(error);
+    		}
     	}
     	
-    	function showPasswordWronAlert() {
+    	function showPasswordWrongAlert() {
     		$('#recruitmember_update_form').prepend(`
    	            <div id="passwordWrongAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="position: absolute; top: -60px; left: 22px;">
    	                <strong>비밀번호가 잘못되었습니다!</strong> 

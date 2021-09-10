@@ -797,4 +797,41 @@ public class RecruitDao {
 		return password;
 	}
 
+	public RecruitMember selectRecruitMemberWithIdAndEmail(Connection conn, String rid, String email) {
+		RecruitMember rm = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectRecruitMemberWithIdAndEmail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(rid));
+			pstmt.setString(2, email);
+			
+			rset = pstmt.executeQuery();
+			
+			if (rset.next()) {
+				int id = rset.getInt("RM_ID");
+				String name = rset.getString("RM_NAME");
+				String phone = rset.getString("RM_PHONE");
+				String education = rset.getString("RM_EDUCATION");
+				String career = rset.getString("RM_CAREER");
+				String password = rset.getString("RM_PASSWORD");
+				
+				rm = new RecruitMember(id, name, phone, education, career, email, password);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return rm;
+	}
+
 }
