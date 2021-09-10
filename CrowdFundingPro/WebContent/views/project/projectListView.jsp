@@ -36,7 +36,7 @@
            
             /* align-content:flex-start; */
             
-            /*margin:0 auto;/*중앙으로 정렬*/
+            /*margin:0 auto;/**/
             
         }
         
@@ -78,8 +78,7 @@
             width:100%;
             height:200px;
         }
-        
-
+       
 </style>
 </head>
 <body>
@@ -136,7 +135,7 @@
             <option value="hobby">게임,취미</option>
             <option selected>카테고리</option>
         </select>
-        <input type="search" name="search" placeholder="어떤 프로젝트를 찾고 계신가요?" size="50">
+        <input type="search" name="search" placeholder="어떤 프로젝트를 찾고 계신가요?">
         <button id="btn2" type="submit">검색하기</button>
     </form><br>
     <div id="categoryName">
@@ -163,13 +162,27 @@
 
 	<%@ include file="../common/footer.jsp"%>
 </body>
-   <script>
+
+<script>
 		
-			$(function(){
-				$(".div1").click(function(){
-					var pjCode = $(this).children().eq(0).val();
-					location.href="<%=request.getContextPath()%>/detail.do?pjCode=" + pjCode;
-				});
-			});
-		</script>
+   $(function(){
+	   
+	   $(".div1").on("click",function(){
+			var pCode=$(this).children().eq(0).val();
+			location.href="views/project/projectDetailView.jsp";
+			
+			
+		})
+		
+	
+	
+		
+		
+	})
+</script>
+		
+		
+		
+		
+		
 </html>

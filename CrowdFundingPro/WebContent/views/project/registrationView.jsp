@@ -13,11 +13,15 @@
 
         }
         #btn1{
-            
+         
             border-top-right-radius: 10px;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
             border-top-left-radius: 10px;
+            font-size: 1.5em;
+            width:100%;
+            background:#5AE0FF;
+            
         }
         form{
         	padding:15px;
@@ -69,26 +73,26 @@
         <input type="date" name="dateInput" id="dateIn"><br><br>
 
         <label><b>성인인증</b></label><br>
-        <input type="checkbox" id="confirm1" name="confirm1" value="" checked>
+        <input type="checkbox" id="confirm1" name="confirm1" value="">
         <label for="confirm1">19세 이상 펀딩 가능한 리워드입니다.</label><br><br>
 
         <label><b>프로젝트 소개</b></label><br>
     <textarea name="detail" cols="40" rows="4" placeholder="간단한 설명을 기입해주세요."></textarea><br><br>
 
-    <label><b>와디즈 약관 동의</b></label><br><br>
-    <input type="checkbox" id="" name="confirm2" value="1" checked>
+    <label><b>와디즈 약관 동의</b></label><br>
+    <input type="checkbox" id="" name="confirm2" value="1">
     <label for="confirm2">(필수)와디즈 심의 가이드라인을 숙지하여야 합니다.</label><br><br>
 
-    <input type="checkbox" id="" name="confirm2" value="2" checked>
+    <input type="checkbox" id="" name="confirm2" value="2">
     <label for="confirm2">(필수)와디즈는 담당기관의 해석을 우선시합니다.</label><br><br>
 
-    <input type="checkbox" id="" name="confirm2" value="3" checked>
+    <input type="checkbox" id="" name="confirm2" value="3" >
     <label for="confirm2">관계법령을 준수하여야 합니다.</label><br><br>
 
-    <input type="checkbox" id="" name="confirm2" value="4" checked>
+    <input type="checkbox" id="" name="confirm2" value="4">
     <label for="confirm2">제 3자의 지적재산권을 침해하지 않아야 합니다.</label><br>
     <hr>
-    <input type="checkbox" id="" name="confirm2" value="5" checked>
+    <input type="checkbox" id="" name="confirm2" value="5">
     <label for="confirm2">모두 동의합니다.</label><br>
     <hr><br>
 
