@@ -1,7 +1,9 @@
 package com.kh.project.model.service;
 
 import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.commit;
 import static com.kh.common.JDBCTemplate.getConnection;
+import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,25 +24,8 @@ public class ProjectService {
 		return list;
 	}
 
-	public Project projectSelect(String pCode) {
-		// TODO Auto-generated method stub
-		Connection conn=getConnection();
-		
-		Project pj=null;
-		
-		//int result=new ProjectDao().projectSelect(conn,pCode);
 	
-		close(conn);
-		return pj;
-	}
 
-//	public Attachment attachmentSelect(String pCode) {
-//		Connection conn=getConnection();
-//		
-//		Attachment at=new ProjectDao().attachmentSelect(conn,pCode);
-//		close(conn);
-//		return at;
-//	}
 
 	public int insertProject(Project pj, Attachment at) {
 		
@@ -69,6 +54,21 @@ public class ProjectService {
 		}catch(Exception e) {}
 		
 		return result1*result2;
+	}
+
+
+
+
+	public Project projectSelect(int pCode) {
+		// TODO Auto-generated method stub
+		Connection conn=getConnection();
+		Project pj=new ProjectDao().projectSelect(conn,pCode);
+		close(conn);
+		return pj;
+		
+		
+		
+		
 	}
 
 	

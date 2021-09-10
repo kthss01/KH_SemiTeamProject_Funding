@@ -1,9 +1,10 @@
 package com.kh.project.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -65,7 +66,7 @@ public class ProjectRegisterServlet extends HttpServlet {
 
 	         Date date = null;
 			try {
-				date = transFormat.parse(dateInput);
+				date = (Date) transFormat.parse(dateInput);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
