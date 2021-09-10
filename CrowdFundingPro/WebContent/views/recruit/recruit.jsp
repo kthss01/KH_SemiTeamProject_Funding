@@ -208,6 +208,9 @@
    	<!-- footer -->
    	<%@ include file="../common/footer.jsp" %>
 
+	<!-- form 태그 submit시 페이지 이동 막기 위한 iframe -->
+	<iframe id="iframe1" name="iframe1" style="display:none;"></iframe>
+
     <!-- 공고 지원서 수정 modal -->
     <div class="modal fade" id="recruitmember_update_modal">
         <div class="modal-dialog modal-dialog-centered">
@@ -221,7 +224,7 @@
 
                 <!-- body -->
                 <div class="modal-body">
-                    <form id="recruitmember_update_form" action="recruitMemberUpdate.do" method="POST" enctype="multipart/form-data">
+                    <form id="recruitmember_update_form" action="recruitMemberUpdate.do" method="POST" enctype="multipart/form-data" target="iframe1">
                         
                         <!-- 직원 공고 선택 dropdowns custom select -->
                         <div class="form-group">
@@ -254,6 +257,7 @@
 
                         <fieldset style="border: 1px dotted gray; padding: 20px;">
                         	<input type="hidden" id="recruitAttachmentNo" name="recruitAttachmentNo">
+                        	<input type="hidden" id="recruitMemberId" name="recruitMemberId">
                         
                             <div class="form-row">
                                 <!-- 성명 -->
@@ -312,14 +316,18 @@
                 <!-- Modal Footer -->
                 <div class="modal-footer">
                     <!-- 수정하기 버튼 -->
-                    <button form="recruitmember_update_form" type="submit" class="btn btn-dark">수정하기</button>
+                    <button onclick="closeUpdateModal();" form="recruitmember_update_form" id="updateRecruitMemberBtn" type="submit" class="btn btn-dark disabled" disabled>수정하기</button>
                 </div>
             </div>
         </div>
     </div>
     
     <!-- 공고 지원서 메일 발송 및 조회 스크립트 -->
-    <script>
+    <script>   
+    	function closeUpdateModal() {
+    		$('#recruitmember_update_modal').modal('hide')
+    	}
+    
     	async function sendRecruitMemberPassword() {
     		const rid = document.querySelector("#recruitId").value;
     		const email = document.querySelector("#recruitCheckEmail").value;
@@ -418,16 +426,21 @@
     				const rmCareer = document.querySelector('#recruitMemberCareer');
     				const rmAttachment = document.querySelector('.custom-file-label');
     				const rmAttachmentNo = document.querySelector('#recruitAttachmentNo');
+    				const rmId = document.querySelector('#recruitMemberId');
     				
     				rmName.value = rm.name;
     				rmPhone.value = rm.phone;
-    				rmEmail.vlaue = rm.email;
+    				rmEmail.value = rm.email;
     				rmEducation.value = rm.education;
     				rmCareer.value = rm.career;
+    				rmId.value = rm.id;
     				
     				rmAttachment.classList.add('selected');
     				rmAttachment.innerHTML = at.originName;
     				rmAttachmentNo.value = at.fileNo;
+    				
+    				document.querySelector('#updateRecruitMemberBtn').classList.remove('disabled');
+    				document.querySelector('#updateRecruitMemberBtn').disabled = false;
     			}
     			
     		} catch (error) {

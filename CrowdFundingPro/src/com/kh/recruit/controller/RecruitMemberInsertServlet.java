@@ -45,7 +45,7 @@ public class RecruitMemberInsertServlet extends HttpServlet {
 			
 			String resources = request.getSession().getServletContext().getRealPath("/resources");
 			String savePath = resources + "\\upfiles\\";
-			System.out.println("savePath : " + savePath);
+//			System.out.println("savePath : " + savePath);
 			
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 			

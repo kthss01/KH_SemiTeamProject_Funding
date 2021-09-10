@@ -252,5 +252,57 @@ public class RecruitService {
 		return at;
 	}
 
+	public Attachment selectAttachmentFileNo(int fileNo) {
+		Connection conn = getConnection();
+		
+		Attachment at = new RecruitDao().selectAttachmentFileNo(conn, fileNo);
+		
+		return at;
+	}
+
+	public int updateRecruitMember(RecruitMember rm, Attachment at, int fileNo, boolean isAtNew) {
+		Connection conn = getConnection();
+		
+		int result1 = new RecruitDao().updateRecruitMember(conn, rm);
+		int result2 = 1;
+		int result3 = 1;
+
+		if (at != null) {
+			if (isAtNew) {
+				result2 = new RecruitDao().insertAttachment(conn, at);			
+			} else {
+				result2 = new RecruitDao().updateAttachment(conn, at, fileNo);
+			}
+		}
+		
+		if (result1 * result2 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		if (at != null) {
+			if (isAtNew) {
+				at = new RecruitDao().findAttachmentWithOriginName(conn, at.getOriginName());
+				result3 = new RecruitDao().insertPortfolio(conn, rm, at);
+			} else {
+				result3 = new RecruitDao().updatePortfolioWithFileNo(conn, rm, at, fileNo);
+			}
+		}
+		
+		if (result1 * result2 * result3 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+			if (result1 * result3 > 0) {
+				rollback(conn);
+			}
+		}
+		
+		close(conn);
+		
+		return result1 * result2 * result3;
+	}
+
 	
 }
