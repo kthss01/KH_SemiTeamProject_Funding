@@ -38,14 +38,14 @@ public class ProjectDetailServlet extends HttpServlet {
 		int pCode=Integer.parseInt(request.getParameter("pCode"));
 		
 		
-		
+		System.out.println("서블릿 pCode : " +  pCode);
 		
 		Project pj=new ProjectService().projectSelect(pCode);
 		
 		if(pj !=null) {
 			
 			request.setAttribute("pj", pj);
-			request.getRequestDispatcher("views/project/projectDetailView.jsp");
+			request.getRequestDispatcher("views/project/projectDetailView.jsp").forward(request, response);
 		
 		}else {
 			request.setAttribute("msg", "프로젝트 상세보기에 실패하였습니다");

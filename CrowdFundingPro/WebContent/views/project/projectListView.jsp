@@ -169,7 +169,7 @@
 	   
 	   $(".div1").on("click",function(){
 			var pCode=$(this).children().eq(0).val();
-			location.href="views/project/projectDetailView.jsp";
+			location.href="<%=request.getContextPath() %>/detail.do?pCode="+pCode;
 			
 			
 		})
