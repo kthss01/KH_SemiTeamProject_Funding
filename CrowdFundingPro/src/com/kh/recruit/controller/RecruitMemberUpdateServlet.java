@@ -16,20 +16,19 @@ import com.kh.common.MyFileRenamePolicy;
 import com.kh.common.model.vo.Attachment;
 import com.kh.recruit.model.service.RecruitService;
 import com.kh.recruit.model.vo.RecruitMember;
-import com.kh.user.util.GenerateCertPassword;
 import com.oreilly.servlet.MultipartRequest;
 
 /**
- * Servlet implementation class RecruitMemberApplyServlet
+ * Servlet implementation class RecruitMemberUpdateServlet
  */
-@WebServlet("/recruitMemberInsert.do")
-public class RecruitMemberInsertServlet extends HttpServlet {
+@WebServlet("/recruitMemberUpdate.do")
+public class RecruitMemberUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RecruitMemberInsertServlet() {
+    public RecruitMemberUpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,7 +39,6 @@ public class RecruitMemberInsertServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if (ServletFileUpload.isMultipartContent(request)) {
-			
 			int maxSize = 10 * 1024 * 1024;
 			
 			String resources = request.getSession().getServletContext().getRealPath("/resources");
@@ -49,13 +47,10 @@ public class RecruitMemberInsertServlet extends HttpServlet {
 			
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 			
-			// rid, title 처리
-			
-			int rid = Integer.parseInt(multiRequest.getParameter("recruitId"));
-			
-			String title = multiRequest.getParameter("recruitName");
-			
-			// 회원 등록 처리
+			// parameter 처리
+			String rmId = multiRequest.getParameter("recruitMemberId");
+			String rId = multiRequest.getParameter("recruitId");
+			String atNo = multiRequest.getParameter("recruitAttachmentNo");
 			
 			String name = multiRequest.getParameter("recruitMemberName");
 			String phone = multiRequest.getParameter("recruitMemberPhone");
@@ -64,33 +59,38 @@ public class RecruitMemberInsertServlet extends HttpServlet {
 			String career = multiRequest.getParameter("recruitMemberCareer");
 			
 			if (multiRequest.getParameter("recruitId") == null || multiRequest.getParameter("recruitId").equals("") ||
-				title == null || title.equals("") || 
-				name == null || name.equals("") || 
-				phone == null || phone.equals("") || 
-				email == null || email.equals("") || 
-				education == null || education.equals("") || 
-				career == null || career.equals("")) {
-				// 지원서 등록 실패
-				request.getSession().setAttribute("msg", "지원서 등록 실패");
-				response.sendRedirect(request.getContextPath() + "/recruitContentList.do?rid=" + rid);
+					name == null || name.equals("") || 
+					phone == null || phone.equals("") || 
+					email == null || email.equals("") || 
+					education == null || education.equals("") || 
+					career == null || career.equals("")) {
+					// 지원서 수성 실패
+					request.getSession().setAttribute("msg", "지원서 등록 실패");
+					response.sendRedirect(request.getContextPath() + "/recruitPage.do");
 			}
 			
+			// 공고 지원서 처리
 			RecruitMember rm = new RecruitMember(name, phone, education, career, email);
-
-			// 비밀번호 생성해서 등록하기
-			// 12자리 숫자, 특수기호, 문자 포함 비밀번호 생성
-			String password = new GenerateCertPassword().excuteGenerate();
-			rm.setPassword(password);
+			rm.setId(Integer.parseInt(rmId));
+					
+			// 파일 업로드 처리 
+			// 기존의 파일을 먼저 가져와야 함
+			Attachment at = new RecruitService().selectAttachmentFileNo(Integer.parseInt(atNo));
 			
-			// 파일 업로드 처리
-			Attachment at = null;
-			
-			// null이 아니면 첨부한거
+			boolean isAtNew = false;
+			File oldFile = null;
+			// null이 아니면 새로 첨부
 			if (multiRequest.getOriginalFileName("recruitPortfolio") != null) {
+				// 기존 파일이 있는 경우 삭제 후 수정
+				if (at != null) {
+					oldFile = new File(at.getFilePath() + at.getChangeName());
+				} else {
+					at = new Attachment();
+					isAtNew = true;
+				}
+				
 				String originName = multiRequest.getOriginalFileName("recruitPortfolio");
 				String changeName = multiRequest.getFilesystemName("recruitPortfolio");
-				
-				at = new Attachment();
 				
 				at.setFilePath(savePath);
 				at.setOriginName(originName);
@@ -102,25 +102,29 @@ public class RecruitMemberInsertServlet extends HttpServlet {
 			// 체크한 경우
 			if (sendMyResume != null && sendMyResume.equals("on")) {
 				MailService.setPagePath(getServletContext().getRealPath(""));
-				MailService.sendResume(rid, rm, at);
+				MailService.sendResume(Integer.parseInt(rId), rm, at);
 			}
 			
-			int result = new RecruitService().insertRecruitMember(rm, at, title);
+			int result = new RecruitService().updateRecruitMember(rm, at, Integer.parseInt(atNo), isAtNew);
 			
 			if (result > 0) {
-				request.getSession().setAttribute("msg", "지원서 등록 성공");
-				response.sendRedirect(request.getContextPath() + "/recruitContentList.do?rid=" + rid);
+				request.getSession().setAttribute("msg", "지원서 수정 성공");
+				response.sendRedirect(request.getContextPath() + "/recruitPage.do");
+				if (isAtNew == false && oldFile != null) {
+					oldFile.delete();
+				}
 			} else {
 				if (at != null) {
 					File failedFile = new File(savePath + at.getChangeName());
 					failedFile.delete();
 					
 					// 에러 페이지 처리
-					request.getSession().setAttribute("msg", "지원서 등록 실패");
+					request.getSession().setAttribute("msg", "지원서 수정 실패");
 					response.sendRedirect("views/common/errorPage.jsp");
 				}
 			}
 		}
+		
 	}
 
 	/**

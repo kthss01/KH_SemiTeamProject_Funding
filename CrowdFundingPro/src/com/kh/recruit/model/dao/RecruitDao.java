@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import com.kh.common.model.vo.Attachment;
@@ -357,6 +359,7 @@ public class RecruitDao {
 			pstmt.setString(index++, rm.getEducation());
 			pstmt.setString(index++, rm.getCareer());
 			pstmt.setString(index++, rm.getEmail());
+			pstmt.setString(index++, rm.getPassword());
 
 			result = pstmt.executeUpdate();
 
@@ -735,6 +738,259 @@ public class RecruitDao {
 		}
 
 		return list;
+	}
+
+	public Map<Integer, String> selectAllTitleWithId(Connection conn) {
+		Map<Integer, String> map = new HashMap<>();
+
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectAllTitleWithId");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				map.put(rset.getInt(1), rset.getString(2));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return map;
+	}
+
+	public String selectRecruitMemberPasswordWithIdAndEmail(Connection conn, String rid, String email) {
+		String password = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectRecruitMemberPasswordWithIdAndEmail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(rid));
+			pstmt.setString(2, email);
+			
+			rset = pstmt.executeQuery();
+			
+			if (rset.next()) {
+				password = rset.getString(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return password;
+	}
+
+	public RecruitMember selectRecruitMemberWithIdAndEmail(Connection conn, String rid, String email) {
+		RecruitMember rm = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectRecruitMemberWithIdAndEmail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(rid));
+			pstmt.setString(2, email);
+			
+			rset = pstmt.executeQuery();
+			
+			if (rset.next()) {
+				int id = rset.getInt("RM_ID");
+				String name = rset.getString("RM_NAME");
+				String phone = rset.getString("RM_PHONE");
+				String education = rset.getString("RM_EDUCATION");
+				String career = rset.getString("RM_CAREER");
+				String password = rset.getString("RM_PASSWORD");
+				
+				rm = new RecruitMember(id, name, phone, education, career, email, password);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return rm;
+	}
+
+	public Attachment selectAttachmentWithIdAndEmail(Connection conn, String rid, String email) {
+		Attachment at = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAttachmentWithIdAndEmail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(rid));
+			pstmt.setString(2, email);
+			
+			rset = pstmt.executeQuery();
+			
+			if (rset.next()) {
+				int fileNo = rset.getInt("FILE_NO");
+				int refNo = rset.getInt("REF_NO");
+				String originName = rset.getString("ORIGIN_NAME");
+				String changeName = rset.getString("CHANGE_NAME");
+				java.sql.Date uploadDate = rset.getDate("UPLOAD_DATE");
+				String filePath = rset.getString("FILE_PATH");
+				
+				at = new Attachment(fileNo, refNo, originName, changeName, uploadDate, filePath);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return at;
+	}
+
+	public Attachment selectAttachmentFileNo(Connection conn, int fileNo) {
+		Attachment at = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAttachmentFileNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, fileNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if (rset.next()) {
+				int refNo = rset.getInt("REF_NO");
+				String originName = rset.getString("ORIGIN_NAME");
+				String changeName = rset.getString("CHANGE_NAME");
+				java.sql.Date uploadDate = rset.getDate("UPLOAD_DATE");
+				String filePath = rset.getString("FILE_PATH");
+				
+				at = new Attachment(fileNo, refNo, originName, changeName, uploadDate, filePath);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return at;
+	}
+
+	public int updateRecruitMember(Connection conn, RecruitMember rm) {
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("updateRecruitMember");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			int index = 1;
+			pstmt.setString(index++, rm.getName());
+			pstmt.setString(index++, rm.getPhone());
+			pstmt.setString(index++, rm.getEducation());
+			pstmt.setString(index++, rm.getCareer());
+			pstmt.setString(index++, rm.getEmail());
+			pstmt.setInt(index++, rm.getId());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateAttachment(Connection conn, Attachment at, int fileNo) {
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("updateAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			int index = 1;
+			pstmt.setString(index++, at.getOriginName());
+			pstmt.setString(index++, at.getChangeName());
+			pstmt.setString(index++, at.getFilePath());
+			pstmt.setInt(index++, fileNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updatePortfolioWithFileNo(Connection conn, RecruitMember rm, Attachment at, int fileNo) {
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("updatePortfolioWithFileNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			int index = 1;
+			pstmt.setInt(index++, at.getFileNo());
+			pstmt.setInt(index++, fileNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
 	}
 
 }

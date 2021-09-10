@@ -1,13 +1,16 @@
 package com.kh.recruit.model.service;
 
 
-import static com.kh.common.JDBCTemplate.*;
+import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.commit;
+import static com.kh.common.JDBCTemplate.getConnection;
+import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.kh.common.model.vo.Attachment;
-import com.kh.event.model.vo.Event;
 import com.kh.recruit.model.dao.RecruitDao;
 import com.kh.recruit.model.vo.RecruitCode;
 import com.kh.recruit.model.vo.RecruitMember;
@@ -213,6 +216,92 @@ public class RecruitService {
 		close(conn);
 		
 		return list;
+	}
+
+	public Map<Integer, String> selectAllTitleWithId() {
+		Connection conn = getConnection();
+		
+		Map<Integer, String> map = new RecruitDao().selectAllTitleWithId(conn);
+		
+		close(conn);
+		
+		return map;
+	}
+
+	public String selectRecruitMemberPasswordWithIdAndEmail(String rid, String email) {
+		Connection conn = getConnection();
+		
+		String password = new RecruitDao().selectRecruitMemberPasswordWithIdAndEmail(conn, rid, email);
+		
+		return password;
+	}
+
+	public RecruitMember selectRecruitMemberWithIdAndEmail(String rid, String email) {
+		Connection conn = getConnection();
+		
+		RecruitMember rm = new RecruitDao().selectRecruitMemberWithIdAndEmail(conn, rid, email);
+		
+		return rm;
+	}
+
+	public Attachment selectAttachmentWithIdAndEmail(String rid, String email) {
+		Connection conn = getConnection();
+		
+		Attachment at = new RecruitDao().selectAttachmentWithIdAndEmail(conn, rid, email);
+		
+		return at;
+	}
+
+	public Attachment selectAttachmentFileNo(int fileNo) {
+		Connection conn = getConnection();
+		
+		Attachment at = new RecruitDao().selectAttachmentFileNo(conn, fileNo);
+		
+		return at;
+	}
+
+	public int updateRecruitMember(RecruitMember rm, Attachment at, int fileNo, boolean isAtNew) {
+		Connection conn = getConnection();
+		
+		int result1 = new RecruitDao().updateRecruitMember(conn, rm);
+		int result2 = 1;
+		int result3 = 1;
+
+		if (at != null) {
+			if (isAtNew) {
+				result2 = new RecruitDao().insertAttachment(conn, at);			
+			} else {
+				result2 = new RecruitDao().updateAttachment(conn, at, fileNo);
+			}
+		}
+		
+		if (result1 * result2 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		if (at != null) {
+			if (isAtNew) {
+				at = new RecruitDao().findAttachmentWithOriginName(conn, at.getOriginName());
+				result3 = new RecruitDao().insertPortfolio(conn, rm, at);
+			} else {
+				result3 = new RecruitDao().updatePortfolioWithFileNo(conn, rm, at, fileNo);
+			}
+		}
+		
+		if (result1 * result2 * result3 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+			if (result1 * result3 > 0) {
+				rollback(conn);
+			}
+		}
+		
+		close(conn);
+		
+		return result1 * result2 * result3;
 	}
 
 	
