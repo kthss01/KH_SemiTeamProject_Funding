@@ -23,26 +23,6 @@ String contextPath = request.getContextPath();
             mily=Nanum+Gothic&family=Roboto&display=swap"
 	rel="stylesheet"/>
 
-<!-- bootstrap 4 -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<!-- fontawesome bootstrap 4 용 icon -->
-<link rel="stylesheet"
-	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-	crossorigin="anonymous" />
-	
-	<!-- Google Platform 라이브러리로드 -->
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-
-
 
 <style>
 .login-form {
@@ -208,6 +188,7 @@ String contextPath = request.getContextPath();
 
 	<script>
 	
+	<%-- 구글 로그인 기능
 	function onSignIn(googleUser) {
 		  var profile = googleUser.getBasicProfile();
 		  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -253,6 +234,7 @@ String contextPath = request.getContextPath();
 	function signOut(){
 		gapi.auth2.getAuthInstance().disconnect();
 	}
+	--%>
 
 	function enrollPage(){
 		location.href = "<%= request.getContextPath()%>/enrollForm.me";

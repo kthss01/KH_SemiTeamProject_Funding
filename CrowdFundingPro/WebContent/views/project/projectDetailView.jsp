@@ -4,11 +4,11 @@
 <%@ page import="java.util.ArrayList" %>
 
 <%@ page import="com.kh.project.model.vo.Project" %>
-<%@ page import="com.kh.common.model.vo.Attachment" %>
+
     
 <%
 Project pj=(Project)(request.getAttribute("pj"));
-Attachment at=(Attachment)(request.getAttribute("at"));
+//Attachment at=(Attachment)(request.getAttribute("at"));
 
 %>
 <!DOCTYPE html>
@@ -115,13 +115,13 @@ Attachment at=(Attachment)(request.getAttribute("at"));
     
             <div class="wrap2">
                 <div id="info" class="information"><h2>이미지</h2>
-                    <img width="" height="" id="titleImg" src="<%=request.getContextPath() %>/resources/board_upfiles/<%= pj.getChangeName() %>">
+                    
                 </div>
                 <div class="information"><h2>프로젝트정보</h2><br>
                     <b>프로젝트명</b><br>
-                    <b>펀딩금액</b><br>
+                    <b>목표금액</b><br>
                     <b>현재금액</b><br>
-                    <b>종료일</b><br>
+                    <b>마감일</b><br>
                     <b>배송료</b><br>
                   
                     <b>수량</b><br>
@@ -146,9 +146,7 @@ Attachment at=(Attachment)(request.getAttribute("at"));
 </div>
 
 <script>
-        function test1(){
-            alert("마이페이지에서 펀딩투자내역을 확인하실 수 있습니다.");
-        }
+      
         
       </script>
 </body>

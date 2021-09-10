@@ -22,6 +22,21 @@ public class Project {
 	}
 	
 	
+	
+	public Project(String projectName, int amountGoal, int amountPresent, Date ddln, int deliveryCharge,
+			String detailIntro, String titleImg) {
+		super();
+		this.projectName = projectName;
+		this.amountGoal = amountGoal;
+		this.amountPresent = amountPresent;
+		this.ddln = ddln;
+		this.deliveryCharge = deliveryCharge;
+		this.detailIntro = detailIntro;
+		this.titleImg = titleImg;
+	}
+
+
+
 	public Project(String projectName,int amountGoal,Date ddln,int deliveryCharge,String detailIntro,String categoryNo) {
 		this.projectName = projectName;
 		this.amountGoal = amountGoal;
@@ -154,8 +169,6 @@ public class Project {
 		
 		
 		
-		//String projectCode, String userNo, String projectName, int amountGoal, int amountPresent, Date ddln,
-		//int deliveryCharge, int supportNum, String detailIntro, String categoryNo, int fileNo
 	}
 	
 	

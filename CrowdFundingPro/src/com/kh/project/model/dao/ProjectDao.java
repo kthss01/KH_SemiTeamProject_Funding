@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.kh.board.model.vo.Board;
+
 import com.kh.common.model.vo.Attachment;
 import com.kh.project.model.vo.Project;
 
@@ -44,9 +44,8 @@ public class ProjectDao {
 		ResultSet rset = null;
 		
 		String sql = prop.getProperty("selectList");
-		//프로젝트코드 이미지 프로젝트명 현재금액
-		//SELECT PROJECT_CODE,CHANGE_NAME,PROJECT_NAME,AMOUNT_PRESENT FROM PROJECT JOIN ATTACHMENT
-		// USING(FILE_NO) ORDER BY PROJECT_CODE
+		//SELECT PROJECT_CODE,CHANGE_NAME,PROJECT_NAME,AMOUNT_PRESENT
+		//FROM PROJECT JOIN ATTACHMENT USING(FILE_NO) ORDER BY PROJECT_CODE
 		try {
 			pstmt=conn.prepareStatement(sql);
 			rset=pstmt.executeQuery();
@@ -73,37 +72,7 @@ public class ProjectDao {
 		return list;
 	}
 
-	public int projectSelect(Connection conn, int pCode) {
-		Project pj = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		
-		String sql = prop.getProperty("projectSelect");
-		// CHANGE_NAME,PROJECT_NAME,AMOUNT_GOAL,AMOUNT_PRESENT,DDLN,DELIVERY_CHARGE 
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, pCode);
-			
-			rset = pstmt.executeQuery();
-			
-//			if(rset.next()) {
-//				pj = new Project( rset.getInt("CHANGE_NAME"),
-//						rset.getString("PROJECT_NAME"),
-//						rset.getInt("AMOUNT_GOAL"),
-//						rset.getInt("AMOUNT_PRESENT"),
-//						rset.getDate("DDLN"),
-//						rset.getInt("DELIVERY_CHARGE")
-//						);
-//			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			close(rset);
-			close(pstmt);
-		}
-		return pj;
-	}
+	
 
 
 
@@ -138,17 +107,20 @@ public class ProjectDao {
 //	}
 
 
-	//insert
+	
 	public int insertProject(Connection conn, Project pj, Attachment at) {
 		// TODO Auto-generated method stub
 				int result=0;
 				PreparedStatement pstmt=null;
 				String sql=prop.getProperty("insertProject");
-			
+				//INSERT INTO PROJECT VALUES( SEQ_PNO.NEXTVAL, ?,?,?,?,?,?,DEFAULT,?,NULL, ?) 
+				
+				//PROJECT_CODE,USER_NO,PROJECT_NAME,AMOUT_GOAL,AMOUNT_PRESENT,DDLN
+				//DELIVERY_CHARGE,SUPPORT_NUM,DETAIL_IINTRO,CATEGORY_NO,FILE_NO
 				
 				try {
 					pstmt=conn.prepareStatement(sql);
-					//SEQ_PNO.NEXTVAL, SEQ_USER_NO.CURRVAL,?,?,DEFAULT,?,?,DEFAULT,?,NULL, CHANGE_NAME.CURRVAL
+				
 					pstmt.setInt(1, pj.getUserNo());
 					pstmt.setString(2,pj.getProjectName());
 					pstmt.setInt(3,pj.getAmountGoal());
@@ -224,6 +196,45 @@ public class ProjectDao {
 			close(pstmt);
 		}
 		return result;
+	}
+
+
+
+	public Project projectSelect(Connection conn, int pCode) {
+		Project pj = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("projectSelect");
+		
+		//SELECT CHANGE_NAME,PROJECT_NAME,AMOUNT_GOAL,AMOUNT_PRESENT,DDLN,DELIVERY_CHARGE,DETAIL_INTRO 
+		//FROM PROJECT JOIN ATTACHMENT USING(FILE_NO) 
+		//WHERE PROJECT_CODE=?
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pCode);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				pj=new Project();
+				pj.setProjectName(rset.getString("PROJECT_NAME"));
+				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
+				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
+				pj.setDdln(rset.getDate("DDLN"));
+				pj.setDeliveryCharge(rset.getInt("DELIVERY_CHARGE"));
+				pj.setDetailIntro(rset.getNString("DETAIL_INTRO"));
+				pj.setTitleImg(rset.getNString("CHANGE_NAME"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return pj;
 	}
 
 
