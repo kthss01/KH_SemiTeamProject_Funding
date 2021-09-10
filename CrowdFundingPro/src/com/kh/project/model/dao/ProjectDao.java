@@ -124,8 +124,8 @@ public class ProjectDao {
 					pstmt.setInt(1, pj.getUserNo());
 					pstmt.setString(2,pj.getProjectName());
 					pstmt.setInt(3,pj.getAmountGoal());
-					pstmt.setInt(4, 0);
-					pstmt.setDate(5,(Date)(pj.getDdln()));
+					pstmt.setInt(4, 0); 
+					pstmt.setDate(5,new java.sql.Date(pj.getDdln().getTime())); //DB에 날짜형을 입력할때에는 java.sql.Date로 형변환 해주어야함!  getTime()메소드도 잊지말기
 					pstmt.setInt(6,pj.getDeliveryCharge());
 					pstmt.setString(7,pj.getDetailIntro());
 					pstmt.setInt(8, at.getFileNo());

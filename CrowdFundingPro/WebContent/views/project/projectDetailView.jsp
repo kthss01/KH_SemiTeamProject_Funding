@@ -93,6 +93,26 @@ Project pj=(Project)(request.getAttribute("pj"));
             border-bottom-right-radius: 10px;
             border-top-left-radius: 10px;
         }
+        #imgBox{
+       	width:800px;
+       	height:330px;
+       	background:
+		url('<%=request.getContextPath()%>/resources/upfiles/<%=pj.getTitleImg()%>');
+		background-position:cover;
+        }
+        
+        #pTitle{
+        font-size: 20px;
+        font-weight:bold;
+        }
+        
+        .pInfo{
+        font-size:18px;
+        font-weight:bold;
+        margin-right:10px;
+        
+        }
+    
 
 
         /* .information{
@@ -114,20 +134,15 @@ Project pj=(Project)(request.getAttribute("pj"));
             <div class="header"><h2>홍보이미지슬라이드</h2></div><br>
     
             <div class="wrap2">
-                <div id="info" class="information"><h2>이미지</h2>
-                    
+                <div id="imgBox" class="information">
                 </div>
                 <div class="information"><h2>프로젝트정보</h2><br>
-                    <b>프로젝트명</b><br>
-                    <b>목표금액</b><br>
-                    <b>현재금액</b><br>
-                    <b>마감일</b><br>
-                    <b>배송료</b><br>
-                  
-                    <b>수량</b><br>
-                    <input type="text" name="amount" id="input1" value="1" size="3" onchange="change();">
-                    <input type="button" value=" + " onclick="add();"><input type="button" value=" - " onclick="del();"><br><br>
-                    
+                    <span id = pTitle> <%=pj.getProjectName() %> </span><br><br>
+                    <label class="pInfo">목표금액 : </label><%=pj.getAmountGoal() %>원<br>
+                    <label class="pInfo">현재금액 : </label><%=pj.getAmountPresent() %>원<br>
+                    <label class="pInfo">마감일 : </label><%=pj.getDdln() %><br>
+                    <label class="pInfo">배송료 : </label><%=pj.getDeliveryCharge() %>원<br>
+                    <input type="text" name="amount" id="input1" value="1" size="3" onchange="change();">                    
                     <button id="btn1" onclick="test1();">펀딩하기</button>
                 </div>
             </div>
@@ -141,9 +156,9 @@ Project pj=(Project)(request.getAttribute("pj"));
             
         </div>
         
-         <%@ include file="../common/footer.jsp"%>
 
 </div>
+         <%@ include file="../common/footer.jsp"%>
 
 <script>
       
