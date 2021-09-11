@@ -190,10 +190,10 @@
 
 					<label for="name" class = "labelA" >이름</label> <input class = "inputT"
 					 type="text" id="name"
-						name="userName" placeholder="이름 입력" required="required"> 
+						name="userName" placeholder="이름 입력" required="required"  autocomplete='off'> 
 					<label for="emailId" class = "labelA">이메일아이디</label> <input  class = "inputT"
 					type="email" id="emailId"
-						name="emailId" placeholder="이메일 입력" required="required"> <input
+						name="emailId" placeholder="이메일 입력" required="required"  autocomplete='off'> <input
 						id="sendMailBtn" type="button" onclick="sendEmail();"
 						value="인증메일발송">
 					<div id="emailCodeArea"
@@ -220,11 +220,14 @@
 					</div>
 
 					<label for="userSsn" class = "labelA" >주민번호 </label> 
-					<input class = "inputT" type="text" id="userSsn"
-						name="userSsn" placeholder="주민번호 입력" maxlength='14' required="required">
+					<input class = "inputT" type="text" id="userSsn"  autocomplete='off'
+						name="userSsn" placeholder="주민번호 입력" required="required">
+												<!-- 주민번호  maxlength='14' --> 
+						
 					<label for="phone" class = "labelA" >전화번호</label> 
-					<input class = "inputT" id="tel" type="tel" id="phone"
-						name="phone" placeholder="전화번호 입력" maxlength='13' required="required"> 
+					<input class = "inputT" id="tel" type="tel" id="phone"  autocomplete='off'
+						name="phone" placeholder="전화번호 입력" required="required"> 
+						<!-- 전화번호  maxlength='13' --> 
 					<label class = "labelA"
 						for="address">주소 </label> <input class = "inputT"
 						 type="text" id="address"
@@ -717,7 +720,7 @@ const agreeChkAll = document.querySelector('input[name=agree_all]');
 
 		if (pwd.length<8 || pwd.length>20) {
 
-			alert("8자리 ~ 20자리 이내로 입력해주세요.");
+			alert("비밀번호를 8자리 ~ 20자리 이내로 입력해주세요.");
 
 		} else if (pwd.search(/\s/) != -1) {
 
@@ -725,7 +728,7 @@ const agreeChkAll = document.querySelector('input[name=agree_all]');
 
 		} else if (num < 0 || eng < 0 || spe < 0) {
 
-			alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
+			alert("비밀번호는영문,숫자, 특수문자를 혼합하여 입력해주세요.");
 
 		} else if (pwd != pwd2) {
 
