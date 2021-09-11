@@ -75,7 +75,6 @@ public class UserDao {
 			close(pstmt);
 
 		}
-		System.out.println("UserDao loginUser : " + loginUser);
 		return loginUser;
 
 	}
