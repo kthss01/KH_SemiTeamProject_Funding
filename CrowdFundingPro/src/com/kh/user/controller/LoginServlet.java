@@ -34,6 +34,9 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		request.setCharacterEncoding("UTF-8"); // POST 방식은 인코딩 꼭 해야 함.
 		
+		//요청을 보낸 페이지 주소
+		
+		
 		String emailId = request.getParameter("emailId");
 		String userPwd = request.getParameter("userPwd"); //form에서 넘겨주는 name으로 적는 것.
 		

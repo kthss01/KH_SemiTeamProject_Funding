@@ -166,7 +166,7 @@
 
 #point {
 	font-size: 18px;
-	font-family: 'Jua', 'sans-serif';
+	font-family: 'Roboto', 'sans-serif';
 }
 
 
@@ -216,8 +216,9 @@
 				<div class="profileImg" style="margin: 0 auto;">
 					<img id="pImg" src="" width=200px; height=200px; /> <br>
 					<p id="point" style="font-size: 20px;">
-						<b> <%=loginUser.getUserName()%></b> 님 어서오세요 ! <br> 충전금액 : <b><%=loginUser.getPoint()%></b>
-						원
+						<b> <%=loginUser.getUserName()%></b><br> 
+						 <b style=font-size:16px;>적립 포인트 : <%=loginUser.getPoint()%> 원</b>
+						
 					</p>
 				</div>
 				<div class="modify" style="margin: 0 auto;">

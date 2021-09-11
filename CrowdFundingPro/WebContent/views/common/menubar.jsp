@@ -5,6 +5,7 @@
 <%
 	User loginUser = (User) session.getAttribute("loginUser");
 	String msg = (String) session.getAttribute("msg");
+	
 %>
 
 <!DOCTYPE html>
@@ -76,7 +77,7 @@ background-color: white;
 			style="font-size: 22px;">CROWD FUND!NG</a>
 		<!-- 클릭하면 메인 페이지로 이동  -->
 
-
+		
 		<ul class="navbar-nav">
 			<li class="nav-item"><a href="<%= request.getContextPath() %>/projectList.do" class="nav-link">펀딩하기</a></li> <!-- 펀딩페이지 링크 -->
 
@@ -109,16 +110,17 @@ background-color: white;
 		<ul class="navbar-nav ml-auto">
 
 			<!--  검색 아이콘   **추가기능** -->
-			<input id="search" type="text" placeholder="어떤 프로젝트를 찾고 계신가요?">
+			<input id="search" type="text" placeholder="어떤 프로젝트를 찾고 계신가요 ?" autocomplete="off">
 			<li class="nav-item"><a href="<%=request.getContextPath()%>/search.do" class="nav-link"> 
 			<i class="fas fa-search fa-lg"></i>
 			</a></li>
 			<%
 				if (loginUser == null) {
 			%>
+			
 			<!-- 로그인 전 -->
 			<li class="nav-item"><a
-				href="<%=request.getContextPath()%>/loginForm.me" class="nav-link">로그인</a></li>
+				href="<%=request.getContextPath()%>/loginForm.me?from=<%=request.getRequestURI()%>" class="nav-link">로그인</a></li>
 			<li class="nav-item"><a
 				href="<%=request.getContextPath()%>/enrollForm.me" class="nav-link">회원가입</a></li>
 			<%
