@@ -791,7 +791,7 @@
 			$("#recruit_code").append(`
 				<label class="btn btn-secondary rounded-pill m-1 active">
                 	<input type="radio" name="recruit_code" id="전체" autocomplete="off" checked>
-                	전체
+                	#전체
                 	<span class="badge badge-light">\${totalCnt}</span>
               	</label>
 			`);
@@ -801,7 +801,7 @@
 				$("#recruit_code").append(`
 	          		<label class="btn btn-secondary rounded-pill m-1">
 	                	<input type="radio" name="recruit_code" id="\${code.code}" autocomplete="off" checked>
-	                	\${code.code}
+	                	#\${code.code}
 	                	<span class="badge badge-light">\${code.count}</span>
 	              	</label>
 				`);
