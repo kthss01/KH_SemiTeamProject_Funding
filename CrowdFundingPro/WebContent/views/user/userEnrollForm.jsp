@@ -184,18 +184,20 @@
 
 			<h1 id="pageTitle">회원가입</h1>
 
-			<form id="loginForm" action="<%=request.getContextPath()%>/insert.me"
+			<form id="joinForm" action="<%=request.getContextPath()%>/insert.me"
 				method="post">
 				<div class="name-area area">
 
-					<label for="name" class = "labelA" >이름</label> <input class = "inputT"
-					 type="text" id="name"
-						name="userName" placeholder="이름 입력" required="required"  autocomplete='off'> 
-					<label for="emailId" class = "labelA">이메일아이디</label> <input  class = "inputT"
-					type="email" id="emailId"
-						name="emailId" placeholder="이메일 입력" required="required"  autocomplete='off'> <input
-						id="sendMailBtn" type="button" onclick="sendEmail();"
+					<label for="userName" class = "labelA" >이름</label> 
+					<input class = "inputT"  type="text" id="userName"
+						name="userName" placeholder="이름 입력" required="required"  autocomplete='off' maxlength='8'> 
+					
+					<label for="emailId" class = "labelA">이메일아이디</label> 
+					<input  class = "inputT"type="email" id="emailId"
+						name="emailId" placeholder="이메일 입력" required="required"  autocomplete='off'>
+				    <input id="sendMailBtn" type="button" onclick="sendEmail();"
 						value="인증메일발송">
+					
 					<div id="emailCodeArea"
 						style="width: 100%; height: 100px; display: none;">
 						<input class = "inputT"
@@ -204,6 +206,7 @@
 						<input id="emailCheckBtn" type="button" onclick="codeCheck();"
 							value="인증하기">
 					</div>
+					
 					<br>
 
 					<div class="pwd-area area">
@@ -221,17 +224,15 @@
 
 					<label for="userSsn" class = "labelA" >주민번호 </label> 
 					<input class = "inputT" type="text" id="userSsn"  autocomplete='off'
-						name="userSsn" placeholder="주민번호 입력" required="required">
-												<!-- 주민번호  maxlength='14' --> 
+						name="userSsn" placeholder="주민번호 입력" required="required"  maxlength='14'>
 						
 					<label for="phone" class = "labelA" >전화번호</label> 
 					<input class = "inputT" id="tel" type="tel" id="phone"  autocomplete='off'
-						name="phone" placeholder="전화번호 입력" required="required"> 
-						<!-- 전화번호  maxlength='13' --> 
+						name="phone" placeholder="전화번호 입력" required="required"  maxlength='13' > 
 					<label class = "labelA"
-						for="address">주소 </label> <input class = "inputT"
-						 type="text" id="address"
-						name="address" placeholder="주소 입력" required="required"> 
+						for="address">주소 </label> 
+						<input class = "inputT"  type="text" id="address"
+						name="address" placeholder="주소 입력" required="required" maxlength='100'> 
 					<label class = "labelA" >회원구분</label>
 
 					<br>
@@ -246,14 +247,17 @@
 					</div>
 					<div id="businessArea" style="width: 100%; display: none;">
 
+
+						<label for="bName" class =  "labelA">사업자명</label>
+						<input class = "inputT"
+						 type="text" id="bName" name="bName" placeholder="사업자명 입력"
+							style="width: 100%;" maxlength='50'>
 						<label for="bNumber" class =  "labelA">사업자번호 </label>
 						 <input  class = "inputT"
 						type="text" maxlength='11'
 							id="bNumber" name="bNumber" placeholder="사업자번호 입력"
-							style="width: 100%;"> <br> <label for="bName" class =  "labelA">사업자명</label>
-						<input class = "inputT"
-						 type="text" id="bName" name="bName" placeholder="사업자명 입력"
-							style="width: 100%;">
+							style="width: 100%;"> <br> 
+
 					</div>
 					
 				<br><br><br><br>
@@ -710,14 +714,16 @@ const agreeChkAll = document.querySelector('input[name=agree_all]');
 
 	//입력값 유효성 검사 --> 통과 시 서블릿으로 전송 : 회원가입 실행
 	function enrollAvailable() {
-
-		var pwd = $("#userPwd").val();
-		var pwd2 = $("#userPwd2").val();
+		
+		var name= $("#userName").val(); 	//이름
+		var pwd = $("#userPwd").val();		//비밀번호1
+		var pwd2 = $("#userPwd2").val();	//비밀번호2
 
 		var num = pwd.search(/[0-9]/g);
 		var eng = pwd.search(/[a-z]/ig);
 		var spe = pwd.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-
+		var spe2 = name.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+		
 		if (pwd.length<8 || pwd.length>20) {
 
 			alert("비밀번호를 8자리 ~ 20자리 이내로 입력해주세요.");
@@ -737,10 +743,12 @@ const agreeChkAll = document.querySelector('input[name=agree_all]');
 		} else if (emailCodeCheck == false) {
 			alert("이메일 인증을 완료해주세요");
 
-		} else {
+		} else if (spe2 >= 0 || (name.search(/\s/) != -1) ) {
+			alert("이름에 공백이나 특수문자를 포함할 수 없습니다.");
 
+		}else{
 			welcome(); //환영 메세지
-			$("#loginForm").submit(); //Form 전송
+			$("#joinForm").submit(); //Form 전송
 		}
 	}
 
@@ -813,25 +821,14 @@ const agreeChkAll = document.querySelector('input[name=agree_all]');
 			$.ajax({
 						url : "sendEmail.me",
 						type : "post",
+						anycs : 'false',
 						data : {
 							emailId : emailId
 						},
 						beforeSend: function (){
-				              var width = 50;
-				              var height = 50;
-				              var left = 0;
-				              var top = 0;
-				              
-				              top = ($(window).height() - height) /2 + $(window).scrollTop();
-				              left = ($(window).width() - width)/2 + $(window).scrollLeft();
-				  
-				            	  $('html').append('<div id="div_ajax_load_image" class="spinner-border text-info" style="position:absolute; top:' + top + 
-				            	  'px; left:' + left + 'px; width:' + width + 'px; height:' + height +
-				            	  'px; z-index:9999; background:#fff; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; "></div>');
+				              loading();
 				       },
 						success : function(msg) {
-							console.log("서버 통신 성공");
-							console.log("msg : " + msg);
 							if (msg == "sendSuccess") {
 								alert('인증 메일이 발송되었습니다. 메일이 도착하지 않았을 경우 입력하신 이메일 주소를 다시 확인해주세요.')
 								$("#emailCodeArea").css("display", "block");
@@ -849,6 +846,21 @@ const agreeChkAll = document.querySelector('input[name=agree_all]');
 					})
 		}
 
+	}
+	
+	function loading(){
+		
+		var width = 50;
+        var height = 50;
+        var left = 0;
+        var top = 0;
+        
+        top = ($(window).height() - height) /2 + $(window).scrollTop();
+        left = ($(window).width() - width)/2 + $(window).scrollLeft();
+
+      	  $('html').append('<div id="div_ajax_load_image" class="spinner-border text-info" style="position:absolute; top:' + top + 
+      	  'px; left:' + left + 'px; width:' + width + 'px; height:' + height +
+      	  'px; z-index:9999; background:#fff; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; "></div>');
 	}
 </script>
 

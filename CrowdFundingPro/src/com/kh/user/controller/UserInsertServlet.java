@@ -46,7 +46,7 @@ public class UserInsertServlet extends HttpServlet {
 		System.out.println("userCode : " + userCode);
 
 		User loginUser = new User(userCode, emailId, userPwd,userName, userSsn, phone, address);
-		if(userCode.equals("02")) {
+		if(userCode.equals("03")) {
 			loginUser.setbNumber(bNumber);
 			loginUser.setbName(bName);
 		}

@@ -85,9 +85,13 @@ public class UserDao {
 		String sql = prop.getProperty("insertUser");
 		// insertUser=INSERT INTO USER_TB VALUES(SEQ_USER_NO.NEXTVAL, ?, ?, ?,
 		//														 ?, ?, ?, ?, ?, ?, ?, DEFAULT,DEFAULT)
+		
+		int point = (u.getUserCode().equals("02") ?  10000 : 0);
+
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
-
+			
 			pstmt.setString(1, u.getUserCode());
 			pstmt.setString(2, u.getEmailId());
 			pstmt.setString(3, u.getUserPwd());
@@ -95,7 +99,7 @@ public class UserDao {
 			pstmt.setString(5, u.getUserSsn());
 			pstmt.setString(6, u.getUserPhone());
 			pstmt.setString(7, u.getUserAddress());
-			pstmt.setInt(8, 20000);
+			pstmt.setInt(8, point);
 			pstmt.setString(9, u.getbNumber());
 			pstmt.setString(10, u.getbName());
 
@@ -234,8 +238,8 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<ULecture> list = new ArrayList<ULecture>();
-		String sql = "SELECT * FROM VW_LEC_INFO WHERE EMAIL_ID =?";
-
+		String sql = prop.getProperty("selectLectureList");
+		//SELECT * FROM VW_LEC_INFO WHERE EMAIL_ID =?
 		try {
 			pstmt = conn.prepareStatement(sql);
 
@@ -263,8 +267,9 @@ public class UserDao {
 	public ArrayList<IProject> selectIProjectList(Connection conn, String emailId) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		ArrayList<IProject> list = new ArrayList<IProject>();
-		String sql = "SELECT * FROM VW_INTER_PRO WHERE EMAIL_ID=?";
+		ArrayList<IProject> list = new ArrayList<IProject>();		
+		String sql = prop.getProperty("selectIProjectList");
+//		String sql = "SELECT * FROM VW_INTER_PRO WHERE EMAIL_ID=?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -295,7 +300,8 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<UProject> list = new ArrayList<UProject>();
-		String sql = "SELECT * FROM VW_SIGN_PRO WHERE EMAIL_ID=?";
+		String sql = prop.getProperty("selectUProjectList");
+		//String sql = "SELECT * FROM VW_SIGN_PRO WHERE EMAIL_ID=?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);

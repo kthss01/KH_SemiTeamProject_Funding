@@ -39,6 +39,7 @@ public class EventDao {
 		PreparedStatement pstmt = null;
 
 		String sql = prop.getProperty("insertEvent");
+//		insertEvent= INSERT INTO EVENT_TB VALUES (SEQ_EVENT_NO.NEXTVAL,?,?,DEFAULT,'Y',?,?)
 
         long startDate = event.getStartDate().getTime();
         long endDate = event.getEndDate().getTime();
@@ -78,6 +79,7 @@ public class EventDao {
 		PreparedStatement pstmt = null;
 
 		String sql = prop.getProperty("insertAttachment");
+//		insertAttachment=INSERT INTO ATTACHMENT VALUES (SEQ_P_NO.NEXTVAL, ?, ?, ?, SYSDATE, ?)
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -104,7 +106,7 @@ public class EventDao {
 		ResultSet rset = null;
 		ArrayList<Event> list = new ArrayList<Event>();
 		String sql = prop.getProperty("selectEventList");
-
+//		selectEventList=SELECT * FROM EVENT_TB WHERE STATUS='Y'
 		try {
 			pstmt = conn.prepareStatement(sql);
 
@@ -135,6 +137,7 @@ public class EventDao {
 		ResultSet rset = null;
 		Event event = new Event();
 		String sql = prop.getProperty("selectEvent");
+//		selectEvent=SELECT * FROM EVENT_TB WHERE E_NO=?
 
 		try {
 			pstmt = conn.prepareStatement(sql);
