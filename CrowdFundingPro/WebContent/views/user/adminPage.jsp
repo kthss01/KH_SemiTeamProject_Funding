@@ -19,7 +19,6 @@
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
 
-
 <script>
 	google.charts.load('current', {
 		'packages' : [ 'corechart' ]
@@ -66,40 +65,8 @@
 				.getElementById('donutchart'));
 		chart.draw(data, options);
 	}
-	google.charts.setOnLoadCallback(drawCurveTypes);
 
-	function drawCurveTypes() {
-		var data = new google.visualization.DataTable();
-		var rowNum = 0;
-		
-		data.addColumn('number', 'X');
-		data.addColumn('number', 'Dogs');
-		data.addColumn('number', 'Cats');
-
-		
-		
-		
-		/*
-		data.addRows([ [ rowNum, 0, 0 ], [rowNum++, 10, 5 ], [ 2, 23, 15 ], [ 3, 17, 9 ],
-				[ 4, 18, 10 ], [ 5, 9, 5 ], [ 6, 11, 3 ], [ 7, 17, 19 ],
-				[ 8, 11, 25 ], [ 9, 30, 32 ], [ 10, 5, 24 ], [ 11, 30, 27 ],
-				[ 12, 30, 50 ], [ 13, 40, 42 ], [ 14, 42, 21 ], [ 15, 47, 15 ],
-				[ 16, 44, 36 ], [ 17, 48, 40 ], ]);
-		*/
-		var options = {
-			hAxis : {
-				title : 'Time'
-			},
-			vAxis : {
-				title : 'Popularity'
-			},
-			curveType : 'function'
-		};
-
-		var chart = new google.visualization.LineChart(document
-				.getElementById('myAreaChart'));
-		chart.draw(data, options);
-	}
+	
 </script>
 
 <style>
@@ -123,16 +90,23 @@ overflow:scroll;
 }
 
 #searchText{
-width:200px;
-margin-left:10px;
-background-color: white;
-border: 1px solid rgba(0,0,0,.225);
+    width: 220px;
+    margin-left: 10px;
+    background-color: white;
+    border: 1px solid rgba(0,0,0,.225);
+    text-align: center;
+   }
+
+
+tbody tr:hover{
+background-color:rgba(0,0,0,.1);
+text-weight:bold;
 }
 
-#searchText::placeholder {
-  font-style: italic;
+#statusCheck{
+width:100%;
+text-align:right;
 }
-
 
 </style>
 
@@ -179,7 +153,12 @@ border: 1px solid rgba(0,0,0,.225);
 							<i class="fas fa-chart-area me-1"></i> 전체 회원 조회 : 
 							<div class="search" style="display:inline-block;">
 							 <input type="text" id="searchText" placeholder="조회내용 입력">
+									
 							</div>
+							<div class="custom-control custom-switch" style="display:inline-block;" id="statusCheck">
+							   		<input type="checkbox" class="custom-control-input" id="customSwitch1">
+								    <label class="custom-control-label" for="customSwitch1"><small>탈퇴 회원 안보기</small></label>
+							</div>		
 						</div>
 						<div class="card-body">
 							<div id="tableChart" >
@@ -243,6 +222,7 @@ border: 1px solid rgba(0,0,0,.225);
 
 
 $(function(){
+	
 
 	$("#searchText").on("keyup",function(){
 		var value = $(this).val().toLowerCase();
@@ -251,23 +231,92 @@ $(function(){
 		});
 	});
 	
-})
+	
 
 	
-<%-- 리스트 받아오기 테스트 --%>
-	$("#btn").click(function() {
-		$.ajax({
-			url : "userList.do",
-			type : "post",
-			success : function(map) {
-				console.log("map : " + map);
-				console.log(map["jArr"]);
-			},
-			error : function(a, b, c) {
-				console.log("통신실패");
+	   $("#customSwitch1").on("change",function(){
+		      $("tbody tr").hide();
+		      if ($("#customSwitch1").is(":checked")) {
+		         $("tbody tr").filter(function(){
+		        	 console.log($(this).children().eq(5).text());
+		            return $(this).children().eq(5).text().indexOf('N') > -1;
+		         }).show(); 
+		      } else {
+		         $('tbody tr').show();
+		      }
+		   }); 
+	
+})	
+
+
+
+	<%--
+	
+	
+		$("#customSwitch1").on("change",function(){
+		var value = $(this).val().toLowerCase();
+		$("tbody tr").filter(function(){
+			$(this).toggle($(this).children().eq(5).text().indexOf('N') > -1 ,false) 
+		});
+	});
+	 
+	
+	
+	
+	
+	
+	
+	$("#customSwitch1").change(function() {
+			$("tbody tr").hide();
+			
+			 if($('#customSwitch1').is(":checked")){
+				console.log($('#customSwitch1').is(":checked"));
+				$("tbody tr").filter(function() {
+					$(this).children().eq(5).text().indexOf('N') > -1
+				
+				}).show();
+			}else{
+				$("tbody tr").show();
 			}
+ 
 		})
-	})
+
+		
+		
+			$("#customSwitch1").click(function() {
+			
+			 if($('#customSwitch1').is(":checked")){
+				console.log($('#customSwitch1').is(":checked"));
+				$("tbody tr").filter(function() {
+					($(this).children().eq(5).text().indexOf('N') > -1)
+				
+				}).show();
+			}else{
+				$("tbody tr").show();
+			}
+ 
+		})
+		
+		
+		
+	--%>	
+		
+	
+<%--
+	$("#customSwitch1").toggle(function(){
+		$(this).filter(function(){
+			$("tbody tr").filter(function() {
+				$(this).toggle($(this).children().eq(5).text().indexOf('N') > -1)
+			})
+			
+		})
+		
+		})
+			}
+		 --%>
+
+	
+
 <%-- 구글 테이블 차트 나중에 다시 공부하자 
 google.charts.load('current', {'packages':['table']});   
 google.charts.setOnLoadCallback(drawTable2);
