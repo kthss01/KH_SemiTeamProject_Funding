@@ -13,8 +13,7 @@ String contextPath = request.getContextPath();
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- 앱의 클라이언트 ID 지정 -->
-<meta name="google-signin-client_id" content="31102830978-o5gc3ru1pkhi7nfe10ucob89s12t95ej.apps.googleusercontent.com">
+
 
 <title>LoginPage</title>
 
@@ -173,9 +172,7 @@ String contextPath = request.getContextPath();
 
 				<button class="login-btn" id="loginBtn" type="submit">LOGIN</button>
 			</div>
-			<!--  구글 로그인(테스트중)
-			<div id="googleBtn" class="g-signin2" data-onsuccess="onSignIn"></div>
-			 -->
+
 		</form>
 		<div class="caption"><br>
 			 <a href="<%=request.getContextPath()%>/enrollForm.me"
@@ -189,6 +186,15 @@ String contextPath = request.getContextPath();
 	<script>
 	
 	<%-- 구글 로그인 기능
+	
+				<!--  구글 로그인(테스트중)
+			<div id="googleBtn" class="g-signin2" data-onsuccess="onSignIn"></div>
+			 -->
+	
+	
+	<!-- 앱의 클라이언트 ID 지정 -->
+<meta name="google-signin-client_id" content="31102830978-o5gc3ru1pkhi7nfe10ucob89s12t95ej.apps.googleusercontent.com">
+	
 	function onSignIn(googleUser) {
 		  var profile = googleUser.getBasicProfile();
 		  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
