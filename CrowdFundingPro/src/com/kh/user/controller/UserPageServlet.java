@@ -38,9 +38,7 @@ public class UserPageServlet extends HttpServlet {
 		User loginUser = (User)request.getSession().getAttribute("loginUser");
 		
 		String emailId = loginUser.getEmailId();
-		System.out.println("emailId : " + emailId);
 		User user = new UserService().selectUser(emailId);
-		System.out.println("User : " + user);
 		
 		RequestDispatcher view = null;
 		if(user != null) {
