@@ -92,4 +92,32 @@ public class CommonDao {
 		return result;
 	}
 
+	public int insertProjectAttachment(Connection conn, Attachment at) {
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("insertProjectAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+		
+			pstmt.setInt(1, at.getRefNo());
+			pstmt.setString(2, at.getOriginName());
+			pstmt.setString(3, at.getChangeName());
+			pstmt.setString(4, at.getFilePath());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 }
