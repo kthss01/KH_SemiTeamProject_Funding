@@ -16,13 +16,52 @@ public class Project {
 	private int fileNo;
 	private String titleImg;
 
-	
+
+
 	public Project() {
 		
 	}
 	
-	
-	
+
+	public Project(int projectCode, String projectName, int amountGoal, Date ddln, int deliveryCharge,
+			String detailIntro, int fileNo) {
+		super();
+		this.projectCode = projectCode;
+		this.projectName = projectName;
+		this.amountGoal = amountGoal;
+		this.ddln = ddln;
+		this.deliveryCharge = deliveryCharge;
+		this.detailIntro = detailIntro;
+		this.fileNo = fileNo;
+	}
+
+
+	public Project(String projectName, int amountGoal, Date ddln, int deliveryCharge, String detailIntro) {
+		super();
+		this.projectName = projectName;
+		this.amountGoal = amountGoal;
+		this.ddln = ddln;
+		this.deliveryCharge = deliveryCharge;
+		this.detailIntro = detailIntro;
+		
+	}
+
+
+
+	public Project(String projectName, int amountGoal, Date ddln, int deliveryCharge, String detailIntro, int fileNo) {/////
+		super();
+		
+		this.projectName = projectName;
+		this.amountGoal = amountGoal;
+		this.ddln = ddln;
+		this.deliveryCharge = deliveryCharge;
+		this.detailIntro = detailIntro;
+		
+		this.fileNo = fileNo;
+		
+	}
+
+
 	public Project(String projectName, int amountGoal, int amountPresent, Date ddln, int deliveryCharge,
 			String detailIntro, String titleImg) {
 		super();

@@ -11,6 +11,8 @@ Project pj=(Project)(request.getAttribute("pj"));
 //Attachment at=(Attachment)(request.getAttribute("at"));
 
 %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -125,7 +127,7 @@ Project pj=(Project)(request.getAttribute("pj"));
 </style>
 </head>
 <body>
-<%@ include file="../common/menubar.jsp"%>
+	<%@ include file="../common/menubar.jsp"%>
 
 <div class="container_filed">
     <br><br>
@@ -137,6 +139,7 @@ Project pj=(Project)(request.getAttribute("pj"));
                 <div id="imgBox" class="information">
                 </div>
                 <div class="information"><h2>프로젝트정보</h2><br>
+                	
                     <span id = pTitle> <%=pj.getProjectName() %> </span><br><br>
                     <label class="pInfo">목표금액 : </label><%=pj.getAmountGoal() %>원<br>
                     <label class="pInfo">현재금액 : </label><%=pj.getAmountPresent() %>원<br>
@@ -151,6 +154,35 @@ Project pj=(Project)(request.getAttribute("pj"));
                 <div class="content2">
                     <div class="side"><h3>인기프로젝트</h3></div>
                     <div class="side"><h3>연관프로젝트</h3></div>
+                    
+                    <form  action="" id="postForm" method="post">
+                		<input type="hidden" name="pCode" value="<%= pj.getProjectCode() %>">
+                		<input type="hidden" name="fileNo" value="<%=pj.getFileNo() %>"> 
+                		
+        				<button type="button" onclick="updateForm();">수정하기</button>
+                	</form>
+                
+                	
+                	 
+                	
+                	       
+                	
+                	
+                		
+                	
+                	
+               <script>
+                	function updateForm(){
+                		
+                		$("#postForm").attr("action", "<%=request.getContextPath()%>/update.do");
+                		$("#postForm").submit();
+        				
+        			}
+                	
+                	</script> 
+                	
+                	
+                               
                 </div>
             </div>
             
@@ -160,9 +192,6 @@ Project pj=(Project)(request.getAttribute("pj"));
 </div>
          <%@ include file="../common/footer.jsp"%>
 
-<script>
-      
-        
-      </script>
+
 </body>
 </html>
