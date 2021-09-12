@@ -146,7 +146,7 @@
     	<% for(Project pj:list){%>
         <div class="div1">
         	<input type="hidden" value="<%=pj.getProjectCode()%>">
-         	<img  src="<%=request.getContextPath() %>/resources/upfiles/<%=pj.getTitleImg()%>" width="100%" height="80%">                
+         	<img  src="<%=request.getContextPath() %>/resources/images/project/<%=pj.getTitleImg()%>" width="100%" height="80%">                
             <p class="caption"><%=pj.getProjectName() %><br>
                 	현재금액:<%=pj.getAmountPresent() %>원
             </p>

@@ -47,10 +47,10 @@ public class ProjectRegisterServlet extends HttpServlet {
 		
 		User loginUser = (User) session.getAttribute("loginUser");
 		
-		if(ServletFileUpload.isMultipartContent(request)) {//enctype이 multipart/form-data로 잘 전송되었으면 true
+		if(ServletFileUpload.isMultipartContent(request)) {
 	         int maxSize=10*1024*1024 ;
 	         String resources =request.getSession().getServletContext().getRealPath("/resources");
-	         String savePath=resources+ "\\upfiles\\";    //파일이 저장된 폴더 경로 
+	         String savePath=resources+ "\\upfiles\\";  
 	         
 	         MultipartRequest multiRequest=new MultipartRequest(request,savePath,maxSize,"UTF-8",new MyFileNamePolicy());
 	         
@@ -60,17 +60,18 @@ public class ProjectRegisterServlet extends HttpServlet {
 	         int delivery=Integer.parseInt(multiRequest.getParameter("delivery"));
 	         String category=multiRequest.getParameter("category");
 	         
-	         String dateInput =multiRequest.getParameter("dateInput");
-	         dateInput.replaceAll("-", "");
-	         SimpleDateFormat transFormat = new SimpleDateFormat("yy/mm/dd");
-
-	         Date date = null;
-			try {
-				date = (Date) transFormat.parse(dateInput);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	         Date dateInput = Date.valueOf(multiRequest.getParameter("dateInput"));
+	         
+//	         dateInput.replaceAll("-", "");
+//	         SimpleDateFormat transFormat = new SimpleDateFormat("yy/mm/dd");
+//
+//	         Date date = null;
+//			try {
+//				date = (Date) transFormat.parse(dateInput);
+//			} catch (ParseException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 	         
 	         String detail=multiRequest.getParameter("detail");
 	         
@@ -93,7 +94,7 @@ public class ProjectRegisterServlet extends HttpServlet {
 	            
 	            pj.setAmountGoal(amount);
 	            
-	            pj.setDdln(date);
+	            pj.setDdln(dateInput);
 	            
 
 	            pj.setUserNo(102);//->로그인한 유저가 프로젝트 등록 
@@ -123,7 +124,7 @@ public class ProjectRegisterServlet extends HttpServlet {
 		            
 		         }else {
 		            
-		        	 request.getSession().setAttribute("msg", "핀딩 등록 실패");
+		        	 request.getSession().setAttribute("msg", "핀딩 등록에 실패했습니다.");
 		            
 		            
 		            RequestDispatcher view=request.getRequestDispatcher("views/common/errorPage.jsp");

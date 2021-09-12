@@ -39,4 +39,20 @@ public class CommonService {
 		return result;
 	}
 
+	public int insertProjectAttachment(Attachment at) {
+		Connection conn = getConnection();
+		
+		int result = new CommonDao().insertProjectAttachment(conn, at);
+		
+		if (result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+
 }

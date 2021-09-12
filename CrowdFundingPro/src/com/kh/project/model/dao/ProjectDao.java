@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
+//import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -118,6 +118,9 @@ public class ProjectDao {
 				//PROJECT_CODE,USER_NO,PROJECT_NAME,AMOUT_GOAL,AMOUNT_PRESENT,DDLN
 				//DELIVERY_CHARGE,SUPPORT_NUM,DETAIL_IINTRO,CATEGORY_NO,FILE_NO
 				
+				
+				//INSERT INTO PROJECT VALUES(SEQ_PNO.NEXTVAL, ?,?,?,?,?,?,DEFAULT,?,CATEGORY_NO.CURRVAL, ?) 
+				
 				try {
 					pstmt=conn.prepareStatement(sql);
 				
@@ -207,9 +210,6 @@ public class ProjectDao {
 		
 		String sql = prop.getProperty("projectSelect");
 		
-		//SELECT CHANGE_NAME,PROJECT_NAME,AMOUNT_GOAL,AMOUNT_PRESENT,DDLN,DELIVERY_CHARGE,DETAIL_INTRO 
-		//FROM PROJECT JOIN ATTACHMENT USING(FILE_NO) 
-		//WHERE PROJECT_CODE=?
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -225,6 +225,7 @@ public class ProjectDao {
 				pj.setDdln(rset.getDate("DDLN"));
 				pj.setDeliveryCharge(rset.getInt("DELIVERY_CHARGE"));
 				pj.setDetailIntro(rset.getNString("DETAIL_INTRO"));
+				pj.setFileNo(rset.getInt("FILE_NO"));
 				pj.setTitleImg(rset.getNString("CHANGE_NAME"));
 			}
 		} catch (SQLException e) {
@@ -236,6 +237,139 @@ public class ProjectDao {
 		}
 		return pj;
 	}
+
+
+
+	public Project updatePSelect(Connection conn, int fn) {
+		// TODO Auto-generated method stub
+		
+		Project pj = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("updatePSelect");
+		//SELECT PROJECT_NAME,AMOUNT_GOAL,DDLN,DELIVERY_CHARGE,DETAIL_INTRO,FILE_NO 
+		//FROM PROJECT JOIN ATTACHMENT USING(FILE_NO) WHERE FILE_NO=?                   
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, fn);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				pj=new Project(rset.getInt("PROJECT_CODE"),
+						rset.getString("PROJECT_NAME"),
+						rset.getInt("AMOUNT_GOAL"),
+						rset.getDate("DDLN"),
+						rset.getInt("DELIVERY_CHARGE"),
+						rset.getString("DETAIL_INTRO"),
+						rset.getInt("FILE_NO")
+						
+						);
+				
+//				pj.setProjectName(rset.getString("PROJECT_NAME"));
+//				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
+//				pj.setDdln(rset.getDate("DDLN"));
+//				pj.setDeliveryCharge(rset.getInt("DELIVERY_CHARGE"));
+//				pj.setDetailIntro(rset.getString("DETAIL_INTRO"));
+//				pj.setFileNo(rset.getInt("FILE_NO"));
+//				pj.setTitleImg(rset.getString("CHANGE_NAME"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return pj;
+	}
+
+
+
+	public Attachment updateASelect(Connection conn, int fn) {
+		// TODO Auto-generated method stub
+		Attachment at = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("updateASelect");
+		//SELECT FILE_NO,ORIGIN_NAME,CHANGE_NAME FROM ATTACHMENT WHERE FILE_NO=?
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, fn);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				at = new Attachment();
+				
+				at.setFileNo(rset.getInt("FILE_NO"));
+				at.setOriginName(rset.getString("ORIGIN_NAME"));
+				at.setChangeName(rset.getString("CHANGE_NAME"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return at;
+	}
+
+
+
+	public int attachmentUpdate(Connection conn, Attachment at) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql=prop.getProperty("attachmentUpdate");
+		//UPDATE ATTACHMENT SET ORIGIN_NAME=?, CHANGE_NAME=?, FILE_PATH=? WHERE FILE_NO=?
+		try {
+			
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1,at.getOriginName());
+			pstmt.setString(2, at.getChangeName());
+			pstmt.setString(3,at.getFilePath());
+			pstmt.setInt(4, at.getFileNo());
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+
+
+	public int projectUpdate(Connection conn,Project pj, Attachment at) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql=prop.getProperty("projectUpdate");
+		//UPDATE PROJECT SET PROJECT_NAME=?,AMOUNT_GOAL=?,DDLN=?,DELIVERY_CHARGE=?,DETAIL_INTRO=? WHERE PROJECT_CODE=?
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, pj.getProjectName());
+			pstmt.setInt(2, pj.getAmountGoal());
+			pstmt.setDate(3,new java.sql.Date(pj.getDdln().getTime()));
+			pstmt.setInt(4, pj.getDeliveryCharge());
+			pstmt.setString(5,pj.getDetailIntro());
+			pstmt.setInt(6, pj.getProjectCode());
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+
 
 
 

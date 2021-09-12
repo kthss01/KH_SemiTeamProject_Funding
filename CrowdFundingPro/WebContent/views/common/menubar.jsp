@@ -66,15 +66,22 @@ background-color: white;
 
 }
 
+#enrollPro{
+color:white;
+font-size:17px;
+}
+#enrollPro:hover{
+color:#FFFF99;
+text-decoration:underline;
 
-
+}
 </style>
 
 <body>	
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark"
 		style="padding-left: 130px; padding-right: 130px;">
 		<a href="<%=request.getContextPath()%>" class="navbar-brand"
-			style="font-size: 22px;">CROWD FUND!NG</a>
+			style="font-size: 23px;">CROWD FUND!NG</a>
 		<!-- 클릭하면 메인 페이지로 이동  -->
 
 		
@@ -135,9 +142,13 @@ background-color: white;
 			<%
 				}
 			%>
+			<!--  
 			<li class="nav-item"><a id="colorTheme" role="button"
 				class="nav-link" onclick="colorTheme();">다크모드</a></li>
-
+			-->
+			<li class="nav-item"><a id="enrollPro"
+				href="views/project/registrationView.jsp" class="nav-link">[ 프로젝트 신청하기 ]</a></li>
+			
 		</ul>
 	</nav>
 </body>
