@@ -20,6 +20,9 @@
 <title>Document</title>
 
 
+<!-- 다크모드 css -->
+<link href="<%=request.getContextPath() %>/resources/css/darkTheme.css" rel="stylesheet">
+
 
 <!-- bootstrap 4 -->
 <link rel="stylesheet"
@@ -45,8 +48,7 @@
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
 	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
 	crossorigin="anonymous" />
-<!-- 다크모드 css -->
-<link href="./resources/css/darkTheme.css" rel="stylesheet">
+	
 
 
 </head>
@@ -151,7 +153,7 @@ text-decoration:underline;
 			
 			
 			
-			<%if(theme.equals("") || theme.equals("default") || theme == null) {%>
+			<%if( theme == null || theme.equals("") || theme.equals("default") ) {%>
 						<li class="nav-item"><a id="colorTheme" role="button"
 								class="nav-link" onclick="changeDark();">다크모드</a></li>
 			<%}else{ %>
@@ -167,18 +169,26 @@ text-decoration:underline;
 </body>
 <script>
 
-function changeDark() {
-		$('body').addClass('dark-theme');
-		location.href='<%=request.getContextPath()%>/darkMode.do';
+$(function(){
+	var theme = '<%=theme%>';
 	
+	if(theme == null || theme =='' || theme=='default'){
+		$('body').removeClass('dark-theme');
+
+	}else{
+		$('body').addClass('dark-theme');
+
+	}
+	
+	
+})
+
+function changeDark() {
+	location.href='<%=request.getContextPath()%>/darkMode.do';
 }
 
 function changeDefault() {
-
-		$('body').removeClass('dark-theme');
-		location.href='<%=request.getContextPath()%>/whiteMode.do';
-
-	
+	location.href='<%=request.getContextPath()%>/whiteMode.do';	
 }
 
 

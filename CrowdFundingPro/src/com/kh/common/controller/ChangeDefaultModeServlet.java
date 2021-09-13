@@ -29,6 +29,8 @@ public class ChangeDefaultModeServlet extends HttpServlet {
 		String location = (String)request.getSession().getAttribute("location");
 
 		request.getSession().setAttribute("theme", "default");
+		System.out.println("화이트모드로 변경");
+
 		response.sendRedirect(location);
 	}
 

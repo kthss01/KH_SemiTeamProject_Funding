@@ -29,6 +29,7 @@ public class ChangeDarkModeServlet extends HttpServlet {
 		
 		String location = (String)request.getSession().getAttribute("location");
 		request.getSession().setAttribute("theme", "dark");
+		System.out.println("다크모드로 변경");
 		response.sendRedirect(location);
 
 	}
