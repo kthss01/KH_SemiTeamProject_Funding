@@ -78,7 +78,7 @@ color:white;
 font-size:17px;
 }
 #enrollPro:hover{
-color:#FFFF99;
+color:#00B2B2;
 text-decoration:underline;
 
 }
@@ -151,8 +151,7 @@ text-decoration:underline;
 			%>
 			
 			
-			
-			
+			<%-- 
 			<%if( theme == null || theme.equals("") || theme.equals("default") ) {%>
 						<li class="nav-item"><a id="colorTheme" role="button"
 								class="nav-link" onclick="changeDark();">다크모드</a></li>
@@ -160,7 +159,8 @@ text-decoration:underline;
 						<li class="nav-item"><a id="colorTheme" role="button"
 								class="nav-link" onclick="changeDefault();">기본모드</a></li>
 			<%} %>
-
+			--%>
+			
 			<li class="nav-item"><a id="enrollPro"
 				href="views/project/registrationView.jsp" class="nav-link">[ 프로젝트 신청하기 ]</a></li>
 			
@@ -168,6 +168,8 @@ text-decoration:underline;
 	</nav>
 </body>
 <script>
+
+<%-- 
 
 $(function(){
 	var theme = '<%=theme%>';
@@ -182,6 +184,8 @@ $(function(){
 	
 	
 })
+--%>
+
 
 function changeDark() {
 	location.href='<%=request.getContextPath()%>/darkMode.do';
