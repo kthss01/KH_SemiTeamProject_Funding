@@ -56,7 +56,7 @@ public class ProjectDao {
 				pj.setProjectCode(rset.getInt("PROJECT_CODE"));
 				pj.setProjectName(rset.getString("PROJECT_NAME"));
 				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
-				
+				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
 				pj.setTitleImg(rset.getString("CHANGE_NAME"));
 				
 				list.add(pj);

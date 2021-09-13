@@ -29,8 +29,8 @@
 	google.charts.setOnLoadCallback(drawChart2);
 
 	var countN = 0;
-
 	var countB = 0;
+	
 	<%for (User u : UList) {
 		if (u.getUserCode().equals("02")) {%>
 			countN = countN + 1;
@@ -43,8 +43,8 @@
 	function drawChart() {
 		var data = google.visualization.arrayToDataTable([ 
 			[ '회원 종류', '회원 수', {role : 'style'} ],
-		[ '사업자회원', countB, 'gray' ], // RGB value
-		[ '일반회원', countN, '#76A7FA' ], // English color name
+		[ '사업자회원', countB, 'gray' ], 
+		[ '일반회원', countN, '#76A7FA' ],
 
 		]);
 		var options = {
@@ -54,6 +54,7 @@
 				.getElementById('myBarChart'));
 		chart1.draw(data, options);
 	}
+
 
 	// chart 조회 하기 async await 사용
 	async function drawChart2() {
@@ -70,6 +71,7 @@
 		table.unshift(['카테고리명', '갯수']); // header unshift 배열 맨 앞에 넣는거
 		
 		var data = google.visualization.arrayToDataTable(table);
+
 
 		var options = {
 			is3D : true,

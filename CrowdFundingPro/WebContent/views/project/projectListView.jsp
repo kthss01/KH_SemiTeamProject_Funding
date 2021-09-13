@@ -1,90 +1,166 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="com.kh.project.model.vo.Project" %>
-    
-    
+	pageEncoding="UTF-8"%>
+
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.text.DecimalFormat"%>
+<%@ page import="com.kh.project.model.vo.Project"%>
+
+
 <%
-	ArrayList<Project> list= (ArrayList<Project>)request.getAttribute("list");
+	ArrayList<Project> list = (ArrayList<Project>) request.getAttribute("list");
+	DecimalFormat decFormat = new DecimalFormat("###,###");
+	
 %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<link
+	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
+		         mily=Nanum+Gothic&family=Roboto&display=swap"
+	rel="stylesheet">
+
 <style>
+.carousel-item {
+	height: 400px;
+}
 
-		.container_filed{
-		    border:1px solid black;
-		    width:1300px;
-		    margin: 0 auto;
-		    padding:15px;
-		    
-		}
+.carousel-item>img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
 
-		.div1111:after{
-		content:'';
-		display:block;
-		clear:both;
-		}
+#box {
+	width: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+	height: auto;
+}
 
-        .div1111{
-            width:1090px;
-            /* background-color:lightgray ;
-            border:1px solid lightgray; */
-           
-            /* align-content:flex-start; */
-            
-            /*margin:0 auto;/**/
-            
-        }
-        
-        .div1{
-            border:1px solid white;
-            width:320px;
-            height:350px;
-            background-color:aquamarine;
-    		float:left;
-            margin-top: 20px;
-            margin-right: 10px;
-            
-        }
-        
-        #categoryName{
-            width:100%;
-            height:60px;
-        }
+.container_filed {
+	width: 1300px;
+	overflow:hidden;
+	height:auto;
+	padding: 15px;
+	margin: 0 auto;
+	padding-top:50px;
+}
 
-        .div1 img{
-            width:100%;
-            height:80%;
-        }
+#categoryName h1 {
+	width: 100%;
+	font-family: 'Roboto', 'sans-serif';
+	font-size:35px;
+	font-weight:700;
+	margin-top:70px;
+	margin-bottom:40px;
+	margin-left:30px;
+}
 
-		
-		.carousel-item {
-			height: 400px;
-		}
+#celectCategory {
+	width: 100%;
+}
 
-		.carousel-item>img {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-		}
+.header {
+	border: 1px solid black;
+	width: 100%;
+	height: 200px;
+}
 
-       
-		.header{
-            border:1px solid black;
-            width:100%;
-            height:200px;
-        }
-       
+.info {
+	width: 350px;
+	height: 360px;
+	float: left;
+	margin: 30px;
+	border : none !important;
+}
+
+.card-img-top>#pImg {
+	width: 100%;
+	height: 220px;
+	object-fit: cover;
+}
+
+#pTitle {
+	font-size: 20px;
+	font-weight: bold;
+	font-family: 'Roboto', 'sans-serif';
+	padding: 5px;
+}
+
+#pTitle:hover {
+	text-decoration: underline;
+}
+
+#pAmount {
+	font-size:18px;
+	font-family: 'Roboto', 'sans-serif';
+	color: #90949C;
+	border: none;
+	border-top: 4px solid #00B2B2;
+	padding-top: 2px;
+}
+
+.card {
+	display: block !important; float : left !important;
+	border: none;
+	float: left !important;
+}
+
+.card-body {
+	padding: 0px !important;
+}
+
+#pBox {
+	width: 1300px;
+	margin: 0 auto;
+	border: 1px solid red;
+}
+
+#persent{
+color:#00B2B2;
+font-weight:bold;
+}
+
+#pSearch{
+height:38px;
+width:400px;
+border:2px solid #00B2B2;
+border-radius: 20px;
+margin-left:20px;
+margin-right:20px;
+margin-bottom:2px;
+}
+
+#pSearch:hover{
+background: #F4FFFF;
+opacity:0.5;
+}
+
+#pSearch::placeholder{
+text-align:center;
+}
+
+#searchBtn{
+font-size:22px;
+border:none;
+background:none;
+font-weight:bold;
+color:#00B2B2;
+}
+
+
 </style>
 </head>
 <body>
 
 	<%@ include file="../common/menubar.jsp"%>
 
+	<div id=box>
 
 		<!-- carousel -->
 		<div id="intro" class="carousel slide" data-ride="carousel">
@@ -117,33 +193,41 @@
 		</div>
 
 
-<div class="container_filed">
-    <form class="searchArea" >
-        <select id="cName" name="cName">
-            <option value="">여행,레저</option>
-            <option value="">테크,가전</option>
-            <option value="">스포츠</option>
-            <option value="">홈리빙</option>
-            <option value="">뷰티,패션잡화</option>
-            <option value="">반려동물</option>
-            <option value="">기부,후원</option>
-            <option value="">출판</option>
-            <option value="">푸드</option>
-            <option value="">디자인소품</option>
-            <option value="">공연,컬쳐</option>
-            <option value="">소셜</option>
-            <option value="">게임,취미</option>
-            <option selected>카테고리</option>
-        </select>
-        <input type="search" name="search" placeholder="어떤 프로젝트를 찾고 계신가요?">
-        <button id="btn2" type="submit">검색하기</button>
-    </form><br>
-    <div id="categoryName">
-        <h1>CROWD PUND!NG</h1>
-    </div>
-    
-    <div class="div1111">
-    	<% for(Project pj:list){%>
+		<div class="container_filed">
+			<form class="searchArea">
+				<div id="celectCategory">
+					<select id="cName" name="cName" class="form-control" style="width:200px; display:inline; ">
+						<option value="">여행,레저</option>
+						<option value="">테크,가전</option>
+						<option value="">스포츠</option>
+						<option value="">홈리빙</option>
+						<option value="">뷰티,패션잡화</option>
+						<option value="">반려동물</option>
+						<option value="">기부,후원</option>
+						<option value="">출판</option>
+						<option value="">푸드</option>
+						<option value="">디자인소품</option>
+						<option value="">공연,컬쳐</option>
+						<option value="">소셜</option>
+						<option value="">게임,취미</option>
+						<option selected>카테고리</option>
+					</select> 
+					<input type="text" id="pSearch" name="search" placeholder="어떤 프로젝트를 찾고 계신가요?">
+								
+					<input id="searchBtn" style="height:38px;"type="submit" value='검색'>
+					<i class="fas fa-search fa-lg" style="color:#00B2B2"></i>
+				</div>
+			</form>
+
+			<div id="categoryName">
+				<h1>어떤 프로젝트를 찾으시나요 ?</h1>
+			</div>
+
+
+			<%
+				for (Project pj : list) {
+			%>
+			<%-- 
         <div class="div1">
         	<input type="hidden" value="<%=pj.getProjectCode()%>">
          	<img  src="<%=request.getContextPath() %>/resources/images/project/<%=pj.getTitleImg()%>" width="100%" height="80%">                
@@ -151,25 +235,42 @@
                 	현재금액:<%=pj.getAmountPresent() %>원
             </p>
         </div>&nbsp;
-        <% }%>
+        --%>
+			<div class="card info" id="project">
+				<input type="hidden" value="<%=pj.getProjectCode()%>">
+				<div class="card-img-top">
+					<img id="pImg"
+						src="<%=request.getContextPath()%>/resources/images/project/<%=pj.getTitleImg()%>">
+				</div>
+				<div class="card-body">
+					<h2 class="card-title h5" id="pTitle"><%=pj.getProjectName()%>
+					</h2>
+					<div class="h5" id="pAmount">
+					<p id="persent"> <%= (pj.getAmountPresent()/pj.getAmountGoal())*100 %>%</p>
+						<p><%= decFormat.format(pj.getAmountPresent()) %>원</p>
+					</div>
+				</div>
+			</div>
 
-      
-    </div>
+			<%
+				}
+			%>
+		</div>
+	</div>
 
-</div>
-
-
-
-	<%@ include file="../common/footer.jsp"%>
+	<div id="footer" style="clear: both; display: block;">
+		<%@ include file="../common/footer.jsp"%>
+	</div>
 </body>
 
 <script>
 		
    $(function(){
 	   
-	   $(".div1").on("click",function(){
-			var pCode=$(this).children().eq(0).val();
-			location.href="<%=request.getContextPath() %>/detail.do?pCode="+pCode;
+	   $("#project").on("click",function()
+	{
+							var pCode = $(this).children().eq(0).val();
+							location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
 			
 			
 		})
@@ -179,10 +280,11 @@
 		
 		
 	})
+	
 </script>
-		
-		
-		
-		
-		
+
+
+
+
+
 </html>
