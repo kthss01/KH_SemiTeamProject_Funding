@@ -30,7 +30,10 @@
 	background:#808080;
 }
 
+.dark-theme label{
 
+    color: white;
+    }
 
 #colorTheme{
   background:none;	

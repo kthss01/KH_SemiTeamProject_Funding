@@ -5,7 +5,10 @@
 <%
 	User loginUser = (User) session.getAttribute("loginUser");
 	String msg = (String) session.getAttribute("msg");
-	
+	String theme = (String) session.getAttribute("theme");
+	session.setAttribute("location",request.getRequestURI());
+	System.out.println(request.getRequestURI());
+	System.out.println(theme);
 %>
 
 <!DOCTYPE html>
@@ -16,8 +19,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
 
+
 <!-- 다크모드 css -->
-<link href="./resources/css/darkTheme.css" rel="stylesheet">
+<link href="<%=request.getContextPath() %>/resources/css/darkTheme.css" rel="stylesheet">
+
 
 <!-- bootstrap 4 -->
 <link rel="stylesheet"
@@ -43,6 +48,8 @@
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
 	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
 	crossorigin="anonymous" />
+	
+
 
 </head>
 <style>
@@ -142,10 +149,18 @@ text-decoration:underline;
 			<%
 				}
 			%>
-			<!--  
-			<li class="nav-item"><a id="colorTheme" role="button"
-				class="nav-link" onclick="colorTheme();">다크모드</a></li>
-			-->
+			
+			
+			
+			
+			<%if( theme == null || theme.equals("") || theme.equals("default") ) {%>
+						<li class="nav-item"><a id="colorTheme" role="button"
+								class="nav-link" onclick="changeDark();">다크모드</a></li>
+			<%}else{ %>
+						<li class="nav-item"><a id="colorTheme" role="button"
+								class="nav-link" onclick="changeDefault();">기본모드</a></li>
+			<%} %>
+
 			<li class="nav-item"><a id="enrollPro"
 				href="views/project/registrationView.jsp" class="nav-link">[ 프로젝트 신청하기 ]</a></li>
 			
@@ -153,8 +168,29 @@ text-decoration:underline;
 	</nav>
 </body>
 <script>
-	function colorTheme() {
-		$('body').toggleClass('dark-theme');
+
+$(function(){
+	var theme = '<%=theme%>';
+	
+	if(theme == null || theme =='' || theme=='default'){
+		$('body').removeClass('dark-theme');
+
+	}else{
+		$('body').addClass('dark-theme');
+
 	}
+	
+	
+})
+
+function changeDark() {
+	location.href='<%=request.getContextPath()%>/darkMode.do';
+}
+
+function changeDefault() {
+	location.href='<%=request.getContextPath()%>/whiteMode.do';	
+}
+
+
 </script>
 </html>
