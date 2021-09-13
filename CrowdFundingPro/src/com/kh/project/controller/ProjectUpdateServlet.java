@@ -43,7 +43,7 @@ public class ProjectUpdateServlet extends HttpServlet {
 					
 				//전달된 파일을 저장할 서버의 폴더 경로
 				String resources =request.getSession().getServletContext().getRealPath("/resources");
-				String savePath=resources+ "\\upfiles\\";
+				String savePath=resources+ "\\images/project\\";
 					
 				MultipartRequest multiRequest=new MultipartRequest(request,savePath,maxSize,"UTF-8",new MyFileNamePolicy());
 				

@@ -20,7 +20,14 @@
             border-top-left-radius: 10px;
             
             
+            
         }
+        #btn1:hover {
+			cursor: pointer;
+			background-color:;
+		}
+		
+		
         form{
         	padding:15px;
         }
@@ -49,20 +56,23 @@
     <label><b>카테고리선택:</b></label>
     
         <select name="category">
-            <option value="travel">여행,레저</option>
-            <option value="tech">테크,가전</option>
-            <option value="sports">스포츠</option>
-            <option value="homeLiv">홈리빙</option>
-            <option value="beauty">뷰티</option>
-            <option value="fashion">패션,잡화</option>
-            <option value="animal">반려동물</option>
-            <option value="donate">기부,후원</option>
-            <option value="publish">출판</option>
-            <option value="food">푸드</option>
-            <option value="design">디자인소품</option>
-            <option value="culture">공연,컬쳐</option>
-            <option value="social">소셜</option>
-            <option value="hobby">게임,취미</option>
+            <option value="1">문화생활</option>
+            <option value="2">테크,가전</option>
+            <option value="3">패션,잡화</option>
+            <option value="4">뷰티</option>
+            <option value="5">푸드</option>
+            <option value="6">홈,리빙</option>
+            <option value="7">여행,레저</option>
+            <option value="8">스포츠,모빌리티</option>
+            <option value="9">캐릭터,굿즈</option>
+            <option value="10">베이비,키즈</option>
+            <option value="11">반려동물</option>
+            <option value="12">게임,취미</option>
+            <option value="13">컬쳐,아티스트</option>
+            <option value="14">클래스,컨설팅</option>
+            <option value="15">출판</option>
+            <option value="16">소셜,캠페인</option>
+            <option value="17">기부,후원</option>
             <option selected>선택</option>
 
         </select><br><br>
