@@ -20,6 +20,8 @@
 	src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script>
+	
+
 	google.charts.load('current', {
 		'packages' : [ 'corechart' ]
 	});
@@ -37,8 +39,8 @@
 		<%}
 			}
 		%>
+		
 	function drawChart() {
-
 		var data = google.visualization.arrayToDataTable([ 
 			[ '회원 종류', '회원 수', {role : 'style'} ],
 		[ '사업자회원', countB, 'gray' ], // RGB value
@@ -53,16 +55,27 @@
 		chart1.draw(data, options);
 	}
 
-	function drawChart2() {
-		var data = google.visualization.arrayToDataTable([
-				[ 'Task', 'Hours per Day' ], [ 'Work', 11 ], [ 'Eat', 2 ],
-				[ 'Commute', 2 ], [ 'Watch TV', 2 ], [ 'Sleep', 7 ] ]);
+	// chart 조회 하기 async await 사용
+	async function drawChart2() {
+		// ajax 통신과 같은 의미
+		const response = await fetch("projectCategoryList.do"); // 비동기 함수 호출
+		const json = await response.json(); // 받은 값을 json 형태로 변환
+		//console.log(json);
+		// 맵 key 가져와서 map 함수로 [key, value] 배열 만들어서 반환
+		const table = Object.keys(json).map((key) => [key, json[key]]); // 앞에 header 필요 
+		console.log(table);
+		//const table_temp = [
+		//	[ 'Task', 'Hours per Day' ], [ 'Work', 11 ], [ 'Eat', 2 ],
+		//	[ 'Commute', 2 ], [ 'Watch TV', 2 ], [ 'Sleep', 7 ] ];
+		table.unshift(['카테고리명', '갯수']); // header unshift 배열 맨 앞에 넣는거
+		
+		var data = google.visualization.arrayToDataTable(table);
 
 		var options = {
 			is3D : true,
 		};
 		var chart = new google.visualization.PieChart(document
-				.getElementById('donutchart'));
+				.getElementById('myPieChart'));
 		chart.draw(data, options);
 	}
 
@@ -141,7 +154,7 @@ text-align:right;
 									<i class="fas fa-chart-pie me-1"></i> 펀딩 카테고리 통계
 								</div>
 								<div class="card-body">
-									<div id="donutchart" width="100%" height="50"></div>
+									<div id="myPieChart" width="100%" height="50"></div>
 								</div>
 								<div class="card-footer small text-muted">실시간 조회</div>
 							</div>

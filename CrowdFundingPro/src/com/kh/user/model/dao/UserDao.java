@@ -6,11 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import com.kh.user.model.vo.IProject;
@@ -361,6 +362,33 @@ public class UserDao {
 			close(pstmt);
 		}
 		return list;
+	}
+
+	public Map<String, Integer> selectCategoryList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Map<String, Integer> map = new HashMap<>();
+		String sql = prop.getProperty("selectCategoryList");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				String categoryName = rset.getString("CATEGORY_NAME");
+				int count = rset.getInt(2);
+				
+				map.put(categoryName, count);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return map;
 	}
 
 }

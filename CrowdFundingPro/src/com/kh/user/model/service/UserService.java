@@ -7,6 +7,7 @@ import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.kh.user.model.dao.UserDao;
 import com.kh.user.model.vo.IProject;
@@ -114,6 +115,13 @@ public class UserService {
 		ArrayList<User> list = new UserDao().selectUserList(conn);
 		close(conn);
 		return list;
+	}
+
+	public Map<String, Integer> selectCategoryList() {
+		Connection conn = getConnection();
+		Map<String, Integer> map = new UserDao().selectCategoryList(conn);
+		close(conn);
+		return map;
 	}
 
 }
