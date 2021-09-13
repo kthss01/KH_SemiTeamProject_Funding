@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.kh.project.model.service.ProjectService;
 import com.kh.project.model.vo.Project;
 
@@ -31,9 +32,16 @@ public class ProjectListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Project> list=new ProjectService().selectList();
-		request.setAttribute("list", list);
-		request.getRequestDispatcher("views/project/projectListView.jsp").forward(request, response);
+		// 기존 코드 -> ajax로 수정함 projectPage 서블릿을 새로 만듬
+//		ArrayList<Project> list=new ProjectService().selectList();
+//		request.setAttribute("list", list);
+//		request.getRequestDispatcher("views/project/projectListView.jsp").forward(request, response);
+		
+		ArrayList<Project> list = new ProjectService().selectList();
+
+		response.setContentType("application/json; charset=utf-8");
+		
+		new Gson().toJson(list, response.getWriter());
 	}
 
 	/**
