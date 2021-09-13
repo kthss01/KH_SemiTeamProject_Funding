@@ -105,9 +105,13 @@
 }
 
 .card {
-	display: block !important; float : left !important;
+	display: block !important;
 	border: none;
 	float: left !important;
+}
+
+.card:hover {
+cursor:pointer;
 }
 
 .card-body {
@@ -252,14 +256,6 @@ color:#00B2B2;
 <script>
 		
    $(function(){
-	   
-	   $(".project").on("click",function(){
-		   var pCode = $(this).children().eq(0).val();
-		   	console.log(pCode);
-			location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
-		})
-		
-	
 		// ajax 처리 project 읽어기
 		$.ajax({
 			url : 'projectList.do',
@@ -278,18 +274,24 @@ color:#00B2B2;
 	// project 처리하는 function
 	function setProject(projects) {
 	   
-		   const container = $('div.container_filed');
-		   
-		   const contextPath = "<%=request.getContextPath()%>";
-		   
-		   projects.forEach((pj) => {
-			   const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
-			   container.append(`
-			  	<div class="card info project">
-				    <input type="hidden" value="\${pj.projectCode}">
-					<div class="card-img-top">
-						<img id="pImg"
-							src="\${contextPath}/resources/images/project/\${pj.titleImg}">
+	   const container = $('div.container_filed');
+	   
+	   const contextPath = "<%=request.getContextPath()%>";
+	   
+	   projects.forEach((pj) => {
+		   const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
+		   container.append(`
+		  	<div class="card info project">
+			    <input type="hidden" value="\${pj.projectCode}">
+				<div class="card-img-top">
+					<img id="pImg"
+						src="\${contextPath}/resources/images/project/\${pj.titleImg}">
+				</div>
+				<div class="card-body">
+					<h2 class="card-title h5" id="pTitle">\${pj.projectName}
+					</h2>
+					<div class="progress" style="height:3px;">
+					  <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width:\${ratio > 100 ? 100 : ratio}%"></div>
 					</div>
 					<div class="card-body">
 						<h2 class="card-title h5" id="pTitle">\${pj.projectName}
@@ -302,8 +304,17 @@ color:#00B2B2;
 						</div>
 					</div>
 				</div>
-			  `);
-		   });
+			</div>
+		  `);
+	   });
+	   
+	   
+		// 이벤트 처리
+	   $(".project").on("click",function(){
+		   var pCode = $(this).children().eq(0).val();
+		   	console.log(pCode);
+			location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
+		});
 	}
 	
 </script>
