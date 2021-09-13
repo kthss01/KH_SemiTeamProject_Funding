@@ -106,11 +106,15 @@
 }
 
 .card {
-	display: block !important; float : left !important;
+	display: block !important; 
+	float : left !important;
 	border: none;
 	float: left !important;
+	
 }
-
+.card:hover{
+cursor:pointer;
+}
 .card-body {
 	padding: 0px !important;
 }
@@ -152,6 +156,7 @@ background:none;
 font-weight:bold;
 color:#00B2B2;
 }
+
 
 
 </style>
@@ -246,8 +251,8 @@ color:#00B2B2;
 					<h2 class="card-title h5" id="pTitle"><%=pj.getProjectName()%>
 					</h2>
 					<div class="h5" id="pAmount">
-					<p id="persent"> <%= (pj.getAmountPresent()/pj.getAmountGoal())*100 %>%</p>
-						<p><%= decFormat.format(pj.getAmountPresent()) %>원</p>
+					<span id="persent"> <%= (int)Math.floor(((double)pj.getAmountPresent()/pj.getAmountGoal())*100) %>%</span>
+						<span>≫ <%= decFormat.format(pj.getAmountPresent()) %>원</span>
 					</div>
 				</div>
 			</div>
