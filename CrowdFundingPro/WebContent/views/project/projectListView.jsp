@@ -298,7 +298,7 @@ color:#00B2B2;
 						  <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width:\${ratio > 100 ? 100 : ratio}%"></div>
 						</div>
 						<p id="persent"> \${ratio}%</p>
-							<p \${pj.amountPresent.toLocaleString()}원</p>
+							<p> \${pj.amountPresent.toLocaleString()}원</p>
 						</div>
 					</div>
 				</div>
