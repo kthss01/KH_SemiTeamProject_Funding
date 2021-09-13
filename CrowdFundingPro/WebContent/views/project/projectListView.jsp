@@ -236,7 +236,7 @@ color:#00B2B2;
             </p>
         </div>&nbsp;
         --%>
-			<div class="card info" id="project">
+			<div class="card info project">
 				<input type="hidden" value="<%=pj.getProjectCode()%>">
 				<div class="card-img-top">
 					<img id="pImg"
@@ -267,12 +267,10 @@ color:#00B2B2;
 		
    $(function(){
 	   
-	   $("#project").on("click",function()
-	{
-							var pCode = $(this).children().eq(0).val();
-							location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
-			
-			
+	   $(".project").on("click",function(){
+		   var pCode = $(this).children().eq(0).val();
+		   	console.log(pCode);
+			location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
 		})
 		
 	
