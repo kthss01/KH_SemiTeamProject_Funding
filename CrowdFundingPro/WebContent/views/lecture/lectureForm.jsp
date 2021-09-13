@@ -27,8 +27,6 @@ int endPage = pi.getEndPage();
 <title> </title>
 
 <link href="resources/css/menubar.css" rel="stylesheet" type="text/css">
-<link href="resources/css/lecture/lectureMain.css" rel="stylesheet" type="text/css">
-
 
 <style>
 @charset "UTF-8";
@@ -47,7 +45,7 @@ ul {
 }
 
 #top_banner {
-	width: 900px;
+	width: 830px;
 	height: 400px;
 	position: relative;
 	background-color: rgb(52,58,64);
@@ -213,7 +211,8 @@ input {
 					<% if (lectureList != null && !(lectureList.isEmpty())) { %>
 					<% for (Lecture l : lectureList) { %>
   
-					<div class="lec_Item" onclick ='moveToDetail()'>
+					<div class="lec_Item">
+						<p style="display:none"><%=l.getLectureCode()%></p>
 						<img src="<%l.getLectureImage();%>">
 						<div class="details">
 								<table>
@@ -235,9 +234,6 @@ input {
 										<td class="time"> 강의 시간: <%=l.getLectureTime()%> / </td>
 										<td class="number"> 강의 인원:<%=l.getLectureNum()%>
 									</tr>
-									<tr>
-										<td class="lectureCode" style="color='white'"><%=l.getLectureCode()%></td>
-									</tr>
 								</tbody>
 								</table>
 						</div>
@@ -246,7 +242,6 @@ input {
 					} else { %>
 						<div class="lec_Item">
 						<img src="resources/images/NoImage.png">
-
 						<div class="details">
 							<div class="content">
 								<table>
@@ -296,14 +291,13 @@ input {
 		
 					
 			<script>
-					<%if(!lectureList.isEmpty()){%>
 					$(function(){
-						$(".details>table>tbody>tr").click(function(){
-							var lecCode = $(this).children().eq(7).text();
-							location.href="<%=request.getContextPath()%>/lectureDetail.le?lecCodeo="+lecCode;
+						$(".lec_Item").click(function(){
+							var code = $(this).children().eq(0).text();
+							location.href="<%=request.getContextPath()%>/lectureDetail.le?code="+code;
+							console.log(code);
 						})
 					})
-					<%}%>
 				
 			<%--
 			const moveToDetail () => {

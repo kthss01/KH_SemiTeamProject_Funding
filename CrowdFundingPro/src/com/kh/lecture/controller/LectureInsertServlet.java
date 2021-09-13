@@ -43,21 +43,18 @@ public class LectureInsertServlet extends HttpServlet {
 			int maxSize = 10 * 512 * 512;
 			
 			String resources = request.getSession().getServletContext().getRealPath("/resources");
-			String savePath = resources + "\\lecture_upfiles\\";
+			String savePath = resources + "\\lectureImage\\";
 			System.out.println("savePath"+ savePath);
 
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath,maxSize ,"UTF-8",new MyFileRenamePolicy());
 	
-			
-			
-			
 			Attachment at = null;
 			
 			
-			if(multiRequest.getOriginalFileName("lecture_upfile") != null) {
+			if(multiRequest.getOriginalFileName("selectImage") != null) {
 				
-				String originName = multiRequest.getOriginalFileName("upfile");
-				String changeName = multiRequest.getFilesystemName("upfile");
+				String originName = multiRequest.getOriginalFileName("selectImage");
+				String changeName = multiRequest.getFilesystemName("selectImage");
 				
 				at = new Attachment();
 				
@@ -72,7 +69,7 @@ public class LectureInsertServlet extends HttpServlet {
 				Date date = Date.valueOf(request.getParameter("lectureDate"));
 				int time = Integer.parseInt(request.getParameter("lectureTime"));
 				int image = Integer.parseInt(request.getParameter("lectureImage"));
-				String content = request.getParameter("lectureDetail");
+				String content = request.getParameter("lectureContent");
 				String lecturer = request.getParameter("lecturer");
 				
 				Lecture lecture = new Lecture(title,number,address,topic,date,time,image,content,lecturer);

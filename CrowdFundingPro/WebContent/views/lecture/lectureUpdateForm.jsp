@@ -2,13 +2,13 @@
     pageEncoding="UTF-8"%>
 
 <%@ page import="com.kh.lecture.model.vo.Lecture" %>
-<% Lecture lecture = null; %>
+<% Lecture lecture = (Lecture)request.getAttribute("lecture"); %>
     
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title> 신규 강의 등록 화면</title>
+<title> 강의 수정 화면</title>
 
 <style>
 

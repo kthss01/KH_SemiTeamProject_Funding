@@ -79,7 +79,6 @@ public class LectureFormServlet extends HttpServlet {
 		
 		request.setAttribute("pi", pi);
 		request.setAttribute("lectureList", list);
-		request.setAttribute("lectureList", list);
 		request.setAttribute("loginUser", loginUser);
 		RequestDispatcher view = request.getRequestDispatcher("views/lecture/lectureForm.jsp");
 		view.forward(request, response);

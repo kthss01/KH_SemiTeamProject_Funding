@@ -13,6 +13,8 @@ import java.util.Properties;
 import static com.kh.common.JDBCTemplate.*;
 
 import com.kh.lecture.model.vo.Lecture;
+import com.kh.lecture.model.vo.LectureInfo;
+import com.kh.project.model.vo.Project;
 import com.kh.user.model.vo.User;
 
 public class LectureDao {
@@ -21,7 +23,6 @@ public class LectureDao {
 	
 	public LectureDao() {
 		String fileName = LectureDao.class.getResource("/sql/lecture/lecture-query.properties").getPath();
-		System.out.println("fileName   " + fileName);
 		try {
 			prop.load(new FileReader(fileName));
 		} catch (FileNotFoundException e) {
@@ -119,7 +120,8 @@ public class LectureDao {
 						rs.getDate("LECTURE_DATE"),
 						rs.getString("LECTURER"),
 						rs.getInt("LECTURE_TIME"),
-						rs.getInt("LECTURE_NUM")));
+						rs.getInt("LECTURE_NUM"),
+						rs.getString("LECTURE_CODE")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -145,7 +147,6 @@ public class LectureDao {
 			 pstm = conn.prepareStatement(sql);
 			 
 			 rs = pstm.executeQuery();
-			 
 				
 			while(rs.next()) {
 			
@@ -168,16 +169,19 @@ public class LectureDao {
 	}
 	
 	public Lecture selectLecture(Connection conn, String lecId) {
+		
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		Lecture lecture = null;
-		String sql = prop.getProperty("selectLectur");
-
+		String sql = prop.getProperty("selectLecture");
+		
 		try {
+			
 			pstm = conn.prepareStatement(sql);
 			pstm.setString(1, lecId);
+			rs = pstm.executeQuery();
 			
-			lecture = ( rs != null) ? new Lecture(rs.getString("LECTURE_CODE"),
+			lecture = ( rs.next()) ? new Lecture(rs.getString("LECTURE_CODE"),
 												  rs.getString("LECTURE_TITLE"),
 												  rs.getInt("LECTURE_NUM"),
 												  rs.getString("LECTURE_ADDRESS"),
@@ -185,14 +189,23 @@ public class LectureDao {
 												  rs.getDate("LECTURE_DATE"),
 												  rs.getInt("LECTURE_TIME"),
 												  rs.getInt("LECTURE_IMAGE"),
-												  rs.getString("LECTRE")) : null;
+												  rs.getString("LECTURE_CONTENT"),
+												  rs.getString("LECTURER")) : null;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(pstm);
+			close(rs);
 		}
-		
+		if(lecture == null) {
+		System.out.println("why the hack Mr.Null come out");
+		}
 		return lecture;
 	}
+	
+	
+	
 	
 	public int deleteLecture(Connection conn, String lecId) {
 		
@@ -217,7 +230,39 @@ public class LectureDao {
 		return result;
 	}
 	public int signInLecture(Connection conn, User u) {
+		
+		
+		
+		
 		return 0;
+	}
+	
+	public LectureInfo getLectureCount(Connection conn, Lecture lecture) {
+		
+		LectureInfo result = null;
+		
+		PreparedStatement pstm = null;
+		String sql = prop.getProperty("selectLecCount");
+		ResultSet rs = null;
+		
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, lecture.getLectureCode());
+			
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+			result = new LectureInfo(lecture.getLectureCode(),rs.getInt(1));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstm);
+			close(rs);
+		}
+		
+		return result;
 	}
 
 }

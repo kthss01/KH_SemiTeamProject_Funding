@@ -78,8 +78,24 @@ public class Lecture {
 		this.lectureContent = lectureContent;
 		this.lecturer = lecturer;
 	}
-
 	
+	public Lecture(String lectureCode,String lectureTitle, int lectureNum, String lectureAddress, String lectureTopic, Date lectureDate,
+			int lectureTime, int lectureImage, String lectureContent, String lecturer) {
+		super();
+		this.lectureCode = lectureCode;
+		this.lectureTitle = lectureTitle;
+		this.lectureNum = lectureNum;
+		this.lectureAddress = lectureAddress;
+		this.lectureTopic = lectureTopic;
+		this.lectureDate = lectureDate;
+		this.lectureTime = lectureTime;
+		this.lectureImage = lectureImage;
+		this.lectureContent = lectureContent;
+		this.lecturer = lecturer;
+	}
+	
+	
+
 	public Lecture(int lectureImage,String lectureTopic, String lectureTitle,Date lectureDate,String lecturer,int lectureTime, int lectureNum) {
 		super();
 		this.lectureImage = lectureImage;
@@ -91,8 +107,20 @@ public class Lecture {
 		this.lectureNum = lectureNum;
 	}
 	
-
 	
+	public Lecture(int lectureImage,String lectureTopic, String lectureTitle,Date lectureDate,String lecturer,int lectureTime, int lectureNum,String lectureCode) {
+		super();
+		this.lectureImage = lectureImage;
+		this.lectureTopic = lectureTopic;
+		this.lectureTitle = lectureTitle;
+		this.lectureDate = lectureDate;
+		this.lecturer = lecturer;
+		this.lectureTime = lectureTime;
+		this.lectureNum = lectureNum;
+		this.lectureCode = lectureCode;
+	}
+	
+
 	
 
 	public String getLectureCode() {
