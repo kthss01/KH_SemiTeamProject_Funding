@@ -86,7 +86,7 @@ text-decoration:underline;
 
 <body>	
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark"
-		style="padding-left: 130px; padding-right: 130px;">
+		style="padding-left: 80px; padding-right: 80px;">
 		<a href="<%=request.getContextPath()%>" class="navbar-brand"
 			style="font-size: 23px;">CROWD FUND!NG</a>
 		<!-- 클릭하면 메인 페이지로 이동  -->

@@ -27,8 +27,8 @@
 	google.charts.setOnLoadCallback(drawChart2);
 
 	var countN = 0;
-
 	var countB = 0;
+	
 	<%for (User u : UList) {
 		if (u.getUserCode().equals("02")) {%>
 			countN = countN + 1;
@@ -41,8 +41,8 @@
 
 		var data = google.visualization.arrayToDataTable([ 
 			[ '회원 종류', '회원 수', {role : 'style'} ],
-		[ '사업자회원', countB, 'gray' ], // RGB value
-		[ '일반회원', countN, '#76A7FA' ], // English color name
+		[ '사업자회원', countB, 'gray' ], 
+		[ '일반회원', countN, '#76A7FA' ],
 
 		]);
 		var options = {
@@ -53,16 +53,23 @@
 		chart1.draw(data, options);
 	}
 
+	
+	
 	function drawChart2() {
 		var data = google.visualization.arrayToDataTable([
-				[ 'Task', 'Hours per Day' ], [ 'Work', 11 ], [ 'Eat', 2 ],
-				[ 'Commute', 2 ], [ 'Watch TV', 2 ], [ 'Sleep', 7 ] ]);
+				[ 'Task', 'Hours per Day' ], 
+				[ 'Work', 11 ], 
+				[ 'Eat', 2 ],
+				[ 'Commute', 2 ], 
+				[ 'Watch TV', 2 ],
+				[ 'Sleep', 7 ] ]
+		);
 
 		var options = {
 			is3D : true,
 		};
 		var chart = new google.visualization.PieChart(document
-				.getElementById('donutchart'));
+				.getElementById('myPieChart'));
 		chart.draw(data, options);
 	}
 
@@ -141,7 +148,7 @@ text-align:right;
 									<i class="fas fa-chart-pie me-1"></i> 펀딩 카테고리 통계
 								</div>
 								<div class="card-body">
-									<div id="donutchart" width="100%" height="50"></div>
+									<div id="myPieChart" width="100%" height="50"></div>
 								</div>
 								<div class="card-footer small text-muted">실시간 조회</div>
 							</div>
