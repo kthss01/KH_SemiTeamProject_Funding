@@ -129,6 +129,12 @@ color:#00B2B2;
 font-weight:bold;
 }
 
+#present{
+font-weight:bold;
+color:#90949C;
+}
+
+
 #pSearch{
 height:38px;
 width:400px;
@@ -296,11 +302,11 @@ color:#00B2B2;
 					<div class="card-body">
 						<h2 class="card-title h5" id="pTitle">\${pj.projectName}
 						</h2>
-						<div class="progress">
+						<div class="progress" style="height:3px;">
 						  <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width:\${ratio > 100 ? 100 : ratio}%"></div>
 						</div>
-						<p id="persent"> \${ratio}%</p>
-							<p> \${pj.amountPresent.toLocaleString()}원</p>
+						<span id="persent"> \${ratio}%</span>
+							<span id="present">>>  \${pj.amountPresent.toLocaleString()}원</span>
 						</div>
 					</div>
 				</div>
