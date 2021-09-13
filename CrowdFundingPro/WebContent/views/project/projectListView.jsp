@@ -101,7 +101,6 @@
 	font-family: 'Roboto', 'sans-serif';
 	color: #90949C;
 	border: none;
-	border-top: 4px solid #00B2B2;
 	padding-top: 2px;
 }
 
@@ -284,6 +283,7 @@ color:#00B2B2;
 		   const contextPath = "<%=request.getContextPath()%>";
 		   
 		   projects.forEach((pj) => {
+			   const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
 			   container.append(`
 			  	<div class="card info project">
 				    <input type="hidden" value="\${pj.projectCode}">
@@ -294,8 +294,10 @@ color:#00B2B2;
 					<div class="card-body">
 						<h2 class="card-title h5" id="pTitle">\${pj.projectName}
 						</h2>
-						<div class="h5" id="pAmount">
-						<p id="persent"> \${Math.floor((pj.amountPresent/pj.amountGoal)*100)}%</p>
+						<div class="progress">
+						  <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width:\${ratio > 100 ? 100 : ratio}%"></div>
+						</div>
+						<p id="persent"> \${ratio}%</p>
 							<p \${pj.amountPresent.toLocaleString()}원</p>
 						</div>
 					</div>
