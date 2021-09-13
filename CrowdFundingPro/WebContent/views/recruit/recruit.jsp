@@ -170,7 +170,7 @@
 
     <section class="container mt-5">
         <!-- 직무 구분 카테고리 button groups badges -->
-        <div id="recruit_code" class="btn-group btn-group-toggle" data-toggle="buttons">
+        <div id="recruit_code" class="btn-group-vertical btn-group-toggle" role="group" data-toggle="buttons">
         	<%-- ajax 처리 시 setCode --%>
         </div>
 
@@ -787,8 +787,17 @@
 		function setCode(codes) {
 			const totalCnt = codes.reduce((sum, code) => sum + code.count, 0);
 			
+			const width = window.innerWidth;
+			
+			console.log(width);
+			
 			$("#recruit_code").html('');
-			$("#recruit_code").append(`
+			
+			let btnGroup = $('<div>').addClass("btn-group");
+			$('#recruit_code').append(btnGroup);
+			let cnt = 1;
+			
+			btnGroup.append(`
 				<label class="btn btn-secondary rounded-pill m-1 active">
                 	<input type="radio" name="recruit_code" id="전체" autocomplete="off" checked>
                 	#전체
@@ -796,15 +805,19 @@
               	</label>
 			`);
 			
-			
 			codes.forEach((code) => {
-				$("#recruit_code").append(`
+				if (cnt % 5 === 0) {
+					btnGroup = $('<div>').addClass("btn-group");
+					$('#recruit_code').append(btnGroup);	
+				}
+				btnGroup.append(`
 	          		<label class="btn btn-secondary rounded-pill m-1">
 	                	<input type="radio" name="recruit_code" id="\${code.code}" autocomplete="off" checked>
 	                	#\${code.code}
 	                	<span class="badge badge-light">\${code.count}</span>
 	              	</label>
 				`);
+				cnt++;
 			});
 			
 			$("#recruit_code input").on("click", function() {
