@@ -93,7 +93,7 @@ text-decoration:underline;
 
 		
 		<ul class="navbar-nav">
-			<li class="nav-item"><a href="<%= request.getContextPath() %>/projectList.do" class="nav-link">펀딩하기</a></li> <!-- 펀딩페이지 링크 -->
+			<li class="nav-item"><a href="<%= request.getContextPath() %>/projectPage.do" class="nav-link">펀딩하기</a></li> <!-- 펀딩페이지 링크 -->
 
 
 			<li class="nav-item"><a

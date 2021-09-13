@@ -7,8 +7,8 @@
 
 
 <%
-	ArrayList<Project> list = (ArrayList<Project>) request.getAttribute("list");
-	DecimalFormat decFormat = new DecimalFormat("###,###");
+	//ArrayList<Project> list = (ArrayList<Project>) request.getAttribute("list");
+	//DecimalFormat decFormat = new DecimalFormat("###,###");
 	
 %>
 
@@ -101,20 +101,15 @@
 	font-family: 'Roboto', 'sans-serif';
 	color: #90949C;
 	border: none;
-	border-top: 4px solid #00B2B2;
 	padding-top: 2px;
 }
 
 .card {
-	display: block !important; 
-	float : left !important;
+	display: block !important; float : left !important;
 	border: none;
 	float: left !important;
-	
 }
-.card:hover{
-cursor:pointer;
-}
+
 .card-body {
 	padding: 0px !important;
 }
@@ -156,7 +151,6 @@ background:none;
 font-weight:bold;
 color:#00B2B2;
 }
-
 
 
 </style>
@@ -230,7 +224,7 @@ color:#00B2B2;
 
 
 			<%
-				for (Project pj : list) {
+				//for (Project pj : list) {
 			%>
 			<%-- 
         <div class="div1">
@@ -241,24 +235,11 @@ color:#00B2B2;
             </p>
         </div>&nbsp;
         --%>
-			<div class="card info project">
-				<input type="hidden" value="<%=pj.getProjectCode()%>">
-				<div class="card-img-top">
-					<img id="pImg"
-						src="<%=request.getContextPath()%>/resources/images/project/<%=pj.getTitleImg()%>">
-				</div>
-				<div class="card-body">
-					<h2 class="card-title h5" id="pTitle"><%=pj.getProjectName()%>
-					</h2>
-					<div class="h5" id="pAmount">
-					<span id="persent"> <%= (int)Math.floor(((double)pj.getAmountPresent()/pj.getAmountGoal())*100) %>%</span>
-						<span>≫ <%= decFormat.format(pj.getAmountPresent()) %>원</span>
-					</div>
-				</div>
-			</div>
+        
+			<%-- ajax 처리 setProject --%>
 
 			<%
-				}
+				//}
 			%>
 		</div>
 	</div>
@@ -279,10 +260,51 @@ color:#00B2B2;
 		})
 		
 	
-	
-		
-		
+		// ajax 처리 project 읽어기
+		$.ajax({
+			url : 'projectList.do',
+			//beforeSend: loading(true), // 통신시작하기 전 로딩 처리 원하면 구현
+			success: function(project) {
+				console.log(project);
+				setProject(project);
+			},
+			error: function(e) {
+				console.log("ajax 통신 실패");
+			},
+			//complete: loadding(false), // 통신끝나고 로딩 끝내기 
+		});
 	})
+	
+	// project 처리하는 function
+	function setProject(projects) {
+	   
+		   const container = $('div.container_filed');
+		   
+		   const contextPath = "<%=request.getContextPath()%>";
+		   
+		   projects.forEach((pj) => {
+			   const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
+			   container.append(`
+			  	<div class="card info project">
+				    <input type="hidden" value="\${pj.projectCode}">
+					<div class="card-img-top">
+						<img id="pImg"
+							src="\${contextPath}/resources/images/project/\${pj.titleImg}">
+					</div>
+					<div class="card-body">
+						<h2 class="card-title h5" id="pTitle">\${pj.projectName}
+						</h2>
+						<div class="progress">
+						  <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width:\${ratio > 100 ? 100 : ratio}%"></div>
+						</div>
+						<p id="persent"> \${ratio}%</p>
+							<p \${pj.amountPresent.toLocaleString()}원</p>
+						</div>
+					</div>
+				</div>
+			  `);
+		   });
+	}
 	
 </script>
 
