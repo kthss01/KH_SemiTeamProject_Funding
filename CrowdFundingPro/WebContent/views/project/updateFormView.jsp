@@ -63,26 +63,7 @@
     	<input type="file" name="uploadfile"><br><br>
     	
 
-   <!--  <label><b>카테고리선택:</b></label>
-    
-        <select name="category">
-            <option value="travel">여행,레저</option>
-            <option value="tech">테크,가전</option>
-            <option value="sports">스포츠</option>
-            <option value="homeLiv">홈리빙</option>
-            <option value="beauty">뷰티</option>
-            <option value="fashion">패션,잡화</option>
-            <option value="animal">반려동물</option>
-            <option value="donate">기부,후원</option>
-            <option value="publish">출판</option>
-            <option value="food">푸드</option>
-            <option value="design">디자인소품</option>
-            <option value="culture">공연,컬쳐</option>
-            <option value="social">소셜</option>
-            <option value="hobby">게임,취미</option>
-            <option selected>선택</option>
-
-        </select><br><br>-->
+   
 
        <label for="dateIn"><b>프로젝트 기간</b></label>
         <input type="date" name="dateInput" id="dateIn" value="<%=pj.getDdln()%>"><br><br>

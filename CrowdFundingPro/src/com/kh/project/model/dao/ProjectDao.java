@@ -113,13 +113,7 @@ public class ProjectDao {
 				int result=0;
 				PreparedStatement pstmt=null;
 				String sql=prop.getProperty("insertProject");
-				//INSERT INTO PROJECT VALUES( SEQ_PNO.NEXTVAL, ?,?,?,?,?,?,DEFAULT,?,NULL, ?) 
-				
-				//PROJECT_CODE,USER_NO,PROJECT_NAME,AMOUT_GOAL,AMOUNT_PRESENT,DDLN
-				//DELIVERY_CHARGE,SUPPORT_NUM,DETAIL_IINTRO,CATEGORY_NO,FILE_NO
-				
-				
-				//INSERT INTO PROJECT VALUES(SEQ_PNO.NEXTVAL, ?,?,?,?,?,?,DEFAULT,?,CATEGORY_NO.CURRVAL, ?) 
+				//INSERT INTO PROJECT VALUES(SEQ_PNO.NEXTVAL, ?,?,?,?,?,?,DEFAULT,?,?, ?) 
 				
 				try {
 					pstmt=conn.prepareStatement(sql);
@@ -131,7 +125,8 @@ public class ProjectDao {
 					pstmt.setDate(5,new java.sql.Date(pj.getDdln().getTime())); //DB에 날짜형을 입력할때에는 java.sql.Date로 형변환 해주어야함!  getTime()메소드도 잊지말기
 					pstmt.setInt(6,pj.getDeliveryCharge());
 					pstmt.setString(7,pj.getDetailIntro());
-					pstmt.setInt(8, at.getFileNo());
+					pstmt.setInt(8,Integer.parseInt(pj.getCategoryNo()));
+					pstmt.setInt(9, at.getFileNo());
 					
 					result=pstmt.executeUpdate();
 					
@@ -368,6 +363,8 @@ public class ProjectDao {
 		}
 		return result;
 	}
+	
+	
 	
 
 

@@ -120,26 +120,26 @@
 <div class="container_filed">
     <form class="searchArea" >
         <select id="cName" name="cName">
-            <option value="travel">여행,레저</option>
-            <option value="tech">테크,가전</option>
-            <option value="sports">스포츠</option>
-            <option value="homeLiv">홈리빙</option>
-            <option value="beauty">뷰티,패션잡화</option>
-            <option value="animal">반려동물</option>
-            <option value="donate">기부,후원</option>
-            <option value="publish">출판</option>
-            <option value="food">푸드</option>
-            <option value="design">디자인소품</option>
-            <option value="culture">공연,컬쳐</option>
-            <option value="social">소셜</option>
-            <option value="hobby">게임,취미</option>
+            <option value="">여행,레저</option>
+            <option value="">테크,가전</option>
+            <option value="">스포츠</option>
+            <option value="">홈리빙</option>
+            <option value="">뷰티,패션잡화</option>
+            <option value="">반려동물</option>
+            <option value="">기부,후원</option>
+            <option value="">출판</option>
+            <option value="">푸드</option>
+            <option value="">디자인소품</option>
+            <option value="">공연,컬쳐</option>
+            <option value="">소셜</option>
+            <option value="">게임,취미</option>
             <option selected>카테고리</option>
         </select>
         <input type="search" name="search" placeholder="어떤 프로젝트를 찾고 계신가요?">
         <button id="btn2" type="submit">검색하기</button>
     </form><br>
     <div id="categoryName">
-        <h1>카테고리명</h1>
+        <h1>CROWD PUND!NG</h1>
     </div>
     
     <div class="div1111">

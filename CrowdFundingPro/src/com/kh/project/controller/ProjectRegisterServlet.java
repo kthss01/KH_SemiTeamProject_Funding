@@ -50,28 +50,22 @@ public class ProjectRegisterServlet extends HttpServlet {
 		if(ServletFileUpload.isMultipartContent(request)) {
 	         int maxSize=10*1024*1024 ;
 	         String resources =request.getSession().getServletContext().getRealPath("/resources");
-	         String savePath=resources+ "\\upfiles\\";  
+	         String savePath=resources+ "\\upfiles\\"; 
+	         //String savePath=resources+ "\\images/project\\"; 
 	         
 	         MultipartRequest multiRequest=new MultipartRequest(request,savePath,maxSize,"UTF-8",new MyFileNamePolicy());
 	         
-	       //프로젝트명 목표금액 베송료 카테고리 프로젝트기간 프로젝트소개 약관동의
+	       
 	         String name=multiRequest.getParameter("projectName");
 	         int amount=Integer.parseInt(multiRequest.getParameter("amountGoal"));
 	         int delivery=Integer.parseInt(multiRequest.getParameter("delivery"));
 	         String category=multiRequest.getParameter("category");
 	         
+	         
+	         
 	         Date dateInput = Date.valueOf(multiRequest.getParameter("dateInput"));
 	         
-//	         dateInput.replaceAll("-", "");
-//	         SimpleDateFormat transFormat = new SimpleDateFormat("yy/mm/dd");
-//
-//	         Date date = null;
-//			try {
-//				date = (Date) transFormat.parse(dateInput);
-//			} catch (ParseException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+
 	         
 	         String detail=multiRequest.getParameter("detail");
 	         
@@ -86,7 +80,7 @@ public class ProjectRegisterServlet extends HttpServlet {
 	          //프로젝트명 목표금액 베송료 카테고리 프로젝트기간 프로젝트소개 약관동의
 	            pj.setProjectName(name);
 	            
-	            pj.setCategoryNo(category);
+	            pj.setCategoryNo(category);/////////////
 	            
 	            pj.setDetailIntro(detail);
 	            
