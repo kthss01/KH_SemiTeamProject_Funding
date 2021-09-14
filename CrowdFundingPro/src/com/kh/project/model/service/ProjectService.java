@@ -19,7 +19,7 @@ public class ProjectService {
 
 	public ArrayList<Project> selectList() {
 		Connection conn=getConnection();
-		ArrayList<Project> list=new ProjectDao().selectList(conn);
+		ArrayList<Project> list = new ProjectDao().selectList(conn);
 		close(conn);
 		return list;
 	}
