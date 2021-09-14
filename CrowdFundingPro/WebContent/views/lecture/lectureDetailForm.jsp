@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<%@ page import="com.kh.user.model.vo.User" %>
+    
 <%@ page import="com.kh.lecture.model.vo.Lecture" %>
 
 <% Lecture lecture = (Lecture)request.getAttribute("lecture"); %>
@@ -74,16 +74,14 @@
 
     </div>
     
-
-    
+   
     <div class="deleteCheck hidden"> 
-  		
   		<div class="delCheckBox">
   			<p> 정말로 해당 강의를 삭제합니까?</p>
 			<button type="button" onclick="location.href='<%=request.getContextPath() %>/lectureDelete.le?code=<%= %>"></button>
 			<button type="button" onclick="cancle()" value="X"></button>
   		</div>
-  		 
+  	
     </div>
 
 	
