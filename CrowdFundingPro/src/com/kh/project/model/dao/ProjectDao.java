@@ -10,9 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
-
 
 import com.kh.common.model.vo.Attachment;
 import com.kh.project.model.vo.Project;
@@ -416,6 +417,94 @@ public class ProjectDao {
 			close(rset);
 			close(pstmt);
 		}
+		return list;
+	}
+
+
+
+	public ArrayList<Project> selectRandomList(Connection conn) {
+		
+		ArrayList<Project> list = new ArrayList<Project>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = "SELECT PROJECT_CODE,PROJECT_NAME,AMOUNT_GOAL,AMOUNT_PRESENT,DDLN,DETAIL_INTRO,CHANGE_NAME FROM (SELECT *FROM PROJECT ORDER BY DBMS_RANDOM.VALUE) LEFT JOIN ATTACHMENT USING(FILE_NO)WHERE ROWNUM <=9";
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			/*
+			PROJECT_CODE	NUMBER				프로젝트코드
+			USER_NO			VARCHAR2(3 BYTE)	담당자회원번호
+			PROJECT_NAME	VARCHAR2(4000 BYTE)	프로젝트명
+			AMOUNT_GOAL		NUMBER				목표금액
+			AMOUNT_PRESENT	NUMBER				현재금액
+			DDLN			DATE				마감일
+			DELIVERY_CHARGE	NUMBER				배송료
+			SUPPORT_NUM		NUMBER				서포터수
+			DETAIL_INTRO	VARCHAR2(4000 BYTE)	프로젝트세부내용
+			CATEGORY_NO		NUMBER				카테고리번호
+			FILE_NO			NUMBER				파일번호
+			*/
+
+			while(rset.next()) {
+				list.add(new Project(
+						rset.getInt("PROJECT_CODE"),
+						rset.getString("PROJECT_NAME"),
+						rset.getInt("AMOUNT_GOAL"),
+						rset.getInt("AMOUNT_PRESENT"),
+						rset.getDate("DDLN"),
+						rset.getString("DETAIL_INTRO"),
+						rset.getString("CHANGE_NAME")
+						));
+				
+			}
+			
+			System.out.println("랜덤 프로젝트 dao: " + list);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+
+
+	public ArrayList<Project> selectRankList(Connection conn) {
+		ArrayList<Project> list = new ArrayList<Project>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Project p = null;
+		String sql 
+		="SELECT PROJECT_CODE,PROJECT_NAME,DETAIL_INTRO,DDLN,AMOUNT_GOAL,AMOUNT_PRESENT,CATEGORY_NAME,B.CHANGE_NAME,RANK() OVER (ORDER BY SUPPORT_NUM DESC) RANK   FROM PROJECT A LEFT JOIN ATTACHMENT B ON A.FILE_NO= B.FILE_NO LEFT JOIN CATEGORY USING(CATEGORY_NO) WHERE ROWNUM <= 6 ORDER BY RANK";		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+
+			while(rset.next()) {
+				p =new Project(
+						rset.getInt("PROJECT_CODE"),
+						rset.getString("PROJECT_NAME"),
+						rset.getInt("AMOUNT_GOAL"),
+						rset.getInt("AMOUNT_PRESENT"),
+						rset.getDate("DDLN"),
+						rset.getString("DETAIL_INTRO"),
+						rset.getString("CHANGE_NAME")
+						);
+				p.setCategoryName(rset.getString("CATEGORY_NAME"));
+				
+				list.add(p);
+			}
+			
+			System.out.println("랜덤 프로젝트 dao: " + list);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return list;
 	}
 
