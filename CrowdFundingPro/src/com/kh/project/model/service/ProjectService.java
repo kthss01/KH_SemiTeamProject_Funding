@@ -144,6 +144,31 @@ public ArrayList<Project> selectProjectList(int startRow, int endRow) {
 
 
 
+public ArrayList<Project> selectRandomList() {
+	Connection conn=getConnection();
+	
+	ArrayList<Project> list = new ProjectDao().selectRandomList(conn);
+	
+	close(conn);	
+	return list;
+}
+
+
+
+
+public ArrayList<Project> selectRankList() {
+	Connection conn=getConnection();
+	
+	ArrayList<Project> list = new ProjectDao().selectRankList(conn);
+	
+	close(conn);	
+	return list;
+}
+
+
+
+
+
 
 
 
