@@ -2,13 +2,13 @@
     pageEncoding="UTF-8"%>
 
 <%@ page import="com.kh.lecture.model.vo.Lecture" %>
-<% Lecture lecture = null; %>
+<% Lecture lecture = (Lecture)request.getAttribute("lecture"); %>
     
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title> 신규 강의 등록 화면</title>
+<title> 강의 수정 화면</title>
 
 <style>
 
@@ -125,6 +125,7 @@ textarea {
 </style>
 </head>
 <body>		
+
 				<div class="modal">
 					<div class="modal_overlay"></div>
 					<div class="modal_content">
@@ -144,20 +145,20 @@ textarea {
 								</span>
 								<div class="box">
 									<label class="labels"><b> 강의 제목 </b></label> <input type="text"
-										class ="lectureTitle" placeholder="강의 제목" required>
+										class ="lectureTitle" required value="<%=lecture.getLectureTitle()%>">
 								</div>
 								
 								<div class="box">
 									<label class="labels"><b> 강의 날짜 </b></label> <input
-										class ="lectureDate" type="date" placeholder="강의 날짜" required>
+										class ="lectureDate" type="date" required value="<%=lecture.getLectureDate()%>">
 								</div>
 								<div class="box">
 									<label class="labels"><b> 강의 주소 </b></label> <input type="text"
-										class ="lectureAddress" placeholder="강의 주소" required>
+										class ="lectureAddress" required value="<%=lecture.getLectureAddress()%>">
 								</div>
 								<div class="box">
 									<label class="labels"><b> 강의 인원 </b></label> <input type="number"
-										class ="lectureNumber" placeholder="강의 인원" required>
+										class ="lectureNumber" required value="<%=lecture.getLectureNum()%>">
 								</div>
 								<div class="box">
 									<label class="labels"><b> 강의 주제 </b></label> <select
@@ -198,13 +199,29 @@ textarea {
 						preView.setAttribute("src", event.target.result);
 					}
 						reader.readAsDataURL(event.target.files[0]);
-						preView.setAttribute("height","256");
-						preView.setAttribute("width","256");
 					}
 					
+					preView.setAttribute("height","256");
+					preView.setAttribute("width","256");
 					
-					
-					
+					/*
+					const buildLecture =()=>{
+						
+						var image = document.querySelector(".lectureTitle").value;
+						var person = document.querySelector(".lecturer").value;
+						var title = document.querySelector(".lectureTitle").value;
+						var topic= document.querySelector(".lectureTopic").value;
+						var date = document.querySelector(".lectureDate").value;
+						var address = document.querySelector(".lectureAddress").value;
+						var number = document.querySelector(".lectureNumber").value;
+						var time = document.querySelector(".lectureTime").value;
+						var content = document.querySelector(".lectureContent").value;
+						
+						
+					}
+					const 
+					document.querySelector
+					*/
 					
 				</script>
 				

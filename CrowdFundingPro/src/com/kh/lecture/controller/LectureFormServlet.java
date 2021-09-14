@@ -41,13 +41,13 @@ public class LectureFormServlet extends HttpServlet {
 		User loginUser = (User)request.getSession().getAttribute("loginUser");
 		String title = request.getParameter("title");
 		String lectureCode = request.getParameter("lectureCode");
-		int listCount = new LectureService().selectLectureList().size();
+		int listCount = (new LectureService().selectLectureList()).size();
 		int currentPage; // 현재 페이지(즉, 요청한 페이지)
 		int startPage; // 현재 페이지에 하단에 보여지는 페이징 바의 시작 수
 		int endPage; // 현재 페이지에 하단에 보여지는 페이징 바의 끝 수
 		int maxPage; // 전체 페이지에서의 가장 마지막 페이ㅣㅈ
 		int pageLimit; // 한 페이지 하단에 보여질 페이지 최대 개수
-		int lectureLimit; // 한 페이지에 보여질 게시글 최대 갯수
+		int lectureLimit; // 한 페이지에 보여질 강의 최대 갯수
 		
 		currentPage = 1;
 		
@@ -55,8 +55,8 @@ public class LectureFormServlet extends HttpServlet {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
 		
-		pageLimit = 5;
-		lectureLimit = 4;
+		pageLimit = 10;
+		lectureLimit = 5;
 		maxPage = (int) Math.ceil((double)listCount / lectureLimit);
 		startPage = (currentPage - 1) / pageLimit * pageLimit + 1;
 		endPage = startPage + pageLimit - 1;
@@ -78,7 +78,6 @@ public class LectureFormServlet extends HttpServlet {
 		}
 		
 		request.setAttribute("pi", pi);
-		request.setAttribute("lectureList", list);
 		request.setAttribute("lectureList", list);
 		request.setAttribute("loginUser", loginUser);
 		RequestDispatcher view = request.getRequestDispatcher("views/lecture/lectureForm.jsp");
