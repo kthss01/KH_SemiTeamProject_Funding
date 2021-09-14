@@ -144,8 +144,6 @@ public ArrayList<Project> selectProjectList(int startRow, int endRow) {
 }
 
 
-
-
 public Map<Integer, String> selectCategoryList() {
 	Connection conn = getConnection();
 	Map<Integer, String> map = new ProjectDao().selectCategoryList(conn);
@@ -153,8 +151,14 @@ public Map<Integer, String> selectCategoryList() {
 	return map;
 }
 
-
-
+public ArrayList<Project> selectRandomList() {
+	Connection conn=getConnection();
+	
+	ArrayList<Project> list = new ProjectDao().selectRandomList(conn);
+	
+	close(conn);	
+	return list;
+}
 
 public ArrayList<Project> selectProjectListWithCategory(int startRow, int endRow, int categoryNo) {
 	Connection conn=getConnection();
@@ -162,26 +166,16 @@ public ArrayList<Project> selectProjectListWithCategory(int startRow, int endRow
 	ArrayList<Project> list = new ProjectDao().selectProjectListWithCategory(conn, startRow, endRow, categoryNo);
 	
 	close(conn);
-	
-	return list;
 }
 
 
-
-
-
-
-
-
+public ArrayList<Project> selectRankList() {
+	Connection conn=getConnection();
 	
-
+	ArrayList<Project> list = new ProjectDao().selectRankList(conn);
 	
-	
-	
-	
-	
-	
-	
-	
+	close(conn);	
+	return list;
+}
 
 }
