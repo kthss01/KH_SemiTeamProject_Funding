@@ -11,10 +11,15 @@ ArrayList<Lecture> lectureList = (ArrayList<Lecture>) request.getAttribute("lect
 PageInfo pi = (PageInfo)request.getAttribute("pi");
 
 int listCount = pi.getListCount();
+System.out.println("count:"+listCount);
 int currentPage = pi.getCurrentPage();
+System.out.println("current:"+currentPage);
 int maxPage = pi.getMaxPage();
+System.out.println("max:"+maxPage);
 int startPage = pi.getStartPage();
+System.out.println("start:"+startPage);
 int endPage = pi.getEndPage();
+System.out.println("end:"+endPage);
 %>
 
 
@@ -27,7 +32,10 @@ int endPage = pi.getEndPage();
 <title> </title>
 
 <link href="resources/css/menubar.css" rel="stylesheet" type="text/css">
-
+<link
+	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
+            mily=Nanum+Gothic&family=Roboto&display=swap"
+	rel="stylesheet">
 <style>
 @charset "UTF-8";
 
@@ -122,11 +130,34 @@ ul img {
 .lecturePage {
 	
 	margin : 15px 10px 15px 10px;
-	width : 120px;
+	width : 100%;
 	
 	
 }
 
+.lecturePage>button{
+	background-color: rgb(255,255,255);
+	color : rgb(0,123,255);
+	font-size: 18px;
+	font-weight:bold;
+	font-family: 'inherit';
+	border: 1px solid white;
+	
+}
+
+.pageButton {
+	margin: 10px 15px 10px 15px;
+	
+}
+
+.lecturePage>button:hover {
+	background-color: rgb(0,123,255);
+	color: white;
+}
+.pageButton:active{
+	background-color: rgb(0,79,154);
+	color:rgb(190,190,190);
+}
 
 
 .details {
@@ -258,28 +289,32 @@ input {
 					
 				<div class="lecturePage" align="center">
 			
-					<button class="pageButton" onclick="location.href='<%=contextPath%>/list.le?currentPage=1'"> &lt;&lt; </button>
+					<button class="pageButton" onclick="location.href='<%=request.getContextPath()%>/list.le?currentPage=1'"> &lt;&lt; </button>
 						<%if(currentPage == 1){ %>
 					<button class="pageButton" disabled> &lt; </button>
 						<%}else{ %>
-					<button onclick="location.href='<%= contextPath %>/list.le?currentPage=<%= currentPage-1 %>'"> &lt; </button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.le?currentPage=<%= currentPage-1 %>'"> &lt; </button>
 						<%} %>
 			
 					<!-- 페이지 목록 -->
-						<%for(int p=startPage; p<=endPage; p++){ %>
+						<%for( int i = 1 ;  i <= endPage; i++){ %>
 				
-						<%if(p == currentPage){ %>
-					<button class="pageButton" disabled> <%= p %> </button>
+						<%if (i == currentPage){ %>
+					<button class="pageButton" disabled> <%=i%> </button>
 						<%}else{ %>
-					<button class="pageButton" onclick="location.href='<%=contextPath %>/list.le?currentPage=<%= p %>'"> <%= p %> </button>
+					<button class="pageButton" onclick="location.href='<%=request.getContextPath() %>/lecture.le?currentPage=<%=i%>'"> <%=i %> </button>
 						<%} %>
 					<%} %>
 					<%if(currentPage == maxPage){ %>
 					<button class="pageButton" disabled> &gt; </button>
 					<%}else { %>
-					<button class="pageButton" onclick="location.href='<%= contextPath %>/list.le?currentPage=<%= currentPage+1 %>'"> &gt; </button>
+					<button class="pageButton" onclick="location.href='<%=request.getContextPath() %>/lecture..le?currentPage=<%= currentPage+1 %>'"> &gt; </button>
 					<%} %>
-					<button class="pageButton" onclick="location.href='<%=contextPath%>/list.le?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
+					<%if(currentPage == maxPage){ %>
+					<button class="pageButton" disabled> &gt;&gt;</button>
+					<%} else { %>
+					<button class="pageButton" onclick="location.href='<%=request.getContextPath()%>/lecture..le?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
+					<%} %>
 				</div> 
 				</div>
 				

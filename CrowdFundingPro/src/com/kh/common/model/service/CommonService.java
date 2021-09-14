@@ -55,4 +55,15 @@ public class CommonService {
 		return result;
 	}
 
+	public int insertLectureAttachment(Attachment at) {
+		Connection conn = getConnection();
+		
+		int result = new CommonDao().insertLectureAttachment(conn, at);
+		
+		if (result > 0) commit(conn);
+		else rollback(conn);
+		
+		return result;
+	}
+
 }

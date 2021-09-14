@@ -198,29 +198,13 @@ textarea {
 						preView.setAttribute("src", event.target.result);
 					}
 						reader.readAsDataURL(event.target.files[0]);
+						preView.setAttribute("height","256");
+						preView.setAttribute("width","256");
 					}
 					
-					preView.setAttribute("height","256");
-					preView.setAttribute("width","256");
 					
-					/*
-					const buildLecture =()=>{
-						
-						var image = document.querySelector(".lectureTitle").value;
-						var person = document.querySelector(".lecturer").value;
-						var title = document.querySelector(".lectureTitle").value;
-						var topic= document.querySelector(".lectureTopic").value;
-						var date = document.querySelector(".lectureDate").value;
-						var address = document.querySelector(".lectureAddress").value;
-						var number = document.querySelector(".lectureNumber").value;
-						var time = document.querySelector(".lectureTime").value;
-						var content = document.querySelector(".lectureContent").value;
-						
-						
-					}
-					const 
-					document.querySelector
-					*/
+					
+					
 					
 				</script>
 				

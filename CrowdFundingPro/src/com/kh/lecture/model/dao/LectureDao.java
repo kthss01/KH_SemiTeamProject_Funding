@@ -40,7 +40,7 @@ public class LectureDao {
 		PreparedStatement pstm = null;
 		String sql = prop.getProperty("insertLecture");
 		
-//		insertLecture=INSERT INTO LECTURE VALUES(SEQ_LECTURE_NO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?,?)
+//		insertLecture=INSERT INTO LECTURE VALUES(SEQ_LECTURE_NO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 		
 		try {
 			pstm = conn.prepareStatement(sql);
@@ -139,7 +139,7 @@ public class LectureDao {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		
-		String sql = prop.getProperty("selectLectureList");
+		String sql = prop.getProperty("selectLectureAllList");
 		/*
 					image,topic,title,date,er,time,num
 					*/
@@ -229,7 +229,9 @@ public class LectureDao {
 		
 		return result;
 	}
+	
 	public int signInLecture(Connection conn, User u) {
+		
 		
 		
 		

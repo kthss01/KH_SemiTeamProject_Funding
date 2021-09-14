@@ -75,18 +75,17 @@
     </div>
     
 
-    <% if(loginUser.getUserCode() == "01") {%>
+    
     <div class="deleteCheck hidden"> 
   		
   		<div class="delCheckBox">
   			<p> 정말로 해당 강의를 삭제합니까?</p>
-			<button type="button" onclick="deleteLectrue()" value="O"></button>
+			<button type="button" onclick="location.href='<%=request.getContextPath() %>/lectureDelete.le?code=<%= %>"></button>
 			<button type="button" onclick="cancle()" value="X"></button>
   		</div>
   		 
     </div>
-    
-    <% } %>
+
 	
 
     <!-- 
