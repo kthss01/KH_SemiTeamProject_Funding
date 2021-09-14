@@ -262,6 +262,8 @@ color:#00B2B2;
 <script>
 		
 	$(function(){
+		localStorage.removeItem("page");
+		
 		infinityScroll();
 	})	
 	
@@ -294,6 +296,8 @@ color:#00B2B2;
 				curPage = 1;
 			}
 			
+			console.log(curPage);
+			
 			// ajax 처리 project 읽어기
 			$.ajax({
 				url : 'projectList.do',
@@ -308,7 +312,8 @@ color:#00B2B2;
 				},
 				complete: function() {
 					//loadding(false), // 통신끝나고 로딩 끝내기
-					curPage++; // 현재 페이지 하나 증가시키기
+					curPage++;
+					localStorage.setItem("page", curPage); // 현재 페이지 하나 증가시켜서 storage에 넣기
 					isRead = false;
 				},
 			});
