@@ -96,6 +96,15 @@
 	text-decoration: underline;
 }
 
+#pCategory {
+	font-size:14px;
+	font-weight: bold;
+	font-family: 'Roboto', 'sans-serif';
+	color: #90949C;
+	border: none;
+	padding-top: 2px;
+}
+
 #pAmount {
 	font-size:18px;
 	font-family: 'Roboto', 'sans-serif';
@@ -337,6 +346,7 @@ color:#00B2B2;
 				</div>
 				<div class="card-body">
 					<h2 class="card-title h5" id="pTitle">\${pj.projectName}</h2>
+					<p class="card-text" id="pCategory">\${pj.categoryName}</p>
 					<div class="progress" style="height:3px;">
 					  <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width:\${ratio > 100 ? 100 : ratio}%"></div>
 					</div>
