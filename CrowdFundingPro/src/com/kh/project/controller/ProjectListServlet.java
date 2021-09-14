@@ -44,13 +44,25 @@ public class ProjectListServlet extends HttpServlet {
 			curPage = Integer.parseInt(request.getParameter("page"));
 		}
 		
+		// Category 처리
+		String categoryNo = request.getParameter("category");
+//		System.out.println(categoryNo);
+		
 		int projectLimit = 30; // 한번 요청에 보여질 프로젝트 최대 수
 		
 		int startRow = (curPage - 1) * projectLimit + 1;
 		int endRow = startRow + projectLimit - 1;
 		
+		System.out.println(startRow + " " + endRow + " " + categoryNo);
+		
 		// 원하는 수만큼 한번에 가져오기
-		ArrayList<Project> list = new ProjectService().selectProjectList(startRow, endRow);
+		ArrayList<Project> list = null;
+		
+		if (categoryNo == null || categoryNo.equals("0")) {
+			list = new ProjectService().selectProjectList(startRow, endRow);
+		} else {
+			list = new ProjectService().selectProjectListWithCategory(startRow, endRow, Integer.parseInt(categoryNo));
+		}
 
 		response.setContentType("application/json; charset=utf-8");
 		

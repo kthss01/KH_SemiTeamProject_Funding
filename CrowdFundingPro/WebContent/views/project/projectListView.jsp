@@ -8,8 +8,7 @@
 
 <%
 	//ArrayList<Project> list = (ArrayList<Project>) request.getAttribute("list");
-	//DecimalFormat decFormat = new DecimalFormat("###,###");
-	
+//DecimalFormat decFormat = new DecimalFormat("###,###");
 %>
 
 
@@ -44,21 +43,21 @@
 
 .container_filed {
 	width: 1300px;
-	overflow:hidden;
-	height:auto;
+	overflow: hidden;
+	height: auto;
 	padding: 15px;
 	margin: 0 auto;
-	padding-top:50px;
+	padding-top: 50px;
 }
 
 #categoryName h1 {
 	width: 100%;
 	font-family: 'Roboto', 'sans-serif';
-	font-size:35px;
-	font-weight:700;
-	margin-top:70px;
-	margin-bottom:40px;
-	margin-left:30px;
+	font-size: 35px;
+	font-weight: 700;
+	margin-top: 70px;
+	margin-bottom: 40px;
+	margin-left: 30px;
 }
 
 #celectCategory {
@@ -76,7 +75,7 @@
 	height: 360px;
 	float: left;
 	margin: 30px;
-	border : none !important;
+	border: none !important;
 }
 
 .card-img-top>#pImg {
@@ -96,8 +95,17 @@
 	text-decoration: underline;
 }
 
+#pCategory {
+	font-size: 14px;
+	font-weight: bold;
+	font-family: 'Roboto', 'sans-serif';
+	color: #90949C;
+	border: none;
+	padding-top: 2px;
+}
+
 #pAmount {
-	font-size:18px;
+	font-size: 18px;
 	font-family: 'Roboto', 'sans-serif';
 	color: #90949C;
 	border: none;
@@ -111,7 +119,7 @@
 }
 
 .card:hover {
-cursor:pointer;
+	cursor: pointer;
 }
 
 .card-body {
@@ -124,45 +132,42 @@ cursor:pointer;
 	border: 1px solid red;
 }
 
-#persent{
-color:#00B2B2;
-font-weight:bold;
+#persent {
+	color: #00B2B2;
+	font-weight: bold;
 }
 
-#present{
-font-weight:bold;
-color:#90949C;
+#present {
+	font-weight: bold;
+	color: #90949C;
 }
 
-
-#pSearch{
-height:38px;
-width:400px;
-border:2px solid #00B2B2;
-border-radius: 20px;
-margin-left:20px;
-margin-right:20px;
-margin-bottom:2px;
+#pSearch {
+	height: 38px;
+	width: 400px;
+	border: 2px solid #00B2B2;
+	border-radius: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-bottom: 2px;
 }
 
-#pSearch:hover{
-background: #F4FFFF;
-opacity:0.5;
+#pSearch:hover {
+	background: #F4FFFF;
+	opacity: 0.5;
 }
 
-#pSearch::placeholder{
-text-align:center;
+#pSearch::placeholder {
+	text-align: center;
 }
 
-#searchBtn{
-font-size:22px;
-border:none;
-background:none;
-font-weight:bold;
-color:#00B2B2;
+#searchBtn {
+	font-size: 22px;
+	border: none;
+	background: none;
+	font-weight: bold;
+	color: #00B2B2;
 }
-
-
 </style>
 </head>
 <body>
@@ -205,7 +210,8 @@ color:#00B2B2;
 		<div class="container_filed">
 			<form class="searchArea">
 				<div id="celectCategory">
-					<select id="cName" name="cName" class="form-control" style="width:200px; display:inline; ">
+					<select id="cName" name="cName" class="form-control"
+						style="width: 200px; display: inline;">
 						<option value="">여행,레저</option>
 						<option value="">테크,가전</option>
 						<option value="">스포츠</option>
@@ -220,13 +226,20 @@ color:#00B2B2;
 						<option value="">소셜</option>
 						<option value="">게임,취미</option>
 						<option selected>카테고리</option>
-					</select> 
-					<input type="text" id="pSearch" name="search" placeholder="어떤 프로젝트를 찾고 계신가요?">
-								
-					<input id="searchBtn" style="height:38px;"type="submit" value='검색'>
-					<i class="fas fa-search fa-lg" style="color:#00B2B2"></i>
+						<%-- ajax 처리 setCategory() --%>
+					</select> <input type="text" id="pSearch" name="search"
+						placeholder="어떤 프로젝트를 찾고 계신가요?"> <input id="searchBtn"
+						style="height: 38px;" type="submit" value='검색'> <i
+						class="fas fa-search fa-lg" style="color: #00B2B2"></i>
 				</div>
 			</form>
+
+			<%-- 카테고리 라디오버튼 --%>
+			<div id="cRadioButton"
+				class="btn-group-vertical btn-group-toggle mt-3 mx-5" role="group"
+				data-toggle="buttons">
+				<%-- ajax 처리 setCategory() --%>
+			</div>
 
 			<div id="categoryName">
 				<h1>어떤 프로젝트를 찾으시나요 ?</h1>
@@ -245,7 +258,7 @@ color:#00B2B2;
             </p>
         </div>&nbsp;
         --%>
-        
+
 			<%-- ajax 처리 setProject --%>
 
 			<%
@@ -264,15 +277,78 @@ color:#00B2B2;
 	$(function(){
 		localStorage.removeItem("page");
 		
+		loadCategory();
+		
 		infinityScroll();
 	})	
+	
+	function loadCategory() {
+		$.ajax({
+			url: "categoryList.do",
+			success: function(category) {
+				//console.log(category);
+				setCategory(category);
+			},
+			error: function(e) {
+				console.log("ajax 통신 실패");	
+			}
+		});
+	}
+	
+	function setCategory(category) {
+		// 검색 option 설정
+		
+		// 라디오버튼 설정
+		const radioButton = $("#cRadioButton");
+		
+		// 전체 버튼 추가
+		// button group 추가
+		let btnGroup = $('<div>').addClass("btn-group");
+		radioButton.append(btnGroup);
+		
+		btnGroup.append(`
+			<button type="button" class="btn" style="width: 130px;">
+               <input type="radio" name="project_category" value="0" autocomplete="off" checked>
+               <img src="resources/images/category/0.png" class="rounded-circle" style="width: 70px;"><br>
+               <span class="text-dark font-weight-bold small">전체</span>
+            </button>	
+		`);
+		
+		// 나머지 버튼 추가
+		Object.keys(category).forEach((key) => {
+			// key가 9면 다음 줄에 만들기
+			if (key == '9') {
+				btnGroup = $('<div>').addClass("btn-group");
+				radioButton.append(btnGroup);				
+			}
+			btnGroup.append(`
+				<button type="button" class="btn" style="width: 130px;">
+	               <input type="radio" name="project_category" value="\${key}" autocomplete="off">
+	               <img src="resources/images/category/\${key}.jpg" class="rounded-circle" style="width: 70px;"><br>
+	               <span class="text-dark font-weight-bold small">\${category[key]}</span>
+	            </button>		
+			`);
+		});
+		
+		// 이벤트 추가
+		$("#cRadioButton button").on("click", function() {
+			//console.log(($(this).children('input').val()));
+			const categoryNo = $(this).children('input').val();
+			
+			$('div.container_filed .card').remove();
+			localStorage.setItem("page", 1);
+			
+			readProject(categoryNo);
+		});
+	}
+	
+	let isRead = false;
 	
 	function infinityScroll() {
 		readProject();
 		
 		const container = document.querySelector('div.container_filed');
 		const screenHeight = screen.height;
-		let isRead = false;
 		
 		// 스크롤 이벤트
 		document.addEventListener('scroll', function() {
@@ -288,36 +364,39 @@ color:#00B2B2;
 			}
 			
 		}, {passive : true});
+	}
 	
-		function readProject() {
-			// localStorage에 현재 페이지 번호 저장
-			let curPage = localStorage.getItem("page");
-			if (curPage === null) {
-				curPage = 1;
-			}
-			
-			console.log(curPage);
-			
-			// ajax 처리 project 읽어기
-			$.ajax({
-				url : 'projectList.do',
-				//beforeSend: loading(true), // 통신시작하기 전 로딩 처리 원하면 구현
-				data : { 'page' : curPage },
-				success: function(project) {
-					console.log(project);
-					setProject(project);
-				},
-				error: function(e) {
-					console.log("ajax 통신 실패");
-				},
-				complete: function() {
-					//loadding(false), // 통신끝나고 로딩 끝내기
-					curPage++;
-					localStorage.setItem("page", curPage); // 현재 페이지 하나 증가시켜서 storage에 넣기
-					isRead = false;
-				},
-			});
+	function readProject(category=0) {
+		// localStorage에 현재 페이지 번호 저장
+		let curPage = localStorage.getItem("page");
+		if (curPage === null) {
+			curPage = 1;
 		}
+		
+		//console.log(curPage);
+		
+		// ajax 처리 project 읽어기
+		$.ajax({
+			url : 'projectList.do',
+			//beforeSend: loading(true), // 통신시작하기 전 로딩 처리 원하면 구현
+			data : { 
+				'page' : curPage, 
+				'category' : category
+			},
+			success: function(project) {
+				console.log(project);
+				setProject(project);
+			},
+			error: function(e) {
+				console.log("ajax 통신 실패");
+			},
+			complete: function() {
+				//loadding(false), // 통신끝나고 로딩 끝내기
+				curPage++;
+				localStorage.setItem("page", curPage); // 현재 페이지 하나 증가시켜서 storage에 넣기
+				isRead = false;
+			},
+		});
 	}
    
 	// project 처리하는 function
@@ -337,6 +416,7 @@ color:#00B2B2;
 				</div>
 				<div class="card-body">
 					<h2 class="card-title h5" id="pTitle">\${pj.projectName}</h2>
+					<p class="card-text" id="pCategory">\${pj.categoryName}</p>
 					<div class="progress" style="height:3px;">
 					  <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width:\${ratio > 100 ? 100 : ratio}%"></div>
 					</div>
