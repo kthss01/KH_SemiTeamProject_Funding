@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import com.kh.common.model.vo.Attachment;
@@ -366,6 +368,68 @@ public class ProjectDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, endRow);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				Project pj = new Project();
+
+				pj.setProjectCode(rset.getInt("PROJECT_CODE"));
+				pj.setProjectName(rset.getString("PROJECT_NAME"));
+				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
+				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
+				pj.setTitleImg(rset.getString("CHANGE_NAME"));
+				pj.setCategoryName(rset.getString("CATEGORY_NAME"));
+
+				list.add(pj);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public Map<Integer, String> selectCategoryList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Map<Integer, String> map = new HashMap<>();
+		String sql = prop.getProperty("selectCategoryList");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				int categoryNo = rset.getInt("CATEGORY_NO");
+				String categoryName = rset.getString("CATEGORY_NAME");
+				
+				map.put(categoryNo, categoryName);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return map;
+	}
+
+	public ArrayList<Project> selectProjectListWithCategory(Connection conn, int startRow, int endRow, int categoryNo) {
+		ArrayList<Project> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectProjectListWithCategory");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, categoryNo);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 
 			rset = pstmt.executeQuery();
 

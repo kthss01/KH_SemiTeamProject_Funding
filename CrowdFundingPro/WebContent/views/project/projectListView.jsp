@@ -229,6 +229,7 @@ color:#00B2B2;
 						<option value="">소셜</option>
 						<option value="">게임,취미</option>
 						<option selected>카테고리</option>
+						<%-- ajax 처리 setCategory() --%>
 					</select> 
 					<input type="text" id="pSearch" name="search" placeholder="어떤 프로젝트를 찾고 계신가요?">
 								
@@ -236,6 +237,11 @@ color:#00B2B2;
 					<i class="fas fa-search fa-lg" style="color:#00B2B2"></i>
 				</div>
 			</form>
+
+			<%-- 카테고리 라디오버튼 --%>
+			<div id="cRadioButton" class="btn-group-vertical btn-group-toggle mt-3 mx-5" role="group" data-toggle="buttons">
+	            <%-- ajax 처리 setCategory() --%>
+            </div>
 
 			<div id="categoryName">
 				<h1>어떤 프로젝트를 찾으시나요 ?</h1>
@@ -273,15 +279,78 @@ color:#00B2B2;
 	$(function(){
 		localStorage.removeItem("page");
 		
+		loadCategory();
+		
 		infinityScroll();
 	})	
+	
+	function loadCategory() {
+		$.ajax({
+			url: "categoryList.do",
+			success: function(category) {
+				//console.log(category);
+				setCategory(category);
+			},
+			error: function(e) {
+				console.log("ajax 통신 실패");	
+			}
+		});
+	}
+	
+	function setCategory(category) {
+		// 검색 option 설정
+		
+		// 라디오버튼 설정
+		const radioButton = $("#cRadioButton");
+		
+		// 전체 버튼 추가
+		// button group 추가
+		let btnGroup = $('<div>').addClass("btn-group");
+		radioButton.append(btnGroup);
+		
+		btnGroup.append(`
+			<button type="button" class="btn" style="width: 130px;">
+               <input type="radio" name="project_category" value="0" autocomplete="off" checked>
+               <img src="resources/images/category/0.png" class="rounded-circle" style="width: 70px;"><br>
+               <span class="text-dark font-weight-bold small">전체</span>
+            </button>	
+		`);
+		
+		// 나머지 버튼 추가
+		Object.keys(category).forEach((key) => {
+			// key가 9면 다음 줄에 만들기
+			if (key == '9') {
+				btnGroup = $('<div>').addClass("btn-group");
+				radioButton.append(btnGroup);				
+			}
+			btnGroup.append(`
+				<button type="button" class="btn" style="width: 130px;">
+	               <input type="radio" name="project_category" value="\${key}" autocomplete="off">
+	               <img src="resources/images/category/\${key}.jpg" class="rounded-circle" style="width: 70px;"><br>
+	               <span class="text-dark font-weight-bold small">\${category[key]}</span>
+	            </button>		
+			`);
+		});
+		
+		// 이벤트 추가
+		$("#cRadioButton button").on("click", function() {
+			//console.log(($(this).children('input').val()));
+			const categoryNo = $(this).children('input').val();
+			
+			$('div.container_filed .card').remove();
+			localStorage.setItem("page", 1);
+			
+			readProject(categoryNo);
+		});
+	}
+	
+	let isRead = false;
 	
 	function infinityScroll() {
 		readProject();
 		
 		const container = document.querySelector('div.container_filed');
 		const screenHeight = screen.height;
-		let isRead = false;
 		
 		// 스크롤 이벤트
 		document.addEventListener('scroll', function() {
@@ -297,36 +366,39 @@ color:#00B2B2;
 			}
 			
 		}, {passive : true});
+	}
 	
-		function readProject() {
-			// localStorage에 현재 페이지 번호 저장
-			let curPage = localStorage.getItem("page");
-			if (curPage === null) {
-				curPage = 1;
-			}
-			
-			console.log(curPage);
-			
-			// ajax 처리 project 읽어기
-			$.ajax({
-				url : 'projectList.do',
-				//beforeSend: loading(true), // 통신시작하기 전 로딩 처리 원하면 구현
-				data : { 'page' : curPage },
-				success: function(project) {
-					console.log(project);
-					setProject(project);
-				},
-				error: function(e) {
-					console.log("ajax 통신 실패");
-				},
-				complete: function() {
-					//loadding(false), // 통신끝나고 로딩 끝내기
-					curPage++;
-					localStorage.setItem("page", curPage); // 현재 페이지 하나 증가시켜서 storage에 넣기
-					isRead = false;
-				},
-			});
+	function readProject(category=0) {
+		// localStorage에 현재 페이지 번호 저장
+		let curPage = localStorage.getItem("page");
+		if (curPage === null) {
+			curPage = 1;
 		}
+		
+		//console.log(curPage);
+		
+		// ajax 처리 project 읽어기
+		$.ajax({
+			url : 'projectList.do',
+			//beforeSend: loading(true), // 통신시작하기 전 로딩 처리 원하면 구현
+			data : { 
+				'page' : curPage, 
+				'category' : category
+			},
+			success: function(project) {
+				console.log(project);
+				setProject(project);
+			},
+			error: function(e) {
+				console.log("ajax 통신 실패");
+			},
+			complete: function() {
+				//loadding(false), // 통신끝나고 로딩 끝내기
+				curPage++;
+				localStorage.setItem("page", curPage); // 현재 페이지 하나 증가시켜서 storage에 넣기
+				isRead = false;
+			},
+		});
 	}
    
 	// project 처리하는 function

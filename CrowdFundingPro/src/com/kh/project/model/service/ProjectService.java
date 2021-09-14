@@ -8,10 +8,12 @@ import static com.kh.common.JDBCTemplate.rollback;
 import java.sql.Connection;
 //import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.kh.project.model.dao.ProjectDao;
 import com.kh.common.model.vo.Attachment;
 import com.kh.project.model.vo.Project;
+import com.kh.user.model.dao.UserDao;
 
 public class ProjectService {
 
@@ -135,6 +137,29 @@ public ArrayList<Project> selectProjectList(int startRow, int endRow) {
 	Connection conn=getConnection();
 	
 	ArrayList<Project> list = new ProjectDao().selectProjectList(conn, startRow, endRow);
+	
+	close(conn);
+	
+	return list;
+}
+
+
+
+
+public Map<Integer, String> selectCategoryList() {
+	Connection conn = getConnection();
+	Map<Integer, String> map = new ProjectDao().selectCategoryList(conn);
+	close(conn);
+	return map;
+}
+
+
+
+
+public ArrayList<Project> selectProjectListWithCategory(int startRow, int endRow, int categoryNo) {
+	Connection conn=getConnection();
+	
+	ArrayList<Project> list = new ProjectDao().selectProjectListWithCategory(conn, startRow, endRow, categoryNo);
 	
 	close(conn);
 	
