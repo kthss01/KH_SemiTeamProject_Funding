@@ -243,6 +243,9 @@ $(function(){
 	const rank = $('.rank');
 	const contextPath = "<%=request.getContextPath()%>";
 
+	
+	<!--펀딩 추천 리스트 -->
+
 	$.ajax({
 		url:'random.pro',
 		success:function(pList){
@@ -276,7 +279,8 @@ $(function(){
 	
 	
 	
-	
+		<!--실시간 랭킹 리스트 -->
+
 	
 	$.ajax({
 		url:'rank.pro',
@@ -311,6 +315,44 @@ $(function(){
 		}
 		
 	})
+	
+	
+	
+	<!--강의 추천 리스트 -->
+	<%-- 
+	$.ajax({
+		url:'random.lec',
+		success:function(lList){
+	
+			pList.forEach((le) => {
+			const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
+
+			card.append(`
+					<div class="col-lg-4 " style="padding: 5px;">
+					<div class="card mb-4 " style="height:300px; width:260px; border:none;">
+				    <input type="hidden" value="\${le.lectureCode}">
+						<img class="card-img-top" style="height:185px;"
+							src="\${contextPath}/resources/images/project/\${le.titleImg}"
+							alt="..." />
+						<div class="card-body" style="padding:10px; border-bottom: 3px solid gray;" >
+						<h2 class="card-title pTitle" style='font-size:15px; font-weight:bold;'">\${pj.projectName}</h2>
+						<span class="persent"> \${ratio}%</span>
+						<span id="present">  \${pj.amountPresent.toLocaleString()}원</span>
+
+						</div>
+					</div>
+					</div>	
+
+					`)
+			})
+		},
+		error:function(){
+			console.log('통신실패1');
+		}
+	})
+	
+--%>
+	
 	
 	
 	
