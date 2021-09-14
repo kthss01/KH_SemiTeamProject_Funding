@@ -33,7 +33,6 @@ public class Project {
 		this.titleImg = titleImg;
 	}
 
-
 	public Project(int projectCode, String projectName, int amountGoal, Date ddln, int deliveryCharge,
 			String detailIntro, int fileNo) {
 		super();

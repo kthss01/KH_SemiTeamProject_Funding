@@ -8,8 +8,7 @@
 
 <%
 	//ArrayList<Project> list = (ArrayList<Project>) request.getAttribute("list");
-	//DecimalFormat decFormat = new DecimalFormat("###,###");
-	
+//DecimalFormat decFormat = new DecimalFormat("###,###");
 %>
 
 
@@ -44,21 +43,21 @@
 
 .container_filed {
 	width: 1300px;
-	overflow:hidden;
-	height:auto;
+	overflow: hidden;
+	height: auto;
 	padding: 15px;
 	margin: 0 auto;
-	padding-top:50px;
+	padding-top: 50px;
 }
 
 #categoryName h1 {
 	width: 100%;
 	font-family: 'Roboto', 'sans-serif';
-	font-size:35px;
-	font-weight:700;
-	margin-top:70px;
-	margin-bottom:40px;
-	margin-left:30px;
+	font-size: 35px;
+	font-weight: 700;
+	margin-top: 70px;
+	margin-bottom: 40px;
+	margin-left: 30px;
 }
 
 #celectCategory {
@@ -76,7 +75,7 @@
 	height: 360px;
 	float: left;
 	margin: 30px;
-	border : none !important;
+	border: none !important;
 }
 
 .card-img-top>#pImg {
@@ -97,7 +96,7 @@
 }
 
 #pCategory {
-	font-size:14px;
+	font-size: 14px;
 	font-weight: bold;
 	font-family: 'Roboto', 'sans-serif';
 	color: #90949C;
@@ -106,7 +105,7 @@
 }
 
 #pAmount {
-	font-size:18px;
+	font-size: 18px;
 	font-family: 'Roboto', 'sans-serif';
 	color: #90949C;
 	border: none;
@@ -120,7 +119,7 @@
 }
 
 .card:hover {
-cursor:pointer;
+	cursor: pointer;
 }
 
 .card-body {
@@ -133,45 +132,42 @@ cursor:pointer;
 	border: 1px solid red;
 }
 
-#persent{
-color:#00B2B2;
-font-weight:bold;
+#persent {
+	color: #00B2B2;
+	font-weight: bold;
 }
 
-#present{
-font-weight:bold;
-color:#90949C;
+#present {
+	font-weight: bold;
+	color: #90949C;
 }
 
-
-#pSearch{
-height:38px;
-width:400px;
-border:2px solid #00B2B2;
-border-radius: 20px;
-margin-left:20px;
-margin-right:20px;
-margin-bottom:2px;
+#pSearch {
+	height: 38px;
+	width: 400px;
+	border: 2px solid #00B2B2;
+	border-radius: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-bottom: 2px;
 }
 
-#pSearch:hover{
-background: #F4FFFF;
-opacity:0.5;
+#pSearch:hover {
+	background: #F4FFFF;
+	opacity: 0.5;
 }
 
-#pSearch::placeholder{
-text-align:center;
+#pSearch::placeholder {
+	text-align: center;
 }
 
-#searchBtn{
-font-size:22px;
-border:none;
-background:none;
-font-weight:bold;
-color:#00B2B2;
+#searchBtn {
+	font-size: 22px;
+	border: none;
+	background: none;
+	font-weight: bold;
+	color: #00B2B2;
 }
-
-
 </style>
 </head>
 <body>
@@ -214,7 +210,8 @@ color:#00B2B2;
 		<div class="container_filed">
 			<form class="searchArea">
 				<div id="celectCategory">
-					<select id="cName" name="cName" class="form-control" style="width:200px; display:inline; ">
+					<select id="cName" name="cName" class="form-control"
+						style="width: 200px; display: inline;">
 						<option value="">여행,레저</option>
 						<option value="">테크,가전</option>
 						<option value="">스포츠</option>
@@ -230,18 +227,19 @@ color:#00B2B2;
 						<option value="">게임,취미</option>
 						<option selected>카테고리</option>
 						<%-- ajax 처리 setCategory() --%>
-					</select> 
-					<input type="text" id="pSearch" name="search" placeholder="어떤 프로젝트를 찾고 계신가요?">
-								
-					<input id="searchBtn" style="height:38px;"type="submit" value='검색'>
-					<i class="fas fa-search fa-lg" style="color:#00B2B2"></i>
+					</select> <input type="text" id="pSearch" name="search"
+						placeholder="어떤 프로젝트를 찾고 계신가요?"> <input id="searchBtn"
+						style="height: 38px;" type="submit" value='검색'> <i
+						class="fas fa-search fa-lg" style="color: #00B2B2"></i>
 				</div>
 			</form>
 
 			<%-- 카테고리 라디오버튼 --%>
-			<div id="cRadioButton" class="btn-group-vertical btn-group-toggle mt-3 mx-5" role="group" data-toggle="buttons">
-	            <%-- ajax 처리 setCategory() --%>
-            </div>
+			<div id="cRadioButton"
+				class="btn-group-vertical btn-group-toggle mt-3 mx-5" role="group"
+				data-toggle="buttons">
+				<%-- ajax 처리 setCategory() --%>
+			</div>
 
 			<div id="categoryName">
 				<h1>어떤 프로젝트를 찾으시나요 ?</h1>
@@ -260,7 +258,7 @@ color:#00B2B2;
             </p>
         </div>&nbsp;
         --%>
-        
+
 			<%-- ajax 처리 setProject --%>
 
 			<%
