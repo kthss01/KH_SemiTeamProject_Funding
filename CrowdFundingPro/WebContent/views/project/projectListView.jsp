@@ -267,6 +267,25 @@ color:#00B2B2;
 	
 	function infinityScroll() {
 		readProject();
+		
+		const container = document.querySelector('div.container_filed');
+		const screenHeight = screen.height;
+		let isRead = false;
+		
+		// 스크롤 이벤트
+		document.addEventListener('scroll', function() {
+			
+			const fullHeight = container.clientHeight;
+			const scrollPosition = pageYOffset;
+			
+			//console.log(fullHeight, screenHeight, scrollPosition, isRead);
+			
+			if (fullHeight - screenHeight / 2 <= scrollPosition && !isRead) {
+				isRead = true; // 연속해서 읽는거 방지
+				readProject();
+			}
+			
+		}, {passive : true});
 	
 		function readProject() {
 			// localStorage에 현재 페이지 번호 저장
@@ -290,6 +309,7 @@ color:#00B2B2;
 				complete: function() {
 					//loadding(false), // 통신끝나고 로딩 끝내기
 					curPage++; // 현재 페이지 하나 증가시키기
+					isRead = false;
 				},
 			});
 		}
