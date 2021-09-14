@@ -261,22 +261,40 @@ color:#00B2B2;
 
 <script>
 		
-   $(function(){
-		// ajax 처리 project 읽어기
-		$.ajax({
-			url : 'projectList.do',
-			//beforeSend: loading(true), // 통신시작하기 전 로딩 처리 원하면 구현
-			success: function(project) {
-				console.log(project);
-				setProject(project);
-			},
-			error: function(e) {
-				console.log("ajax 통신 실패");
-			},
-			//complete: loadding(false), // 통신끝나고 로딩 끝내기 
-		});
-	})
+	$(function(){
+		infinityScroll();
+	})	
 	
+	function infinityScroll() {
+		readProject();
+	
+		function readProject() {
+			// localStorage에 현재 페이지 번호 저장
+			let curPage = localStorage.getItem("page");
+			if (curPage === null) {
+				curPage = 1;
+			}
+			
+			// ajax 처리 project 읽어기
+			$.ajax({
+				url : 'projectList.do',
+				//beforeSend: loading(true), // 통신시작하기 전 로딩 처리 원하면 구현
+				data : { 'page' : curPage },
+				success: function(project) {
+					console.log(project);
+					setProject(project);
+				},
+				error: function(e) {
+					console.log("ajax 통신 실패");
+				},
+				complete: function() {
+					//loadding(false), // 통신끝나고 로딩 끝내기
+					curPage++; // 현재 페이지 하나 증가시키기
+				},
+			});
+		}
+	}
+   
 	// project 처리하는 function
 	function setProject(projects) {
 	   
