@@ -2,6 +2,8 @@
     pageEncoding="EUC-KR"%>
     
 <%@ page import="com.kh.lecture.model.vo.Lecture" %>
+<%@ page import="com.kh.user.model.vo.User"%>
+
 
 <% Lecture lecture = (Lecture)request.getAttribute("lecture"); %>
 <% String count = (request.getAttribute("count")).toString(); %>
@@ -16,10 +18,12 @@
 <style>
 		
 		.mainContent{
+			
 			text-align: center;
 			border: 2px solid rgb(52,58,64);
 			border-radius: 4px;
 			margin: 10px 15px 10px 15px;
+			height: 850px;
 		}
 
         .lecDe_Wrapper{
@@ -35,6 +39,15 @@
             position: fixed;
 
         }
+        
+        
+        .lectureContent{
+        
+        line-height:350px;
+        
+        }
+        
+        
     </style>
 
 </head>
@@ -63,9 +76,10 @@
 			<p class="lectureContent"> <%= lecture.getLectureContent() %> </p>
 			
         </div>
-
+	
+	
+		
         <div class="buttonArea">
-
             <button type ="button" onclick="history.back()"> 이전으로</button>
             <button type ="button" class="signInBtn" onclick="signInLectrue();"> 수강등록</button>
             <button type ="button" class="deleteBtn hidden" onclick="openDelCheckBox();" >강의삭제</button>
@@ -78,8 +92,8 @@
     <div class="deleteCheck hidden"> 
   		<div class="delCheckBox">
   			<p> 정말로 해당 강의를 삭제합니까?</p>
-			<button type="button" onclick="location.href='<%=request.getContextPath() %>/lectureDelete.le?code=<%= %>"></button>
-			<button type="button" onclick="cancle()" value="X"></button>
+			<button type="button" onclick=""> 삭제하기</button>
+			<button type="button" onclick="cancle()" value="X"> 취소</button>
   		</div>
   	
     </div>
