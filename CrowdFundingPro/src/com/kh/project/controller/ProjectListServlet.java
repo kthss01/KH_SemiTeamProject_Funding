@@ -45,7 +45,7 @@ public class ProjectListServlet extends HttpServlet {
 		}
 		
 		// Category 처리
-		String categoryNo = request.getParameter("category");
+		String categoryNo = request.getParameter("categoryNo");
 //		System.out.println(categoryNo);
 		
 		int projectLimit = 30; // 한번 요청에 보여질 프로젝트 최대 수
@@ -53,7 +53,7 @@ public class ProjectListServlet extends HttpServlet {
 		int startRow = (curPage - 1) * projectLimit + 1;
 		int endRow = startRow + projectLimit - 1;
 		
-		System.out.println(startRow + " " + endRow + " " + categoryNo);
+		//System.out.println(startRow + " " + endRow + " " + categoryNo);
 		
 		// 원하는 수만큼 한번에 가져오기
 		ArrayList<Project> list = null;

@@ -276,6 +276,7 @@
 		
 	$(function(){
 		localStorage.removeItem("page");
+		localStorage.removeItem("categoryNo");
 		
 		loadCategory();
 		
@@ -334,11 +335,12 @@
 		$("#cRadioButton button").on("click", function() {
 			//console.log(($(this).children('input').val()));
 			const categoryNo = $(this).children('input').val();
+			localStorage.setItem("categoryNo", categoryNo);
 			
 			$('div.container_filed .card').remove();
 			localStorage.setItem("page", 1);
 			
-			readProject(categoryNo);
+			readProject();
 		});
 	}
 	
@@ -366,11 +368,16 @@
 		}, {passive : true});
 	}
 	
-	function readProject(category=0) {
+	function readProject() {
 		// localStorage에 현재 페이지 번호 저장
 		let curPage = localStorage.getItem("page");
 		if (curPage === null) {
 			curPage = 1;
+		}
+		
+		let categoryNo = localStorage.getItem("categoryNo");
+		if (categoryNo === null) {
+			categoryNo = 0;
 		}
 		
 		//console.log(curPage);
@@ -381,7 +388,7 @@
 			//beforeSend: loading(true), // 통신시작하기 전 로딩 처리 원하면 구현
 			data : { 
 				'page' : curPage, 
-				'category' : category
+				'categoryNo' : categoryNo
 			},
 			success: function(project) {
 				console.log(project);
