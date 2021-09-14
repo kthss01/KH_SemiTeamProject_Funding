@@ -118,6 +118,29 @@ public int updateProject(Project pj, Attachment at) {
 		
 	}
 
+public int getListCount() {
+	Connection conn = getConnection();
+	
+	int result = new ProjectDao().getListCount(conn); 
+	
+	close(conn);
+	
+	return result;
+}
+
+
+
+
+public ArrayList<Project> selectProjectList(int startRow, int endRow) {
+	Connection conn=getConnection();
+	
+	ArrayList<Project> list = new ProjectDao().selectProjectList(conn, startRow, endRow);
+	
+	close(conn);
+	
+	return list;
+}
+
 
 
 

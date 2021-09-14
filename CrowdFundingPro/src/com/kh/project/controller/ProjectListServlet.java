@@ -37,7 +37,20 @@ public class ProjectListServlet extends HttpServlet {
 //		request.setAttribute("list", list);
 //		request.getRequestDispatcher("views/project/projectListView.jsp").forward(request, response);
 		
-		ArrayList<Project> list = new ProjectService().selectList();
+		// Page 처리
+		int curPage = 1; // 현재 페이지 (요청한 페이지) 
+		
+		if (request.getParameter("page") != null) {
+			curPage = Integer.parseInt(request.getParameter("page"));
+		}
+		
+		int projectLimit = 30; // 한번 요청에 보여질 프로젝트 최대 수
+		
+		int startRow = (curPage - 1) * projectLimit + 1;
+		int endRow = startRow + projectLimit - 1;
+		
+		// 원하는 수만큼 한번에 가져오기
+		ArrayList<Project> list = new ProjectService().selectProjectList(startRow, endRow);
 
 		response.setContentType("application/json; charset=utf-8");
 		

@@ -363,13 +363,60 @@ public class ProjectDao {
 		}
 		return result;
 	}
-	
-	
-	
 
 
 
+	public int getListCount(Connection conn) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("getListCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 
-	
+
+
+	public ArrayList<Project> selectProjectList(Connection conn, int startRow, int endRow) {
+		ArrayList<Project> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectProjectList");
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Project pj=new Project();
+				
+				pj.setProjectCode(rset.getInt("PROJECT_CODE"));
+				pj.setProjectName(rset.getString("PROJECT_NAME"));
+				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
+				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
+				pj.setTitleImg(rset.getString("CHANGE_NAME"));
+				
+				list.add(pj);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
 
 }
