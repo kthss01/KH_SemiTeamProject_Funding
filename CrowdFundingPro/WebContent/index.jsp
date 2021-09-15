@@ -283,7 +283,7 @@ $(function(){
 	
 			pList.forEach((pj) => {
 			const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
-
+			console.log(pj.ddln);
 			card.append(`
 					<div class="col-lg-4 pCard " style="padding: 5px;">
 				    <input type="hidden" value="\${pj.projectCode}">
@@ -307,6 +307,8 @@ $(function(){
 						   var pCode = $(this).children('input').val();
 							location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
 						});
+		
+			
 			
 			function dDay(ddln){
 				var now = new Date();
@@ -318,9 +320,11 @@ $(function(){
 				var today = new Date(year, month, day);
 				console.log("오늘 날짜 : " + today);
 
-				var ddlnYear = ddln.substr(7);
-				var ddlnMonth = ddln.substr(0,1);
-				var ddlnDay = ddln.substr(3,2)-1;
+				var ddlnArr = ddln.split(" ");
+				
+				var ddlnYear = ddlnArr[2]; 
+				var ddlnMonth = ddlnArr[0].substr(0,ddlnArr[0].length-1);
+				var ddlnDay = ddlnArr[1].substr(0,ddlnArr[1].length-1)
 				
 				var ddlnDate = new Date(ddlnYear, ddlnMonth, ddlnDay);
 				console.log("마감 날짜 : " + ddlnDate);
@@ -330,7 +334,7 @@ $(function(){
 				var btDay = (btMs / (1000*60*60*24));
 				console.log("d-day : " + btDay);
 
-				return btDay;
+				return btDay+1;
 				
 			}
 			
