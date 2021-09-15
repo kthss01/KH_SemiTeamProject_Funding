@@ -26,7 +26,7 @@
     }
 
 .carousel-item {
-	height: 400px;
+	height: 250px;
 }
 
 .carousel-item>img {
@@ -202,17 +202,21 @@
 			</ul>
 
 			<!-- slideshow -->
-			<div class="carousel-inner">
+
+			
+						<div class="carousel-inner">
 				<div class="carousel-item active">
-					<img src="resources/images/recruit_img1.png" alt="img1">
+					<img src="resources/images/mainBannerImg1.png" alt="img1">
 				</div>
 				<div class="carousel-item">
-					<img src="resources/images/recruit_img2.png" alt="img2">
+					<img src="resources/images/mainBannerImg2.png" alt="img2">
 				</div>
 				<div class="carousel-item">
-					<img src="resources/images/recruit_img3.png" alt="img3">
+					<img src="resources/images/mainBannerImg3.png" alt="img3">
 				</div>
 			</div>
+			
+			
 
 			<!-- left and right controls -->
 			<a href="#intro" class="carousel-control-prev" data-slide="prev">

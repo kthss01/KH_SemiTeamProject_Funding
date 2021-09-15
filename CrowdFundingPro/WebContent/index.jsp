@@ -28,7 +28,7 @@
 }
 
 .carousel-item {
-	height: 400px;
+	height: 370px;
 }
 
 .carousel-item>img {
