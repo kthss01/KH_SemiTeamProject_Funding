@@ -179,6 +179,11 @@
 	font-weight: bold;
 	color: #00B2B2;
 }
+#ddln{
+	font-size:13px;
+	font-weight: bold;
+	color: #90949C;
+}
 </style>
 </head>
 <body>
@@ -482,6 +487,7 @@
 					<div>
 						<span id="persent"> \${ratio}%</span>
 						<span id="present">  \${pj.amountPresent.toLocaleString()}원</span>
+						<span id="ddln" style="position:absolute; right:0; bottom:0;">마감 \${dDay(pj.ddln)}일 전</span>
 					</div>
 				</div>
 			</div>
@@ -503,6 +509,37 @@
 		} else {
 			$('#categoryName p').text('');
 		}
+	}
+	
+	// 날짜 계산
+	function dDay(ddln){
+		//console.log(ddln);
+		
+		var now = new Date();
+
+		var year = now.getFullYear();
+		var month = now.getMonth();
+		var day = now.getDate();
+
+		var today = new Date(year, month, day);
+		//console.log("오늘 날짜 : " + today);
+
+		var ddlnArr = ddln.split(" ");
+		
+		var ddlnYear = ddlnArr[2]; 
+		var ddlnMonth = ddlnArr[0].substr(0,ddlnArr[0].length-1);
+		var ddlnDay = ddlnArr[1].substr(0,ddlnArr[1].length-1)
+		
+		var ddlnDate = new Date(ddlnYear, ddlnMonth, ddlnDay);
+		//console.log("마감 날짜 : " + ddlnDate);
+
+		
+		var btMs =  ddlnDate.getTime() - today.getTime();
+		var btDay = (btMs / (1000*60*60*24));
+		//console.log("d-day : " + btDay);
+
+		return btDay+1;
+		
 	}
 	
 </script>

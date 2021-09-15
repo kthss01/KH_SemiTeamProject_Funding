@@ -382,6 +382,7 @@ public class ProjectDao {
 				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
 				pj.setTitleImg(rset.getString("CHANGE_NAME"));
 				pj.setCategoryName(rset.getString("CATEGORY_NAME"));
+				pj.setDdln(rset.getDate("DDLN"));
 
 				list.add(pj);
 			}
@@ -444,6 +445,7 @@ public class ProjectDao {
 				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
 				pj.setTitleImg(rset.getString("CHANGE_NAME"));
 				pj.setCategoryName(rset.getString("CATEGORY_NAME"));
+				pj.setDdln(rset.getDate("DDLN"));
 
 				list.add(pj);
 			}
@@ -580,6 +582,7 @@ public class ProjectDao {
 				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
 				pj.setTitleImg(rset.getString("CHANGE_NAME"));
 				pj.setCategoryName(rset.getString("CATEGORY_NAME"));
+				pj.setDdln(rset.getDate("DDLN"));
 
 				list.add(pj);
 			}
@@ -619,6 +622,7 @@ public class ProjectDao {
 				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
 				pj.setTitleImg(rset.getString("CHANGE_NAME"));
 				pj.setCategoryName(rset.getString("CATEGORY_NAME"));
+				pj.setDdln(rset.getDate("DDLN"));
 
 				list.add(pj);
 			}
