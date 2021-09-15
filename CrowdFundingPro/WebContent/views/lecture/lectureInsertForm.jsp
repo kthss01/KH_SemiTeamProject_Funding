@@ -122,6 +122,36 @@ textarea {
 	display: block;
 	width: 600px;
 }
+
+
+button{
+	background-color: rgb(255,255,255);
+	color : rgb(0,123,255);
+	font-size: 18px;
+	font-weight:bold;
+	font-family: 'inherit';
+	border: 1px solid white;
+}
+
+.selectImg{
+	background-color: rgb(255,255,255);
+	color : rgb(0,123,255);
+	font-weight:bold;
+	font-family: 'inherit';
+	border: 1px solid white;
+
+}
+
+button:hover{
+	background-color: rgb(0,123,255);
+	color: white;
+}
+
+input {
+	
+	border-radius:5px; 
+}
+
 </style>
 </head>
 <body>		
@@ -131,55 +161,54 @@ textarea {
 
 						<div class="top">신규 강의 등록</div>
 
-						<form class="regist" method="POST" action="<%= request.getContextPath()%>/lectureInsert.le"  enctype="multipart/form-data">
+						<form class="regist" method="post" action="<%= request.getContextPath()%>/lectureInsert.le"  enctype="multipart/form-data">
 							<div class="preview" id="top">
 								<img src="resources/images/NoImage.png" class="lectureImage">
-								<input type="file" class="selectImg" value="사진 업로드" onchange="previewImg(event);"/>
+								<input type="file" name="selectImg" class="selectImg" value="사진 업로드" onchange="previewImg(event);"/>
 							</div>
 
 							<div class="information">
 								<span class="box"> <label class="labels"><b>
-											강사 </b></label> <input type="text" class="lecturer" placeholder="강사이름">
+											강사 </b></label> <input type="text" class="lecturer" name="lecturer" placeholder="강사이름">
 											<!--  <input type="text" value=" loginUser" readonly> -->
 								</span>
 								<div class="box">
 									<label class="labels"><b> 강의 제목 </b></label> <input type="text"
-										class ="lectureTitle" placeholder="강의 제목" required>
+										class ="lectureTitle" name ="lectureTitle" placeholder="강의 제목" required>
 								</div>
 								
 								<div class="box">
 									<label class="labels"><b> 강의 날짜 </b></label> <input
-										class ="lectureDate" type="date" placeholder="강의 날짜" required>
+										class ="lectureDate" name ="lectureDate" type="date" placeholder="강의 날짜" required>
 								</div>
 								<div class="box">
 									<label class="labels"><b> 강의 주소 </b></label> <input type="text"
-										class ="lectureAddress" placeholder="강의 주소" required>
+										class ="lectureAddress" name="lectureAddress" placeholder="강의 주소" required>
 								</div>
 								<div class="box">
 									<label class="labels"><b> 강의 인원 </b></label> <input type="number"
-										class ="lectureNumber" placeholder="강의 인원" required>
+										class ="lectureNumber" name="lectureNumber" placeholder="강의 인원" required>
 								</div>
 								<div class="box">
 									<label class="labels"><b> 강의 주제 </b></label> <select
-										class ="lectureTopic" required>
-										<option value="펀딩투자강의"> 펀딩투자강의 </option>
+										class ="lectureTopic" name ="lectureTopic" required>
+										<option value="펀딩투자강의" selected> 펀딩투자강의 </option>
 										<option value="펀딩오픈강의"> 펀딩오픈강의 </option>
 										<option value="펀딩입문강의"> 펀딩입문강의 </option>
 										</select>
 								</div>
 								<div class="box">
 									<label class="labels"><b> 강의 시간 </b></label> <input type="number"
-										class ="lectureTime" placeholder="강의 인원 (분)" required>
+										class ="lectureTime" name ="lectureTime" placeholder="강의 인원 (분)" required>
 								</div>
 								
 								<div class="box">
 									<label class="labels"><b> 강의 세부내용 </b></label> <br>
-									<textarea cols="40" rows="25" class ="lectureContent"></textarea>
+									<textarea cols="40" rows="25" class ="lectureContent" name ="lectureContent"></textarea>
 								</div>
 							</div>
 							<button type="submit" > 등록 </button>
-							<button type="button" onclick="hisotry.back(); 
-							">취소</button>
+							<button type="button" onclick="location.href='<%=request.getContextPath()%>/lecture.le'">취소</button>
 						</form>
 
 						

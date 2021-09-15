@@ -40,7 +40,7 @@ public class LectureInsertServlet extends HttpServlet {
 			
 			if(ServletFileUpload.isMultipartContent(request)) {
 			
-			int maxSize = 10 * 512 * 512;
+			int maxSize = 10 * 1024 * 1024;
 			
 			String resources = request.getSession().getServletContext().getRealPath("/resources");
 			String savePath = resources + "\\lectureImage\\";
@@ -52,10 +52,10 @@ public class LectureInsertServlet extends HttpServlet {
 			String originName = null;
 			String changeName = null;
 			
-			if(multiRequest.getOriginalFileName("selectImage") != null) {
+			if(multiRequest.getOriginalFileName("selectImg") != null) {
 				
-				originName = multiRequest.getOriginalFileName("lectureImage");
-				changeName = multiRequest.getFilesystemName("lectureImage");
+				originName = multiRequest.getOriginalFileName("selectImg");
+				changeName = multiRequest.getFilesystemName("selectImg");
 				
 				at = new Attachment();
 				
@@ -64,16 +64,24 @@ public class LectureInsertServlet extends HttpServlet {
 				at.setChangeName(changeName);
 				
 				int result2 = new CommonService().insertLectureAttachment(at);
-			}
-				String title = request.getParameter("lectureTitle");
-				int number = Integer.parseInt(request.getParameter("lectureNumber"));
-				String address = request.getParameter("lectureAddress");
-				String topic = request.getParameter("lectureTopic");
-				Date date = Date.valueOf(request.getParameter("lectureDate"));
-				int time = Integer.parseInt(request.getParameter("lectureTime"));
-				int image = Integer.parseInt(changeName);
-				String content = request.getParameter("lectureContent");
-				String lecturer = request.getParameter("lecturer");
+				
+			
+				String title = multiRequest.getParameter("lectureTitle");
+				System.out.print("얘는 값이 뭐니:" + multiRequest.getParameter("lectureNumber"));
+				int number = 0;
+				try {
+				number = Integer.parseInt(multiRequest.getParameter("lectureNumber"));
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
+				
+				String address = multiRequest.getParameter("lectureAddress");
+				String topic = multiRequest.getParameter("lectureTopic");
+				Date date = Date.valueOf(multiRequest.getParameter("lectureDate"));
+				int time = Integer.parseInt(multiRequest.getParameter("lectureTime"));
+				String image = changeName;
+				String content = multiRequest.getParameter("lectureContent");
+				String lecturer = multiRequest.getParameter("lecturer");
 				
 				Lecture lecture = new Lecture(title,number,address,topic,date,time,image,content,lecturer);
 				
@@ -97,7 +105,14 @@ public class LectureInsertServlet extends HttpServlet {
 					request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 					
 				}
+			} else {
+				
+				System.out.println("MultiRequest Error");
+				request.setAttribute("msg", "Failed to call the multiRequest");
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+				
 			}
+		}
 		
 		
 		
