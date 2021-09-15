@@ -14,7 +14,6 @@
 
         .container_filed{
             width:400px;
-            height:1200px;
             margin: 0 auto ;
 
         }
@@ -37,27 +36,59 @@
         form{
         	padding:15px;
         }
+        
+        #title{
+        margin-top:120px;
+        margin-bottom:100px;
+        font-weight:bold;
+        font-family: 'Noto Sans KR', 'sans-serif';
+
+        }
+        
+        #insert{
+         font-family: 'Noto Sans KR', 'sans-serif';
+        
+        }
+
+		#insert label{
+		display:block;
+		font-family: 'Noto Sans KR', 'sans-serif';
+		font-size : 20px;
+		}      
+		
+		.inputT {
+		border:none;
+		border-bottom:2px solid black;
+		font-size : 20px;
+		}        
+        
     </style>
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp"%>
 	
 	<div class="container_filed">
-<form action="<%=request.getContextPath()%>/register.do" method="post" enctype="multipart/form-data">
-        <h1>기본정보</h1><br>
+	
+	<div id="title">
+		    <h1>기본정보</h1>
+	</div>
+	
+	
+	<div id="insert">
+	<form action="<%=request.getContextPath()%>/register.do" method="post" enctype="multipart/form-data">
 
-        <label><b>프로젝트명</b></label>
-        <input type="text" name="projectName" size="20" value=""><br><br>
+        <label for="projectName"><b>프로젝트명</b></label>
+        <input class="inputT"  type="text" name="projectName" id="projectName" size="20" value=""><br><br>
 
-        <label><b>목표금액</b></label>
-        <input type="text" name="amountGoal" size="20"value="0"><br><br>
+        <label for="amountGoal"><b>목표금액</b></label>
+        <input class="inputT"  type="text" name="amountGoal" id="amountGoal" size="20"value="0"><br><br>
 
-        <label><b>배송료</b></label><br>
-        <input type="text" placeholder="가격을 입력하세요." name="delivery" size="18" ><b>원</b><br><br>
+        <label for="delivery"><b>배송료</b></label><br>
+        <input class="inputT"  type="text" placeholder="가격을 입력하세요." name="delivery" id="delivery" size="18" ><b>원</b><br><br>
 
-        <label><b>대표이미지</b></label><br>
+        <label ><b>대표이미지</b></label><br>
         <label>파일선택:</label>
-    	<input type="file" name="uploadfile"><br><br>
+    	<input type="file" name="uploadfile" id="delivery"><br><br>
 
     <label><b>카테고리선택:</b></label>
     
@@ -112,6 +143,7 @@
 
         <input id="btn1" type="submit" value="완료하기"><br>
     </form>
+    </div>
     </div>
     
     <%@ include file="../common/footer.jsp"%>
