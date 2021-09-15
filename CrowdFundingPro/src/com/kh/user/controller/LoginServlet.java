@@ -34,23 +34,21 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		request.setCharacterEncoding("UTF-8"); // POST 방식은 인코딩 꼭 해야 함.
 		
+		//요청을 보낸 페이지 주소
+		
+		
 		String emailId = request.getParameter("emailId");
 		String userPwd = request.getParameter("userPwd"); //form에서 넘겨주는 name으로 적는 것.
-		System.out.println(emailId);
-		System.out.println(userPwd);
-		String originPwd = (String)request.getParameter("originPwd");
 		
 		User loginUser = new UserService().loginUser(emailId,userPwd);
-		
+		HttpSession session = request.getSession();//세션정보를 가져와 담아주고 세션에 유저의 정보를 담는다.
+
 		if(loginUser != null) {
-			HttpSession session = request.getSession();//세션정보를 가져와 담아주고 세션에 유저의 정보를 담는다.
 			session.setAttribute("loginUser", loginUser);
-			session.setAttribute("originPwd", originPwd);
-			System.out.println(("LoginServlet 로그인유저 : " +  loginUser));
 			
 			response.sendRedirect(request.getContextPath()); //세션에 정보담았으니 sendRedirect로 바로 간다.
 		}else { // 로그인유저 null일 경우 에러페이지 
-			request.setAttribute("msg", "로그인에 실패했습니다.");
+			session.setAttribute("msg", "로그인에 실패했습니다.");
 			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp"); //request에 정보가 있으니 RequestDispatcher 로 에러페이지로 보냄
 			view.forward(request,response);
 		}

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.kh.common.MyFileRenamePolicy;
+import com.kh.common.model.service.CommonService;
 import com.kh.common.model.vo.Attachment;
 import com.kh.lecture.model.service.LectureService;
 import com.kh.lecture.model.vo.Lecture;
@@ -37,27 +38,24 @@ public class LectureInsertServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
-		
 			if(ServletFileUpload.isMultipartContent(request)) {
 			
 			int maxSize = 10 * 512 * 512;
 			
 			String resources = request.getSession().getServletContext().getRealPath("/resources");
-			String savePath = resources + "\\lecture_upfiles\\";
+			String savePath = resources + "\\lectureImage\\";
 			System.out.println("savePath"+ savePath);
 
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath,maxSize ,"UTF-8",new MyFileRenamePolicy());
 	
-			
-			
-			
 			Attachment at = null;
+			String originName = null;
+			String changeName = null;
 			
-			
-			if(multiRequest.getOriginalFileName("lecture_upfile") != null) {
+			if(multiRequest.getOriginalFileName("selectImage") != null) {
 				
-				String originName = multiRequest.getOriginalFileName("upfile");
-				String changeName = multiRequest.getFilesystemName("upfile");
+				originName = multiRequest.getOriginalFileName("lectureImage");
+				changeName = multiRequest.getFilesystemName("lectureImage");
 				
 				at = new Attachment();
 				
@@ -65,14 +63,16 @@ public class LectureInsertServlet extends HttpServlet {
 				at.setOriginName(originName);
 				at.setChangeName(changeName);
 				
+				int result2 = new CommonService().insertLectureAttachment(at);
+			}
 				String title = request.getParameter("lectureTitle");
 				int number = Integer.parseInt(request.getParameter("lectureNumber"));
 				String address = request.getParameter("lectureAddress");
 				String topic = request.getParameter("lectureTopic");
 				Date date = Date.valueOf(request.getParameter("lectureDate"));
 				int time = Integer.parseInt(request.getParameter("lectureTime"));
-				int image = Integer.parseInt(request.getParameter("lectureImage"));
-				String content = request.getParameter("lectureDetail");
+				int image = Integer.parseInt(changeName);
+				String content = request.getParameter("lectureContent");
 				String lecturer = request.getParameter("lecturer");
 				
 				Lecture lecture = new Lecture(title,number,address,topic,date,time,image,content,lecturer);
@@ -89,8 +89,10 @@ public class LectureInsertServlet extends HttpServlet {
 				int result = new LectureService().insertLecture(lecture);
 				
 				if ( result != 0 ) {
+					System.out.println("등록성공");
 					response.sendRedirect("lecture.le");
 				} else {
+					System.out.println("등록실패");
 					request.setAttribute("msg", "Failed to create new lecture");
 					request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 					
@@ -98,7 +100,7 @@ public class LectureInsertServlet extends HttpServlet {
 			}
 		
 		
-		}
+		
 	}
 
 	/**

@@ -1,10 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ page import="com.kh.lecture.model.vo.Lecture" %>
+<% Lecture lecture = null; %>
+    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title> 신규 강의 등록 화면</title>
 
 <style>
 
@@ -130,8 +134,7 @@ textarea {
 						<form class="regist" method="POST" action="<%= request.getContextPath()%>/lectureInsert.le"  enctype="multipart/form-data">
 							<div class="preview" id="top">
 								<img src="resources/images/NoImage.png" class="lectureImage">
-
-								<input type="file" id="selectImg" value="사진 업로드" onchange="previewImg(event);"/>
+								<input type="file" class="selectImg" value="사진 업로드" onchange="previewImg(event);"/>
 							</div>
 
 							<div class="information">
@@ -141,8 +144,9 @@ textarea {
 								</span>
 								<div class="box">
 									<label class="labels"><b> 강의 제목 </b></label> <input type="text"
-										class ="lectureTItle" placeholder="강의 제목" required>
+										class ="lectureTitle" placeholder="강의 제목" required>
 								</div>
+								
 								<div class="box">
 									<label class="labels"><b> 강의 날짜 </b></label> <input
 										class ="lectureDate" type="date" placeholder="강의 날짜" required>
@@ -170,7 +174,7 @@ textarea {
 								
 								<div class="box">
 									<label class="labels"><b> 강의 세부내용 </b></label> <br>
-									<textarea cols="40" rows="25" class ="lectureDatail"></textarea>
+									<textarea cols="40" rows="25" class ="lectureContent"></textarea>
 								</div>
 							</div>
 							<button type="submit" > 등록 </button>
@@ -194,10 +198,12 @@ textarea {
 						preView.setAttribute("src", event.target.result);
 					}
 						reader.readAsDataURL(event.target.files[0]);
+						preView.setAttribute("height","256");
+						preView.setAttribute("width","256");
 					}
 					
-					preView.setAttribute("height","256");
-					preView.setAttribute("width","256");
+					
+					
 					
 					
 				</script>

@@ -23,6 +23,12 @@
     <!-- <link  href="https://cdn.jsdelivr.net/npm/bootstrap-steps@%5E1.0/dist/bootstrap-steps.min.css" rel="stylesheet"> -->
 
     <style>
+    
+    	.body{
+    	  	font-family: 'Noto Sans KR', 'sans-serif';
+    	
+    	}
+    
         .jumbotron {
             background: #fff;
         }
@@ -51,6 +57,16 @@
             bottom: 0;
             visibility: show;
         }
+        
+        #recruitmember_update_btn {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+
+        .tooltip-inner {
+    		max-width: 100% !important;
+		}
         
         .carousel-item {
 		    height: 300px;
@@ -160,7 +176,7 @@
 
     <section class="container mt-5">
         <!-- 직무 구분 카테고리 button groups badges -->
-        <div id="recruit_code" class="btn-group btn-group-toggle" data-toggle="buttons">
+        <div id="recruit_code" class="btn-group-vertical btn-group-toggle" role="group" data-toggle="buttons">
         	<%-- ajax 처리 시 setCode --%>
         </div>
 
@@ -187,6 +203,9 @@
             	<%-- ajax 처리시 setPageInfo --%>
             </ul>
 
+			<button type="button" id="recruitmember_update_btn" class="btn btn-outline-dark" data-toggle="modal"
+                data-target="#recruitmember_update_modal">공고 지원 수정</button>
+
             <button type="button" id="recruit_create_btn" class="btn btn-dark <% if (loginUser == null || !loginUser.getUserCode().equals("01")) out.print("invisible"); %>" data-toggle="modal"
                 data-target="#recruit_create_modal">공고 등록</button>
         </article>
@@ -194,6 +213,299 @@
 
    	<!-- footer -->
    	<%@ include file="../common/footer.jsp" %>
+
+	<!-- form 태그 submit시 페이지 이동 막기 위한 iframe -->
+	<iframe id="iframe1" name="iframe1" style="display:none;"></iframe>
+
+    <!-- 공고 지원서 수정 modal -->
+    <div class="modal fade" id="recruitmember_update_modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">공고 지원서 수정</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- body -->
+                <div class="modal-body">
+                    <form id="recruitmember_update_form" action="recruitMemberUpdate.do" method="POST" enctype="multipart/form-data" target="iframe1">
+                        
+                        <!-- 직원 공고 선택 dropdowns custom select -->
+                        <div class="form-group">
+                            <label for="recruitId">지원 공고 선택</label>
+                            <select name="recruitId" id="recruitId" class="custom-select">
+                                <%-- ajax 처리시 setModalIdAndTitle --%>
+                            </select>
+                        </div>
+
+                        <!-- 공고 조회를 위한 이메일 입력 및 비밀번호 발송 -->
+                        <div class="form-group">
+                            <label for="recruitMemberEmail">공고 지원서 조회</label>
+                            <div class="input-group">
+                                <input type="text" id="recruitCheckEmail" class="form-control form-control-sm" placeholder="email 입력해주세요">
+                                <div class="input-group-append">
+                                    <button onclick="sendRecruitMemberPassword();" class="btn btn-outline-info btn-sm" type="button">비밀번호 발송</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 공고 조회를 위한 비밀번호 입력 및 조회 -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" id="recruitMemberPassword" class="form-control form-control-sm" placeholder="발급 받은 비밀번호를 입력해주세요">
+                                <div class="input-group-append">
+                                    <button onclick="searchRecruitMember();" class="btn btn-outline-dark btn-sm" type="button">지원서 조회</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <fieldset style="border: 1px dotted gray; padding: 20px;">
+                        	<input type="hidden" id="recruitAttachmentNo" name="recruitAttachmentNo">
+                        	<input type="hidden" id="recruitMemberId" name="recruitMemberId">
+                        
+                            <div class="form-row">
+                                <!-- 성명 -->
+                                <div class="form-group col">
+                                    <label for="recruitMemberName">성명</label>
+                                    <input type="text" class="form-control" id="recruitMemberName" name="recruitMemberName" placeholder="이름을 입력해주세요">
+                                </div>
+        
+                                <!-- 연락처 -->
+                                <div class="form-group col">
+                                    <label for="recruitMemberPhone">연락처</label>
+                                    <input type="tel" class="form-control" id="recruitMemberPhone" name="recruitMemberPhone" placeholder="연락처를 입력해주세요">
+                                </div>
+                            </div>
+
+                            <!-- 메일주소 -->
+                            <div class="form-group">
+                                <label for="recruitMemberEmail">이메일</label>
+                                <input type="email" class="form-control" id="recruitMemberEmail" name="recruitMemberEmail" placeholder="이메일을 입력해주세요">
+                            </div>
+
+                            <!-- 학력사항 -->
+                            <div class="form-group">
+                                <label id="educationLabel" data-toggle="tooltip" for="recruitMemberEducation">학력사항</label>
+                                <input type="text" class="form-control" id="recruitMemberEducation" name="recruitMemberEducation" placeholder="학력사항을 입력해주세요">
+                            </div>
+
+                            <!-- 경력사항 -->
+                            <div class="form-group">
+                                <label id="careerLabel" for="recruitMemberCareer" data-toggle="tooltip">경력사항</label>
+                                <input type="text" class="form-control" id="recruitMemberCareer" name="recruitMemberCareer" placeholder="경력사항을 입력해주세요">
+                            </div>
+
+                            <!-- 이력서 및 경력기술서 / 포트폴리오 파일 올리는걸로 처리 -->
+                            <div class="form-group">
+                                <label id="portfolioLabel" data-toggle="tooltip" for="recruitPortfolio">이력서 및 경력기술서 / 포트폴리오</label>
+                                <div class="custom-file">
+                                    <input type="file" role="button" class="custom-file-input" id="recruitPortfolio" name="recruitPortfolio">
+                                    <label for="recruitPortfolio" class="custom-file-label" data-browse="업로드">파일을 올려주세요</label>
+                                </div>
+                            </div>
+                            <!-- <div class="form-group">
+                                <label for="recruitPortfolio">이력서 및 경력기술서 / 포트폴리오</label>
+                                <input id="recruitPortfolio" type="file" class="form-control-file border">
+                            </div> -->
+
+                            <!-- 내 자신에게 보내기 체크박스 -->
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck2" name="sendMyResume" checked>
+                                <label for="customCheck2" class="custom-control-label small">내 자신에게 수정된 지원서 전송하기</label>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <!-- 수정하기 버튼 -->
+                    <button onclick="closeUpdateModal();" form="recruitmember_update_form" id="updateRecruitMemberBtn" type="submit" class="btn btn-dark disabled" disabled>수정하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 공고 지원서 메일 발송 및 조회 스크립트 -->
+    <script>   
+    	function closeUpdateModal() {
+    		$('#recruitmember_update_modal').modal('hide')
+    	}
+    
+    	async function sendRecruitMemberPassword() {
+    		const rid = document.querySelector("#recruitId").value;
+    		const email = document.querySelector("#recruitCheckEmail").value;
+    		
+    		//console.log(rid, email);
+    		
+    		try {
+    			const response = await fetch('recruitMemberPassword.do', {
+    				method: "post",
+    				body : JSON.stringify({
+    					"rid" : rid,
+    					"email" : email,
+    				})
+    			});
+    			
+   				const result = await response.text();
+   				//console.log(result);
+   				
+   				if (result === "fail") {
+   					showNoFoundRecruitAlert();
+   				} else {
+   					showFoundRecruitAlert();
+   				}
+    			
+    		} catch (error) {
+    			console.log(error);
+    		}
+    	}
+    	
+    	function showNoFoundRecruitAlert() {
+    		$('#recruitmember_update_form').prepend(`
+   	            <div id="noFoundRecruitAlert" class="alert alert-warning alert-dismissible fade show" role="alert" style="position: absolute; top: -65px; left: 12px;">
+   	                <strong>공고 지원서가 없습니다!</strong> 
+   	                <p style="font-size: 15px;">
+   	                    공고에 해당 이메일로 등록된 지원서가 존재하지 않습니다. <br> 다시 확인해주세요
+   	                </p>
+   	                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+   	                  <span aria-hidden="true">&times;</span>
+   	                </button>
+   	            </div>`);
+			setTimeout(function() {
+	                $('#noFoundRecruitAlert').alert('close');
+	        }, 3000);
+    	}
+    	
+    	function showFoundRecruitAlert() {
+    		$('#recruitmember_update_form').prepend(`
+   	            <div id="foundRecruitAlert" class="alert alert-success alert-dismissible fade show" role="alert" style="position: absolute; top: -65px; left: 12px;">
+   	                <strong>이메일로 비밀번호를 발송하였습니다.</strong> 
+   	                <p style="font-size: 15px;">
+						공고 지원서에 등록한 이메일로 비밀번호를 발송하였습니다. <br> 확인하여 비밀번호를 입력해주세요
+   	                </p>
+   	                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+   	                  <span aria-hidden="true">&times;</span>
+   	                </button>
+   	            </div>`);
+   			setTimeout(function() {
+   	                $('#foundRecruitAlert').alert('close');
+   	        }, 4000);
+    	}
+    	
+    	async function searchRecruitMember() {
+    		const rid = document.querySelector("#recruitId").value;
+    		const email = document.querySelector("#recruitCheckEmail").value;
+    		const password = document.querySelector('#recruitMemberPassword').value;
+    		
+    		try {
+    			
+    			const response = await fetch('recruitMemberList.do', {
+    				method: "post",
+    				body : JSON.stringify({
+    					"rid" : rid,
+    					"email" : email,
+    					"password" : password,
+    				})
+    			});
+    			
+    			const result = await response.text();
+    			
+    			//console.log(result);
+    			if (result === 'search fail') {
+    				showNoFoundRecruitAlert();
+    			} else if(result === 'password fail') {
+    				showPasswordWrongAlert();
+    			} else {    				
+    				const jsonResult = JSON.parse(result);
+    				
+  					console.log(jsonResult);
+  					
+  					const { at, rm } = jsonResult;
+    				
+    				const rmName = document.querySelector('#recruitMemberName');
+    				const rmPhone = document.querySelector('#recruitMemberPhone');
+    				const rmEmail = document.querySelector('#recruitMemberEmail');
+    				const rmEducation = document.querySelector('#recruitMemberEducation');
+    				const rmCareer = document.querySelector('#recruitMemberCareer');
+    				const rmAttachment = document.querySelector('.custom-file-label');
+    				const rmAttachmentNo = document.querySelector('#recruitAttachmentNo');
+    				const rmId = document.querySelector('#recruitMemberId');
+    				
+    				rmName.value = rm.name;
+    				rmPhone.value = rm.phone;
+    				rmEmail.value = rm.email;
+    				rmEducation.value = rm.education;
+    				rmCareer.value = rm.career;
+    				rmId.value = rm.id;
+    				
+    				rmAttachment.classList.add('selected');
+    				rmAttachment.innerHTML = at.originName;
+    				rmAttachmentNo.value = at.fileNo;
+    				
+    				document.querySelector('#updateRecruitMemberBtn').classList.remove('disabled');
+    				document.querySelector('#updateRecruitMemberBtn').disabled = false;
+    			}
+    			
+    		} catch (error) {
+    			console.log(error);
+    		}
+    	}
+    	
+    	function showPasswordWrongAlert() {
+    		$('#recruitmember_update_form').prepend(`
+   	            <div id="passwordWrongAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="position: absolute; top: -60px; left: 22px;">
+   	                <strong>비밀번호가 잘못되었습니다!</strong> 
+   	                <p style="font-size: 15px;">
+   	                    	입력한 비밀번호가 잘못되었습니다! 다시 확인해주세요
+   	                </p>
+   	                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+   	                  <span aria-hidden="true">&times;</span>
+   	                </button>
+   	            </div>`);
+
+            setTimeout(function() {
+                $('#passwordWrongAlert').alert('close');
+            }, 3000);
+    	}
+    	
+    	// ajax 처리  async await 이용
+    	window.addEventListener("DOMContentLoaded", setModalIdAndTitle);
+    	
+    	async function setModalIdAndTitle() {
+    		try {
+    			const response = await fetch('recruitListTitle.do', {
+    				method : "post",
+    				/*body : JSON.stringify({
+    					"name" : "hello"	
+    				})*/
+    			});
+    			const result = await response.json();
+    			//console.log(result);
+    			
+    			const recruitTitles = document.querySelector('#recruitId');
+    			Object.keys(result).forEach((id) => {
+    				const $option = document.createElement('option')
+    				$option.value = id;
+    				$option.textContent = result[id];
+    				recruitTitles.appendChild($option);
+    			});
+    			
+    		} catch (error) {
+    			console.log(error);
+    		}
+    	}
+    </script>
+
+    <!-- file upload 파일명 입력 처리 -->
+    <script>
+    	$(".custom-file-input").on("change", function() {
+    		const fileName = $(this).val().split("\\").pop();
+    		$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    	});
+    </script>
 
     <!-- 공고 등록 modal -->
     <div class="modal fade" id="recruit_create_modal">
@@ -481,24 +793,37 @@
 		function setCode(codes) {
 			const totalCnt = codes.reduce((sum, code) => sum + code.count, 0);
 			
+			const width = window.innerWidth;
+			
+			console.log(width);
+			
 			$("#recruit_code").html('');
-			$("#recruit_code").append(`
+			
+			let btnGroup = $('<div>').addClass("btn-group");
+			$('#recruit_code').append(btnGroup);
+			let cnt = 1;
+			
+			btnGroup.append(`
 				<label class="btn btn-secondary rounded-pill m-1 active">
                 	<input type="radio" name="recruit_code" id="전체" autocomplete="off" checked>
-                	전체
+                	#전체
                 	<span class="badge badge-light">\${totalCnt}</span>
               	</label>
 			`);
 			
-			
 			codes.forEach((code) => {
-				$("#recruit_code").append(`
+				if (cnt % 5 === 0) {
+					btnGroup = $('<div>').addClass("btn-group");
+					$('#recruit_code').append(btnGroup);	
+				}
+				btnGroup.append(`
 	          		<label class="btn btn-secondary rounded-pill m-1">
 	                	<input type="radio" name="recruit_code" id="\${code.code}" autocomplete="off" checked>
-	                	\${code.code}
+	                	#\${code.code}
 	                	<span class="badge badge-light">\${code.count}</span>
 	              	</label>
 				`);
+				cnt++;
 			});
 			
 			$("#recruit_code input").on("click", function() {

@@ -6,11 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import com.kh.user.model.vo.IProject;
@@ -37,20 +38,12 @@ public class UserDao {
 
 	public User loginUser(Connection conn, String emailId, String userPwd) {
 		User loginUser = null;
-
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-
 		String sql = prop.getProperty("loginUser");
-		// loginUser=SELECT * FROM USER_TB WHERE EMAIL_ID=? AND USER_PWD=? AND
-		// STATUS='N'
-
-		System.out.println("dao : " + emailId);
-		System.out.println("dao : " + userPwd);
+		// loginUser=SELECT * FROM USER_TB WHERE EMAIL_ID=? AND USER_PWD=? AND STATUS='N' 
 		try {
-
 			pstmt = conn.prepareStatement(sql);
-
 			pstmt.setString(1, emailId);
 			pstmt.setString(2, userPwd);
 
@@ -83,7 +76,6 @@ public class UserDao {
 			close(pstmt);
 
 		}
-		System.out.println("UserDao loginUser : " + loginUser);
 		return loginUser;
 
 	}
@@ -92,19 +84,15 @@ public class UserDao {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertUser");
-		// insertUser=INSERT INTO USER_TB VALUES(SEQ_USER_NO.NEXTVAL, ?, ?, ?, ?, ?, ?,
-		// ?, ?, ?, ?, DEFAULT,DEFAULT)
-		/*
-		 * USER_NO VARCHAR2(3 BYTE) USER_CODE VARCHAR2(3 BYTE) EMAIL_ID VARCHAR2(100
-		 * BYTE) USER_PWD VARCHAR2(20 BYTE) USER_NAME VARCHAR2(20 BYTE) USER_SSN
-		 * VARCHAR2(20 BYTE) PHONE_NUMBER VARCHAR2(20 BYTE) USER_ADDRESS VARCHAR2(200
-		 * BYTE) POINT NUMBER BUSINESS_NUMBER VARCHAR2(20 BYTE) BUSINESS_NAME
-		 * VARCHAR2(20 BYTE) JOIN_DATE DATE STATUS CHAR(2 BYTE)
-		 */
+		// insertUser=INSERT INTO USER_TB VALUES(SEQ_USER_NO.NEXTVAL, ?, ?, ?,
+		//														 ?, ?, ?, ?, ?, ?, ?, DEFAULT,DEFAULT)
+		
+		int point = (u.getUserCode().equals("02") ?  10000 : 0);
 
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
-
+			
 			pstmt.setString(1, u.getUserCode());
 			pstmt.setString(2, u.getEmailId());
 			pstmt.setString(3, u.getUserPwd());
@@ -112,7 +100,7 @@ public class UserDao {
 			pstmt.setString(5, u.getUserSsn());
 			pstmt.setString(6, u.getUserPhone());
 			pstmt.setString(7, u.getUserAddress());
-			pstmt.setInt(8, 20000);
+			pstmt.setInt(8, point);
 			pstmt.setString(9, u.getbNumber());
 			pstmt.setString(10, u.getbName());
 
@@ -251,8 +239,8 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<ULecture> list = new ArrayList<ULecture>();
-		String sql = "SELECT * FROM VW_LEC_INFO WHERE EMAIL_ID =?";
-
+		String sql = prop.getProperty("selectLectureList");
+		//SELECT * FROM VW_LEC_INFO WHERE EMAIL_ID =?
 		try {
 			pstmt = conn.prepareStatement(sql);
 
@@ -280,8 +268,9 @@ public class UserDao {
 	public ArrayList<IProject> selectIProjectList(Connection conn, String emailId) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		ArrayList<IProject> list = new ArrayList<IProject>();
-		String sql = "SELECT * FROM VW_INTER_PRO WHERE EMAIL_ID=?";
+		ArrayList<IProject> list = new ArrayList<IProject>();		
+		String sql = prop.getProperty("selectIProjectList");
+//		String sql = "SELECT * FROM VW_INTER_PRO WHERE EMAIL_ID=?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -312,7 +301,8 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<UProject> list = new ArrayList<UProject>();
-		String sql = "SELECT * FROM VW_SIGN_PRO WHERE EMAIL_ID=?";
+		String sql = prop.getProperty("selectUProjectList");
+		//String sql = "SELECT * FROM VW_SIGN_PRO WHERE EMAIL_ID=?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -372,6 +362,33 @@ public class UserDao {
 			close(pstmt);
 		}
 		return list;
+	}
+
+	public Map<String, Integer> selectCategoryList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Map<String, Integer> map = new HashMap<>();
+		String sql = prop.getProperty("selectCategoryList");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				String categoryName = rset.getString("CATEGORY_NAME");
+				int count = rset.getInt(2);
+				
+				map.put(categoryName, count);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return map;
 	}
 
 }

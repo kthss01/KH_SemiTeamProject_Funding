@@ -61,7 +61,7 @@ padding-bottom : 200px;
 .eventDetailForm {
 	justify-content: center;
 	align-items: center;
-	width: 800px;
+	width: 1300px;
 	margin: 0 auto;
 }
 
@@ -143,7 +143,7 @@ text-align:center;
 		
 
 		<div class="eName">
-			<h3><%=e.geteName() %></h3>
+			<h3 style="font-weight:bold;"><%=e.geteName() %></h3>
 		</div>
 		
 		<div class="eContent">

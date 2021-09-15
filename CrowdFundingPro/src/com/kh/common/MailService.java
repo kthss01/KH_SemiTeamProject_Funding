@@ -1,5 +1,8 @@
 package com.kh.common;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -27,6 +30,8 @@ public class MailService {
 	
 	private static Properties p = null; // 이메일 설정 값
 	
+	private static String pagePath = "";
+	
 	private static class SMTPAuthenticator extends Authenticator {
 		@Override
 		protected PasswordAuthentication getPasswordAuthentication() {
@@ -34,12 +39,16 @@ public class MailService {
 		}
 	}
 	
+	public static void setPagePath(String path) {
+		pagePath = path + "/views/recruit/emailPage.html";
+	}
+	
 	private static Properties getSetting() {
 		if (p == null) {
 			// 이메일 설정
-			Properties p = new Properties();
+			p = new Properties();
 			p.put("mail.smtp.host", "smtp.gmail.com");
-			p.put("mail.smtp.port", 465);
+			p.put("mail.smtp.port", "465");
 			p.put("mail.smtp.auth", "true"); 
 			p.put("mail.smtp.ssl.enable", "true"); 
 			p.put("mail.smtp.ssl.trust", "smtp.gmail.com");
@@ -58,8 +67,8 @@ public class MailService {
 			Authenticator auth = new SMTPAuthenticator();
 			Session session = Session.getInstance(p, auth);
 			
-			session.setDebug(true); 
-
+			session.setDebug(true);
+			
 			MimeMessage msg = new MimeMessage(session);
 
 			// 메일 제목
@@ -92,14 +101,11 @@ public class MailService {
 		
 		try {
 			
-			Properties prop = new Properties();
-			
-			
 			Authenticator auth = new SMTPAuthenticator();
 			Session session = Session.getInstance(p, auth);
-			
-			session.setDebug(true); 
 
+			session.setDebug(true);
+			
 			MimeMessage msg = new MimeMessage(session);
 
 			String title = String.format("[%s][%s] %s님 이력 지원서", r.getTitle(), r.getCode(), rm.getName());
@@ -114,21 +120,36 @@ public class MailService {
 			// 수신자 설정
 			Address toAddr = new InternetAddress(rm.getEmail()); 
 			msg.addRecipient(Message.RecipientType.TO, toAddr);
-
-			StringBuilder content = new StringBuilder();
-			content.append(String.format("지원포지션명: %s\n", r.getTitle()));
-			content.append(String.format("성명: %s\n", rm.getName()));
-			content.append(String.format("연락처: %s\n", rm.getPhone()));
-			content.append(String.format("이메일: %s\n", rm.getEmail()));
-			content.append(String.format("학력사항: %s\n", rm.getEducation()));
-			content.append(String.format("경력사항: %s\n", rm.getCareer()));
 			
 			// 메일 내용
-			String message = content.toString();
+			String message = "";
+
+			// 이미지 처리 일단 기본 이미지로 사이트 대표 이미지 추가 구할 필요 있음
+			// 가능하면 온라인 이미지로 메일로 첨부없이 보내야하니까 
+			String imageSrc = "https://cdn.wadiz.kr/ft/images/green001/2017/0710/20170710104015666_101.jpg/wadiz/format/jpg/quality/80/optimize";
+			
+			// 이메일로 보낼 html 파일 읽어오기
+			try {
+				byte[] bytes = Files.readAllBytes(Paths.get(pagePath));
+				
+				message = new String(bytes).replace("{name}", rm.getName())           
+				                           .replace("{title}", r.getTitle())       
+				                           .replace("{phone}", rm.getPhone())
+						                   .replace("{email}", rm.getEmail())     
+						                   .replace("{education}", rm.getEducation())       
+						                   .replace("{career}", rm.getCareer())
+						                   .replace("{image}", imageSrc); // 일단 기본 이미지 처리
+				
+//				System.out.println(message);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 			
 			// 본문 
 			MimeBodyPart mbp1 = new MimeBodyPart();
-			mbp1.setText(message);
+			mbp1.setContent(message, "text/html; charset=utf-8");
 			
 			// 파일 첨부
 			MimeBodyPart mbp2 = new MimeBodyPart();
@@ -142,8 +163,11 @@ public class MailService {
 			mp.addBodyPart(mbp1);
 			mp.addBodyPart(mbp2);
 			
-			msg.setContent(mp, "text/html;charset=KSC5601");
+			msg.setHeader("Content-type", "text/html; charset=UTF-8");
+			msg.setContent(mp, "text/html; charset=UTF-8");
 	
+			
+			
 			Transport.send(msg);
 			
 		} catch (Exception e) { 

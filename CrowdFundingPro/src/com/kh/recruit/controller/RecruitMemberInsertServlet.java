@@ -16,6 +16,7 @@ import com.kh.common.MyFileRenamePolicy;
 import com.kh.common.model.vo.Attachment;
 import com.kh.recruit.model.service.RecruitService;
 import com.kh.recruit.model.vo.RecruitMember;
+import com.kh.user.util.GenerateCertPassword;
 import com.oreilly.servlet.MultipartRequest;
 
 /**
@@ -44,7 +45,7 @@ public class RecruitMemberInsertServlet extends HttpServlet {
 			
 			String resources = request.getSession().getServletContext().getRealPath("/resources");
 			String savePath = resources + "\\upfiles\\";
-			System.out.println("savePath : " + savePath);
+//			System.out.println("savePath : " + savePath);
 			
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 			
@@ -76,8 +77,12 @@ public class RecruitMemberInsertServlet extends HttpServlet {
 			
 			RecruitMember rm = new RecruitMember(name, phone, education, career, email);
 
-			// 파일 업로드 처리
+			// 비밀번호 생성해서 등록하기
+			// 12자리 숫자, 특수기호, 문자 포함 비밀번호 생성
+			String password = new GenerateCertPassword().excuteGenerate();
+			rm.setPassword(password);
 			
+			// 파일 업로드 처리
 			Attachment at = null;
 			
 			// null이 아니면 첨부한거
@@ -95,7 +100,8 @@ public class RecruitMemberInsertServlet extends HttpServlet {
 			// 이력서 내 자신에게 보내기 체크
 			String sendMyResume = multiRequest.getParameter("sendMyResume");
 			// 체크한 경우
-			if (sendMyResume.equals("on")) {
+			if (sendMyResume != null && sendMyResume.equals("on")) {
+				MailService.setPagePath(getServletContext().getRealPath(""));
 				MailService.sendResume(rid, rm, at);
 			}
 			

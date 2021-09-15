@@ -2,9 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.kh.user.model.vo.User"%>
 
+
 <%
 	User loginUser = (User) session.getAttribute("loginUser");
 	String msg = (String) session.getAttribute("msg");
+	String keyword = (String) session.getAttribute("keyword");
+	session.setAttribute("location",request.getRequestURI());
+	System.out.println(request.getRequestURI());
 %>
 
 <!DOCTYPE html>
@@ -15,8 +19,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
 
+
+
+
 <!-- 다크모드 css -->
-<link href="./resources/css/darkTheme.css" rel="stylesheet">
+<link href="<%=request.getContextPath() %>/resources/css/darkTheme.css" rel="stylesheet">
+
 
 <!-- bootstrap 4 -->
 <link rel="stylesheet"
@@ -42,10 +50,14 @@
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
 	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
 	crossorigin="anonymous" />
+	
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+	rel="stylesheet">
 
 </head>
 <style>
-#search{
+#keyword{
 width:250px;
 height:35px;
 background-color: rgba(255,255,255,.8);
@@ -54,31 +66,45 @@ border-radius: 20px;
 margin-right:10px;
 margin-top:3px;
 }
-#search::placeholder{
+#keyword::placeholder{
 font-size:13px;
 text-align:center;
+font-family: 'Noto Sans KR', 'sans-serif';
+
 }
 
-#search:hover{
+#keyword{
 border:solid 0.2px white;
 background-color: white;
 
 }
 
+#enrollPro{
+color:white;
+font-size:17px;
+}
+#enrollPro:hover{
+color:#00B2B2;
+text-decoration:underline;
 
+}
 
+.menubar{
+font-family: 'Noto Sans KR', 'sans-serif';
+
+}
 </style>
 
 <body>	
-	<nav class="navbar navbar-expand-md bg-dark navbar-dark"
-		style="padding-left: 130px; padding-right: 130px;">
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark menubar"
+		style="padding-left: 80px; padding-right: 80px;">
 		<a href="<%=request.getContextPath()%>" class="navbar-brand"
-			style="font-size: 22px;">CROWD FUND!NG</a>
+			style="font-size: 23px;">CROWD FUND!NG</a>
 		<!-- 클릭하면 메인 페이지로 이동  -->
 
-
+		
 		<ul class="navbar-nav">
-			<li class="nav-item"><a href="<%= request.getContextPath() %>/projectList.do" class="nav-link">펀딩하기</a></li> <!-- 펀딩페이지 링크 -->
+			<li class="nav-item"><a href="<%= request.getContextPath() %>/projectPage.do" class="nav-link">펀딩하기</a></li> <!-- 펀딩페이지 링크 -->
 
 
 			<li class="nav-item"><a
@@ -109,16 +135,30 @@ background-color: white;
 		<ul class="navbar-nav ml-auto">
 
 			<!--  검색 아이콘   **추가기능** -->
-			<input id="search" type="text" placeholder="어떤 프로젝트를 찾고 계신가요?">
-			<li class="nav-item"><a href="<%=request.getContextPath()%>/search.do" class="nav-link"> 
+			<input id="keyword" type="text" placeholder="어떤 프로젝트를 찾고 계신가요 ?" autocomplete="off">
+			<li class="nav-item"><a id="searchForm" onclick="goSearch();" class="nav-link"> 
 			<i class="fas fa-search fa-lg"></i>
 			</a></li>
+			
+			<script>
+			
+			function goSearch(){
+				
+				var keyword = $("#keyword").val();
+				console.log(keyword);
+				location.href="<%=request.getContextPath()%>/search.do?keyword="+keyword;
+			}
+			
+			</script>			
+			
+			
 			<%
 				if (loginUser == null) {
 			%>
+			
 			<!-- 로그인 전 -->
 			<li class="nav-item"><a
-				href="<%=request.getContextPath()%>/loginForm.me" class="nav-link">로그인</a></li>
+				href="<%=request.getContextPath()%>/loginForm.me?from=<%=request.getRequestURI()%>" class="nav-link">로그인</a></li>
 			<li class="nav-item"><a
 				href="<%=request.getContextPath()%>/enrollForm.me" class="nav-link">회원가입</a></li>
 			<%
@@ -133,15 +173,52 @@ background-color: white;
 			<%
 				}
 			%>
-			<li class="nav-item"><a id="colorTheme" role="button"
-				class="nav-link" onclick="colorTheme();">다크모드</a></li>
-
+			
+			
+			<%-- 
+			<%if( theme == null || theme.equals("") || theme.equals("default") ) {%>
+						<li class="nav-item"><a id="colorTheme" role="button"
+								class="nav-link" onclick="changeDark();">다크모드</a></li>
+			<%}else{ %>
+						<li class="nav-item"><a id="colorTheme" role="button"
+								class="nav-link" onclick="changeDefault();">기본모드</a></li>
+			<%} %>
+			--%>
+			
+			<li class="nav-item"><a id="enrollPro"
+				href="views/project/registrationView.jsp" class="nav-link">[ 프로젝트 신청하기 ]</a></li>
+			
 		</ul>
 	</nav>
 </body>
 <script>
-	function colorTheme() {
-		$('body').toggleClass('dark-theme');
+
+<%-- 
+
+$(function(){
+	var theme = '<%=theme%>';
+	
+	if(theme == null || theme =='' || theme=='default'){
+		$('body').removeClass('dark-theme');
+
+	}else{
+		$('body').addClass('dark-theme');
+
 	}
+	
+	
+})
+--%>
+
+
+function changeDark() {
+	location.href='<%=request.getContextPath()%>/darkMode.do';
+}
+
+function changeDefault() {
+	location.href='<%=request.getContextPath()%>/whiteMode.do';	
+}
+
+
 </script>
 </html>

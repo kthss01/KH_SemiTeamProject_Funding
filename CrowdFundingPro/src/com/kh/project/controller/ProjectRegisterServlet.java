@@ -1,9 +1,10 @@
 package com.kh.project.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -46,30 +47,25 @@ public class ProjectRegisterServlet extends HttpServlet {
 		
 		User loginUser = (User) session.getAttribute("loginUser");
 		
-		if(ServletFileUpload.isMultipartContent(request)) {//enctype이 multipart/form-data로 잘 전송되었으면 true
+		if(ServletFileUpload.isMultipartContent(request)) {
 	         int maxSize=10*1024*1024 ;
 	         String resources =request.getSession().getServletContext().getRealPath("/resources");
-	         String savePath=resources+ "\\upfiles\\";    //파일이 저장된 폴더 경로 
+	         String savePath=resources+ "\\upfiles\\"; 
+	         //String savePath=resources+ "\\images/project\\"; 
 	         
 	         MultipartRequest multiRequest=new MultipartRequest(request,savePath,maxSize,"UTF-8",new MyFileNamePolicy());
 	         
-	       //프로젝트명 목표금액 베송료 카테고리 프로젝트기간 프로젝트소개 약관동의
+	       
 	         String name=multiRequest.getParameter("projectName");
 	         int amount=Integer.parseInt(multiRequest.getParameter("amountGoal"));
 	         int delivery=Integer.parseInt(multiRequest.getParameter("delivery"));
 	         String category=multiRequest.getParameter("category");
 	         
-	         String dateInput =multiRequest.getParameter("dateInput");
-	         dateInput.replaceAll("-", "");
-	         SimpleDateFormat transFormat = new SimpleDateFormat("yy/mm/dd");
+	         
+	         
+	         Date dateInput = Date.valueOf(multiRequest.getParameter("dateInput"));
+	         
 
-	         Date date = null;
-			try {
-				date = transFormat.parse(dateInput);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 	         
 	         String detail=multiRequest.getParameter("detail");
 	         
@@ -84,7 +80,7 @@ public class ProjectRegisterServlet extends HttpServlet {
 	          //프로젝트명 목표금액 베송료 카테고리 프로젝트기간 프로젝트소개 약관동의
 	            pj.setProjectName(name);
 	            
-	            pj.setCategoryNo(category);
+	            pj.setCategoryNo(category);/////////////
 	            
 	            pj.setDetailIntro(detail);
 	            
@@ -92,7 +88,7 @@ public class ProjectRegisterServlet extends HttpServlet {
 	            
 	            pj.setAmountGoal(amount);
 	            
-	            pj.setDdln(date);
+	            pj.setDdln(dateInput);
 	            
 
 	            pj.setUserNo(102);//->로그인한 유저가 프로젝트 등록 
@@ -122,7 +118,7 @@ public class ProjectRegisterServlet extends HttpServlet {
 		            
 		         }else {
 		            
-		        	 request.getSession().setAttribute("msg", "핀딩 등록 실패");
+		        	 request.getSession().setAttribute("msg", "핀딩 등록에 실패했습니다.");
 		            
 		            
 		            RequestDispatcher view=request.getRequestDispatcher("views/common/errorPage.jsp");

@@ -13,38 +13,19 @@ String contextPath = request.getContextPath();
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- 앱의 클라이언트 ID 지정 -->
-<meta name="google-signin-client_id" content="31102830978-o5gc3ru1pkhi7nfe10ucob89s12t95ej.apps.googleusercontent.com">
+
 
 <title>LoginPage</title>
 
 <link
-	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
-            mily=Nanum+Gothic&family=Roboto&display=swap"
-	rel="stylesheet"/>
-
-<!-- bootstrap 4 -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<!-- fontawesome bootstrap 4 용 icon -->
-<link rel="stylesheet"
-	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-	crossorigin="anonymous" />
-	
-	<!-- Google Platform 라이브러리로드 -->
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-
-
-
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+	rel="stylesheet">
 <style>
+
+    .body{
+    	font-family: 'Noto Sans KR', 'sans-serif';
+    }
+
 .login-form {
 	justify-content: center;
 	align-items: center;
@@ -59,8 +40,8 @@ String contextPath = request.getContextPath();
 	text-align: left;
 	margin-top: 150px;
 	margin-bottom: 100px;
-	font-family: 'Rajdhani', sans-serif;
-	font-weight:bold;
+	font-family: 'Noto Sans KR', 'sans-serif';
+		font-weight:bold;
 }
 
 .login-btn {
@@ -74,8 +55,8 @@ String contextPath = request.getContextPath();
 	color: white;
 	font-size: 1.5em;
 	text-align: center;
-	font-family: 'Rajdhani', sans-serif;
-}
+	font-family: 'Noto Sans KR', 'sans-serif';
+	}
 
 .login-btn:hover {
 	cursor: pointer;
@@ -136,8 +117,8 @@ String contextPath = request.getContextPath();
 	opacity: 0.8;
 	color: rgba(0, 0, 0, 0.7);
 	font-weight: 600;
-	font-family: 'Rajdhani', sans-serif;
-}
+	font-family: 'Noto Sans KR', 'sans-serif';
+	}
 
 #joinBtn:hover {
 	cursor: pointer;
@@ -193,9 +174,7 @@ String contextPath = request.getContextPath();
 
 				<button class="login-btn" id="loginBtn" type="submit">LOGIN</button>
 			</div>
-			<!--  구글 로그인(테스트중)
-			<div id="googleBtn" class="g-signin2" data-onsuccess="onSignIn"></div>
-			 -->
+
 		</form>
 		<div class="caption"><br>
 			 <a href="<%=request.getContextPath()%>/enrollForm.me"
@@ -207,6 +186,16 @@ String contextPath = request.getContextPath();
 	</section>
 
 	<script>
+	
+	<%-- 구글 로그인 기능
+	
+				<!--  구글 로그인(테스트중)
+			<div id="googleBtn" class="g-signin2" data-onsuccess="onSignIn"></div>
+			 -->
+	
+	
+	<!-- 앱의 클라이언트 ID 지정 -->
+<meta name="google-signin-client_id" content="31102830978-o5gc3ru1pkhi7nfe10ucob89s12t95ej.apps.googleusercontent.com">
 	
 	function onSignIn(googleUser) {
 		  var profile = googleUser.getBasicProfile();
@@ -253,6 +242,7 @@ String contextPath = request.getContextPath();
 	function signOut(){
 		gapi.auth2.getAuthInstance().disconnect();
 	}
+	--%>
 
 	function enrollPage(){
 		location.href = "<%= request.getContextPath()%>/enrollForm.me";

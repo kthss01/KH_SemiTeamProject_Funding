@@ -66,13 +66,13 @@
 .event-form {
 	justify-content: center;
 	align-items: center;
-	width: 800px;
+	width: 900px;
 	margin: 0 auto;
 	padding-bottom:200px;
 }
 
 .info {
-	width: 800px;
+	width: 900px;
 	height: 170px;
 	border-bottom: solid 0.2px rgb(0, 0, 0, .2);
 	margin-bottom: 20px;
@@ -80,7 +80,7 @@
 }
 
 .title {
-	width: 650px;
+	width: 700px;
 	height: 120px;
 	font-size: 20px;
 	color: #1d2129;
@@ -92,7 +92,7 @@
 
 .eStatus{
 	float:left;
-	width:650px;
+	width:700px;
 	height:20px;
 	margin-bottom:10px;
 	color:rgb(0,0,0,.7);
@@ -100,7 +100,7 @@
 
 #img {
 	float:left;
-	width: 150px;
+	width: 200px;
 	height: 120px;
 	overflow:hidden;
 	text-align:right;
@@ -194,18 +194,14 @@
 				<%
 					}
 				%>
-				</div>
-				
-				<div class="title"><%=e.geteName()%></div>
-				
+				</div>				
+				<div class="title"><%=e.geteName()%></div>				
 				<div id="img">
 				<img id="thumbnail" alt="이미지로딩실패" src= "<%=request.getContextPath()%>/resources/upfiles/<%=e.geteContent()%>">
 				</div>
 				
-				<input type="hidden" id="eno" name="eno" value=<%=e.geteNo() %>>
-				
-			</div>
-			
+				<input type="hidden" id="eno" name="eno" value=<%=e.geteNo() %>>			
+	 		</div>
 			<%
 				}
 			} else {
@@ -226,8 +222,9 @@
 			$(".info").click(function(){
 				
 				var eno = $(this).children("#eno").val();
-				console.log(eno);
-				location.href="<%=request.getContextPath()%>/eDetail.do?eno="+eno;
+				if(eno != null || eno==''){
+					location.href="<%=request.getContextPath()%>/eDetail.do?eno="+eno;
+				}
 			})
 	
 		})

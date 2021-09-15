@@ -16,11 +16,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
+
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+	rel="stylesheet">
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
 
-
 <script>
+	
+
 	google.charts.load('current', {
 		'packages' : [ 'corechart' ]
 	});
@@ -28,8 +33,8 @@
 	google.charts.setOnLoadCallback(drawChart2);
 
 	var countN = 0;
-
 	var countB = 0;
+	
 	<%for (User u : UList) {
 		if (u.getUserCode().equals("02")) {%>
 			countN = countN + 1;
@@ -38,12 +43,12 @@
 		<%}
 			}
 		%>
+		
 	function drawChart() {
-
 		var data = google.visualization.arrayToDataTable([ 
 			[ '회원 종류', '회원 수', {role : 'style'} ],
-		[ '사업자회원', countB, 'gray' ], // RGB value
-		[ '일반회원', countN, '#76A7FA' ], // English color name
+		[ '사업자회원', countB, 'gray' ], 
+		[ '일반회원', countN, '#76A7FA' ],
 
 		]);
 		var options = {
@@ -54,49 +59,41 @@
 		chart1.draw(data, options);
 	}
 
-	function drawChart2() {
-		var data = google.visualization.arrayToDataTable([
-				[ 'Task', 'Hours per Day' ], [ 'Work', 11 ], [ 'Eat', 2 ],
-				[ 'Commute', 2 ], [ 'Watch TV', 2 ], [ 'Sleep', 7 ] ]);
+
+	// chart 조회 하기 async await 사용
+	async function drawChart2() {
+		// ajax 통신과 같은 의미
+		const response = await fetch("projectCategoryList.do"); // 비동기 함수 호출
+		const json = await response.json(); // 받은 값을 json 형태로 변환
+		//console.log(json);
+		// 맵 key 가져와서 map 함수로 [key, value] 배열 만들어서 반환
+		const table = Object.keys(json).map((key) => [key, json[key]]); // 앞에 header 필요 
+		console.log(table);
+		//const table_temp = [
+		//	[ 'Task', 'Hours per Day' ], [ 'Work', 11 ], [ 'Eat', 2 ],
+		//	[ 'Commute', 2 ], [ 'Watch TV', 2 ], [ 'Sleep', 7 ] ];
+		table.unshift(['카테고리명', '갯수']); // header unshift 배열 맨 앞에 넣는거
+		
+		var data = google.visualization.arrayToDataTable(table);
+
 
 		var options = {
 			is3D : true,
 		};
 		var chart = new google.visualization.PieChart(document
-				.getElementById('donutchart'));
+				.getElementById('myPieChart'));
 		chart.draw(data, options);
 	}
-	google.charts.setOnLoadCallback(drawCurveTypes);
 
-	function drawCurveTypes() {
-		var data = new google.visualization.DataTable();
-		data.addColumn('number', 'X');
-		data.addColumn('number', 'Dogs');
-		data.addColumn('number', 'Cats');
-
-		data.addRows([ [ 0, 0, 0 ], [ 1, 10, 5 ], [ 2, 23, 15 ], [ 3, 17, 9 ],
-				[ 4, 18, 10 ], [ 5, 9, 5 ], [ 6, 11, 3 ], [ 7, 17, 19 ],
-				[ 8, 11, 25 ], [ 9, 30, 32 ], [ 10, 5, 24 ], [ 11, 30, 27 ],
-				[ 12, 30, 50 ], [ 13, 40, 42 ], [ 14, 42, 21 ], [ 15, 47, 15 ],
-				[ 16, 44, 36 ], [ 17, 48, 40 ], ]);
-
-		var options = {
-			hAxis : {
-				title : 'Time'
-			},
-			vAxis : {
-				title : 'Popularity'
-			},
-			curveType : 'function'
-		};
-
-		var chart = new google.visualization.LineChart(document
-				.getElementById('myAreaChart'));
-		chart.draw(data, options);
-	}
+	
 </script>
 
 <style>
+
+    .body{
+    	font-family: 'Noto Sans KR', 'sans-serif';
+    }
+
 .container_field {
 	width: 1200px;
 	margin: 0 auto;
@@ -106,7 +103,7 @@
 	margin-bottom: 60px;
 	margin-top: 100px !important;
 	font-size: 42px;
-	font-family: 'Roboto', 'sans-serif';
+font-family: 'Noto Sans KR', 'sans-serif';
 	font-weight: bold;
 }
 
@@ -117,16 +114,23 @@ overflow:scroll;
 }
 
 #searchText{
-width:200px;
-margin-left:10px;
-background-color: white;
-border: 1px solid rgba(0,0,0,.225);
+    width: 220px;
+    margin-left: 10px;
+    background-color: white;
+    border: 1px solid rgba(0,0,0,.225);
+    text-align: center;
+   }
+
+
+tbody tr:hover{
+background-color:rgba(0,0,0,.1);
+text-weight:bold;
 }
 
-#searchText::placeholder {
-  font-style: italic;
+#statusCheck{
+width:100%;
+text-align:right;
 }
-
 
 </style>
 
@@ -143,16 +147,6 @@ border: 1px solid rgba(0,0,0,.225);
 					<ol class="breadcrumb mb-4">
 					</ol>
 
-					<div class="card mb-4">
-						<div class="card-header">
-							<i class="fas fa-chart-area me-1"></i> 회원 비율
-						</div>
-						<div class="card-body">
-							<div id="myAreaChart" width="100%" height="30"></div>
-						</div>
-						<div class="card-footer small text-muted">Updated yesterday
-							at 11:59 PM</div>
-					</div>
 					<div class="row">
 						<div class="col-lg-6">
 							<div class="card mb-4">
@@ -168,10 +162,10 @@ border: 1px solid rgba(0,0,0,.225);
 						<div class="col-lg-6">
 							<div class="card mb-4">
 								<div class="card-header">
-									<i class="fas fa-chart-pie me-1"></i> Pie Chart Example
+									<i class="fas fa-chart-pie me-1"></i> 펀딩 카테고리 통계
 								</div>
 								<div class="card-body">
-									<div id="donutchart" width="100%" height="50"></div>
+									<div id="myPieChart" width="100%" height="50"></div>
 								</div>
 								<div class="card-footer small text-muted">실시간 조회</div>
 							</div>
@@ -183,7 +177,12 @@ border: 1px solid rgba(0,0,0,.225);
 							<i class="fas fa-chart-area me-1"></i> 전체 회원 조회 : 
 							<div class="search" style="display:inline-block;">
 							 <input type="text" id="searchText" placeholder="조회내용 입력">
+									
 							</div>
+							<div class="custom-control custom-switch" style="display:inline-block;" id="statusCheck">
+							   		<input type="checkbox" class="custom-control-input" id="customSwitch1">
+								    <label class="custom-control-label" for="customSwitch1"><small>탈퇴 회원 안보기</small></label>
+							</div>		
 						</div>
 						<div class="card-body">
 							<div id="tableChart" >
@@ -247,31 +246,101 @@ border: 1px solid rgba(0,0,0,.225);
 
 
 $(function(){
+	
 
 	$("#searchText").on("keyup",function(){
 		var value = $(this).val().toLowerCase();
-		$("tr").filter(function(){
+		$("tbody tr").filter(function(){
 			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 		});
 	});
 	
-})
+	
 
 	
-<%-- 리스트 받아오기 테스트 --%>
-	$("#btn").click(function() {
-		$.ajax({
-			url : "userList.do",
-			type : "post",
-			success : function(map) {
-				console.log("map : " + map);
-				console.log(map["jArr"]);
-			},
-			error : function(a, b, c) {
-				console.log("통신실패");
+	   $("#customSwitch1").on("change",function(){
+		      $("tbody tr").hide();
+		      if ($("#customSwitch1").is(":checked")) {
+		         $("tbody tr").filter(function(){
+		        	 console.log($(this).children().eq(5).text());
+		            return $(this).children().eq(5).text().indexOf('N') > -1;
+		         }).show(); 
+		      } else {
+		         $('tbody tr').show();
+		      }
+		   }); 
+	
+})	
+
+
+
+	<%--
+	
+	
+		$("#customSwitch1").on("change",function(){
+		var value = $(this).val().toLowerCase();
+		$("tbody tr").filter(function(){
+			$(this).toggle($(this).children().eq(5).text().indexOf('N') > -1 ,false) 
+		});
+	});
+	 
+	
+	
+	
+	
+	
+	
+	$("#customSwitch1").change(function() {
+			$("tbody tr").hide();
+			
+			 if($('#customSwitch1').is(":checked")){
+				console.log($('#customSwitch1').is(":checked"));
+				$("tbody tr").filter(function() {
+					$(this).children().eq(5).text().indexOf('N') > -1
+				
+				}).show();
+			}else{
+				$("tbody tr").show();
 			}
+ 
 		})
-	})
+
+		
+		
+			$("#customSwitch1").click(function() {
+			
+			 if($('#customSwitch1').is(":checked")){
+				console.log($('#customSwitch1').is(":checked"));
+				$("tbody tr").filter(function() {
+					($(this).children().eq(5).text().indexOf('N') > -1)
+				
+				}).show();
+			}else{
+				$("tbody tr").show();
+			}
+ 
+		})
+		
+		
+		
+	--%>	
+		
+	
+<%--
+	$("#customSwitch1").toggle(function(){
+		$(this).filter(function(){
+			$("tbody tr").filter(function() {
+				$(this).toggle($(this).children().eq(5).text().indexOf('N') > -1)
+			})
+			
+		})
+		
+		})
+			}
+		 --%>
+
+	
+
 <%-- 구글 테이블 차트 나중에 다시 공부하자 
 google.charts.load('current', {'packages':['table']});   
 google.charts.setOnLoadCallback(drawTable2);

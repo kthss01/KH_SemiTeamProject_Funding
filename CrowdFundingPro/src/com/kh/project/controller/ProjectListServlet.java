@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.kh.project.model.service.ProjectService;
 import com.kh.project.model.vo.Project;
 
@@ -31,9 +32,41 @@ public class ProjectListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Project> list=new ProjectService().selectList();
-		request.setAttribute("list", list);
-		request.getRequestDispatcher("views/project/projectListView.jsp").forward(request, response);
+		// 기존 코드 -> ajax로 수정함 projectPage 서블릿을 새로 만듬
+//		ArrayList<Project> list=new ProjectService().selectList();
+//		request.setAttribute("list", list);
+//		request.getRequestDispatcher("views/project/projectListView.jsp").forward(request, response);
+		
+		// Page 처리
+		int curPage = 1; // 현재 페이지 (요청한 페이지) 
+		
+		if (request.getParameter("page") != null) {
+			curPage = Integer.parseInt(request.getParameter("page"));
+		}
+		
+		// Category 처리
+		String categoryNo = request.getParameter("categoryNo");
+//		System.out.println(categoryNo);
+		
+		int projectLimit = 30; // 한번 요청에 보여질 프로젝트 최대 수
+		
+		int startRow = (curPage - 1) * projectLimit + 1;
+		int endRow = startRow + projectLimit - 1;
+		
+		//System.out.println(startRow + " " + endRow + " " + categoryNo);
+		
+		// 원하는 수만큼 한번에 가져오기
+		ArrayList<Project> list = null;
+		
+		if (categoryNo == null || categoryNo.equals("0")) {
+			list = new ProjectService().selectProjectList(startRow, endRow);
+		} else {
+			list = new ProjectService().selectProjectListWithCategory(startRow, endRow, Integer.parseInt(categoryNo));
+		}
+
+		response.setContentType("application/json; charset=utf-8");
+		
+		new Gson().toJson(list, response.getWriter());
 	}
 
 	/**

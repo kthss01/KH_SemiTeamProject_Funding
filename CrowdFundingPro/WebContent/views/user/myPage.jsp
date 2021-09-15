@@ -20,10 +20,15 @@
 <title>마이페이지</title>
 
 <link
-	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
-		         mily=Nanum+Gothic&family=Roboto&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
 	rel="stylesheet">
 <style>
+
+.body{
+	font-family: 'Noto Sans KR', 'sans-serif';
+
+}
+
 .box {
 	width: 1300px;
 	height: 1200px;
@@ -107,7 +112,7 @@
 #myPageTitle h1 {
 	margin-left: 20%;
 	font-size: 42px;
-	font-family: 'Roboto', 'sans-serif';
+	font-family: 'Noto Sans KR', 'sans-serif';
 	font-weight: bold;
 }
 
@@ -150,7 +155,7 @@
 
 .card-body h2 {
 	font-size: 1rem;
-	font-family: 'Roboto', 'sans-serif';
+	font-family: 'Noto Sans KR', 'sans-serif';
 	font-weight: 600;
 }
 
@@ -166,7 +171,7 @@
 
 #point {
 	font-size: 18px;
-	font-family: 'Jua', 'sans-serif';
+	font-family: 'Noto Sans KR', 'sans-serif';
 }
 
 
@@ -216,8 +221,9 @@
 				<div class="profileImg" style="margin: 0 auto;">
 					<img id="pImg" src="" width=200px; height=200px; /> <br>
 					<p id="point" style="font-size: 20px;">
-						<b> <%=loginUser.getUserName()%></b> 님 어서오세요 ! <br> 충전금액 : <b><%=loginUser.getPoint()%></b>
-						원
+						<b> <%=loginUser.getUserName()%></b><br> 
+						 <b style=font-size:16px;>적립 포인트 : <%=loginUser.getPoint()%> 원</b>
+						
 					</p>
 				</div>
 				<div class="modify" style="margin: 0 auto;">

@@ -7,6 +7,7 @@ import static com.kh.common.JDBCTemplate.*;
 
 import com.kh.lecture.model.dao.LectureDao;
 import com.kh.lecture.model.vo.Lecture;
+import com.kh.lecture.model.vo.LectureInfo;
 import com.kh.user.model.vo.User;
 
 
@@ -78,6 +79,7 @@ public class LectureService {
 	public Lecture selectLecture(String lecId) {
 		
 		Connection conn = getConnection();
+		System.out.println(lecId);
 		Lecture lecture = new LectureDao().selectLecture(conn,lecId);
 		close(conn);
 		return lecture;
@@ -90,6 +92,16 @@ public class LectureService {
 		
 		if (result > 0) commit(conn);
 		else rollback(conn);
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public LectureInfo getLectureCount(Lecture lecture) {
+		Connection conn = getConnection();
+		
+		LectureInfo result = new LectureDao().getLectureCount(conn,lecture);
 		
 		close(conn);
 		

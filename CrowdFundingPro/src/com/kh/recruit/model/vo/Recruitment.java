@@ -122,7 +122,7 @@ public class Recruitment {
 	}
 
 	public String getContent1() {
-		return content1;
+		return content1 == null ? "" : content1;
 	}
 
 	public void setContent1(String content1) {
@@ -130,7 +130,7 @@ public class Recruitment {
 	}
 
 	public String getContent2() {
-		return content2;
+		return content2 == null ? "" : content2;
 	}
 
 	public void setContent2(String content2) {
@@ -138,7 +138,7 @@ public class Recruitment {
 	}
 
 	public String getContent3() {
-		return content3;
+		return content3 == null ? "" : content3;
 	}
 
 	public void setContent3(String content3) {
@@ -146,7 +146,7 @@ public class Recruitment {
 	}
 
 	public String getContent4() {
-		return content4;
+		return content4 == null ? "" : content4;
 	}
 
 	public void setContent4(String content4) {
@@ -154,7 +154,7 @@ public class Recruitment {
 	}
 
 	public String getContent5() {
-		return content5;
+		return content5 == null ? "" : content5;
 	}
 
 	public void setContent5(String content5) {
@@ -162,7 +162,7 @@ public class Recruitment {
 	}
 
 	public String getContent6() {
-		return content6;
+		return content6 == null ? "" : content6;
 	}
 
 	public void setContent6(String content6) {

@@ -2,15 +2,18 @@
     pageEncoding="UTF-8"%>
     
 <%@ page import="java.util.ArrayList" %>
-
+<%@ page import="java.text.DecimalFormat"%>
 <%@ page import="com.kh.project.model.vo.Project" %>
-<%@ page import="com.kh.common.model.vo.Attachment" %>
+
     
 <%
 Project pj=(Project)(request.getAttribute("pj"));
-Attachment at=(Attachment)(request.getAttribute("at"));
+//Attachment at=(Attachment)(request.getAttribute("at"));
+	DecimalFormat decFormat = new DecimalFormat("###,###");
 
 %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,23 +21,28 @@ Attachment at=(Attachment)(request.getAttribute("at"));
 <title>Insert title here</title>
 <style>
 
-		.container_filed{
-		    width:100%;
-		    height:1700px;
+
+		.body{
+		    font-family: 'Noto Sans KR', 'sans-serif';
 		
 		}
 
-		.wrap{
-            /*border:1px solid black;*/
-            width:100%;
-            height:1300px;
-            
-        }
+		.container_filed{
+		    width:1300px;
+		    height:1700px;
+		    margin:0 auto;
+		    padding:20px;
+		    padding-top:120px;
+		
+		}
+
 
         .header{
-            border:1px solid black;
             width:100%;
-            height:19%;
+            height:80px;
+            padding-left:20px;
+            border-bottom:3px solid gray;
+            margin-bottom:50px;
         }
 
         .wrap2{
@@ -48,7 +56,11 @@ Attachment at=(Attachment)(request.getAttribute("at"));
             
             width:50%;
             height:90%;
-            padding-left: 20px;
+            padding-left: 40px;
+        }
+        
+        .information h2{
+        font-weight:bold;
         }
         #info{
             border:1px solid black;
@@ -65,7 +77,8 @@ Attachment at=(Attachment)(request.getAttribute("at"));
         .content1{
             border:1px solid black;
             width:70%;
-            height:100%
+            height:100%;
+            padding:20px;
             
         }
         .content2{
@@ -74,6 +87,7 @@ Attachment at=(Attachment)(request.getAttribute("at"));
             height:100%;
         }
         .side{
+        	padding:10px;
             border:1px solid black;
             width:100%;
             height:40%;
@@ -83,19 +97,82 @@ Attachment at=(Attachment)(request.getAttribute("at"));
             left:700px;
             position: fixed; */
         }
-
-        #btn1{
-            width:200px;
-            height:50px;
-
-            border-top-right-radius: 10px;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-            border-top-left-radius: 10px;
+        
+        .fBtn{
+        	margin-top:15px;
+        	width:260px;
+        	height:40px;
+        	background:none;
+        	border:2px solid #00B2B2;
+			border-radius: 10px;
+        	
         }
+        .fBtn:hover{
+			background: #F4FFFF;
+			box-shadow: 2px 2px lightgray;
+			}
+			        
+        
+	        #imgBox{
+	       	width:800px;
+	       	height:330px;
+			position: relative;
+			z-index: 1;
+			}
+	
+	        #imgBox::after{
+	     	width: 100%;
+			height: 330px;
+			content: "";
+			background:
+				url('<%=request.getContextPath()%>/resources/images/project/<%=pj.getTitleImg()%>');
+			background-size:contain;			
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: -1;
+	        }
 
+        #pTitle{
+        font-size: 30px;
+        font-weight:bold;
+        }
+        
 
-        /* .information{
+    	.pInfol {
+    	font-size:16px;
+        font-weight:bold;
+        margin-right:10px;
+        width:130px;
+    	}
+    	
+		#persent{
+		font-size:20px;
+		color:#00B2B2;
+		font-weight:bold;
+		}
+
+		.pInfot{
+		font-size:20px;
+		font-weight:600;
+		}
+
+        .pInfo{
+        font-size:18px;
+        font-weight:bold;
+        margin-right:10px;
+        
+        }
+    	
+    	.pInfo span{
+    	font-size:25px;
+    	font-weight:bold;
+    	display:block;
+    	margin-bottom : 50px;
+    	}
+    	
+        /*
+         .information{
             display:flex;
 
             flex-direction: column;
@@ -105,51 +182,71 @@ Attachment at=(Attachment)(request.getAttribute("at"));
 </style>
 </head>
 <body>
-<%@ include file="../common/menubar.jsp"%>
+	<%@ include file="../common/menubar.jsp"%>
 
 <div class="container_filed">
-    <br><br>
 
-        <div class="wrap">
-            <div class="header"><h2>홍보이미지슬라이드</h2></div><br>
+
+            <div class="header">
+            <h1  id = pTitle> <%=pj.getProjectName() %> </h1>
+            </div>
+              
     
             <div class="wrap2">
-                <div id="info" class="information"><h2>이미지</h2>
-                    <img width="" height="" id="titleImg" src="<%=request.getContextPath() %>/resources/board_upfiles/<%= pj.getChangeName() %>">
+                <div id="imgBox" class="information">
                 </div>
-                <div class="information"><h2>프로젝트정보</h2><br>
-                    <b>프로젝트명</b><br>
-                    <b>펀딩금액</b><br>
-                    <b>현재금액</b><br>
-                    <b>종료일</b><br>
-                    <b>배송료</b><br>
-                  
-                    <b>수량</b><br>
-                    <input type="text" name="amount" id="input1" value="1" size="3" onchange="change();">
-                    <input type="button" value=" + " onclick="add();"><input type="button" value=" - " onclick="del();"><br><br>
+                <div class="information"><h2>프로젝트정보</h2><br><br>
+                	
+                    <label class="pInfol">목표금액  </label><span class='pInfot'><%= decFormat.format(pj.getAmountGoal()) %>원</span><br>
+                    <label class="pInfol">현재금액  </label><span class='pInfot'><%= decFormat.format(pj.getAmountPresent()) %>원</span><br>
+                    <label class="pInfol">달성률  </label><span id="persent"><%= (int)Math.floor(((double)pj.getAmountPresent()/pj.getAmountGoal())*100) %>%</span><br>
+                    <label class="pInfol">마감일  </label><span class='pInfot'><%=pj.getDdln() %></span><br>
+                    <label class="pInfol">배송료  </label><span class=pInfot><%=pj.getDeliveryCharge() %>원</span><br>
+                    <input type="text" name="amount" id="input1" value="1" size="3" onchange="change();"> <br>                  
+                    <button class="fBtn" id="btn1" onclick="test1();">펀딩하기</button>
                     
-                    <button id="btn1" onclick="test1();">펀딩하기</button>
+                     <form  action="" id="postForm" method="post">
+                
+                		<input type="hidden" name="pCode" value="<%= pj.getProjectCode() %>">
+                		<input type="hidden" name="fileNo" value="<%=pj.getFileNo() %>"> 
+                		<button class="fBtn" id="btn2" type="button" onclick="updateForm();">수정하기</button>
+                		
+                	</form>
                 </div>
             </div>
             <div class="wrap3">
-                <div class="content1"><h2>프로젝트스토리</h2></div>
+                <div class="content1">
+                	<label class="pInfo">
+                		<span>프로젝트스토리 </span>
+                		<br>
+                		
+                	</label><br>
+                	<%=pj.getDetailIntro() %>
+                </div>
                 <div class="content2">
                     <div class="side"><h3>인기프로젝트</h3></div>
-                    <div class="side"><h3>연관프로젝트</h3></div>
+                    <div class="side"><h3>연관프로젝트</h3></div> 	
+                	
+               <script>
+                	function updateForm(){
+                		
+                		$("#postForm").attr("action", "<%=request.getContextPath()%>/update.do");
+                		$("#postForm").submit();
+        				
+        			}
+                	
+                	</script> 
+                	
+                	
+                               
                 </div>
             </div>
             
         </div>
-        
+        </div>
+
          <%@ include file="../common/footer.jsp"%>
 
-</div>
 
-<script>
-        function test1(){
-            alert("마이페이지에서 펀딩투자내역을 확인하실 수 있습니다.");
-        }
-        
-      </script>
 </body>
 </html>
