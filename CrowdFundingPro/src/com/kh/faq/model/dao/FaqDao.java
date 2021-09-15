@@ -81,7 +81,7 @@ public class FaqDao {
 		return list;
 	}
 
-	public Faq selectFaq(Connection conn, String question) {
+	public Faq selectFaq(Connection conn, String fNo) {
 		
 		Faq f = null;
 		
@@ -93,10 +93,9 @@ public class FaqDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, question);
+			pstmt.setString(1, fNo);
 			
 			rset = pstmt.executeQuery();
-			
 			
 			while(rset.next()) {
 				f = new Faq(rset.getString("F_NO"),

@@ -24,11 +24,11 @@ public class FaqService {
 		return list;
 	}
 
-	public Faq selectFaq(String question) {
+	public Faq selectFaq(String fNo) {
 
 		Connection conn = getConnection();
 		
-		Faq f = new FaqDao().selectFaq(conn, question);
+		Faq f = new FaqDao().selectFaq(conn, fNo);
 		
 		close(conn);
 
