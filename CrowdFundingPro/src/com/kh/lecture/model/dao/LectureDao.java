@@ -42,6 +42,16 @@ public class LectureDao {
 		
 //		insertLecture=INSERT INTO LECTURE VALUES(SEQ_LECTURE_NO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 		
+//		LECTURE_CODE
+//		LECTURE_TITLE
+//		LECTURE_NUM
+//		LECTURE_ADDRESS
+//		LECTURE_TOPIC
+//		LECTURE_DATE
+//		LECTURE_TIME
+//		LECTURE_CONTENT
+//		LECTURER
+//		LECTURE_IMAGE
 		try {
 			pstm = conn.prepareStatement(sql);
 			pstm.setString(1, lecture.getLectureTitle());
@@ -50,9 +60,9 @@ public class LectureDao {
 			pstm.setString(4, lecture.getLectureTopic());
 			pstm.setDate(5, lecture.getLectureDate());
 			pstm.setInt(6, lecture.getLectureTime());
-			pstm.setInt(7, lecture.getLectureImage());
-			pstm.setString(8, lecture.getLectureContent());
-			pstm.setString(9, lecture.getLecturer());
+			pstm.setString(7, lecture.getLectureContent());
+			pstm.setString(8, lecture.getLecturer());
+			pstm.setString(9, lecture.getLectureImage());
 			
 			result = pstm.executeUpdate();
 			
@@ -82,7 +92,7 @@ public class LectureDao {
 			pstm.setString(4, lecture.getLectureTopic());
 			pstm.setDate(5, lecture.getLectureDate());
 			pstm.setInt(6, lecture.getLectureTime());
-			pstm.setInt(7, lecture.getLectureImage());
+			pstm.setString(7, lecture.getLectureImage());
 			pstm.setString(8, lecture.getLectureContent());
 			pstm.setString(9, lecture.getLecturer());
 			
@@ -114,7 +124,7 @@ public class LectureDao {
 			while(rs.next()) {
 			
 				result.add(new Lecture( 
-						rs.getInt("LECTURE_IMAGE"),
+						rs.getString("LECTURE_IMAGE"),
 						rs.getString("LECTURE_TOPIC"),
 						rs.getString("LECTURE_TITLE"),
 						rs.getDate("LECTURE_DATE"),
@@ -151,7 +161,7 @@ public class LectureDao {
 			while(rs.next()) {
 			
 				result.add(new Lecture( 
-						rs.getInt("LECTURE_IMAGE"),
+						rs.getString("LECTURE_IMAGE"),
 						rs.getString("LECTURE_TOPIC"),
 						rs.getString("LECTURE_TITLE"),
 						rs.getDate("LECTURE_DATE"),
@@ -188,7 +198,7 @@ public class LectureDao {
 												  rs.getString("LECTURE_TOPIC"),
 												  rs.getDate("LECTURE_DATE"),
 												  rs.getInt("LECTURE_TIME"),
-												  rs.getInt("LECTURE_IMAGE"),
+												  rs.getString("LECTURE_IMAGE"),
 												  rs.getString("LECTURE_CONTENT"),
 												  rs.getString("LECTURER")) : null;
 			
@@ -207,15 +217,15 @@ public class LectureDao {
 	
 	
 	
-	public int deleteLecture(Connection conn, String lecId) {
+	public int deleteLecture(Connection conn, Lecture lecture) {
 		
 		int result = 0;
 		PreparedStatement pstm = null;
 		String sql = prop.getProperty("deleteLecture");
-		
+		//deleteLecture=DELETE FROM LECTURE WHERE LECTURE_CODE=?
 		try {
 			pstm = conn.prepareStatement(sql);
-			pstm.setString(1, lecId);
+			pstm.setString(1, lecture.getLectureCode());
 			
 			result = pstm.executeUpdate();
 			
@@ -231,7 +241,6 @@ public class LectureDao {
 	}
 	
 	public int signInLecture(Connection conn, User u) {
-		
 		
 		
 		

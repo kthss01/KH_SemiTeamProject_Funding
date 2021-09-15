@@ -64,10 +64,10 @@ public class LectureService {
 		return result;
 	}
 
-	public int deleteLecture(String lecId) {
+	public int deleteLecture(Lecture lecture) {
 		
 		Connection conn = getConnection();
-		int result = new LectureDao().deleteLecture(conn,lecId);
+		int result = new LectureDao().deleteLecture(conn,lecture);
 		
 		if ( result > 0 )  commit(conn);
 		else rollback(conn);
@@ -76,11 +76,11 @@ public class LectureService {
 		return result;
 	}
 
-	public Lecture selectLecture(String lecId) {
+	public Lecture selectLecture(String lecCode) {
 		
 		Connection conn = getConnection();
-		System.out.println(lecId);
-		Lecture lecture = new LectureDao().selectLecture(conn,lecId);
+		System.out.println(lecCode);
+		Lecture lecture = new LectureDao().selectLecture(conn,lecCode);
 		close(conn);
 		return lecture;
 	}
