@@ -105,7 +105,7 @@
     #lTable{
     	width: 460px;
         border: 1px solid rgb(100, 200, 167);
-        font-size: 10px;
+        font-size: 12px;
     }
     
     
@@ -228,9 +228,9 @@
 					</thead>  
 					<tbody>        
 						<%if(list == null){ %>
-							<tr style="height: 25px;">
-								<td colspan="3">등록된 게시물이 없습니다.</td>
-							</tr>
+						<tr style="height: 25px;">
+							<td colspan="3">등록된 게시물이 없습니다.</td>
+						</tr>
 						<%} else{%>              
                         <%for(Faq f : list){ %>
                        	<tr style="height: 25px;">
@@ -282,7 +282,7 @@
                 </div>
                 <div class="c2 bot" id="c2Bot" style="text-align: right;">                
                     <input form="detail" class="btns2" type="submit"  value="수정" onclick="return goUpdate();" formaction="<%=request.getContextPath()%>/update.fq"/>
-                    <input form="detail" class="btns2" type="submit"  value="삭제" formaction="<%=request.getContextPath()%>/delete.fq"/>
+                    <input form="detail" class="btns2" type="submit"  value="삭제" onclick="return goDelete();" formaction="<%=request.getContextPath()%>/delete.fq"/>
                 </div>
                 <script type="text/javascript">
                 	function goUpdate(){
@@ -302,6 +302,15 @@
 	                		
 	                		return true;
                 		} else{
+                			return false;
+                		}
+                	}
+                	
+                	function goDelete(){
+                		if(confirm("게시물을 삭제하시겠습니까?\n삭제한 게시물은 되돌릴 수 없습니다.")){
+                			return true;
+                		}
+                		else{
                 			return false;
                 		}
                 	}

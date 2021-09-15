@@ -56,13 +56,14 @@
         display: inline-block;
         width: 1000px;
         /* border: 1px solid black; */
-        font-size: 12px;
+        
     }
 
     th{
         border: 1px solid black;
         width: 200px;
         background-color: rgba(100, 200, 167, 0.8);
+        font-size: 12px;
     }
 
     td{
@@ -70,6 +71,7 @@
         width: 800px;
         display: inline-block;
         text-align: left;
+        font-size: 11px;
     }
 
     #btns{
