@@ -19,7 +19,7 @@
 <style>
 .container_filed {
 	width: 100%;
-	height: 2500px;
+	padding-bottom:100px;
 }
 
 .carousel-item {
@@ -61,6 +61,7 @@ h4 {
 }
 
 #present {
+	font-size:13px;
 	font-weight: bold;
 	color: #90949C;
 }
@@ -71,14 +72,21 @@ font-size:15px;
 font-weight:bold;
 }
 
-.rank > li:hover{
+li:hover{
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.2);
 	z-index:1;
+	cursor:pointer;
 }
 
 .rank{
 width:400px;
 }
+
+.openFunding:hover{
+cursor:pointer;
+}
+
+
 </style>
 
 </head>
@@ -175,12 +183,12 @@ width:400px;
 							<span style="font-size:11px; color:lightgray;">( 서포터 수 기준 )</span>
 							
 						</div>
-						<div class="card mb-4 rankingList" style="border:none;">
+						<div class=" mb-4 rankingList" style="border:none;">
 							<!-- <div class="card-header">실시간 랭킹</div> -->
-							<ol class="list-group mb-0 rank" >
+							<div class="list-group mb-0 rank" >
 
 
-							</ol>
+							</div>
 
 						</div>
 
@@ -205,10 +213,10 @@ width:400px;
 
 
 			
-						<div class="openFunding" style=" width:1100px;   margin:0 auto;"
+						<div class="openFunding" style=" width:100%;   margin-top:200px;"
 							onclick="location.href='views/project/registrationView.jsp'">
 							<img src="resources/images/openfunding.png" alt="..."
-								style="width: 100%; height: 100%;">
+								style="width: 100%; height: 250px;">
 						</div>
 
 			</div>
@@ -252,25 +260,23 @@ $(function(){
 	
 			pList.forEach((pj) => {
 			const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
-
 			card.append(`
-					<div class="col-lg-4 " style="padding: 5px;">
-					<div class="card mb-4 " style="height:300px; width:260px; border:none;">
+					<div class="col-lg-4 pCard " style="padding: 5px;">
 				    <input type="hidden" value="\${pj.projectCode}">
+					<div class="card mb-4" style="height:300px; width:260px; border:none;">
 						<img class="card-img-top" style="height:185px;"
 							src="\${contextPath}/resources/images/project/\${pj.titleImg}"
 							alt="..." />
 						<div class="card-body" style="padding:10px; border-bottom: 3px solid gray;" >
-						<h2 class="card-title pTitle" style='font-size:15px; font-weight:bold;'">\${pj.projectName}</h2>
+						<h2 class="card-title pTitle" style='font-size:15px; font-weight:bold; height:55px;'">\${pj.projectName}</h2>
 						<span class="persent"> \${ratio}%</span>
-						<span id="present">  \${pj.amountPresent.toLocaleString()}원</span>
-
+						<span id="present"> &#12685 \${pj.amountPresent.toLocaleString()}원</span>
 						</div>
 					</div>
 					</div>	
-
 					`)
 			})
+			
 		},
 		error:function(){
 			console.log('통신실패1');
@@ -288,10 +294,13 @@ $(function(){
 			console.log(pList);
 			var index = 1;
 			pList.forEach((pj => {
+				console.log(pj);
 			const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
 				rank.append(`
-						<li class="list-group-item" style="padding:0px; width:100%; height:100px; overflow:hidden; height:auto; border:none; border-bottom: 2px solid lightgray; padding-top:10px; padding-bottom:5px;">
-						
+						<li class="list-group-item pCard"
+						style="padding:0px; width:100%; height:100px; overflow:hidden; height:auto; border:none; border-bottom: 2px solid lightgray; padding-top:10px; padding-bottom:5px;">
+					    <input type="hidden" value="\${pj.projectCode}">
+
 						<div style="font-size:1.5em; color:rgba(0,0,0,.84); font-weight:bold; padding-left:5px;  width:15px; height:100px; float:left;">\${index++}</div>
 						<div style="width:240px; color:rgba(0,0,0,.64) padding-top:20px; padding-left:10px; height:70px; float:left;" class="lankTitle">\${pj.projectName}
 						</div>
@@ -302,19 +311,30 @@ $(function(){
 						</div>
 
 						<div class="persent" style=" font-size:13px; padding-left:30px; width:240px; float:left;">\${ratio}%<span style="color:gray;"> &#12685 \${pj.categoryName}</span></div>
-						
-						
+				
 						</li>
 					
 						`)
-					
-			}))
+
+			}));
+			
+
+			
+			// 이벤트 처리
+			   $(".pCard").on("click",function(){
+				   var pCode = $(this).children('input').val();
+				   	console.log("? : " + pCode);
+					location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
+				});
 			
 		},error:function(){
 			console.log('통신에러');
 		}
 		
 	})
+	
+	
+
 	
 	
 	
@@ -352,9 +372,7 @@ $(function(){
 	})
 	
 --%>
-	
-	
-	
+
 	
 })
 
