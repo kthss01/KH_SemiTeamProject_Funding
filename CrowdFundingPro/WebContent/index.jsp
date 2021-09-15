@@ -10,13 +10,18 @@
 <title>메인페이지</title>
 
 
-
+<!-- 구글 폰트 -->
 <link
-	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
-            mily=Nanum+Gothic&family=Roboto&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
 	rel="stylesheet">
 
 <style>
+
+.body{
+	font-family: 'Noto Sans KR', 'sans-serif';
+
+}
+
 .container_filed {
 	width: 100%;
 	padding-bottom:100px;
@@ -37,9 +42,10 @@
 }
 
 h4 {
-	font-family: 'Roboto', 'sans-serif';
+	font-family: 'Noto Sans KR', 'sans-serif';
 	margin-top: 30px !important;
-	font-size: 2em;
+	margin-bottom: 10px !important;
+	font-size: 28px !important;
 	font-weight: 600 !important;
 	letter-spacing: -1px;
 }
@@ -58,18 +64,35 @@ h4 {
 .persent {
 	color: #00B2B2;
 	font-weight: bold;
+
 }
 
 #present {
 	font-size:13px;
 	font-weight: bold;
 	color: #90949C;
+	
 }
-
+#categoryName{
+	font-size:12px;
+	font-weight: bold;
+	color: rgba(0, 0, 0, .8);
+}
+#ddln{
+	font-size:13px;
+	font-weight: bold;
+	color: #90949C;
+}
 
 .lankTitle{
 font-size:15px;
 font-weight:bold;
+font-family: 'Noto Sans KR', 'sans-serif';
+}
+
+.pTitle{
+	font-family: 'Noto Sans KR', 'sans-serif';
+
 }
 
 li:hover{
@@ -216,7 +239,7 @@ cursor:pointer;
 						<div class="openFunding" style=" width:100%;   margin-top:200px;"
 							onclick="location.href='views/project/registrationView.jsp'">
 							<img src="resources/images/openfunding.png" alt="..."
-								style="width: 100%; height: 250px;">
+								style="width: 100%; height: 270px;">
 						</div>
 
 			</div>
@@ -260,21 +283,60 @@ $(function(){
 	
 			pList.forEach((pj) => {
 			const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
+
 			card.append(`
 					<div class="col-lg-4 pCard " style="padding: 5px;">
 				    <input type="hidden" value="\${pj.projectCode}">
-					<div class="card mb-4" style="height:300px; width:260px; border:none;">
+					<div class="card mb-4" style="height:300px; width:280px; border:none;">
 						<img class="card-img-top" style="height:185px;"
 							src="\${contextPath}/resources/images/project/\${pj.titleImg}"
 							alt="..." />
-						<div class="card-body" style="padding:10px; border-bottom: 3px solid gray;" >
+						<div class="card-body" style="padding:10px; border-bottom: 3px solid gray; position:relative;"  >
 						<h2 class="card-title pTitle" style='font-size:15px; font-weight:bold; height:55px;'">\${pj.projectName}</h2>
 						<span class="persent"> \${ratio}%</span>
-						<span id="present"> &#12685 \${pj.amountPresent.toLocaleString()}원</span>
+						<span id="present">&#12685 \${pj.amountPresent.toLocaleString()}원</span>
+						<span id="ddln" style="position:absolute; right:0; bottom:0;">마감 \${dDay(pj.ddln)}일 전</span>
+
 						</div>
 					</div>
 					</div>	
 					`)
+					
+					// 이벤트 처리
+					   $(".pCard").on("click",function(){
+						   var pCode = $(this).children('input').val();
+							location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
+						});
+			
+			function dDay(ddln){
+				var now = new Date();
+
+				var year = now.getFullYear();
+				var month = now.getMonth();
+				var day = now.getDate();
+
+				var today = new Date(year, month, day);
+				console.log("오늘 날짜 : " + today);
+
+				var ddlnYear = ddln.substr(7);
+				var ddlnMonth = ddln.substr(0,1);
+				var ddlnDay = ddln.substr(3,2)-1;
+				
+				var ddlnDate = new Date(ddlnYear, ddlnMonth, ddlnDay);
+				console.log("마감 날짜 : " + ddlnDate);
+
+				
+				var btMs =  ddlnDate.getTime() - today.getTime();
+				var btDay = (btMs / (1000*60*60*24));
+				console.log("d-day : " + btDay);
+
+				return btDay;
+				
+			}
+			
+			
+			
+					
 			})
 			
 		},
@@ -285,16 +347,15 @@ $(function(){
 	
 	
 	
+	
 		<!--실시간 랭킹 리스트 -->
 
-	
 	$.ajax({
 		url:'rank.pro',
 		success:function(pList){
 			console.log(pList);
 			var index = 1;
 			pList.forEach((pj => {
-				console.log(pj);
 			const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
 				rank.append(`
 						<li class="list-group-item pCard"
@@ -323,7 +384,6 @@ $(function(){
 			// 이벤트 처리
 			   $(".pCard").on("click",function(){
 				   var pCode = $(this).children('input').val();
-				   	console.log("? : " + pCode);
 					location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
 				});
 			
@@ -335,6 +395,8 @@ $(function(){
 	
 	
 
+	
+	
 	
 	
 	

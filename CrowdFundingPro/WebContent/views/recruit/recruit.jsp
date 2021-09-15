@@ -23,6 +23,12 @@
     <!-- <link  href="https://cdn.jsdelivr.net/npm/bootstrap-steps@%5E1.0/dist/bootstrap-steps.min.css" rel="stylesheet"> -->
 
     <style>
+    
+    	.body{
+    	  	font-family: 'Noto Sans KR', 'sans-serif';
+    	
+    	}
+    
         .jumbotron {
             background: #fff;
         }

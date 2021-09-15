@@ -18,12 +18,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<link
-	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
-		         mily=Nanum+Gothic&family=Roboto&display=swap"
-	rel="stylesheet">
 
 <style>
+
+    .body{
+    	font-family: 'Noto Sans KR', 'sans-serif';
+    }
+
 .carousel-item {
 	height: 400px;
 }
@@ -52,7 +53,7 @@
 
 #categoryName h1 {
 	width: 100%;
-	font-family: 'Roboto', 'sans-serif';
+	font-family: 'Noto Sans KR', 'sans-serif';
 	font-size: 35px;
 	font-weight: 700;
 	margin-top: 70px;
@@ -87,7 +88,7 @@
 #pTitle {
 	font-size: 20px;
 	font-weight: bold;
-	font-family: 'Roboto', 'sans-serif';
+	font-family: 'Noto Sans KR', 'sans-serif';
 	padding: 5px;
 }
 
@@ -98,7 +99,7 @@
 #pCategory {
 	font-size: 14px;
 	font-weight: bold;
-	font-family: 'Roboto', 'sans-serif';
+	font-family: 'Noto Sans KR', 'sans-serif';
 	color: #90949C;
 	border: none;
 	padding-top: 2px;
@@ -106,7 +107,7 @@
 
 #pAmount {
 	font-size: 18px;
-	font-family: 'Roboto', 'sans-serif';
+	font-family: 'Noto Sans KR', 'sans-serif';
 	color: #90949C;
 	border: none;
 	padding-top: 2px;
