@@ -12,7 +12,7 @@ public class Lecture {
 	String lectureTopic = null;
 	Date lectureDate = null;
 	int lectureTime = 0;
-	int lectureImage = 0;
+	String lectureImage = null;
 	String lectureContent = null;
 	String lecturer = null;
 	
@@ -37,7 +37,7 @@ public class Lecture {
 
 
 	public Lecture(String lectureCode, String lectureTitle, int lectureNum, String lectureAddress, String lectureTopic,
-			Date lectureDate, int lectureTime, int lectureImage, String lectureContent) {
+			Date lectureDate, int lectureTime, String lectureImage, String lectureContent) {
 		super();
 		this.lectureCode = lectureCode;
 		this.lectureTitle = lectureTitle;
@@ -53,7 +53,7 @@ public class Lecture {
 
 
 	public Lecture(String lectureTitle, int lectureNum, String lectureAddress, String lectureTopic, Date lectureDate,
-			int lectureTime, int lectureImage, String lectureContent) {
+			int lectureTime, String lectureImage, String lectureContent) {
 		super();
 		this.lectureTitle = lectureTitle;
 		this.lectureNum = lectureNum;
@@ -66,7 +66,7 @@ public class Lecture {
 	}
 	
 	public Lecture(String lectureTitle, int lectureNum, String lectureAddress, String lectureTopic, Date lectureDate,
-			int lectureTime, int lectureImage, String lectureContent, String lecturer) {
+			int lectureTime, String lectureImage, String lectureContent, String lecturer) {
 		super();
 		this.lectureTitle = lectureTitle;
 		this.lectureNum = lectureNum;
@@ -80,7 +80,7 @@ public class Lecture {
 	}
 	
 	public Lecture(String lectureCode,String lectureTitle, int lectureNum, String lectureAddress, String lectureTopic, Date lectureDate,
-			int lectureTime, int lectureImage, String lectureContent, String lecturer) {
+			int lectureTime, String lectureImage, String lectureContent, String lecturer) {
 		super();
 		this.lectureCode = lectureCode;
 		this.lectureTitle = lectureTitle;
@@ -96,7 +96,7 @@ public class Lecture {
 	
 	
 
-	public Lecture(int lectureImage,String lectureTopic, String lectureTitle,Date lectureDate,String lecturer,int lectureTime, int lectureNum) {
+	public Lecture(String lectureImage,String lectureTopic, String lectureTitle,Date lectureDate,String lecturer,int lectureTime, int lectureNum) {
 		super();
 		this.lectureImage = lectureImage;
 		this.lectureTopic = lectureTopic;
@@ -108,7 +108,7 @@ public class Lecture {
 	}
 	
 	
-	public Lecture(int lectureImage,String lectureTopic, String lectureTitle,Date lectureDate,String lecturer,int lectureTime, int lectureNum,String lectureCode) {
+	public Lecture(String lectureImage,String lectureTopic, String lectureTitle,Date lectureDate,String lecturer,int lectureTime, int lectureNum,String lectureCode) {
 		super();
 		this.lectureImage = lectureImage;
 		this.lectureTopic = lectureTopic;
@@ -165,10 +165,10 @@ public class Lecture {
 	public void setLectureTime(int lectureTime) {
 		this.lectureTime = lectureTime;
 	}
-	public int getLectureImage() {
+	public String getLectureImage() {
 		return lectureImage;
 	}
-	public void setLectureImage(int lectureImage) {
+	public void setLectureImage(String lectureImage) {
 		this.lectureImage = lectureImage;
 	}
 	public String getLectureContent() {

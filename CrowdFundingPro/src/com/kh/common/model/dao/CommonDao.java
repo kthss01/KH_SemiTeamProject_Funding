@@ -125,14 +125,13 @@ public class CommonDao {
 		int result = 0;
 		
 		PreparedStatement pstm = null;
-		String sql = prop.getProperty("insertLectureProject");
+		String sql = prop.getProperty("insertLectureAttachment");
 		
 		try {
 			pstm = conn.prepareStatement(sql);
-			pstm.setInt(1, 2);
-			pstm.setString(2, at.getOriginName());
-			pstm.setString(3, at.getChangeName());
-			pstm.setString(4, at.getFilePath());
+			pstm.setString(1, at.getOriginName());
+			pstm.setString(2, at.getChangeName());
+			pstm.setString(3, at.getFilePath());
 			
 			result = pstm.executeUpdate();
 			
