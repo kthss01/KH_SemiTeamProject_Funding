@@ -10,10 +10,9 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.kh.project.model.dao.ProjectDao;
 import com.kh.common.model.vo.Attachment;
+import com.kh.project.model.dao.ProjectDao;
 import com.kh.project.model.vo.Project;
-import com.kh.user.model.dao.UserDao;
 
 public class ProjectService {
 
@@ -154,11 +153,70 @@ public class ProjectService {
 		return list;
 	}
 
+	public Map<Integer, Integer> getListCountWithCategoryNo() {
+		Connection conn = getConnection();
+		Map<Integer, Integer> map = new ProjectDao().getListCountWithCategoryNo(conn);
+		close(conn);
+		return map;
+	}
+
+	public ArrayList<Project> selectProjectListWithSearchValue(int startRow, int endRow, String searchValue) {
+		Connection conn = getConnection();
+
+		ArrayList<Project> list = new ProjectDao().selectProjectListWithSearchValue(conn, startRow, endRow,
+				searchValue);
+
+		close(conn);
+
+		return list;
+	}
+
 	public ArrayList<Project> searchList(String keyword) {
 		Connection conn = getConnection();
-		
-		ArrayList<Project> list = new ProjectDao().searchList(conn,keyword);
-		
+
+		ArrayList<Project> list = new ProjectDao().searchList(conn, keyword);
+
+		close(conn);
+		return list;
+	}
+
+	public int getSearchCount(String searchValue) {
+		Connection conn = getConnection();
+
+		int result = new ProjectDao().getSearchCount(conn, searchValue);
+
+		close(conn);
+
+		return result;
+	}
+
+	public int getSearchCountWithCategoryNo(int categoryNo, String searchValue) {
+		Connection conn = getConnection();
+
+		int result = new ProjectDao().getSearchCountWithCategoryNo(conn, categoryNo, searchValue);
+
+		close(conn);
+
+		return result;
+	}
+
+	public String getCategoryName(String categoryNo) {
+		Connection conn = getConnection();
+
+		String result = new ProjectDao().getCategoryName(conn, categoryNo);
+
+		close(conn);
+
+		return result;
+	}
+
+	public ArrayList<Project> selectProjectListWithCategoryAndSearchValue(int startRow, int endRow, int categoryNo,
+			String searchValue) {
+		Connection conn = getConnection();
+
+		ArrayList<Project> list = new ProjectDao().selectProjectListWithCategoryAndSearchValue(conn, startRow, endRow,
+				categoryNo, searchValue);
+
 		close(conn);
 		return list;
 	}

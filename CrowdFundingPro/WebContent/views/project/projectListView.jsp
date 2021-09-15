@@ -61,6 +61,16 @@
 	margin-left: 30px;
 }
 
+#categoryName p {
+	width: 100%;
+	font-family: 'Roboto', 'sans-serif';
+	font-size: 25px;
+	font-weight: 700;
+	margin-top: 70px;
+	margin-bottom: 40px;
+	margin-left: 30px;
+}
+
 #celectCategory {
 	width: 100%;
 }
@@ -114,7 +124,7 @@
 }
 
 .card {
-	display: block !important;
+	display: block;
 	border: none;
 	float: left !important;
 }
@@ -210,28 +220,13 @@
 
 		<div class="container_filed">
 			<form class="searchArea">
-				<div id="celectCategory">
+				<div id="selectCategory">
 					<select id="cName" name="cName" class="form-control"
 						style="width: 200px; display: inline;">
-						<option value="">여행,레저</option>
-						<option value="">테크,가전</option>
-						<option value="">스포츠</option>
-						<option value="">홈리빙</option>
-						<option value="">뷰티,패션잡화</option>
-						<option value="">반려동물</option>
-						<option value="">기부,후원</option>
-						<option value="">출판</option>
-						<option value="">푸드</option>
-						<option value="">디자인소품</option>
-						<option value="">공연,컬쳐</option>
-						<option value="">소셜</option>
-						<option value="">게임,취미</option>
-						<option selected>카테고리</option>
 						<%-- ajax 처리 setCategory() --%>
-					</select> <input type="text" id="pSearch" name="search"
-						placeholder="어떤 프로젝트를 찾고 계신가요?"> <input id="searchBtn"
-						style="height: 38px;" type="submit" value='검색'> <i
-						class="fas fa-search fa-lg" style="color: #00B2B2"></i>
+					</select> 
+					<input type="text" id="pSearch" name="search" placeholder="어떤 프로젝트를 찾고 계신가요?" style="text-align: center;"> 
+					<input id="searchBtn" style="height: 38px;" type="button" value='검색' onclick="searchProject();"> <i class="fas fa-search fa-lg" style="color: #00B2B2"></i>
 				</div>
 			</form>
 
@@ -244,6 +239,7 @@
 
 			<div id="categoryName">
 				<h1>어떤 프로젝트를 찾으시나요 ?</h1>
+				<p></p>
 			</div>
 
 
@@ -276,14 +272,37 @@
 <script>
 		
 	$(function(){
+		// 새 페이지 접근 시 기존 정보 삭제
 		localStorage.removeItem("page");
 		localStorage.removeItem("categoryNo");
+		localStorage.removeItem("searchValue");
 		
-		loadCategory();
+		loadCategory();;
 		
 		infinityScroll();
 	})	
 	
+	let isRead = false;
+	
+	// 검색 
+	function searchProject() {
+		const value = $('#pSearch').val();
+		
+		const selectOption = $('#cName option:selected').val();
+		//console.log(selectOption);
+		$("#cRadioButton input[type=radio]").each(function(index, item) {
+			if (item.value === selectOption) {
+				//console.log(item);
+				isRead = true;
+				$('div.container_filed .card').remove();
+				localStorage.setItem("searchValue", value);
+				$(item).parent().trigger("click", true);
+				return false;
+			}
+		});
+	}
+	
+	// 카테고리
 	function loadCategory() {
 		$.ajax({
 			url: "categoryList.do",
@@ -297,11 +316,27 @@
 		});
 	}
 	
-	function setCategory(category) {
+	function setCategory({ category, categoryCnt }) {
 		// 검색 option 설정
+		const selectOption = $("#cName");
+		let option = $('<option>').prop("selected", true);
+		option.text('전체');
+		option.val(0);
+		
+		selectOption.append(option);
+		
+		Object.keys(category).forEach((key) => {
+			selectOption.append(`
+				<option value='\${key}'>\${category[key]}</option>		
+			`);
+		});		
 		
 		// 라디오버튼 설정
 		const radioButton = $("#cRadioButton");
+		
+		// 카테고리 전체 갯수 계산 
+		const totalCnt = Object.keys(categoryCnt).reduce((sum, key) => sum + categoryCnt[key], 0);
+		//console.log(totalCnt);
 		
 		// 전체 버튼 추가
 		// button group 추가
@@ -310,6 +345,7 @@
 		
 		btnGroup.append(`
 			<button type="button" class="btn" style="width: 130px;">
+			   <input type="hidden" name="project_category_count" value="\${totalCnt}">
                <input type="radio" name="project_category" value="0" autocomplete="off" checked>
                <img src="resources/images/category/0.png" class="rounded-circle" style="width: 70px;"><br>
                <span class="text-dark font-weight-bold small">전체</span>
@@ -325,6 +361,7 @@
 			}
 			btnGroup.append(`
 				<button type="button" class="btn" style="width: 130px;">
+				<input type="hidden" name="project_category_count" value="\${categoryCnt[key]}">
 	               <input type="radio" name="project_category" value="\${key}" autocomplete="off">
 	               <img src="resources/images/category/\${key}.jpg" class="rounded-circle" style="width: 70px;"><br>
 	               <span class="text-dark font-weight-bold small">\${category[key]}</span>
@@ -335,17 +372,23 @@
 		// 이벤트 추가
 		$("#cRadioButton button").on("click", function() {
 			//console.log(($(this).children('input').val()));
-			const categoryNo = $(this).children('input').val();
+			const categoryNo = $(this).children('input[type=radio]').val();
 			localStorage.setItem("categoryNo", categoryNo);
+			
+			const categoryCnt = $(this).children('input[type=hidden]').val();
+			
+			const categoryName = $(this).children('span').text();
+			$('#categoryName h1').text(`\${categoryName} (\${categoryCnt})`);
 			
 			$('div.container_filed .card').remove();
 			localStorage.setItem("page", 1);
 			
+			isRead = true;
 			readProject();
 		});
 	}
 	
-	let isRead = false;
+	// 무한 스크롤링
 	
 	function infinityScroll() {
 		readProject();
@@ -369,6 +412,7 @@
 		}, {passive : true});
 	}
 	
+	// 프로젝트 
 	function readProject() {
 		// localStorage에 현재 페이지 번호 저장
 		let curPage = localStorage.getItem("page");
@@ -381,6 +425,11 @@
 			categoryNo = 0;
 		}
 		
+		let searchValue = localStorage.getItem("searchValue");
+		if (searchValue === null) {
+			searchValue = '';
+		}
+		
 		//console.log(curPage);
 		
 		// ajax 처리 project 읽어기
@@ -389,7 +438,8 @@
 			//beforeSend: loading(true), // 통신시작하기 전 로딩 처리 원하면 구현
 			data : { 
 				'page' : curPage, 
-				'categoryNo' : categoryNo
+				'categoryNo' : categoryNo,
+				'searchValue' : searchValue,
 			},
 			success: function(project) {
 				console.log(project);
@@ -402,13 +452,14 @@
 				//loadding(false), // 통신끝나고 로딩 끝내기
 				curPage++;
 				localStorage.setItem("page", curPage); // 현재 페이지 하나 증가시켜서 storage에 넣기
+				
 				isRead = false;
 			},
 		});
 	}
    
 	// project 처리하는 function
-	function setProject(projects) {
+	function setProject({ project:projects, search }) {
 	   
 	   const container = $('div.container_filed');
 	   
@@ -440,9 +491,18 @@
 		// 이벤트 처리
 	   $(".project").on("click",function(){
 		   var pCode = $(this).children().eq(0).val();
-		   	console.log(pCode);
+		   	//console.log(pCode);
 			location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
 		});
+		
+		// 검색어 처리
+		//console.log(searchCnt);
+		// 전체 검색이 아닌 경우
+		if (search.cnt != -1) {
+			$('#categoryName p').text(`\${search.categoryName} 검색 : \${search.value} (\${search.cnt})`);
+		} else {
+			$('#categoryName p').text('');
+		}
 	}
 	
 </script>
