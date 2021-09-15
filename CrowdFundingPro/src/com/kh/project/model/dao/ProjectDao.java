@@ -520,4 +520,188 @@ public class ProjectDao {
 		return list;
 	}
 
+	public Map<Integer, Integer> getListCountWithCategoryNo(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Map<Integer, Integer> map = new HashMap<>();
+		String sql = prop.getProperty("getListCountWithCategoryNo");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				int categoryNo = rset.getInt("CATEGORY_NO");
+				int categoryCnt = rset.getInt(2);
+
+				map.put(categoryNo, categoryCnt);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return map;
+	}
+
+	public ArrayList<Project> selectProjectListWithSearchValue(Connection conn, int startRow, int endRow,
+			String searchValue) {
+		ArrayList<Project> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String str = '%' + searchValue + '%';
+		
+		String sql = prop.getProperty("selectProjectListWithSearchValue");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, str);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				Project pj = new Project();
+
+				pj.setProjectCode(rset.getInt("PROJECT_CODE"));
+				pj.setProjectName(rset.getString("PROJECT_NAME"));
+				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
+				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
+				pj.setTitleImg(rset.getString("CHANGE_NAME"));
+				pj.setCategoryName(rset.getString("CATEGORY_NAME"));
+
+				list.add(pj);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public ArrayList<Project> selectProjectListWithCategoryAndSearchValue(Connection conn, int startRow, int endRow,
+			int categoryNo, String searchValue) {
+		ArrayList<Project> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String str = '%' + searchValue + '%';
+		
+		String sql = prop.getProperty("selectProjectListWithCategoryAndSearchValue");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, categoryNo);
+			pstmt.setString(2, str);
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, endRow);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				Project pj = new Project();
+
+				pj.setProjectCode(rset.getInt("PROJECT_CODE"));
+				pj.setProjectName(rset.getString("PROJECT_NAME"));
+				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
+				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
+				pj.setTitleImg(rset.getString("CHANGE_NAME"));
+				pj.setCategoryName(rset.getString("CATEGORY_NAME"));
+
+				list.add(pj);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public int getSearchCount(Connection conn, String searchValue) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("getSearchCount");
+
+		String str = "%" + searchValue + "%";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, str);
+
+			rset = pstmt.executeQuery();
+			
+			if (rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int getSearchCountWithCategoryNo(Connection conn, int categoryNo, String searchValue) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("getSearchCountWithCategoryNo");
+
+		String str = "%" + searchValue + "%";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, categoryNo);
+			pstmt.setString(2, str);
+
+			rset = pstmt.executeQuery();
+			
+			if (rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public String getCategoryName(Connection conn, String categoryNo) {
+		String result = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("getCategoryName");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(categoryNo));
+
+			rset = pstmt.executeQuery();
+			
+			if (rset.next()) {
+				result = rset.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return result;
+	}
+
 }

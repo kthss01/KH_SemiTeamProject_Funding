@@ -154,4 +154,61 @@ public class ProjectService {
 		return list;
 	}
 
+	public Map<Integer, Integer> getListCountWithCategoryNo() {
+		Connection conn = getConnection();
+		Map<Integer, Integer> map = new ProjectDao().getListCountWithCategoryNo(conn);
+		close(conn);
+		return map;
+	}
+
+	public ArrayList<Project> selectProjectListWithSearchValue(int startRow, int endRow, String searchValue) {
+		Connection conn = getConnection();
+
+		ArrayList<Project> list = new ProjectDao().selectProjectListWithSearchValue(conn, startRow, endRow, searchValue);
+
+		close(conn);
+
+		return list;
+	}
+
+	public ArrayList<Project> selectProjectListWithCategoryAndSearchValue(int startRow, int endRow, int categoryNo,
+			String searchValue) {
+		Connection conn = getConnection();
+
+		ArrayList<Project> list = new ProjectDao().selectProjectListWithCategoryAndSearchValue(conn, startRow, endRow, categoryNo, searchValue);
+
+		close(conn);
+		return list;
+	}
+
+	public int getSearchCount(String searchValue) {
+		Connection conn = getConnection();
+
+		int result = new ProjectDao().getSearchCount(conn, searchValue);
+
+		close(conn);
+
+		return result;
+	}
+
+	public int getSearchCountWithCategoryNo(int categoryNo, String searchValue) {
+		Connection conn = getConnection();
+
+		int result = new ProjectDao().getSearchCountWithCategoryNo(conn, categoryNo, searchValue);
+
+		close(conn);
+
+		return result;
+	}
+
+	public String getCategoryName(String categoryNo) {
+		Connection conn = getConnection();
+
+		String result = new ProjectDao().getCategoryName(conn, categoryNo);
+
+		close(conn);
+
+		return result;
+	}
+
 }
