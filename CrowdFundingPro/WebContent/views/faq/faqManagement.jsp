@@ -9,23 +9,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link
-	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
-         mily=Nanum+Gothic&family=Roboto&display=swap"
-	rel="stylesheet">
+
 <style>
 
     .container_filed{
-        
         width:100%;
         height: auto;
         text-align: center;
@@ -36,8 +23,6 @@
         text-align: left;
         margin: 0 auto;
         padding-bottom: 40px;
-        /* background-color: aquamarine; */
-        /* border: 1px solid black; */
         margin-top: 20px;
     }
 
@@ -47,8 +32,6 @@
         font-size: 50px;
         margin-left: 20px;
         margin-bottom: 0px;
-        
-        /* border: 1px solid black; */
     }
 
     #under{
@@ -56,97 +39,166 @@
         width: 100%;
         height : 5px;
         background : gray;
-        /* border: 1px solid black; */
-            
     }
 
     #content{
         display: inline-block;
         width: 1200px;
         height: 600px;
-        /* border: 1px solid black; */
         margin-bottom: 40px;
 
     }
+    
     .contents{
         display: inline-block;
         width: 500px;
-        border: 1px solid black;
         height: 100%;
+        text-align: center;
         
         margin-left: 10px;
         margin-right: 10px;
 
+		background-color: rgba(100, 200, 167, 0.2);
+		border-radius: 25px;
     }
 
     .c1, .c2{
         width: 100%;
         box-sizing: border-box;
-        /* border: 1px solid black; */
-
     }
 
     .top{
         display: inline-block inline-block;
         height: 100px;
-        line-height: 3;
         padding: 10px;
+		text-align: left;        
     }
     .top p{
-        /* display: inline-block; */
-        float: left;
+    	display: inline-block;
+        font-size: 30px;
         font-weight: bold;
+        border-radius: 10px;
+       	margin-top: 40px;
+       	margin-left: 10px;
+       	margin-bottom: 0px;
     }
 
     .mid{
         display: inline-block inline-block;
         height: 450px;
-        
-        padding: 20px;
+        padding: 10px 20px;
     }
+    
     .bot{
         display: inline-block inline-block;
         height: 50px;
-        
-        /* padding: 10px; */
- 
     }
-
-    .pages{
-        margin-left: 5px;
-        margin-right: 5px;
-        
-    }
+    
+    #ldiv{
+   		width: 474px;
+   		max-height: 390px;
+   		overflow-y: auto; 
+   		overflow-x: hidden;
+   		
+   	}
 
     #lTable{
-                            
-        border: 1px solid black;
-        display: inline-block;
-        
+    	width: 460px;
+        border: 1px solid rgb(100, 200, 167);
+        font-size: 10px;
+    }
+    
+    
+    #lTable tbody{
+    	background-color: white;
+    }
+    
+    .Qs{
+	   	border: none;
+	   	background-color: white;
+	   	width: 250px; 
+	   	overflow:hidden;
+	   	text-overflow:ellipsis; 
+	   	white-space:nowrap;
+	   	text-align: left;
+	   	padding: 0px 5px;
     }
 
+	#ddiv{
+   		width: 474px;
+   		max-height: 390px;
+   		overflow-y: auto; 
+   		overflow-x: hidden;
+   	}
+
     #dTable{
-        border: 1px solid black;
-        display: inline-block;
+        background-color: white;
+        width: 460px;
+        border: 1px solid rgb(100, 200, 167);
+        font-size: 12px;
     }
 
     th, td{
         border: 1px solid black;
     }
-
-    #lTable tr{
-        height: 30px;
+    
+    th{
+    	 background-color: rgba(100, 200, 167, 0.8);
     }
     
-    .Qs{
-    	border: none;
-    	background-color: white;
-    }
     .btns2{
        	display: inline-block;
-       	margin-left: 5px; 
-       	margin-right: 5px;
+       	visibility: hidden;
+       	margin-right: 20px;
     }
+    
+    #insert, .btns2{
+    	width: 55px;
+    	height: 30px;
+    	border: 1px solid rgba(100, 200, 167, 0.8);
+    	background-color: rgba(100, 200, 167, 0.8);
+    	font-weight: bold;
+    	border-radius: 5px;
+    	font-size: 15px;
+    }
+    
+    #insert:hover, .btns2:hover{
+    	background-color: rgba(100, 200, 167, 0.6);
+    }
+    
+    textarea {
+    	width: 345px; 
+		padding: 0px 5px;
+	}
+	
+	.pageHead {
+	width: 100%;
+	height: 250px;
+	padding-top: 100px;
+	margin-bottom: 50px;
+	position: relative;
+	z-index: 1;
+}
+
+.pageHead::after {
+	width: 100%;
+	height: 250px;
+	content: "";
+	background:
+		url('<%=request.getContextPath()%>/resources/images/eventBannerImg.jpg');
+	opacity: 0.5;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+}
+
+#pageTitle {
+    font-size: 48px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -157,35 +209,43 @@
             <p id="faq">FAQ</p>
             <div id="under"></div>
         </div>
-
+        
         <div id="content">
             <div class="contents" id="FAQList">
                 <div class="c1 top" id="c1Top">
-                    <p style="font-size: 40px;">목록</p>
+                    <p>목록</p>
                 </div>
                 <div class="c1 mid" id="c1Mid">
                     
-                    <button style="float: right; margin-bottom: 10px;" onclick = "location.href='insertForm.fq'">작성</button>
+                    <div id="ldiv">
                     <table id="lTable">
-                        <tr>
+                    <thead>
+                        <tr style="height: 30px;">
                             <th style="width: 100px;">글번호</th>
-                            <th style="width: 300px;">질문 내용</th>
+                            <th style="width: 250px;">질문 내용</th>
                             <th style="width: 150px;">작성인</th>
                         </tr>
+					</thead>  
+					<tbody>        
+						<%if(list == null){ %>
+							<tr style="height: 25px;">
+								<td colspan="3">등록된 게시물이 없습니다.</td>
+							</tr>
+						<%} else{%>              
                         <%for(Faq f : list){ %>
-                       	<tr>
-                            <td><%=f.getfNo() %></td>
-                            <th style="width: 300px;"><input type="button" id=<%=f.getfNo() %> class="Qs" name="qContent" value=<%=f.getQuestion() %>></th>
-                            <td><%=f.getCreatorId() %></td>
+                       	<tr style="height: 25px;">
+                            <td style="width: 100px;"><%=f.getfNo() %></td>
+                            <td style="width: 250px;"><input type="button" id=<%=f.getfNo() %> class="Qs" value=<%=f.getQuestion() %>></td>
+                            <td style="width: 150px;"><%=f.getCreatorId() %></td>
                        	</tr>
-                        <%} %>
-                        
+                        <%} }%>
+                    </tbody>    
                     </table>
-                 
+                 </div>
+					
                 </div>
-                <div class="c1 bot" id="c1Bot">
-                    <button class="pages">&lt;</button><button class="pages">1</button><button class="pages">2</button>
-                    <button class="pages">3</button><button class="pages">4</button><button class="pages">5</button><button class="pages">&gt;</button>
+                <div class="c1 bot" id="c1Bot" style="text-align: right;">                
+                    <button id='insert'style="display:inline-block; margin-right:20px; margin-bottom: 10px;" onclick = "location.href='insertForm.fq'">작성</button>
                 </div>
             </div>
             <script type = "text/javascript">
@@ -207,6 +267,7 @@
 	            				}
 	            			})
 	            			
+	            			$(".btns2").css('visibility', 'visible');
 	            		})
 	            	})
     			})
@@ -214,15 +275,37 @@
            	</script>
             <div class="contents" id="FAQDetail">
                 <div class="c2 top" id="c2Top"> 
-                    <p style="font-size: 40px;">상세</p>
+                    <p>상세</p>
                 </div>
                 <div class="c2 mid" id="c2Mid">
                 
                 </div>
                 <div class="c2 bot" id="c2Bot" style="text-align: right;">                
-                    <input form="detail" class="btns2" type="submit"  value="수정" formaction="<%=request.getContextPath()%>/update.fq"/>
+                    <input form="detail" class="btns2" type="submit"  value="수정" onclick="return goUpdate();" formaction="<%=request.getContextPath()%>/update.fq"/>
                     <input form="detail" class="btns2" type="submit"  value="삭제" formaction="<%=request.getContextPath()%>/delete.fq"/>
                 </div>
+                <script type="text/javascript">
+                	function goUpdate(){
+                		var area1 = $("textarea").eq(0).val().length;
+                		var area2 = $("textarea").eq(1).val().length;
+                		
+                		if(confirm("변경사항을 저장하시겠습니까?")){
+	                		if(area1 > 1000){
+	                			alert('질문 내용은 1000자 이하로 작성하세요(공백포함)');
+	                			return false;
+	                		}
+	                		
+                			if(area2 > 1000){
+                				alert('답변 내용은 1000자 이하로 작성하세요(공백포함)');
+                    			return false;
+                			}
+	                		
+	                		return true;
+                		} else{
+                			return false;
+                		}
+                	}
+                </script>
             </div>
        
         </div>
@@ -234,7 +317,6 @@
 
             $("#y").click(function()
             {
-                    console.log("Y클릭함");
                     $("#y").attr('checked', true);
                     $("#n").attr('checked', false);
              
@@ -242,7 +324,6 @@
 
             $("#n").click(function()
             {
-                    console.log("N클릭함");
                     $("#y").attr('checked', false);
                     $("#n").attr('checked', true);
              
