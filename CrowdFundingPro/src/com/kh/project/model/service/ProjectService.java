@@ -10,10 +10,9 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.kh.project.model.dao.ProjectDao;
 import com.kh.common.model.vo.Attachment;
+import com.kh.project.model.dao.ProjectDao;
 import com.kh.project.model.vo.Project;
-import com.kh.user.model.dao.UserDao;
 
 public class ProjectService {
 
@@ -164,24 +163,19 @@ public class ProjectService {
 	public ArrayList<Project> selectProjectListWithSearchValue(int startRow, int endRow, String searchValue) {
 		Connection conn = getConnection();
 
-		ArrayList<Project> list = new ProjectDao().selectProjectListWithSearchValue(conn, startRow, endRow, searchValue);
+		ArrayList<Project> list = new ProjectDao().selectProjectListWithSearchValue(conn, startRow, endRow,
+				searchValue);
 
 		close(conn);
 
 		return list;
 	}
 
-	public ArrayList<Project> selectProjectListWithCategoryAndSearchValue(int startRow, int endRow, int categoryNo,
-			String searchValue) {
-		Connection conn = getConnection();
-
-		ArrayList<Project> list = new ProjectDao().selectProjectListWithCategoryAndSearchValue(conn, startRow, endRow, categoryNo, searchValue);
-
 	public ArrayList<Project> searchList(String keyword) {
 		Connection conn = getConnection();
-		
-		ArrayList<Project> list = new ProjectDao().searchList(conn,keyword);
-		
+
+		ArrayList<Project> list = new ProjectDao().searchList(conn, keyword);
+
 		close(conn);
 		return list;
 	}
@@ -214,6 +208,17 @@ public class ProjectService {
 		close(conn);
 
 		return result;
+	}
+
+	public ArrayList<Project> selectProjectListWithCategoryAndSearchValue(int startRow, int endRow, int categoryNo,
+			String searchValue) {
+		Connection conn = getConnection();
+
+		ArrayList<Project> list = new ProjectDao().selectProjectListWithCategoryAndSearchValue(conn, startRow, endRow,
+				categoryNo, searchValue);
+
+		close(conn);
+		return list;
 	}
 
 }

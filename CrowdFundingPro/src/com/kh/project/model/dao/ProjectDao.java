@@ -476,13 +476,12 @@ public class ProjectDao {
 			 */
 
 			while (rset.next()) {
-				
-				p = new Project(rset.getInt("PROJECT_CODE"), rset.getString("PROJECT_NAME"),
-						rset.getInt("AMOUNT_GOAL"), rset.getInt("AMOUNT_PRESENT"), rset.getDate("DDLN"),
-						rset.getString("DETAIL_INTRO"), rset.getString("CHANGE_NAME"));
+
+				p = new Project(rset.getInt("PROJECT_CODE"), rset.getString("PROJECT_NAME"), rset.getInt("AMOUNT_GOAL"),
+						rset.getInt("AMOUNT_PRESENT"), rset.getDate("DDLN"), rset.getString("DETAIL_INTRO"),
+						rset.getString("CHANGE_NAME"));
 				p.setCategoryName(rset.getString("CATEGORY_NAME"));
-				
-				
+
 				list.add(p);
 
 			}
@@ -560,7 +559,7 @@ public class ProjectDao {
 		ResultSet rset = null;
 
 		String str = '%' + searchValue + '%';
-		
+
 		String sql = prop.getProperty("selectProjectListWithSearchValue");
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -598,7 +597,7 @@ public class ProjectDao {
 		ResultSet rset = null;
 
 		String str = '%' + searchValue + '%';
-		
+
 		String sql = prop.getProperty("selectProjectListWithCategoryAndSearchValue");
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -637,13 +636,13 @@ public class ProjectDao {
 		String sql = prop.getProperty("getSearchCount");
 
 		String str = "%" + searchValue + "%";
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, str);
 
 			rset = pstmt.executeQuery();
-			
+
 			if (rset.next()) {
 				result = rset.getInt(1);
 			}
@@ -664,14 +663,14 @@ public class ProjectDao {
 		String sql = prop.getProperty("getSearchCountWithCategoryNo");
 
 		String str = "%" + searchValue + "%";
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, categoryNo);
 			pstmt.setString(2, str);
 
 			rset = pstmt.executeQuery();
-			
+
 			if (rset.next()) {
 				result = rset.getInt(1);
 			}
@@ -690,13 +689,13 @@ public class ProjectDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("getCategoryName");
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, Integer.parseInt(categoryNo));
 
 			rset = pstmt.executeQuery();
-			
+
 			if (rset.next()) {
 				result = rset.getString(1);
 			}
@@ -720,16 +719,15 @@ public class ProjectDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1,"%"+keyword+"%");
-			pstmt.setString(2,"%"+keyword+"%");
-			
+			pstmt.setString(1, "%" + keyword + "%");
+			pstmt.setString(2, "%" + keyword + "%");
+
 			rset = pstmt.executeQuery();
 
 			while (rset.next()) {
-				
+
 				Project p = new Project();
 
-				
 				p.setProjectName(rset.getString("PROJECT_NAME"));
 				p.setProjectCode(rset.getInt("PROJECT_CODE"));
 				p.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
@@ -738,7 +736,7 @@ public class ProjectDao {
 				p.setDetailIntro(rset.getString("DETAIL_INTRO"));
 				p.setCategoryName(rset.getString("CATEGORY_NAME"));
 				p.setTitleImg(rset.getString("CHANGE_NAME"));
-				
+
 				list.add(p);
 			}
 
