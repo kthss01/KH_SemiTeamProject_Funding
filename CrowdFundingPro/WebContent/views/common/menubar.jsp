@@ -2,13 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.kh.user.model.vo.User"%>
 
+
 <%
 	User loginUser = (User) session.getAttribute("loginUser");
 	String msg = (String) session.getAttribute("msg");
-	String theme = (String) session.getAttribute("theme");
+	String keyword = (String) session.getAttribute("keyword");
 	session.setAttribute("location",request.getRequestURI());
 	System.out.println(request.getRequestURI());
-	System.out.println(theme);
 %>
 
 <!DOCTYPE html>
@@ -18,6 +18,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
+
+
 
 
 <!-- 다크모드 css -->
@@ -49,11 +51,13 @@
 	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
 	crossorigin="anonymous" />
 	
-
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+	rel="stylesheet">
 
 </head>
 <style>
-#search{
+#keyword{
 width:250px;
 height:35px;
 background-color: rgba(255,255,255,.8);
@@ -62,12 +66,14 @@ border-radius: 20px;
 margin-right:10px;
 margin-top:3px;
 }
-#search::placeholder{
+#keyword::placeholder{
 font-size:13px;
 text-align:center;
+font-family: 'Noto Sans KR', 'sans-serif';
+
 }
 
-#search:hover{
+#keyword{
 border:solid 0.2px white;
 background-color: white;
 
@@ -82,10 +88,15 @@ color:#00B2B2;
 text-decoration:underline;
 
 }
+
+.menubar{
+font-family: 'Noto Sans KR', 'sans-serif';
+
+}
 </style>
 
 <body>	
-	<nav class="navbar navbar-expand-md bg-dark navbar-dark"
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark menubar"
 		style="padding-left: 80px; padding-right: 80px;">
 		<a href="<%=request.getContextPath()%>" class="navbar-brand"
 			style="font-size: 23px;">CROWD FUND!NG</a>
@@ -124,10 +135,23 @@ text-decoration:underline;
 		<ul class="navbar-nav ml-auto">
 
 			<!--  검색 아이콘   **추가기능** -->
-			<input id="search" type="text" placeholder="어떤 프로젝트를 찾고 계신가요 ?" autocomplete="off">
-			<li class="nav-item"><a href="<%=request.getContextPath()%>/search.do" class="nav-link"> 
+			<input id="keyword" type="text" placeholder="어떤 프로젝트를 찾고 계신가요 ?" autocomplete="off">
+			<li class="nav-item"><a id="searchForm" onclick="goSearch();" class="nav-link"> 
 			<i class="fas fa-search fa-lg"></i>
 			</a></li>
+			
+			<script>
+			
+			function goSearch(){
+				
+				var keyword = $("#keyword").val();
+				console.log(keyword);
+				location.href="<%=request.getContextPath()%>/search.do?keyword="+keyword;
+			}
+			
+			</script>			
+			
+			
 			<%
 				if (loginUser == null) {
 			%>

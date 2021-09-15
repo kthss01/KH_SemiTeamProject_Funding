@@ -461,8 +461,9 @@ public class ProjectDao {
 		ArrayList<Project> list = new ArrayList<Project>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
+		Project p = null;
 
-		String sql = "SELECT PROJECT_CODE,PROJECT_NAME,AMOUNT_GOAL,AMOUNT_PRESENT,DDLN,DETAIL_INTRO,CHANGE_NAME FROM (SELECT *FROM PROJECT ORDER BY DBMS_RANDOM.VALUE) LEFT JOIN ATTACHMENT USING(FILE_NO)WHERE ROWNUM <=9";
+		String sql = "SELECT PROJECT_CODE,PROJECT_NAME,AMOUNT_GOAL,AMOUNT_PRESENT,DDLN,DETAIL_INTRO,CHANGE_NAME,CATEGORY_NAME FROM (SELECT *FROM PROJECT ORDER BY DBMS_RANDOM.VALUE) LEFT JOIN ATTACHMENT USING(FILE_NO) LEFT JOIN CATEGORY USING(CATEGORY_NO) WHERE ROWNUM <=9";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -475,9 +476,14 @@ public class ProjectDao {
 			 */
 
 			while (rset.next()) {
-				list.add(new Project(rset.getInt("PROJECT_CODE"), rset.getString("PROJECT_NAME"),
+				
+				p = new Project(rset.getInt("PROJECT_CODE"), rset.getString("PROJECT_NAME"),
 						rset.getInt("AMOUNT_GOAL"), rset.getInt("AMOUNT_PRESENT"), rset.getDate("DDLN"),
-						rset.getString("DETAIL_INTRO"), rset.getString("CHANGE_NAME")));
+						rset.getString("DETAIL_INTRO"), rset.getString("CHANGE_NAME"));
+				p.setCategoryName(rset.getString("CATEGORY_NAME"));
+				
+				
+				list.add(p);
 
 			}
 
@@ -496,7 +502,7 @@ public class ProjectDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		Project p = null;
-		String sql = "SELECT PROJECT_CODE,PROJECT_NAME,DETAIL_INTRO,DDLN,AMOUNT_GOAL,AMOUNT_PRESENT,CATEGORY_NAME,B.CHANGE_NAME,RANK() OVER (ORDER BY SUPPORT_NUM DESC) RANK   FROM PROJECT A LEFT JOIN ATTACHMENT B ON A.FILE_NO= B.FILE_NO LEFT JOIN CATEGORY USING(CATEGORY_NO) WHERE ROWNUM <= 6 ORDER BY RANK";
+		String sql = "SELECT PROJECT_CODE,PROJECT_NAME,DETAIL_INTRO,DDLN,AMOUNT_GOAL,AMOUNT_PRESENT,CATEGORY_NAME,B.CHANGE_NAME,RANK() OVER (ORDER BY SUPPORT_NUM DESC) RANK   FROM PROJECT A LEFT JOIN ATTACHMENT B ON A.FILE_NO= B.FILE_NO LEFT JOIN CATEGORY USING(CATEGORY_NO) WHERE ROWNUM <= 6 AND DDLN >= TO_CHAR(SYSDATE,'YY/MM/DD') ORDER BY RANK";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rset = pstmt.executeQuery();
@@ -702,6 +708,48 @@ public class ProjectDao {
 		}
 
 		return result;
+	}
+
+	public ArrayList<Project> searchList(Connection conn, String keyword) {
+		System.out.println("전체검색 서블릿 DAO : " + keyword);
+
+		ArrayList<Project> list = new ArrayList<Project>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = "SELECT * FROM PROJECT LEFT JOIN CATEGORY USING(CATEGORY_NO) LEFT JOIN ATTACHMENT USING(FILE_NO) WHERE (PROJECT_NAME LIKE ? OR DETAIL_INTRO LIKE ?) AND DDLN >= TO_CHAR(SYSDATE,'YY/MM/DD')";
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1,"%"+keyword+"%");
+			pstmt.setString(2,"%"+keyword+"%");
+			
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				
+				Project p = new Project();
+
+				
+				p.setProjectName(rset.getString("PROJECT_NAME"));
+				p.setProjectCode(rset.getInt("PROJECT_CODE"));
+				p.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
+				p.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
+				p.setDdln(rset.getDate("DDLN"));
+				p.setDetailIntro(rset.getString("DETAIL_INTRO"));
+				p.setCategoryName(rset.getString("CATEGORY_NAME"));
+				p.setTitleImg(rset.getString("CHANGE_NAME"));
+				
+				list.add(p);
+			}
+
+			System.out.println("전체검색 프로젝트 dao: " + list);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 
 }

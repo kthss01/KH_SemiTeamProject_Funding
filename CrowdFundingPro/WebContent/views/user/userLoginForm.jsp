@@ -18,12 +18,14 @@ String contextPath = request.getContextPath();
 <title>LoginPage</title>
 
 <link
-	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
-            mily=Nanum+Gothic&family=Roboto&display=swap"
-	rel="stylesheet"/>
-
-
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+	rel="stylesheet">
 <style>
+
+    .body{
+    	font-family: 'Noto Sans KR', 'sans-serif';
+    }
+
 .login-form {
 	justify-content: center;
 	align-items: center;
@@ -38,8 +40,8 @@ String contextPath = request.getContextPath();
 	text-align: left;
 	margin-top: 150px;
 	margin-bottom: 100px;
-	font-family: 'Rajdhani', sans-serif;
-	font-weight:bold;
+	font-family: 'Noto Sans KR', 'sans-serif';
+		font-weight:bold;
 }
 
 .login-btn {
@@ -53,8 +55,8 @@ String contextPath = request.getContextPath();
 	color: white;
 	font-size: 1.5em;
 	text-align: center;
-	font-family: 'Rajdhani', sans-serif;
-}
+	font-family: 'Noto Sans KR', 'sans-serif';
+	}
 
 .login-btn:hover {
 	cursor: pointer;
@@ -115,8 +117,8 @@ String contextPath = request.getContextPath();
 	opacity: 0.8;
 	color: rgba(0, 0, 0, 0.7);
 	font-weight: 600;
-	font-family: 'Rajdhani', sans-serif;
-}
+	font-family: 'Noto Sans KR', 'sans-serif';
+	}
 
 #joinBtn:hover {
 	cursor: pointer;

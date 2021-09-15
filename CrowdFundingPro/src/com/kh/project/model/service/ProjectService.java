@@ -177,6 +177,11 @@ public class ProjectService {
 
 		ArrayList<Project> list = new ProjectDao().selectProjectListWithCategoryAndSearchValue(conn, startRow, endRow, categoryNo, searchValue);
 
+	public ArrayList<Project> searchList(String keyword) {
+		Connection conn = getConnection();
+		
+		ArrayList<Project> list = new ProjectDao().searchList(conn,keyword);
+		
 		close(conn);
 		return list;
 	}

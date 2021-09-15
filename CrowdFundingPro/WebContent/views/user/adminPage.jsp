@@ -16,6 +16,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
+
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+	rel="stylesheet">
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -85,6 +89,11 @@
 </script>
 
 <style>
+
+    .body{
+    	font-family: 'Noto Sans KR', 'sans-serif';
+    }
+
 .container_field {
 	width: 1200px;
 	margin: 0 auto;
@@ -94,7 +103,7 @@
 	margin-bottom: 60px;
 	margin-top: 100px !important;
 	font-size: 42px;
-	font-family: 'Roboto', 'sans-serif';
+font-family: 'Noto Sans KR', 'sans-serif';
 	font-weight: bold;
 }
 
