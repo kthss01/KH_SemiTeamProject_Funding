@@ -269,7 +269,7 @@ tbody {
 					
 					<div class="lec_Item">
 						<p style="display: none"><%=l.getLectureCode()%></p>
-						<img  src="<%=request.getContextPath() %>/resources/lectureImage<%=l.getLectureImage()%>"/>  
+						<img  src="<%=request.getContextPath() %>/resources/lectureImage/<%=l.getLectureImage()%>"/>  
 						<div class="details">
 							<table>
 								<tbody>
