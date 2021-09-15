@@ -154,4 +154,13 @@ public class ProjectService {
 		return list;
 	}
 
+	public ArrayList<Project> searchList(String keyword) {
+		Connection conn = getConnection();
+		
+		ArrayList<Project> list = new ProjectDao().searchList(conn,keyword);
+		
+		close(conn);
+		return list;
+	}
+
 }

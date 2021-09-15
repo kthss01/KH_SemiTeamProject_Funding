@@ -21,6 +21,12 @@ Project pj=(Project)(request.getAttribute("pj"));
 <title>Insert title here</title>
 <style>
 
+
+		.body{
+		    font-family: 'Noto Sans KR', 'sans-serif';
+		
+		}
+
 		.container_filed{
 		    width:1300px;
 		    height:1700px;

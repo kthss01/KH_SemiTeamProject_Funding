@@ -15,6 +15,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+
+
+		.body{
+		    font-family: 'Noto Sans KR', 'sans-serif';
+		
+		}
+
         .container_filed{
             width:400px;
             height:1200px;
