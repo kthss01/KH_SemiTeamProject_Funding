@@ -3,6 +3,9 @@
     
 <%
 	ArrayList<Faq> list  = (ArrayList<Faq>)request.getAttribute("list");
+	System.out.println("====테스트=========================");
+	System.out.println(list);
+	System.out.println(list.size());
 %> 
 <!DOCTYPE html>
 <html>
@@ -227,7 +230,7 @@
                         </tr>
 					</thead>  
 					<tbody>        
-						<%if(list == null){ %>
+						<%if(list.size() == 0){ %>
 						<tr style="height: 25px;">
 							<td colspan="3">등록된 게시물이 없습니다.</td>
 						</tr>

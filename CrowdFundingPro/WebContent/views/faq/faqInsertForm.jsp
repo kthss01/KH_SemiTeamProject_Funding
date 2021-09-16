@@ -18,8 +18,6 @@
         text-align: left;
         margin: 0 auto;
         padding-bottom: 40px;
-        /* background-color: aquamarine; */
-        /* border: 1px solid black; */
         margin-top: 20px;
     }
 
@@ -30,7 +28,6 @@
         margin-left: 20px;
         margin-bottom: 0px;
         
-        /* border: 1px solid black; */
     }
 
     #ftype {
@@ -40,7 +37,6 @@
         
         margin-bottom: 0px;
         margin-left: 20px;
-        /* border: 1px solid black; */
     }
 
     #under{
@@ -48,68 +44,64 @@
         width: 100%;
         height : 5px;
         background : gray;
-        /* border: 1px solid black; */
             
     }
 
     table{
         display: inline-block;
-        width: 1000px;
-        /* border: 1px solid black; */
-        
+        width: 800px;
+       	border-collapse: collapse;
+       	border-spacing: 0; 
     }
 
     th{
-        border: 1px solid black;
-        width: 200px;
+        width: 100px;
         background-color: rgba(100, 200, 167, 0.8);
         font-size: 12px;
+        border: 1px solid black;
     }
 
     td{
-        border: 1px solid black;
-        width: 800px;
-        display: inline-block;
+        width: 700px;
         text-align: left;
         font-size: 11px;
+        border: 1px solid black;
     }
+
+	select{
+		height: 30px;
+	}
 
     #btns{
         display: inline-block;
         text-align: right;
-        width: 1000px;
+        width: 800px;
     }
 
-    .btn{
-    	background-color: skyblue;
-        border: 1px solid black;
+    .btns{
         display: inline-block;
         margin-top: 20px;
         margin-bottom: 40px;
         margin-left: 5px;
-        font-size: 13px;
         
-        width: 90px;
+        width: 80px;
         height: 35px;
-       /*  border: 1px solid rgba(100, 200, 167, 0.8);
-        background-color: rgba(100, 200, 167, 0.8); */
+        border: 1px solid rgba(100, 200, 167, 0.8);
+    	background-color: rgba(100, 200, 167, 0.8);
         font-weight: bold;
         border-radius: 5px;
         font-size: 15px;
+        
     }
 
-	.btn:hover{
+	.btns:hover{
     	background-color: rgba(100, 200, 167, 0.6);
     }
     
     textarea{
-        width: 98%;
-        margin: 1%;
+    	width: 700px;
     }
-
-    select{
-        margin: 1%;
-    }
+    
 </style>
 </head>
 <body>
@@ -122,7 +114,7 @@
         </div>
         <form method="POST" id="insert">
         <table>
-            <tr>
+            <tr style="height: 30px;">
                 <th>대상</th>
                 <td> 
                     <select name="targetUser">
@@ -132,26 +124,25 @@
                 </td>
                 
             </tr>
-            <tr>
+            <tr style="height: 100px;">
                 <th>질문</th>
                 <td>
-                    <textarea name="question" rows = "4" cols = "50" placeholder="내용을 입력해주세요" style=' resize: none;' required></textarea>
+                    <textarea name="question" style='height: 100px; resize: none;' placeholder="내용을 입력해주세요" required></textarea>
                 </td>
                 
             </tr>
-            <tr>
+            <tr style="height: 170px;">
                 <th>답변</th>
                 <td>
-                    <textarea name="answer" rows = "8" cols = "50" placeholder="내용을 입력해주세요" style=' resize: none;' required></textarea>
+                    <textarea name="answer" style='height: 170px; resize: none;' placeholder="내용을 입력해주세요" required></textarea>
                 </td>
                 
             </tr>
         </table>
         </form>
-        
         <div id="btns">
-    		<input class="btn" type="button"  value="이전으로" onclick="back();">
-       		<input form="insert" class="btn" type="submit" value="등록" onclick="return goInsert();" formaction="<%=request.getContextPath()%>/insert.fq"/>
+    		<input type="button" class="btns" value="이전으로" onclick="back();">
+       		<input type="submit" form="insert" class="btns" value="등록" onclick="return goInsert();" formaction="<%=request.getContextPath()%>/insert.fq"/>
         </div>
         
     </div>  

@@ -104,6 +104,7 @@
         float: left;
         background-color: rgba(255, 255, 255, 0.7);
         border: 1px solid rgba(255, 255, 255, 1);
+        border-radius: 25px;
     }
     
     .boxS:hover, .boxM:hover{
@@ -182,10 +183,6 @@
 	            var fNo = $(item).attr('id');	//버튼의 id값 가져옴
 	            var id = "#" + fNo;	//버튼의 id값에  '#'을 붙여 id지시자로 만듦
 	            
-	          	//css('height')는 값이  px단위로 나옴 -> 뒤 'px'을 자르고 숫자를 계산
-	            var height = $(item).css('height').slice(0, -2)/2;	
-	            $(item).css('border-radius', height);
-	            
 	            $(id).click(function(){
 	            	location.href="<%=request.getContextPath()%>/detail.fq?fNo="+fNo;
             	});
@@ -196,29 +193,36 @@
     <script>
         // userType(t1, t2)에 마우스를 올리면
         // userType1이 마진 20px (위로 올라가게)
-        // box 갯수, 크기에 맞춰서 userType(t1, t2)의 height 늘어나기
-
+        
         var t1 = document.getElementById("t1");
         var t2 = document.getElementById("t2");
         
+        var height = document.getElementById("t1").offsetHeight;
+        
         // 서포터
         t1.addEventListener('mouseover', (event) => {
-
+        	
             var s = gsap.timeline();
             s.to("#s", {duration: 1, y: -120, opacity: 1})
 
             var tl = gsap.timeline();
             tl.to(".boxS", {duration: 1, y: -250, display: "block",  opacity: 1});
             
+			var h = (height - 150) + "px";
+            
+            document.getElementById("t1").style.height = h;
         });
 
         t1.addEventListener('mouseout', (event) => {
-            
+        	
             var s = gsap.timeline();
             s.to("#s", {duration: 1, y: 0, opacity: 1}).to(".boxS", { opacity: 0}, "-=1");
 
             var tl = gsap.timeline();
-            tl.to(".boxS", {duration: 1,y: 0, display: "none"}).to(".boxS", { opacity: 0}, "-=1");  
+            tl.to(".boxS", {duration: 1,y: 0, display: "none"}).to(".boxS", { opacity: 0}, "-=1"); 
+            
+            var h = height + "px";
+            document.getElementById("t1").style.height = h;
         });
 
         // 메이커
@@ -230,7 +234,9 @@
             var t2 = gsap.timeline();
             t2.to(".boxM", {duration: 1, y: -250, display: "block",  opacity: 1});
 
+			var h = (height - 150) + "px";
             
+            document.getElementById("t2").style.height = h;
 
         });
 
@@ -241,6 +247,9 @@
 
             var t2 = gsap.timeline();
             t2.to(".boxM", {duration: 1,y: 0, display: "none"}).to(".boxM", { opacity: 0}, "-=1");  
+            
+            var h = height + "px";
+            document.getElementById("t2").style.height = h;
         });
     </script>
     </div>
