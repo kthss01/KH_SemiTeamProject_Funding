@@ -2,18 +2,15 @@ package com.kh.project.controller;
 
 import java.io.IOException;
 
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-
+import javax.servlet.http.HttpSession;
 
 import com.kh.project.model.service.ProjectService;
 import com.kh.project.model.vo.Project;
-import com.kh.user.model.vo.User;
 
 
 
@@ -42,10 +39,10 @@ public class ProjectDetailServlet extends HttpServlet {
 		System.out.println("서블릿 pCode : " +  pCode);
 		
 		Project pj=new ProjectService().projectSelect(pCode);
-		
+		HttpSession session = request.getSession();
+
 		if(pj !=null) {
-			
-			request.setAttribute("pj", pj);
+			session.setAttribute("pj", pj);
 			request.getRequestDispatcher("views/project/projectDetailView.jsp").forward(request, response);
 		
 		}else {

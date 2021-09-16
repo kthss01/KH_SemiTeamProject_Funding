@@ -202,6 +202,7 @@ public class ProjectDao {
 
 			if (rset.next()) {
 				pj = new Project();
+				pj.setProjectCode(pCode);
 				pj.setProjectName(rset.getString("PROJECT_NAME"));
 				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
 				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
@@ -761,7 +762,7 @@ public class ProjectDao {
 	}
 	//=================================================================================
 
-	public int insertSUP(Connection conn, User user, Project pj) {
+	public int insertSUP(Connection conn, int userNo, int pCode) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertSUP");
@@ -771,8 +772,8 @@ public class ProjectDao {
 			pstmt = conn.prepareStatement(sql);
 			//INSERT INTO SIGN_UP_PRO VALUES(SEQ_SIGN_PRO.NEXTVAL,?,?) 
 
-			pstmt.setInt(1,user.getUserNo());
-			pstmt.setInt(2, pj.getProjectCode());
+			pstmt.setInt(1,userNo);
+			pstmt.setInt(2, pCode);
 			
 
 			result = pstmt.executeUpdate();

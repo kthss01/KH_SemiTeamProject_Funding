@@ -232,16 +232,12 @@ public class ProjectService {
 	}
 
 	//================================================================================================================================
-	public int insertSUP(User user, Project pj) {
+	public int insertSUP(int userNo, int pCode) {
 		
 		Connection conn = getConnection();
 		int result1 = 0;
-		
-		
 
-		
-
-		result1 = new ProjectDao().insertSUP(conn,user,pj);
+		result1 = new ProjectDao().insertSUP(conn, userNo,pCode);
 		
 
 		try {

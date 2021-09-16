@@ -7,7 +7,7 @@
 
     
 <%
-Project pj=(Project)(request.getAttribute("pj"));
+	Project pj=(Project)(session.getAttribute("pj"));
 //Attachment at=(Attachment)(request.getAttribute("at"));
 	DecimalFormat decFormat = new DecimalFormat("###,###");
 

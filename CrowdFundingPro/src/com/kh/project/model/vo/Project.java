@@ -107,7 +107,7 @@ public class Project {
 
 	}
 
-	public int getProjectCode() {
+	public int userCode() {
 		return projectCode;
 	}
 
@@ -125,6 +125,11 @@ public class Project {
 
 	public String getProjectName() {
 		return projectName;
+	}
+
+	public int getProjectCode() {
+		// TODO Auto-generated method stub
+		return projectCode;
 	}
 
 	public void setProjectName(String projectName) {

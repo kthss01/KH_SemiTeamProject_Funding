@@ -34,39 +34,33 @@ public class ProjectSignInServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
+		HttpSession session = request.getSession();
 		
 		User loginUser = (User) session.getAttribute("loginUser");
 		
-		
-		
+		System.out.println("신청하기 버튼 loginUser:"+loginUser);
+		int userNo = loginUser.getUserNo();
 		
 		
 		int pCode=Integer.parseInt(request.getParameter("pCode"));
 		System.out.println("신청하기 버튼 pCode:"+pCode);
-		
-		
-		String emailId=loginUser.getEmailId();
-		User user=new UserService().selectUser(emailId); //--1 유저 가져오기
-
-		
+		System.out.println("신청하기 버튼 userNo:"+userNo);
 		
 		
 		//public Project projectSelect(int pCode) {
-		Project pj=new ProjectService().projectSelect(pCode); //--2 프로젝트 가져오기
+//		Project pj=new ProjectService().projectSelect(pCode); //--2 프로젝트 가져오기
 		//SELECT PROJECT_NAME,AMOUNT_GOAL,AMOUNT_PRESENT,DDLN,DELIVERY_CHARGE,DETAIL_INTRO,FILE_NO,CHANGE_NAME
 		
-		System.out.println("1.pj:"+pj);
+//		System.out.println("1.pj:"+pj);
 		
-		System.out.println("2.user:"+user);
 		
-		if(pj !=null && user !=null) {
-			int result=new ProjectService().insertSUP(user,pj);
+		if(pCode != 0  && userNo != 0 ) {
+			int result=new ProjectService().insertSUP(userNo,pCode);
 			
 			if(result>0) {
 				
 				request.setAttribute("msg","INSERT SUCCESS" );
-				request.getRequestDispatcher("views/user/myPage.jsp").forward(request, response);
+				request.getRequestDispatcher("/projectPage.do").forward(request, response);
 			}
 			
 			
