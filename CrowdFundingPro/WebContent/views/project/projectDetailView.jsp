@@ -149,19 +149,21 @@ Project pj=(Project)(request.getAttribute("pj"));
             <div class="wrap2">
                 <div id="imgBox" class="information">
                 </div>
-                <div class="information"><h2>프로젝트정보</h2><br><br>
+                <div class="information"><h2>프로젝트정보</h2><br>
                 	
                     <label class="pInfo">목표금액 : </label><%=pj.getAmountGoal() %>원<br>
                     <label class="pInfo">현재금액 : </label><%=pj.getAmountPresent() %>원<br>
                     <label class="pInfo">마감일 : </label><%=pj.getDdln() %><br>
                     <label class="pInfo">배송료 : </label><%=pj.getDeliveryCharge() %>원<br>
-                    <input type="text" name="amount" id="input1" value="1" size="3" onchange="change();">                    
-                    <button id="btn1" onclick="test1();">펀딩하기</button>
+                    <input type="text" name="amount" id="input1" value="1" size="3" onchange="change();">
+                    
+                    
                     
                      <form  action="" id="postForm" method="post">
                 		<input type="hidden" name="pCode" value="<%= pj.getProjectCode() %>">
                 		<input type="hidden" name="fileNo" value="<%=pj.getFileNo() %>"> 
                 		
+                		<button id="btn1" onclick="test1();">펀딩하기</button>
         				<button id="btn2" type="button" onclick="updateForm();">수정하기</button>
                 	</form>
                 </div>
@@ -187,6 +189,13 @@ Project pj=(Project)(request.getAttribute("pj"));
         			}
                 	
                 	</script> 
+                	
+                	<script>
+                		function test1(){
+                			$("#postForm").attr("action", "<%=request.getContextPath()%>/signIn.do");
+                			$("#postForm").submit();
+                		}
+                	</script>
                 	
                 	
                                

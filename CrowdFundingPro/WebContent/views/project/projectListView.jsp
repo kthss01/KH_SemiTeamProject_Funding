@@ -120,19 +120,23 @@
 <div class="container_filed">
     <form class="searchArea" >
         <select id="cName" name="cName">
-            <option value="">여행,레저</option>
+            <option value="">문화생활</option>
             <option value="">테크,가전</option>
-            <option value="">스포츠</option>
-            <option value="">홈리빙</option>
-            <option value="">뷰티,패션잡화</option>
-            <option value="">반려동물</option>
-            <option value="">기부,후원</option>
-            <option value="">출판</option>
+            <option value="">패션,잡화</option>
+            <option value="">뷰티</option>
             <option value="">푸드</option>
-            <option value="">디자인소품</option>
-            <option value="">공연,컬쳐</option>
-            <option value="">소셜</option>
+            <option value="">홈,리빙</option>
+            <option value="">여행,레저</option>
+            <option value="">스포츠,모빌리티</option>
+            <option value="">캐릭터,굿즈</option>
+            <option value="">베이비,키즈</option>
+            <option value="">반려동물</option>
             <option value="">게임,취미</option>
+            <option value="">컬쳐,아티스트</option>
+            <option value="">클래스,컨설팅</option>
+            <option value="">출판</option>
+            <option value="">소셜,캠페인</option>
+            <option value="">기부,후원</option>
             <option selected>카테고리</option>
         </select>
         <input type="search" name="search" placeholder="어떤 프로젝트를 찾고 계신가요?">
