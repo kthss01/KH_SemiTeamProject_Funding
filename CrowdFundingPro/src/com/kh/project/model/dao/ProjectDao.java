@@ -10,14 +10,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Date;
 import java.util.Properties;
-
 
 import com.kh.common.model.vo.Attachment;
 import com.kh.project.model.vo.Project;
 import com.kh.user.model.vo.User;
-
 
 public class ProjectDao {
 	private Properties prop = new Properties();
@@ -37,47 +39,40 @@ public class ProjectDao {
 
 	}
 
-	
-
 	public ArrayList<Project> selectList(Connection conn) {
-		ArrayList<Project> list=new ArrayList<>();
+		ArrayList<Project> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		
+
 		String sql = prop.getProperty("selectList");
-		//SELECT PROJECT_CODE,CHANGE_NAME,PROJECT_NAME,AMOUNT_PRESENT
-		//FROM PROJECT JOIN ATTACHMENT USING(FILE_NO) ORDER BY PROJECT_CODE
+		// SELECT PROJECT_CODE,CHANGE_NAME,PROJECT_NAME,AMOUNT_PRESENT
+		// FROM PROJECT JOIN ATTACHMENT USING(FILE_NO) ORDER BY PROJECT_CODE
 		try {
-			pstmt=conn.prepareStatement(sql);
-			rset=pstmt.executeQuery();
-			
-			while(rset.next()) {
-				Project pj=new Project();
-				
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				Project pj = new Project();
+
 				pj.setProjectCode(rset.getInt("PROJECT_CODE"));
 				pj.setProjectName(rset.getString("PROJECT_NAME"));
 				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
-				
+				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
 				pj.setTitleImg(rset.getString("CHANGE_NAME"));
-				
+
 				list.add(pj);
-				
+
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
 		return list;
 	}
 
-	
-
-
-
-	
 //	public Attachment attachmentSelect(Connection conn, String pCode) {
 //		Attachment at = null;
 //		PreparedStatement pstmt = null;
@@ -107,114 +102,106 @@ public class ProjectDao {
 //		
 //	}
 
-
-	
 	public int insertProject(Connection conn, Project pj, Attachment at) {
 		// TODO Auto-generated method stub
-				int result=0;
-				PreparedStatement pstmt=null;
-				String sql=prop.getProperty("insertProject");
-				//INSERT INTO PROJECT VALUES(SEQ_PNO.NEXTVAL, ?,?,?,?,?,?,DEFAULT,?,?, ?) 
-				
-				try {
-					pstmt=conn.prepareStatement(sql);
-				
-					pstmt.setInt(1, pj.getUserNo());
-					pstmt.setString(2,pj.getProjectName());
-					pstmt.setInt(3,pj.getAmountGoal());
-					pstmt.setInt(4, 0); 
-					pstmt.setDate(5,new java.sql.Date(pj.getDdln().getTime())); //DB에 날짜형을 입력할때에는 java.sql.Date로 형변환 해주어야함!  getTime()메소드도 잊지말기
-					pstmt.setInt(6,pj.getDeliveryCharge());
-					pstmt.setString(7,pj.getDetailIntro());
-					pstmt.setInt(8,Integer.parseInt(pj.getCategoryNo()));
-					pstmt.setInt(9, at.getFileNo());
-					
-					result=pstmt.executeUpdate();
-					
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}finally {
-					close(pstmt);
-				}
-				return result;
-	}
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertProject");
+		// INSERT INTO PROJECT VALUES(SEQ_PNO.NEXTVAL, ?,?,?,?,?,?,DEFAULT,?,?, ?)
 
-
-
-	public int insertAttachment(Connection conn, Attachment at) {
-		int result=0;
-		PreparedStatement pstmt=null;
-		String sql=prop.getProperty("insertAttachment");
 		try {
-			pstmt=conn.prepareStatement(sql);
-		
-			pstmt.setInt(1, 3);
-			pstmt.setString(2,at.getOriginName());
-			pstmt.setString(3,at.getChangeName());
-			pstmt.setString(4,at.getFilePath());
-			
-			result=pstmt.executeUpdate();
-			
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, pj.getUserNo());
+			pstmt.setString(2, pj.getProjectName());
+			pstmt.setInt(3, pj.getAmountGoal());
+			pstmt.setInt(4, 0);
+			pstmt.setDate(5, new java.sql.Date(pj.getDdln().getTime())); // DB에 날짜형을 입력할때에는 java.sql.Date로 형변환 해주어야함!
+																			// getTime()메소드도 잊지말기
+			pstmt.setInt(6, pj.getDeliveryCharge());
+			pstmt.setString(7, pj.getDetailIntro());
+			pstmt.setInt(8, Integer.parseInt(pj.getCategoryNo()));
+			pstmt.setInt(9, at.getFileNo());
+
+			result = pstmt.executeUpdate();
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(pstmt);
 		}
 		return result;
 	}
 
+	public int insertAttachment(Connection conn, Attachment at) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertAttachment");
+		try {
+			pstmt = conn.prepareStatement(sql);
 
+			pstmt.setInt(1, 3);
+			pstmt.setString(2, at.getOriginName());
+			pstmt.setString(3, at.getChangeName());
+			pstmt.setString(4, at.getFilePath());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 
 	public int selectFileNo(Connection conn, Attachment at) {
-		
+
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		int result = 0;
 		System.out.println(at.getChangeName());
-		
+
 		String sql = prop.getProperty("selectFileNo");
-		//SELECT FILE_NO FROM ATTACHMENT WHERE CHANGE_NAME = ?
+		// SELECT FILE_NO FROM ATTACHMENT WHERE CHANGE_NAME = ?
 		System.out.println(sql);
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1,at.getChangeName());
-			
+			pstmt.setString(1, at.getChangeName());
+
 			rset = pstmt.executeQuery();
-			if(rset.next()) {
+			if (rset.next()) {
 				result = rset.getInt("FILE_NO");
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
 		return result;
 	}
 
-
-
 	public Project projectSelect(Connection conn, int pCode) {
 		Project pj = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		
+
 		String sql = prop.getProperty("projectSelect");
-		
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, pCode);
-			
+
 			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
-				pj=new Project();
+
+			if (rset.next()) {
+				pj = new Project();
 				pj.setProjectName(rset.getString("PROJECT_NAME"));
 				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
 				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
@@ -227,43 +214,37 @@ public class ProjectDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
 		return pj;
 	}
 
-
-
 	public Project updatePSelect(Connection conn, int fn) {
 		// TODO Auto-generated method stub
-		
+
 		Project pj = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		
+
 		String sql = prop.getProperty("updatePSelect");
-		//SELECT PROJECT_NAME,AMOUNT_GOAL,DDLN,DELIVERY_CHARGE,DETAIL_INTRO,FILE_NO 
-		//FROM PROJECT JOIN ATTACHMENT USING(FILE_NO) WHERE FILE_NO=?                   
-		
+		// SELECT PROJECT_NAME,AMOUNT_GOAL,DDLN,DELIVERY_CHARGE,DETAIL_INTRO,FILE_NO
+		// FROM PROJECT JOIN ATTACHMENT USING(FILE_NO) WHERE FILE_NO=?
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, fn);
-			
+
 			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
-				pj=new Project(rset.getInt("PROJECT_CODE"),
-						rset.getString("PROJECT_NAME"),
-						rset.getInt("AMOUNT_GOAL"),
-						rset.getDate("DDLN"),
-						rset.getInt("DELIVERY_CHARGE"),
-						rset.getString("DETAIL_INTRO"),
-						rset.getInt("FILE_NO")
-						
-						);
-				
+
+			if (rset.next()) {
+				pj = new Project(rset.getInt("PROJECT_CODE"), rset.getString("PROJECT_NAME"),
+						rset.getInt("AMOUNT_GOAL"), rset.getDate("DDLN"), rset.getInt("DELIVERY_CHARGE"),
+						rset.getString("DETAIL_INTRO"), rset.getInt("FILE_NO")
+
+				);
+
 //				pj.setProjectName(rset.getString("PROJECT_NAME"));
 //				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
 //				pj.setDdln(rset.getDate("DDLN"));
@@ -275,32 +256,30 @@ public class ProjectDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
 		return pj;
 	}
 
-
-
 	public Attachment updateASelect(Connection conn, int fn) {
 		// TODO Auto-generated method stub
 		Attachment at = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		
+
 		String sql = prop.getProperty("updateASelect");
-		//SELECT FILE_NO,ORIGIN_NAME,CHANGE_NAME FROM ATTACHMENT WHERE FILE_NO=?
+		// SELECT FILE_NO,ORIGIN_NAME,CHANGE_NAME FROM ATTACHMENT WHERE FILE_NO=?
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, fn);
-			
+
 			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
+
+			if (rset.next()) {
 				at = new Attachment();
-				
+
 				at.setFileNo(rset.getInt("FILE_NO"));
 				at.setOriginName(rset.getString("ORIGIN_NAME"));
 				at.setChangeName(rset.getString("CHANGE_NAME"));
@@ -308,65 +287,63 @@ public class ProjectDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
 		return at;
 	}
 
-
-
 	public int attachmentUpdate(Connection conn, Attachment at) {
-		int result=0;
-		PreparedStatement pstmt=null;
-		String sql=prop.getProperty("attachmentUpdate");
-		//UPDATE ATTACHMENT SET ORIGIN_NAME=?, CHANGE_NAME=?, FILE_PATH=? WHERE FILE_NO=?
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("attachmentUpdate");
+		// UPDATE ATTACHMENT SET ORIGIN_NAME=?, CHANGE_NAME=?, FILE_PATH=? WHERE
+		// FILE_NO=?
 		try {
-			
-			pstmt=conn.prepareStatement(sql);
-			
-			pstmt.setString(1,at.getOriginName());
+
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, at.getOriginName());
 			pstmt.setString(2, at.getChangeName());
-			pstmt.setString(3,at.getFilePath());
+			pstmt.setString(3, at.getFilePath());
 			pstmt.setInt(4, at.getFileNo());
-			result=pstmt.executeUpdate();
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(pstmt);
 		}
 		return result;
 	}
 
-
-
-	public int projectUpdate(Connection conn,Project pj, Attachment at) {
-		int result=0;
-		PreparedStatement pstmt=null;
-		String sql=prop.getProperty("projectUpdate");
-		//UPDATE PROJECT SET PROJECT_NAME=?,AMOUNT_GOAL=?,DDLN=?,DELIVERY_CHARGE=?,DETAIL_INTRO=? WHERE PROJECT_CODE=?
+	public int projectUpdate(Connection conn, Project pj, Attachment at) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("projectUpdate");
+		// UPDATE PROJECT SET
+		// PROJECT_NAME=?,AMOUNT_GOAL=?,DDLN=?,DELIVERY_CHARGE=?,DETAIL_INTRO=? WHERE
+		// PROJECT_CODE=?
 		try {
-			pstmt=conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, pj.getProjectName());
 			pstmt.setInt(2, pj.getAmountGoal());
-			pstmt.setDate(3,new java.sql.Date(pj.getDdln().getTime()));
+			pstmt.setDate(3, new java.sql.Date(pj.getDdln().getTime()));
 			pstmt.setInt(4, pj.getDeliveryCharge());
-			pstmt.setString(5,pj.getDetailIntro());
+			pstmt.setString(5, pj.getDetailIntro());
 			pstmt.setInt(6, pj.getProjectCode());
-			result=pstmt.executeUpdate();
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(pstmt);
 		}
 		return result;
 	}
 
 	
-//==================================================================================================================================
 	public int insertUProject(Connection conn, User user,Project pj) {
 		
 		//INSERT INTO UPROJECT VALUES(SEQ_UP_NO,?,?,?,?,?,?,?) 
@@ -411,18 +388,418 @@ public class ProjectDao {
 	}
 
 
+	public int getListCount(Connection conn) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("getListCount");
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		try {
+			pstmt = conn.prepareStatement(sql);
 
-	
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public ArrayList<Project> selectProjectList(Connection conn, int startRow, int endRow) {
+		ArrayList<Project> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectProjectList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				Project pj = new Project();
+
+				pj.setProjectCode(rset.getInt("PROJECT_CODE"));
+				pj.setProjectName(rset.getString("PROJECT_NAME"));
+				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
+				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
+				pj.setTitleImg(rset.getString("CHANGE_NAME"));
+				pj.setCategoryName(rset.getString("CATEGORY_NAME"));
+				pj.setDdln(rset.getDate("DDLN"));
+				
+				list.add(pj);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public Map<Integer, String> selectCategoryList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Map<Integer, String> map = new HashMap<>();
+		String sql = prop.getProperty("selectCategoryList");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				int categoryNo = rset.getInt("CATEGORY_NO");
+				String categoryName = rset.getString("CATEGORY_NAME");
+
+				map.put(categoryNo, categoryName);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return map;
+	}
+
+	public ArrayList<Project> selectProjectListWithCategory(Connection conn, int startRow, int endRow, int categoryNo) {
+		ArrayList<Project> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectProjectListWithCategory");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, categoryNo);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				Project pj = new Project();
+
+				pj.setProjectCode(rset.getInt("PROJECT_CODE"));
+				pj.setProjectName(rset.getString("PROJECT_NAME"));
+				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
+				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
+				pj.setTitleImg(rset.getString("CHANGE_NAME"));
+				pj.setCategoryName(rset.getString("CATEGORY_NAME"));
+				pj.setDdln(rset.getDate("DDLN"));
+
+				list.add(pj);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public ArrayList<Project> selectRandomList(Connection conn) {
+
+		ArrayList<Project> list = new ArrayList<Project>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Project p = null;
+
+		String sql = "SELECT PROJECT_CODE,PROJECT_NAME,AMOUNT_GOAL,AMOUNT_PRESENT,DDLN,DETAIL_INTRO,CHANGE_NAME,CATEGORY_NAME FROM "
+				+ "(SELECT *FROM PROJECT ORDER BY DBMS_RANDOM.VALUE ) LEFT JOIN ATTACHMENT USING(FILE_NO)"
+				+ "LEFT JOIN CATEGORY USING(CATEGORY_NO) WHERE ROWNUM <=9 AND DDLN >= TO_CHAR(SYSDATE,'YY/MM/DD')";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			/*
+			 * PROJECT_CODE NUMBER 프로젝트코드 USER_NO VARCHAR2(3 BYTE) 담당자회원번호 PROJECT_NAME
+			 * VARCHAR2(4000 BYTE) 프로젝트명 AMOUNT_GOAL NUMBER 목표금액 AMOUNT_PRESENT NUMBER 현재금액
+			 * DDLN DATE 마감일 DELIVERY_CHARGE NUMBER 배송료 SUPPORT_NUM NUMBER 서포터수 DETAIL_INTRO
+			 * VARCHAR2(4000 BYTE) 프로젝트세부내용 CATEGORY_NO NUMBER 카테고리번호 FILE_NO NUMBER 파일번호
+			 */
+
+			while (rset.next()) {
+
+				p = new Project(rset.getInt("PROJECT_CODE"), rset.getString("PROJECT_NAME"), rset.getInt("AMOUNT_GOAL"),
+						rset.getInt("AMOUNT_PRESENT"), rset.getDate("DDLN"), rset.getString("DETAIL_INTRO"),
+						rset.getString("CHANGE_NAME"));
+				p.setCategoryName(rset.getString("CATEGORY_NAME"));
+
+				list.add(p);
+
+			}
+
+			System.out.println("랜덤 프로젝트 dao: " + list);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	public ArrayList<Project> selectRankList(Connection conn) {
+		ArrayList<Project> list = new ArrayList<Project>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Project p = null;
+		String sql = "SELECT PROJECT_CODE,PROJECT_NAME,DETAIL_INTRO,DDLN,AMOUNT_GOAL,AMOUNT_PRESENT,CATEGORY_NAME,B.CHANGE_NAME,RANK() OVER (ORDER BY SUPPORT_NUM DESC) RANK   FROM PROJECT A LEFT JOIN ATTACHMENT B ON A.FILE_NO= B.FILE_NO LEFT JOIN CATEGORY USING(CATEGORY_NO) WHERE ROWNUM <= 6 AND DDLN >= TO_CHAR(SYSDATE,'YY/MM/DD') ORDER BY RANK";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				p = new Project(rset.getInt("PROJECT_CODE"), rset.getString("PROJECT_NAME"), rset.getInt("AMOUNT_GOAL"),
+						rset.getInt("AMOUNT_PRESENT"), rset.getDate("DDLN"), rset.getString("DETAIL_INTRO"),
+						rset.getString("CHANGE_NAME"));
+				p.setCategoryName(rset.getString("CATEGORY_NAME"));
+
+				list.add(p);
+			}
+
+			System.out.println("랜덤 프로젝트 dao: " + list);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	public Map<Integer, Integer> getListCountWithCategoryNo(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Map<Integer, Integer> map = new HashMap<>();
+		String sql = prop.getProperty("getListCountWithCategoryNo");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				int categoryNo = rset.getInt("CATEGORY_NO");
+				int categoryCnt = rset.getInt(2);
+
+				map.put(categoryNo, categoryCnt);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return map;
+	}
+
+	public ArrayList<Project> selectProjectListWithSearchValue(Connection conn, int startRow, int endRow,
+			String searchValue) {
+		ArrayList<Project> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String str = '%' + searchValue + '%';
+
+		String sql = prop.getProperty("selectProjectListWithSearchValue");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, str);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				Project pj = new Project();
+
+				pj.setProjectCode(rset.getInt("PROJECT_CODE"));
+				pj.setProjectName(rset.getString("PROJECT_NAME"));
+				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
+				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
+				pj.setTitleImg(rset.getString("CHANGE_NAME"));
+				pj.setCategoryName(rset.getString("CATEGORY_NAME"));
+				pj.setDdln(rset.getDate("DDLN"));
+
+				list.add(pj);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public ArrayList<Project> selectProjectListWithCategoryAndSearchValue(Connection conn, int startRow, int endRow,
+			int categoryNo, String searchValue) {
+		ArrayList<Project> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String str = '%' + searchValue + '%';
+
+		String sql = prop.getProperty("selectProjectListWithCategoryAndSearchValue");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, categoryNo);
+			pstmt.setString(2, str);
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, endRow);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				Project pj = new Project();
+
+				pj.setProjectCode(rset.getInt("PROJECT_CODE"));
+				pj.setProjectName(rset.getString("PROJECT_NAME"));
+				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
+				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
+				pj.setTitleImg(rset.getString("CHANGE_NAME"));
+				pj.setCategoryName(rset.getString("CATEGORY_NAME"));
+				pj.setDdln(rset.getDate("DDLN"));
+
+				list.add(pj);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public int getSearchCount(Connection conn, String searchValue) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("getSearchCount");
+
+		String str = "%" + searchValue + "%";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, str);
+
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int getSearchCountWithCategoryNo(Connection conn, int categoryNo, String searchValue) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("getSearchCountWithCategoryNo");
+
+		String str = "%" + searchValue + "%";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, categoryNo);
+			pstmt.setString(2, str);
+
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public String getCategoryName(Connection conn, String categoryNo) {
+		String result = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("getCategoryName");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(categoryNo));
+
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				result = rset.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public ArrayList<Project> searchList(Connection conn, String keyword) {
+		System.out.println("전체검색 서블릿 DAO : " + keyword);
+
+		ArrayList<Project> list = new ArrayList<Project>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = "SELECT * FROM PROJECT LEFT JOIN CATEGORY USING(CATEGORY_NO) LEFT JOIN ATTACHMENT USING(FILE_NO) WHERE (PROJECT_NAME LIKE ? OR DETAIL_INTRO LIKE ?) AND DDLN >= TO_CHAR(SYSDATE,'YY/MM/DD')";
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, "%" + keyword + "%");
+			pstmt.setString(2, "%" + keyword + "%");
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+
+				Project p = new Project();
+
+				p.setProjectName(rset.getString("PROJECT_NAME"));
+				p.setProjectCode(rset.getInt("PROJECT_CODE"));
+				p.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
+				p.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
+				p.setDdln(rset.getDate("DDLN"));
+				p.setDetailIntro(rset.getString("DETAIL_INTRO"));
+				p.setCategoryName(rset.getString("CATEGORY_NAME"));
+				p.setTitleImg(rset.getString("CHANGE_NAME"));
+
+				list.add(p);
+			}
+
+			System.out.println("전체검색 프로젝트 dao: " + list);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return list;
+	}
 
 }

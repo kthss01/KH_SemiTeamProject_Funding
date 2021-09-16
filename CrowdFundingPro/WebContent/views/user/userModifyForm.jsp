@@ -11,35 +11,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원정보수정</title>
     
-	    <link
-		href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
-	            mily=Nanum+Gothic&family=Roboto&display=swap"
-		rel="stylesheet"/>
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+	rel="stylesheet">
 		<link 
 		href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined
 		|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
     	rel="stylesheet" />
-	
-	<!-- bootstrap 4 -->
-	<link rel="stylesheet"
-		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	
-	<!-- fontawesome bootstrap 4 용 icon -->
-	<link rel="stylesheet"
-		href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-		integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-		crossorigin="anonymous" />
-    
-    
+	    
 
     <style>
     	
+    .body{
+    	font-family: 'Noto Sans KR', 'sans-serif';
+    }
  
  	#modifyTitle h1{
  	       font-size: 42px;
@@ -47,8 +32,8 @@
             margin-top: 150px;
             margin-bottom: 100px;
             font-weight:bolder;
-            font-family: 'Roboto','sans-serif';
- 	}
+	font-family: 'Noto Sans KR', 'sans-serif';
+	 	}
  
 
         label{

@@ -1,35 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="com.kh.user.model.vo.User" %>
+<%@ page import="com.kh.user.model.vo.User"%>
 <%@ page import="com.kh.lecture.model.vo.Lecture"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="com.kh.common.model.vo.PageInfo" %>
+<%@ page import="com.kh.common.model.vo.PageInfo"%>
 
 <%
 String contextPath = request.getContextPath();
 ArrayList<Lecture> lectureList = (ArrayList<Lecture>) request.getAttribute("lectureList");
-PageInfo pi = (PageInfo)request.getAttribute("pi");
+PageInfo pi = (PageInfo) request.getAttribute("pi");
+
+System.out.println(contextPath);
 
 int listCount = pi.getListCount();
+System.out.println("count:" + listCount);
 int currentPage = pi.getCurrentPage();
+System.out.println("current:" + currentPage);
 int maxPage = pi.getMaxPage();
+System.out.println("max:" + maxPage);
 int startPage = pi.getStartPage();
+System.out.println("start:" + startPage);
 int endPage = pi.getEndPage();
+System.out.println("end:" + endPage);
 %>
 
 
-<%//User loginUser = (User) request.getAttribute("loginUser");%>
+<%
+//User loginUser = (User) request.getAttribute("loginUser");
+%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title> </title>
+<title></title>
 
 <link href="resources/css/menubar.css" rel="stylesheet" type="text/css">
-<link href="resources/css/lecture/lectureMain.css" rel="stylesheet" type="text/css">
-
-
+<link
+	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
+            mily=Nanum+Gothic&family=Roboto&display=swap"
+	rel="stylesheet">
 <style>
 @charset "UTF-8";
 
@@ -47,10 +57,10 @@ ul {
 }
 
 #top_banner {
-	width: 900px;
+	width: 830px;
 	height: 400px;
 	position: relative;
-	background-color: rgb(52,58,64);
+	background-color: rgb(52, 58, 64);
 	overflow: hidden;
 }
 
@@ -62,8 +72,7 @@ ul {
 }
 
 .slider_item {
-	margin: 15px 0px 0px 0px
-	width: 1200px;
+	margin: 15px 0px 0px 0px width: 1200px;
 	height: 400px;
 	text-align: center;
 }
@@ -88,7 +97,7 @@ ul img {
 .left {
 	height: 1200px;
 	width: 50%;
-	float : 
+	float:
 }
 
 .right {
@@ -122,14 +131,33 @@ ul img {
 }
 
 .lecturePage {
-	
-	margin : 15px 10px 15px 10px;
-	width : 120px;
-	
-	
+	margin: 15px 10px 15px 10px;
+	width: 100%;
 }
 
+.lecturePage>button {
+	background-color: rgb(255, 255, 255);
+	color: rgb(0, 123, 255);
+	font-size: 18px;
+	font-weight: bold;
+	font-family: 'inherit';
+	border: 1px solid white;
+}
 
+.pageButton {
+	margin: 10px 15px 10px 15px;
+}
+
+.lecturePage>button:hover {
+	background-color: rgb(0, 123, 255);
+	color: white;
+	cursor: pointer;
+}
+
+.pageButton:active {
+	background-color: rgb(0, 79, 154);
+	color: rgb(190, 190, 190);
+}
 
 .details {
 	background-color: white;
@@ -165,17 +193,39 @@ ul img {
 	align-self: flex-end;
 }
 
-#inserLecture{
-
+#inserLecture {
 	border-radius: 5px;
-    background-color: gray;
-    color: white;
+	background-color: gray;
+	color: white;
 }
-
 
 input {
 	margin-left: 25px;
 }
+
+table {
+	width: 100%;
+	height: 100%;
+	border: 1px solid rgb(230, 230, 230);
+	border-radius: 5px;
+}
+
+tbody {
+	line-height: 25px;
+}
+
+.topic {
+	text-weight: bold;
+}
+
+.registBox{
+	position:relative;
+	right: 0;
+	bottom: 0;
+	magin: 0px 15px 10px 0px;
+		
+}
+
 </style>
 
 <link href="resources/css/menubar.css" rel="stylesheet" type="text/css">
@@ -183,20 +233,20 @@ input {
 </head>
 <body>
 
-<%--
+	<%--
 	<jsp:include page="/views/common/menubar.jsp" />
  --%>
 	<%@ include file="../common/menubar.jsp"%>
 
 	<!-- 화면 중앙 구현 부-->
 	<div class="main">
- 
+
 		<!-- 화면 상단 이미지 슬라이드-->
 		<div class="main_top">
 			<div id="top_banner">
 				<ul class="slider">
 					<li class="slider_item"><img
-						src="resources/lectureImage/lectureImage_4.png" ></li>
+						src="resources/lectureImage/lectureImage_4.png"></li>
 					<li class="slider_item"><img
 						src="resources/lectureImage/lectureImage_8.png"></li>
 					<li class="slider_item"><img
@@ -210,100 +260,152 @@ input {
 		<div class="center">
 			<div class="left">
 				<div class="lecWrapper">
-					<% if (lectureList != null && !(lectureList.isEmpty())) { %>
-					<% for (Lecture l : lectureList) { %>
-  
-					<div class="lec_Item" onclick ='moveToDetail()'>
-						<img src="<%l.getLectureImage();%>">
+					<%
+					if (lectureList != null && !(lectureList.isEmpty())) {
+					%>
+					<%
+					for (Lecture l : lectureList) {
+					%>
+					
+					<div class="lec_Item">
+						<p style="display: none"><%=l.getLectureCode()%></p>
+						<img  src="<%=request.getContextPath() %>/resources/lectureImage/<%=l.getLectureImage()%>"/>  
 						<div class="details">
-								<table>
+							<table>
 								<tbody>
 									<tr>
-										<td class="topic"> 주제 :<%=l.getLectureTopic()%> </td>
+										<td class="topic"><%=l.getLectureTopic()%></td>
 									</tr>
 									<tr>
-										<td class="title"> 제목 :<%=l.getLectureTitle()%></td>
+										<td class="title"><%=l.getLectureTitle()%></td>
 									</tr>
 									<tr>
-										<td class="date"> 날짜 :<%=l.getLectureDate()%> </td>
+										<td class="date"><%=l.getLectureDate()%></td>
 									</tr>
 									<tr>
-										<td class="human"> 강사 :<%=l.getLecturer()%>
-										</td>
+										<td class="human"><%=l.getLecturer()%></td>
 									</tr>
 									<tr>
-										<td class="time"> 강의 시간: <%=l.getLectureTime()%> / </td>
-										<td class="number"> 강의 인원:<%=l.getLectureNum()%>
+										<td class="time">강의 시간 - <%=l.getLectureTime()%></td>
 									</tr>
 									<tr>
-										<td class="lectureCode" style="color='white'"><%=l.getLectureCode()%></td>
+										<td class="number">수용 인원-<%=l.getLectureNum()%></td>
 									</tr>
 								</tbody>
-								</table>
+							</table>
 						</div>
 					</div>
-					<% } 
-					} else { %>
-						<div class="lec_Item">
+					<%
+					}
+					} else {
+					%>
+					<div class="lec_Item">
 						<img src="resources/images/NoImage.png">
-
 						<div class="details">
 							<div class="content">
 								<table>
-								<tbody>
-									<tr><td>등록된 강의 정보가 없습니다.</td></tr>
-								</tbody>
+									<tbody>
+										<tr>
+											<td>등록된 강의 정보가 없습니다.</td>
+										</tr>
+									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-					<% } %>
-					
-					
-					
-				<div class="lecturePage" align="center">
-			
-					<button class="pageButton" onclick="location.href='<%=contextPath%>/list.le?currentPage=1'"> &lt;&lt; </button>
-						<%if(currentPage == 1){ %>
-					<button class="pageButton" disabled> &lt; </button>
-						<%}else{ %>
-					<button onclick="location.href='<%= contextPath %>/list.le?currentPage=<%= currentPage-1 %>'"> &lt; </button>
-						<%} %>
-			
-					<!-- 페이지 목록 -->
-						<%for(int p=startPage; p<=endPage; p++){ %>
-				
-						<%if(p == currentPage){ %>
-					<button class="pageButton" disabled> <%= p %> </button>
-						<%}else{ %>
-					<button class="pageButton" onclick="location.href='<%=contextPath %>/list.le?currentPage=<%= p %>'"> <%= p %> </button>
-						<%} %>
-					<%} %>
-					<%if(currentPage == maxPage){ %>
-					<button class="pageButton" disabled> &gt; </button>
-					<%}else { %>
-					<button class="pageButton" onclick="location.href='<%= contextPath %>/list.le?currentPage=<%= currentPage+1 %>'"> &gt; </button>
-					<%} %>
-					<button class="pageButton" onclick="location.href='<%=contextPath%>/list.le?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
-				</div> 
+					<%
+					}
+					%>
+
+
+
+					<div class="lecturePage" align="center">
+
+						<button class="pageButton"
+							onclick="location.href='<%=request.getContextPath()%>/list.le?currentPage=1'">
+							&lt;&lt;</button>
+						<%
+						if (currentPage == 1) {
+						%>
+						<button class="pageButton" disabled>&lt;</button>
+						<%
+						} else {
+						%>
+						<button
+							onclick="location.href='<%=request.getContextPath()%>/list.le?currentPage=<%=currentPage - 1%>'">
+							&lt;</button>
+						<%
+						}
+						%>
+
+						<!-- 페이지 목록 -->
+						<%
+						for (int i = 1; i <= endPage; i++) {
+						%>
+
+						<%
+						if (i == currentPage) {
+						%>
+						<button class="pageButton" disabled>
+							<%=i%>
+						</button>
+						<%
+						} else {
+						%>
+						<button class="pageButton"
+							onclick="location.href='<%=request.getContextPath()%>/lecture.le?currentPage=<%=i%>'">
+							<%=i%>
+						</button>
+						<%
+						}
+						%>
+						<%
+						}
+						%>
+						<%
+						if (currentPage == maxPage) {
+						%>
+						<button class="pageButton" disabled>&gt;</button>
+						<%
+						} else {
+						%>
+						<button class="pageButton"
+							onclick="location.href='<%=request.getContextPath()%>/lecture..le?currentPage=<%=currentPage + 1%>'">
+							&gt;</button>
+						<%
+						}
+						%>
+						<%
+						if (currentPage == maxPage) {
+						%>
+						<button class="pageButton" disabled>&gt;&gt;</button>
+						<%
+						} else {
+						%>
+						<button class="pageButton"
+							onclick="location.href='<%=request.getContextPath()%>/lecture..le?currentPage=<%=maxPage%>'">
+							&gt;&gt;</button>
+						<%
+						}
+						%>
+					</div>
 				</div>
-				
-				
-				
-		</div>
-			
-			
-		
-					
+
+
+
+			</div>
+
+
+
+
 			<script>
-					<%if(!lectureList.isEmpty()){%>
 					$(function(){
-						$(".details>table>tbody>tr").click(function(){
-							var lecCode = $(this).children().eq(7).text();
-							location.href="<%=request.getContextPath()%>/lectureDetail.le?lecCodeo="+lecCode;
+						$(".lec_Item").click(function(){
+							var code = $(this).children().eq(0).text();
+							location.href="<%=request.getContextPath()%>/lectureDetail.le?code="+code;
+							console.log(code);
 						})
 					})
-					<%}%>
 				
 			<%--
 			const moveToDetail () => {
@@ -379,20 +481,25 @@ input {
 				}
 	 		--%>		
 			</script>
-			
-			
-			
+
+
+
 
 			<div class="right">
-				<div class="area"></div>
+				<div class="area">
+					<div class="lecture_Rank">
+											
+						
+					</div>
+					
 				
-
 				
-				<div class="area2">
+				
+				</div>
+				<div class="registBox">
 					<ul>
-						<li>
-						  <a href="<%= request.getContextPath() %>/lecInsertForm.le"> 신규 강의 등록</a>
-						</li>
+						<li><button style="background-color:white; border:none; color:rgb(0,0,0,0.43);" type="button" onclick="location.href=' <%=request.getContextPath()%>/lecInsertForm.le'"> 강의 등록 
+						<b style="font-weight:bold; font-size:12px; text-shadow: -1px 0 blakc, 0 1px black, 1px 0 black, 0 -1px black; color:rgb(211,211,211);">+</b></button></li>
 					</ul>
 				</div>
 			</div>
@@ -404,8 +511,8 @@ input {
 	</div>
 	<script>
 	
-	</script>	
-	
+	</script>
+
 
 	<jsp:include page="/views/common/footer.jsp" />
 

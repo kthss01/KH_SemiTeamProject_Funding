@@ -33,17 +33,16 @@ public class LectureDeleteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-		String lecId = request.getParameter("lectureId");
-		Lecture lec = new LectureService().selectLecture(lecId);
-		
-		int result = (lec != null) ? new LectureService().deleteLecture(lecId) : 0 ;
+		String lecCode = request.getParameter("lectureCode");
+		Lecture lecture = new LectureService().selectLecture(lecCode);
+		int result = (lecture != null) ? new LectureService().deleteLecture(lecture) : 0 ;
 		
 		if ( result > 0 ) {
 			request.setAttribute("msg", "성공적으로 강의를 삭제했습니다.");
 			response.sendRedirect("views/lecture/lectureform.jsp");
 			
 		} else {
-			request.setAttribute("msg","강의 삭제 실패. 에러 발생.");
+			request.setAttribute("msg","강의 삭제 실패. 해당되는 강의가 존재하지 않거나 잘못된 정보를 받았습니다.");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 	}

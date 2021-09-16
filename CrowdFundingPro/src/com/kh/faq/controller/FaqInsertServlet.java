@@ -13,16 +13,16 @@ import com.kh.faq.model.vo.Faq;
 import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class FaqInserServlet
+ * Servlet implementation class FaqInsertServlet
  */
 @WebServlet("/insert.fq")
-public class FaqInserServlet extends HttpServlet {
+public class FaqInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FaqInserServlet() {
+    public FaqInsertServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

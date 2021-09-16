@@ -36,7 +36,7 @@ public class LectureSignInServlet extends HttpServlet {
 		String loginUser = request.getParameter("loginUser");
 		User u = new UserService().selectUser(loginUser);
 		
-		result = ( u != null) ? new LectureService().signInLecture(u); : 0;
+		result = ( u != null) ? new LectureService().signInLecture(u) : 0;
 		
 		
 	}

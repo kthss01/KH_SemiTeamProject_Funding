@@ -13,15 +13,25 @@ public class Project {
 	private int supportNum;
 	private String detailIntro;
 	private String categoryNo;
+	private String categoryName; // 카테고리 이름
 	private int fileNo;
 	private String titleImg;
 
-
-
 	public Project() {
-		
+
 	}
-	
+
+	public Project(int projectCode, String projectName, int amountGoal, int amountPresent, Date ddln,
+			String detailIntro, String titleImg) {
+		super();
+		this.projectCode = projectCode;
+		this.projectName = projectName;
+		this.amountGoal = amountGoal;
+		this.amountPresent = amountPresent;
+		this.ddln = ddln;
+		this.detailIntro = detailIntro;
+		this.titleImg = titleImg;
+	}
 
 	public Project(int projectCode, String projectName, int amountGoal, Date ddln, int deliveryCharge,
 			String detailIntro, int fileNo) {
@@ -35,7 +45,6 @@ public class Project {
 		this.fileNo = fileNo;
 	}
 
-
 	public Project(String projectName, int amountGoal, Date ddln, int deliveryCharge, String detailIntro) {
 		super();
 		this.projectName = projectName;
@@ -43,24 +52,21 @@ public class Project {
 		this.ddln = ddln;
 		this.deliveryCharge = deliveryCharge;
 		this.detailIntro = detailIntro;
-		
+
 	}
-
-
 
 	public Project(String projectName, int amountGoal, Date ddln, int deliveryCharge, String detailIntro, int fileNo) {/////
 		super();
-		
+
 		this.projectName = projectName;
 		this.amountGoal = amountGoal;
 		this.ddln = ddln;
 		this.deliveryCharge = deliveryCharge;
 		this.detailIntro = detailIntro;
-		
-		this.fileNo = fileNo;
-		
-	}
 
+		this.fileNo = fileNo;
+
+	}
 
 	public Project(String projectName, int amountGoal, int amountPresent, Date ddln, int deliveryCharge,
 			String detailIntro, String titleImg) {
@@ -74,19 +80,17 @@ public class Project {
 		this.titleImg = titleImg;
 	}
 
-
-
-	public Project(String projectName,int amountGoal,Date ddln,int deliveryCharge,String detailIntro,String categoryNo) {
+	public Project(String projectName, int amountGoal, Date ddln, int deliveryCharge, String detailIntro,
+			String categoryNo) {
 		this.projectName = projectName;
 		this.amountGoal = amountGoal;
 		this.ddln = ddln;
 		this.deliveryCharge = deliveryCharge;
 		this.detailIntro = detailIntro;
 		this.categoryNo = categoryNo;
-		
+
 	}
-	
-	
+
 	public Project(int projectCode, int userNo, String projectName, int amountGoal, int amountPresent, Date ddln,
 			int deliveryCharge, int supportNum, String detailIntro, String categoryNo) {
 		super();
@@ -190,27 +194,30 @@ public class Project {
 	public void setFileNo(int fileNo) {
 		this.fileNo = fileNo;
 	}
+
 	public String getTitleImg() {
 		return titleImg;
 	}
+
 	public void setTitleImg(String titleImg) {
-		this.titleImg=titleImg;
+		this.titleImg = titleImg;
 	}
-	
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "Project [projectCode=" + projectCode + ", userNo=" + userNo + ", projectName=" + projectName
-				+ ", amountGoal=" + amountGoal + ", amountPresent=" + amountPresent + ", ddln=" + ddln + ", deliveryCharge="
-				+ deliveryCharge +",supportNum =" +supportNum+",detailIntro ="+detailIntro+",categoryNo ="+categoryNo
-				+",fileNo ="+fileNo + "]";
-		
-		
-		
+				+ ", amountGoal=" + amountGoal + ", amountPresent=" + amountPresent + ", ddln=" + ddln
+				+ ", deliveryCharge=" + deliveryCharge + ", supportNum=" + supportNum + ", detailIntro=" + detailIntro
+				+ ", categoryNo=" + categoryNo + ", categoryName=" + categoryName + ", fileNo=" + fileNo + ", titleImg="
+				+ titleImg + "]";
 	}
-	
-	
-	
-	
+
 }

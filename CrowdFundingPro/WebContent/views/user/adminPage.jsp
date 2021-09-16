@@ -16,10 +16,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
+
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+	rel="stylesheet">
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script>
+	
+
 	google.charts.load('current', {
 		'packages' : [ 'corechart' ]
 	});
@@ -27,8 +33,8 @@
 	google.charts.setOnLoadCallback(drawChart2);
 
 	var countN = 0;
-
 	var countB = 0;
+	
 	<%for (User u : UList) {
 		if (u.getUserCode().equals("02")) {%>
 			countN = countN + 1;
@@ -37,12 +43,12 @@
 		<%}
 			}
 		%>
+		
 	function drawChart() {
-
 		var data = google.visualization.arrayToDataTable([ 
 			[ '회원 종류', '회원 수', {role : 'style'} ],
-		[ '사업자회원', countB, 'gray' ], // RGB value
-		[ '일반회원', countN, '#76A7FA' ], // English color name
+		[ '사업자회원', countB, 'gray' ], 
+		[ '일반회원', countN, '#76A7FA' ],
 
 		]);
 		var options = {
@@ -53,16 +59,29 @@
 		chart1.draw(data, options);
 	}
 
-	function drawChart2() {
-		var data = google.visualization.arrayToDataTable([
-				[ 'Task', 'Hours per Day' ], [ 'Work', 11 ], [ 'Eat', 2 ],
-				[ 'Commute', 2 ], [ 'Watch TV', 2 ], [ 'Sleep', 7 ] ]);
+
+	// chart 조회 하기 async await 사용
+	async function drawChart2() {
+		// ajax 통신과 같은 의미
+		const response = await fetch("projectCategoryList.do"); // 비동기 함수 호출
+		const json = await response.json(); // 받은 값을 json 형태로 변환
+		//console.log(json);
+		// 맵 key 가져와서 map 함수로 [key, value] 배열 만들어서 반환
+		const table = Object.keys(json).map((key) => [key, json[key]]); // 앞에 header 필요 
+		console.log(table);
+		//const table_temp = [
+		//	[ 'Task', 'Hours per Day' ], [ 'Work', 11 ], [ 'Eat', 2 ],
+		//	[ 'Commute', 2 ], [ 'Watch TV', 2 ], [ 'Sleep', 7 ] ];
+		table.unshift(['카테고리명', '갯수']); // header unshift 배열 맨 앞에 넣는거
+		
+		var data = google.visualization.arrayToDataTable(table);
+
 
 		var options = {
 			is3D : true,
 		};
 		var chart = new google.visualization.PieChart(document
-				.getElementById('donutchart'));
+				.getElementById('myPieChart'));
 		chart.draw(data, options);
 	}
 
@@ -70,6 +89,11 @@
 </script>
 
 <style>
+
+    .body{
+    	font-family: 'Noto Sans KR', 'sans-serif';
+    }
+
 .container_field {
 	width: 1200px;
 	margin: 0 auto;
@@ -79,7 +103,7 @@
 	margin-bottom: 60px;
 	margin-top: 100px !important;
 	font-size: 42px;
-	font-family: 'Roboto', 'sans-serif';
+font-family: 'Noto Sans KR', 'sans-serif';
 	font-weight: bold;
 }
 
@@ -141,7 +165,7 @@ text-align:right;
 									<i class="fas fa-chart-pie me-1"></i> 펀딩 카테고리 통계
 								</div>
 								<div class="card-body">
-									<div id="donutchart" width="100%" height="50"></div>
+									<div id="myPieChart" width="100%" height="50"></div>
 								</div>
 								<div class="card-footer small text-muted">실시간 조회</div>
 							</div>

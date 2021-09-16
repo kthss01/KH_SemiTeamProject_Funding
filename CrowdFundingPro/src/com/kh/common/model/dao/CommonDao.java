@@ -120,4 +120,25 @@ public class CommonDao {
 		return result;
 	}
 
+	public int insertLectureAttachment(Connection conn, Attachment at) {
+		//insertLectureAttachment=INSERT INTO ATTACHMENT VALUES (SEQ_AT_NO.NEXTCAL, ?,?,?,SYSDATE,?)
+		int result = 0;
+		
+		PreparedStatement pstm = null;
+		String sql = prop.getProperty("insertLectureAttachment");
+		
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, at.getOriginName());
+			pstm.setString(2, at.getChangeName());
+			pstm.setString(3, at.getFilePath());
+			
+			result = pstm.executeUpdate();
+			
+		} catch(SQLException e) { e.printStackTrace();} finally { close(pstm);}
+		
+		
+		return result;
+	}
+
 }

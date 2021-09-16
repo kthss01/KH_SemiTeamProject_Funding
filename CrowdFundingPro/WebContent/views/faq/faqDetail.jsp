@@ -17,15 +17,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js" integrity="sha512-UxP+UhJaGRWuMG2YC6LPWYpFQnsSgnor0VUF3BHdD83PS/pOpN+FYbZmrYN+ISX8jnvgVUciqP/fILOXDjZSwg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <link
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
@@ -81,17 +72,19 @@
 
     #content{
         display: inline-block;
-        width: 1200px;
+        width: 1100px;
         height: auto;
+        background-color: rgba(100, 200, 167, 0.9);
+        border-radius: 25px;
+        padding: 30px;
     }
 
     .contents{
         display: inline-block;
-        width: 1000px;
         height: auto;
         padding: 20px;
         margin: auto 0;
-
+        border-radius: 25px;
     }
 
     .contents p {
@@ -101,6 +94,11 @@
        	min-height: 50px;
     	vertical-align: top;
     	font-weight: bold;
+    	font-size: 50px;
+    	color: rgba(100, 220, 167, 0.9);
+    	-webkit-text-stroke: 0.5px black;
+    	/* border: 1px solid black; */
+    	
     }
 
     .contents span {
@@ -109,33 +107,69 @@
         width: 90%;
         word-wrap: break-word;
         min-height: 50px;
+        font-size: 15px;
+        /* border: 1px solid black; */
+        padding: 10px;
+        font-size: 20px;
+        
     }
     
     #question{
         margin-bottom: 20px;
-        background-color: beige;
+        background-color: rgba(255, 255, 255, 0.7);
     }
 
     #answer{
-        margin-bottom: 40px;
-        background-color: pink;
+        background-color: rgba(255, 255, 255, 1);
     }
+    
+    .pageHead {
+	width: 100%;
+	height: 250px;
+	padding-top: 100px;
+	margin-bottom: 50px;
+	position: relative;
+	z-index: 1;
+}
 
+.pageHead::after {
+	width: 100%;
+	height: 250px;
+	content: "";
+	background:
+		url('<%=request.getContextPath()%>/resources/images/faqBannerImg.jpg');
+	opacity: 0.5;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+}
 
+#pageTitle {
+    font-size: 48px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
 </style>
+
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp"%>
 	
 	<div class="container_filed">
-    <div id = "top">
+    <%-- <div id = "top">
         <p id="faq">FAQ</p>
         <div id="bar"></div>
  
         <p id="ftype"><%=ftype %></p>
         
         <div id="under"></div>
-    </div>
+    </div> --%>
+    
+    <div class="pageHead">
+			<h1 id="pageTitle">FAQ</h1>
+	</div>
     
     <div id="content">
         <div id="question" class="contents">
@@ -149,6 +183,17 @@
         </div>
     	</div>
 	</div>
+
+<script>
+	$(function(){
+		
+		var conWid = $("#content").css('width').slice(0, -2);
+		var conPad = $("#content").css('padding').slice(0, -2);
+		
+		var contents = $(".contents").css('width', conWid - conPad*2);
+
+	})
+</script>
 
 	<%@ include file="../common/footer.jsp"%>
 </body>

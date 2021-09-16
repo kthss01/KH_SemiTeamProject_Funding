@@ -34,9 +34,9 @@ public class FaqDetailServlet extends HttpServlet {
 		
 		
 		
-		String question = request.getParameter("question");
+		String fNo = request.getParameter("fNo");
 		
-		Faq f = new FaqService().selectFaq(question);
+		Faq f = new FaqService().selectFaq(fNo);
 		
 		request.setAttribute("f", f);
 		

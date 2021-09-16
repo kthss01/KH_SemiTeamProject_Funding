@@ -56,11 +56,14 @@
         display: inline-block;
         width: 1000px;
         /* border: 1px solid black; */
+        
     }
 
     th{
         border: 1px solid black;
         width: 200px;
+        background-color: rgba(100, 200, 167, 0.8);
+        font-size: 12px;
     }
 
     td{
@@ -68,6 +71,7 @@
         width: 800px;
         display: inline-block;
         text-align: left;
+        font-size: 11px;
     }
 
     #btns{
@@ -77,15 +81,27 @@
     }
 
     .btn{
-    	/* background-color: skyblue; */
-        /* border: 1px solid black; */
-        /* display: inline-block; */
+    	background-color: skyblue;
+        border: 1px solid black;
+        display: inline-block;
         margin-top: 20px;
         margin-bottom: 40px;
         margin-left: 5px;
+        font-size: 13px;
         
+        width: 90px;
+        height: 35px;
+       /*  border: 1px solid rgba(100, 200, 167, 0.8);
+        background-color: rgba(100, 200, 167, 0.8); */
+        font-weight: bold;
+        border-radius: 5px;
+        font-size: 15px;
     }
 
+	.btn:hover{
+    	background-color: rgba(100, 200, 167, 0.6);
+    }
+    
     textarea{
         width: 98%;
         margin: 1%;
@@ -104,7 +120,7 @@
             <p id="ftype">- 추가</p>
             <div id="under"></div>
         </div>
-        <form method="GET" id="f" action="<%= request.getContextPath() %>/insert.fq" onsubmit="return insert();">
+        <form method="POST" id="insert">
         <table>
             <tr>
                 <th>대상</th>
@@ -119,14 +135,14 @@
             <tr>
                 <th>질문</th>
                 <td>
-                    <textarea name="question" rows = "4" cols = "50" placeholder="내용을 입력해주세요" required></textarea>
+                    <textarea name="question" rows = "4" cols = "50" placeholder="내용을 입력해주세요" style=' resize: none;' required></textarea>
                 </td>
                 
             </tr>
             <tr>
                 <th>답변</th>
                 <td>
-                    <textarea name="answer" rows = "8" cols = "50" placeholder="내용을 입력해주세요" required></textarea>
+                    <textarea name="answer" rows = "8" cols = "50" placeholder="내용을 입력해주세요" style=' resize: none;' required></textarea>
                 </td>
                 
             </tr>
@@ -134,28 +150,41 @@
         </form>
         
         <div id="btns">
-            <button class="btn" onclick="back();">이전으로</button>
-       		<button class="btn" type="submit" form="f">등록</button>
+    		<input class="btn" type="button"  value="이전으로" onclick="back();">
+       		<input form="insert" class="btn" type="submit" value="등록" onclick="return goInsert();" formaction="<%=request.getContextPath()%>/insert.fq"/>
         </div>
         
     </div>  
-    <script>
-    	function back(){
-    		if (confirm("이전으로 돌아가시겠습니까?\n 작성중인 내용은 사라집니다.")) {
+    <script type="text/javascript">
+    function goInsert(){
+		var area1 = $("textarea").eq(0).val().length;
+		var area2 = $("textarea").eq(1).val().length;
+		
+		if(confirm("게시물을 등록하시겠습니까?")){
+    		if(area1 > 1000){
+    			alert('질문 내용은 1000자 이하로 작성하세요(공백포함)');
+    			return false;
+    		}
+    		
+			if(area2 > 1000){
+				alert('답변 내용은 1000자 이하로 작성하세요(공백포함)');
+    			return false;
+			}
+    		
+    		return true;
+		} else{
+			return false;
+		}
+	}
+       	
+       	function back(){
+       		if (confirm("이전으로 돌아가시겠습니까?\n작성중인 내용은 사라집니다.")) {
    	            alert("목록으로 돌아갑니다.");
    	            history.back();
    	        }
-    	}
-        function insert(){
-          	if (confirm("게시물을 등록하시겠습니까?")) {
-            	return true;
-   	        }
-          	else {
-          		return false
-          	}
-   	     
-        }
-    </script>
+       	}
+       </script>
+
 	<%@ include file="../common/footer.jsp"%>
 </body>
 </html>

@@ -11,7 +11,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>회원가입</title>
-
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+	rel="stylesheet">
 <style>
 * {
 	margin: 0;
@@ -20,8 +22,7 @@
 }
 
 .join-form {
-	font-family: 'Rajdhani', 'sans-serif';
-	/* 하나의 플렉스 아이템이 자신의 컨테이너가 차지하는 공간에 맞추기 위해 크기를 키우거나 줄이는 방법을 설정하는 속성*/
+	font-family: 'Noto Sans KR', 'sans-serif';	/* 하나의 플렉스 아이템이 자신의 컨테이너가 차지하는 공간에 맞추기 위해 크기를 키우거나 줄이는 방법을 설정하는 속성*/
 	justify-content: center;
 	align-items: center;
 	text-align: center;
@@ -37,8 +38,7 @@
 	text-align: left;
 	margin-top: 150px;
 	margin-bottom: 100px;
-	font-family: 'Rajdhani', 'sans-serif';
-	font-weight: bolder;
+	font-family: 'Noto Sans KR', 'sans-serif';	font-weight: bolder;
 }
 
 .input-area {

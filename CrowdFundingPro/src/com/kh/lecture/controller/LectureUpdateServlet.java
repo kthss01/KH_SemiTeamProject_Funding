@@ -43,7 +43,7 @@ public class LectureUpdateServlet extends HttpServlet {
 		String content = request.getParameter("lectureDetail");
 		
 		
-		Lecture lecture = new Lecture( code,title,number,address,topic,date,time,image,content);
+		Lecture lecture = new Lecture(code,title,number,address,topic,date,time,image,content);
 		
 		int result = new LectureService().updateLectrue(lecture);
 	
@@ -55,8 +55,6 @@ public class LectureUpdateServlet extends HttpServlet {
 			request.getRequestDispatcher("views/common/erroPage.jsp").forward(request, response);
 			
 		}
-		
-		
 		
 	}
 
