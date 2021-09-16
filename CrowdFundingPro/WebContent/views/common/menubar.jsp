@@ -7,7 +7,7 @@
 	User loginUser = (User) session.getAttribute("loginUser");
 	String msg = (String) session.getAttribute("msg");
 	String keyword = (String) session.getAttribute("keyword");
-	session.setAttribute("location",request.getRequestURI());
+	session.setAttribute("location",request.getHeader("Referer"));
 	System.out.println(request.getRequestURI());
 %>
 
@@ -137,7 +137,7 @@ font-family: 'Noto Sans KR', 'sans-serif';
 			%>	
 			<!-- 로그인 전 -->
 			<li class="nav-item"><a
-				href="<%=request.getContextPath()%>/loginForm.me?from=<%=request.getRequestURI()%>" class="nav-link">로그인</a></li>
+				href="<%=request.getContextPath()%>/views/user/userLoginForm.jsp" class="nav-link">로그인</a></li>
 			<li class="nav-item"><a
 				href="<%=request.getContextPath()%>/enrollForm.me" class="nav-link">회원가입</a></li>
 			<%
