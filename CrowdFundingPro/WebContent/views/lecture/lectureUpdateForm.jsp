@@ -134,35 +134,35 @@ textarea {
 
 						<form class="regist" method="POST" action="<%= request.getContextPath()%>/lectureInsert.le"  enctype="multipart/form-data">
 							<div class="preview" id="top">
-								<img src="resources/images/NoImage.png" class="lectureImage">
-								<input type="file" class="selectImg" value="사진 업로드" onchange="previewImg(event);"/>
+								<img src="<%=request.getContextPath()%>/resourses/lectureImage/<%=lecture.getLectureImage() %>" class="lectureImage" name="lectureImage">
+								<input type="file" class="selectImg" name="selectImg" value="사진 업로드" onchange="previewImg(event);"/>
 							</div>
 
 							<div class="information">
 								<span class="box"> <label class="labels"><b>
-											강사 </b></label> <input type="text" class="lecturer" placeholder="강사이름">
+											강사 </b></label> <input type="text" class="lecturer" placeholder="강사이름" value="<%=lecture.getLecturer()%>">
 											<!--  <input type="text" value=" loginUser" readonly> -->
 								</span>
 								<div class="box">
 									<label class="labels"><b> 강의 제목 </b></label> <input type="text"
-										class ="lectureTitle" required value="<%=lecture.getLectureTitle()%>">
+										class ="lectureTitle" name="lectureTitle" required value="<%=lecture.getLectureTitle()%>">
 								</div>
 								
 								<div class="box">
 									<label class="labels"><b> 강의 날짜 </b></label> <input
-										class ="lectureDate" type="date" required value="<%=lecture.getLectureDate()%>">
+										class ="lectureDate" name ="lectureDate" type="date" required value="<%=lecture.getLectureDate()%>">
 								</div>
 								<div class="box">
 									<label class="labels"><b> 강의 주소 </b></label> <input type="text"
-										class ="lectureAddress" required value="<%=lecture.getLectureAddress()%>">
+										class ="lectureAddress" name ="lectureAddress" required value="<%=lecture.getLectureAddress()%>">
 								</div>
 								<div class="box">
 									<label class="labels"><b> 강의 인원 </b></label> <input type="number"
-										class ="lectureNumber" required value="<%=lecture.getLectureNum()%>">
+										class ="lectureNumber" name="lectureNumber" required value="<%=lecture.getLectureNum()%>">
 								</div>
 								<div class="box">
 									<label class="labels"><b> 강의 주제 </b></label> <select
-										class ="lectureTopic" required>
+										class ="lectureTopic" name ="lectureTopic" required>
 										<option value="펀딩투자강의"> 펀딩투자강의 </option>
 										<option value="펀딩오픈강의"> 펀딩오픈강의 </option>
 										<option value="펀딩입문강의"> 펀딩입문강의 </option>
@@ -170,17 +170,16 @@ textarea {
 								</div>
 								<div class="box">
 									<label class="labels"><b> 강의 시간 </b></label> <input type="number"
-										class ="lectureTime" placeholder="강의 인원 (분)" required>
+										class ="lectureTime" name ="lectureTime" placeholder="강의 인원 (분)" required value="<%=lecture.getLectureNum()%>">
 								</div>
 								
 								<div class="box">
 									<label class="labels"><b> 강의 세부내용 </b></label> <br>
-									<textarea cols="40" rows="25" class ="lectureContent"></textarea>
+									<textarea cols="40" rows="25" class ="lectureContent" name="lectureContent" value="<%= lecture.getLectureContent()%>"></textarea>
 								</div>
 							</div>
-							<button type="submit" > 등록 </button>
-							<button type="button" onclick="hisotry.back(); 
-							">취소</button>
+							<button type="submit" > 수정 </button>
+							<button type="button" onclick="hisotry.back(); ">취소</button>
 						</form>
 
 						
@@ -204,24 +203,10 @@ textarea {
 					preView.setAttribute("height","256");
 					preView.setAttribute("width","256");
 					
-					/*
-					const buildLecture =()=>{
-						
-						var image = document.querySelector(".lectureTitle").value;
-						var person = document.querySelector(".lecturer").value;
-						var title = document.querySelector(".lectureTitle").value;
-						var topic= document.querySelector(".lectureTopic").value;
-						var date = document.querySelector(".lectureDate").value;
-						var address = document.querySelector(".lectureAddress").value;
-						var number = document.querySelector(".lectureNumber").value;
-						var time = document.querySelector(".lectureTime").value;
-						var content = document.querySelector(".lectureContent").value;
-						
-						
-					}
-					const 
-					document.querySelector
-					*/
+					
+					
+					
+					
 					
 				</script>
 				

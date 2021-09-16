@@ -43,10 +43,6 @@ public class LectureDetailFormServlet extends HttpServlet {
 		if(lecture == null) { System.out.println("fail");}else {
 			System.out.println("success");
 		}
-//		if( lecture == null) {
-//			request.setAttribute("msg", "강의정보를 불러오는데 실패했습니다.");
-//			response.sendRedirect("views/common/errorPage.jsp");
-//		}else {
 		
 		LectureInfo info = new LectureService().getLectureCount(lecture);
 		

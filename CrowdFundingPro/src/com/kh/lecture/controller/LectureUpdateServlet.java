@@ -9,8 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
+import com.kh.common.MyFileRenamePolicy;
+import com.kh.common.model.service.CommonService;
+import com.kh.common.model.vo.Attachment;
 import com.kh.lecture.model.service.LectureService;
 import com.kh.lecture.model.vo.Lecture;
+import com.oreilly.servlet.MultipartRequest;
 
 /**
  * Servlet implementation class LectureUpdateServlet
@@ -32,30 +38,87 @@ public class LectureUpdateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
-		String code = request.getParameter("lectureCode");
-		String title = request.getParameter("lectureTitle");
-		int number = Integer.parseInt(request.getParameter("lectureNumber"));
-		String address = request.getParameter("lectureAddress");
-		String topic = request.getParameter("lectureTopic");
-		Date date = Date.valueOf(request.getParameter("lectureDate"));
-		int time = Integer.parseInt(request.getParameter("lectureTime"));
-		int image = Integer.parseInt(request.getParameter("lectureImage"));
-		String content = request.getParameter("lectureDetail");
-		
-		
-		Lecture lecture = new Lecture(code,title,number,address,topic,date,time,image,content);
-		
-		int result = new LectureService().updateLectrue(lecture);
+			if(ServletFileUpload.isMultipartContent(request)) {
+			
+			int maxSize = 10 * 1024 * 1024;
+			
+			String resources = request.getSession().getServletContext().getRealPath("/resources");
+			String savePath = resources + "\\lectureImage\\";
+			System.out.println("savePath"+ savePath);
+
+			MultipartRequest multiRequest = new MultipartRequest(request, savePath,maxSize ,"UTF-8",new MyFileRenamePolicy());
 	
-		if( result > 0 ) {
+			Attachment at = null;
+			String originName = null;
+			String changeName = null;
 			
-			response.sendRedirect("lectureDetail.le?code");
-		} else {
+			if(multiRequest.getOriginalFileName("selectImg") != null || multiRequest.getOriginalFileName("lectureImage") != null) {
+				
+				String str = null;
+				if (multiRequest.getOriginalFileName("selectImg") == null) {
+					str = "lectureImage";
+				} else {
+					str = "selectImg";
+						
+				originName = multiRequest.getOriginalFileName(str);
+				changeName = multiRequest.getFilesystemName(str);
+				
+				at = new Attachment();
+				
+				at.setFilePath(savePath);
+				at.setOriginName(originName);
+				at.setChangeName(changeName);
+				
+				int result2 = new CommonService().updateLectureAttachment(at);
+				
 			
-			request.getRequestDispatcher("views/common/erroPage.jsp").forward(request, response);
-			
+				String title = multiRequest.getParameter("lectureTitle");
+				System.out.print("얘는 값이 뭐니:" + multiRequest.getParameter("lectureNumber"));
+				int number = 0;
+				try {
+				number = Integer.parseInt(multiRequest.getParameter("lectureNumber"));
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
+				
+				String address = multiRequest.getParameter("lectureAddress");
+				String topic = multiRequest.getParameter("lectureTopic");
+				Date date = Date.valueOf(multiRequest.getParameter("lectureDate"));
+				int time = Integer.parseInt(multiRequest.getParameter("lectureTime"));
+				String image = changeName;
+				String content = multiRequest.getParameter("lectureContent");
+				String lecturer = multiRequest.getParameter("lecturer");
+				
+				Lecture lecture = new Lecture(title,number,address,topic,date,time,image,content,lecturer);
+				
+//				this.lectureTitle = lectureTitle;
+//				this.lectureNum = lectureNum;
+//				this.lectureAddress = lectureAddress;
+//				this.lectureTopic = lectureTopic;
+//				this.lectureDate = lectureDate;
+//				this.lectureTime = lectureTime;
+//				this.lectureImage = lectureImage;
+//				this.lectureContent = lectureContent;
+				
+				int result = new LectureService().updateLecture(lecture);
+				
+				if ( result != 0 ) {
+					System.out.println("수정 성공");
+					response.sendRedirect("lecture.le");
+				} else {
+					System.out.println("수정 실패");
+					request.setAttribute("msg", "Failed to create new lecture");
+					request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+					
+				}
+			} else {
+				
+				System.out.println("MultiRequest Error");
+				request.setAttribute("msg", "Failed to call the multiRequest");
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+				
+			}
 		}
-		
 	}
 
 	/**

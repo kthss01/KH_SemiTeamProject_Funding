@@ -483,13 +483,9 @@ tbody {
 			</script>
 
 
-
-
 			<div class="right">
 				<div class="area">
 					<div class="lecture_Rank">
-											
-						
 					</div>
 					
 				

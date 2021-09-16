@@ -1,9 +1,7 @@
 package com.kh.lecture.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,16 +12,16 @@ import com.kh.lecture.model.service.LectureService;
 import com.kh.lecture.model.vo.Lecture;
 
 /**
- * Servlet implementation class LectureDeleteServlet
+ * Servlet implementation class LectureUpdateFormServlet
  */
-@WebServlet("/lectureDelete.le")
-public class LectureDeleteServlet extends HttpServlet {
+@WebServlet("/lecUpdateForm.le")
+public class LectureUpdateFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LectureDeleteServlet() {
+    public LectureUpdateFormServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,15 +32,15 @@ public class LectureDeleteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String lecCode = request.getParameter("code");
-		Lecture lecture = new LectureService().selectLecture(lecCode);
-		int result = (lecture != null) ? new LectureService().deleteLecture(lecture) : 0 ;
 		
-		if ( result > 0 ) {
-			request.setAttribute("msg", "성공적으로 삭제되었습니다.");
-			request.getRequestDispatcher("views/lecture/result.jsp").forward(request, response);
+		Lecture lecture = new LectureService().selectLecture(lecCode);
+		
+		if (lecture != null) {
+		request.setAttribute("lecture", lecture);
+		request.getRequestDispatcher("views/lecture/lectureUpdateForm.jsp").forward(request, response);
 		} else {
-			request.setAttribute("msg","강의 삭제 실패. 해당되는 강의가 존재하지 않거나 잘못된 정보를 받았습니다.");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			request.setAttribute("msg", "강의 정보를 불러오는데 실패하였습니다.");
+			response.sendRedirect("views/common/errorPage.jsp");
 		}
 	}
 

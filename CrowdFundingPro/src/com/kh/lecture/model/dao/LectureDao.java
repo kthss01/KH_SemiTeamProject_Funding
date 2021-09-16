@@ -240,12 +240,28 @@ public class LectureDao {
 		return result;
 	}
 	
-	public int signInLecture(Connection conn, User u) {
+	public int signInLecture(Connection conn, Lecture lecture, User user) {
+
+		int result = 0;
+		PreparedStatement pstm = null;
+		String sql = prop.getProperty("signInLecture");
+		//INSERT INTO LECTURE_ENROLLMENT VALUES(SEQ_LECTURE_ENROLL.NEXTVAL,DEFAULT,?,?);
+
+			try {
+				pstm = conn.prepareStatement(sql);
+				pstm.setString(1, user.getUserCode());
+				pstm.setString(2, lecture.getLectureCode());
+				
+				result = pstm.executeUpdate();	
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstm);
+				
+			}
 		
-		
-		
-		
-		return 0;
+		return result;
 	}
 	
 	public LectureInfo getLectureCount(Connection conn, Lecture lecture) {

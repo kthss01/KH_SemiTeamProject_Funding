@@ -52,9 +52,9 @@
         
         
         .lectureContent{
-        
-        line-height:350px;
-        
+        	
+        	font-size: 14px;
+        	
         }
         
         
@@ -120,6 +120,9 @@
         	border:1px solid white;
         }
         
+       	.lecInfo{
+       		text-align:center;
+       	}
         
         
     </style>
@@ -134,16 +137,15 @@
 	 <img id = "thumbnail" src="<%=request.getContextPath()%>/<%=lecture.getLectureImage()%>">
 	</div>
 	<div class="mainContent" >
-        
         <div class ="mainTop"> 
             <div class ="lecInfo">
-            	<p class ="lectureCode" style="display:none;"><%lecture.getLectureCode(); %> </p>
+            	<p class ="lectureCode"  style="display:none;"><%=lecture.getLectureCode()%> </p>
                 <p class ="lecturer">강사: <%=lecture.getLecturer() %> </p>
-                <p class ="lectureTitle">타이틀: <%=lecture.getLectureTitle() %> </p>
-                <p class ="lectrueTopic">주제 : <%=lecture.getLectureTopic() %> </p>
-                <p class ="lectureDate">일시: <%= lecture.getLectureDate() %> </p>
-                <p class ="lectureAddress">주소: <%= lecture.getLectureAddress() %> </p>
-                <p class ="lectrueNumber">현재 수용 인원: <%= count %>/ <%= lecture.getLectureNum() %></p>
+                <p class ="lectureTitle" >타이틀: <%=lecture.getLectureTitle() %> </p>
+                <p class ="lectrueTopic" >주제 : <%=lecture.getLectureTopic() %> </p>
+                <p class ="lectureDate" >일시: <%= lecture.getLectureDate() %> </p>
+                <p class ="lectureAddress" >주소: <%= lecture.getLectureAddress() %> </p>
+                <p > 참여 인원: <%= count %>/ <pre class ="lectrueNumber"><%= lecture.getLectureNum() %></pre></p>
             </div>
         </div>
 
@@ -158,6 +160,7 @@
         <div class="buttonArea">
             <button type ="button" onclick="window.history.back()"> 이전으로</button>
             <button type ="button" class="signInBtn" onclick="checkLogin()"> 수강등록</button>
+            <button type ="button" class="signInBtn" onclick="updateLecture()">수정하기</button>
             <button type ="button" class="deleteBtn">강의삭제</button>
             <button class="toTheTop" onclick="location.href='#thumbnail'"> <b>▲ </b></button>
         </div>
@@ -169,7 +172,7 @@
     	<div class="delModal_overlay">
   			<div class="delModal_content">
   				<p> 정말로 해당 강의를 삭제합니까?</p>
-				<button type="button" onclick="<%=request.getContextPath()%>/lectureDelete.le"> 삭제하기</button>
+				<button type="button" onclick="deleteLecture()"> 삭제하기</button>
 				<button type="button" class="cancleBtn"> 취소</button>
   			</div>
   		</div>
@@ -198,23 +201,32 @@
         deleteBtn.addEventListener("click",openDelBox);
         cancleBtn.addEventListener("click",closeDelBox);
         
-        
         function checkLogin(){
         	
 			<% if ( (loginUser != null ) && ( loginUser.getUserCode() !="01")) {%>
 			
-        	location.href = '<%=request.getContextPath()%>/LectureSignIn.le';
+			var code = document.querySelector(".lectureCode").textContent;
+        	location.href = '<%=request.getContextPath()%>/signIn.le?code='+code;
         	
         	<%} else {%>
         	
         	alert("수강 신청을 위해선 로그인 하셔야합니다.");
         	location.href ='<%=request.getContextPath()%>/loginForm.me';
-        	
         	<%}%>
         	
         }
        	
+        function deleteLecture(){
+			var code = document.querySelector(".lectureCode").textContent;
+			location.href="<%=request.getContextPath()%>/lectureDelete.le?code="+code;
+	
+        }
         
+        function updateLecture(){
+        	var code = document.querySeletor(".lectureCode").textContent;
+        	location.href="<%=request.getContextPath()%>/lecUpdateForm.le?code="+code;
+        	
+        }
         
         
      

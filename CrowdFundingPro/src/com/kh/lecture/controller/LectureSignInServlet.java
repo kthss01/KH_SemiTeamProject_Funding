@@ -1,7 +1,9 @@
 package com.kh.lecture.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,7 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.lecture.model.service.LectureService;
-import com.kh.user.model.service.UserService;
+import com.kh.lecture.model.vo.Lecture;
+import com.kh.lecture.model.vo.LectureInfo;
 import com.kh.user.model.vo.User;
 
 /**
@@ -33,10 +36,39 @@ public class LectureSignInServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		int result = 0;
-		String loginUser = request.getParameter("loginUser");
-		User u = new UserService().selectUser(loginUser);
+		String lecCode = request.getParameter("code");
 		
-		result = ( u != null) ? new LectureService().signInLecture(u) : 0;
+		User loginUser = (User)request.getSession().getAttribute("loginUser");
+		Lecture lecture = (lecCode != null) ? new LectureService().selectLecture(lecCode) : null;
+		LectureInfo info = new LectureService().getLectureCount(lecture);
+		int count = info.getCount();
+		
+		if (count < lecture.getLectureNum()) {
+		
+		result = ( loginUser != null && lecture != null) ? new LectureService().signInLecture(lecture,loginUser) : 0;
+		
+			if(result > 0) {
+			
+				request.setAttribute("msg", "수강 신청 완료되었습니다.");
+				request.setAttribute("lecture",lecture);
+				request.setAttribute("count", count);
+			
+				RequestDispatcher view = request.getRequestDispatcher("views/lecture/lectureDetailForm.jsp");
+				view.forward(request, response);
+			} else {
+				request.setAttribute("msg","수강 신청이 정상적으로 수행되지 못했습니다.");
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			}
+		} else {
+			request.setAttribute("lecture",lecture);
+			request.setAttribute("count", count);
+			PrintWriter printWriter = response.getWriter();
+			printWriter.println("<script> alert('신청 가능인원을 초과하였습니다.'); location.href='"+ "views/lecture/lectureDetailForm.jsp"+"'</script>");
+			printWriter.close();
+			RequestDispatcher view = request.getRequestDispatcher("views/lecture/lectureDetailForm.jsp");
+			view.forward(request, response);
+		}
+		
 		
 		
 	}

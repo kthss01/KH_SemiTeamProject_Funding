@@ -66,4 +66,16 @@ public class CommonService {
 		return result;
 	}
 
+	public int updateLectureAttachment(Attachment at) {
+		Connection conn = getConnection();
+		
+		int result = new CommonDao().updateLectureAttachment(conn,at);
+		
+		if ( result > 0 ) commit (conn);
+		else rollback(conn);
+		
+		
+		return result;
+	}
+
 }
