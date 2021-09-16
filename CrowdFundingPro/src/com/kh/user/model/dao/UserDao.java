@@ -52,6 +52,7 @@ public class UserDao {
 			if (rset.next()) {
 				loginUser = new User();
 
+				loginUser.setUserNo(rset.getInt("USER_NO"));
 				loginUser.setUserCode(rset.getString("USER_CODE"));
 				loginUser.setEmailId(rset.getString("EMAIL_ID"));
 				loginUser.setUserPwd(rset.getString("USER_PWD"));

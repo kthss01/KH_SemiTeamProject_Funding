@@ -161,7 +161,6 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
 	font-size: 4.0rem;
 	line-height: 1.2;
-	letter-spacing: -.1rem;
 }
 h2 {
 	font-size: 3.6rem;
