@@ -13,6 +13,7 @@ import java.util.Map;
 import com.kh.common.model.vo.Attachment;
 import com.kh.project.model.dao.ProjectDao;
 import com.kh.project.model.vo.Project;
+import com.kh.user.model.vo.User;
 
 public class ProjectService {
 
@@ -144,6 +145,39 @@ public class ProjectService {
 		return list;
 	}
 
+
+
+public int insertUProject(User user, Project pj) {
+	Connection conn=getConnection();
+	int result1=0;
+	
+	
+	
+	
+	
+	
+	result1=new ProjectDao().insertUProject(conn,user,pj);
+	
+	
+	try {
+		if(result1> 0) {
+			conn.commit();
+		}else {
+			conn.rollback();
+		}
+	}catch(Exception e) {
+		
+	}
+	
+	return result1;
+	
+}
+
+
+
+
+
+	
 	public ArrayList<Project> selectRankList() {
 		Connection conn = getConnection();
 

@@ -195,8 +195,9 @@ Project pj=(Project)(request.getAttribute("pj"));
             <div class="wrap2">
                 <div id="imgBox" class="information">
                 </div>
-                <div class="information"><h2>프로젝트정보</h2><br><br>
+                <div class="information"><h2>프로젝트정보</h2><br>
                 	
+
                     <label class="pInfol">목표금액  </label><span class='pInfot'><%= decFormat.format(pj.getAmountGoal()) %>원</span><br>
                     <label class="pInfol">현재금액  </label><span class='pInfot'><%= decFormat.format(pj.getAmountPresent()) %>원</span><br>
                     <label class="pInfol">달성률  </label><span id="persent"><%= (int)Math.floor(((double)pj.getAmountPresent()/pj.getAmountGoal())*100) %>%</span><br>
@@ -211,6 +212,7 @@ Project pj=(Project)(request.getAttribute("pj"));
                 		<input type="hidden" name="fileNo" value="<%=pj.getFileNo() %>"> 
                 		<button class="fBtn" id="btn2" type="button" onclick="updateForm();">수정하기</button>
                 		
+
                 	</form>
                 </div>
             </div>
@@ -236,6 +238,13 @@ Project pj=(Project)(request.getAttribute("pj"));
         			}
                 	
                 	</script> 
+                	
+                	<script>
+                		function test1(){
+                			$("#postForm").attr("action", "<%=request.getContextPath()%>/signIn.do");
+                			$("#postForm").submit();
+                		}
+                	</script>
                 	
                 	
                                

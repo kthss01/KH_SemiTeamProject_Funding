@@ -19,6 +19,7 @@ import java.util.Properties;
 
 import com.kh.common.model.vo.Attachment;
 import com.kh.project.model.vo.Project;
+import com.kh.user.model.vo.User;
 
 public class ProjectDao {
 	private Properties prop = new Properties();
@@ -341,6 +342,51 @@ public class ProjectDao {
 		}
 		return result;
 	}
+
+	
+	public int insertUProject(Connection conn, User user,Project pj) {
+		
+		//INSERT INTO UPROJECT VALUES(SEQ_UP_NO,?,?,?,?,?,?,?) 
+		
+		
+		
+//		uProjectId;
+//		private int userNo;			
+//		private String emailId;		
+//		private int projectCode;
+//		private String projectName;	
+//		private int amountGoal;		
+//		private int amountPresent;	
+//		private String proDetail; 
+		
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql=prop.getProperty("insertUProject");
+	
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+		
+			pstmt.setInt(1,user.getUserNo() );
+			pstmt.setString(2,user.getEmailId());
+			pstmt.setInt(3,pj.getProjectCode());
+			pstmt.setString(4,pj.getProjectName() ); 
+			pstmt.setInt(5,pj.getAmountGoal()); 
+			pstmt.setInt(6,pj.getAmountPresent());
+			pstmt.setString(7,pj.getDetailIntro());
+			
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
 
 	public int getListCount(Connection conn) {
 		int result = 0;
