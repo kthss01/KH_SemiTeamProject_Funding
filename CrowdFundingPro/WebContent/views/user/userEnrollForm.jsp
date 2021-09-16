@@ -688,9 +688,7 @@ const agreeChkAll = document.querySelector('input[name=agree_all]');
 
 
 
-	$(function() {
-		var emailCodeCheck = false; //  이메일 인증 성공 여부
-	})
+	var emailCodeCheck = false; //  이메일 인증 성공 여부
 
 	//입력값 유효성 검사 --> 통과 시 서블릿으로 전송 : 회원가입 실행
 	function enrollAvailable() {
@@ -761,7 +759,7 @@ const agreeChkAll = document.querySelector('input[name=agree_all]');
 	//가입 완료 메세지
 	function welcome() {
 		if ($("#businessArea").css("display") == "none") {
-			alert("회원이 되신 것을 환영합니다! 가입 축하 선물로 20,000원의 적립금이 충전되었습니다.");
+			alert("회원이 되신 것을 환영합니다! 신규 가입 고객 환영 이벤트로 10,000원의 적립금이 충전되었습니다.");
 		} else {
 			alert("회원이 되신 것을 환영합니다! 지금 당장 프로젝트를 오픈해서 좋은 서포터들을 만나보세요!");
 
@@ -801,7 +799,7 @@ const agreeChkAll = document.querySelector('input[name=agree_all]');
 			$.ajax({
 						url : "sendEmail.me",
 						type : "post",
-						anycs : 'false',
+						async : 'false',
 						data : {
 							emailId : emailId
 						},
@@ -819,7 +817,7 @@ const agreeChkAll = document.querySelector('input[name=agree_all]');
 								alert("인증 메일 발송실패 : 관리자에게 문의해주세요")
 							}
 						}, complete: function () {
-				              $("#div_ajax_load_image").hide();
+				              $(".spinner-border").hide();
 				       }, error : function() {
 							console.log("서버 통신 실패");
 						}
