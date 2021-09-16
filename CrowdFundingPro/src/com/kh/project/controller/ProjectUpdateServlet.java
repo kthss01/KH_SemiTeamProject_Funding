@@ -49,6 +49,7 @@ public class ProjectUpdateServlet extends HttpServlet {
 				
 				
 				int pCode=Integer.parseInt(multiRequest.getParameter("pCode"));
+				System.out.println("수정하기pCode:"+pCode);
 				
 				String projectName=multiRequest.getParameter("projectName");
 				int amountGoal=Integer.parseInt(multiRequest.getParameter("amountGoal"));
