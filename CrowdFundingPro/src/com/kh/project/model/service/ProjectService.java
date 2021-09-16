@@ -147,31 +147,7 @@ public class ProjectService {
 
 
 
-public int insertUProject(User user, Project pj) {
-	Connection conn=getConnection();
-	int result1=0;
-	
-	
-	
-	
-	
-	
-	result1=new ProjectDao().insertUProject(conn,user,pj);
-	
-	
-	try {
-		if(result1> 0) {
-			conn.commit();
-		}else {
-			conn.rollback();
-		}
-	}catch(Exception e) {
-		
-	}
-	
-	return result1;
-	
-}
+
 
 
 
@@ -254,5 +230,40 @@ public int insertUProject(User user, Project pj) {
 		close(conn);
 		return list;
 	}
+
+	//================================================================================================================================
+	public int insertSUP(User user, Project pj) {
+		
+		Connection conn = getConnection();
+		int result1 = 0;
+		
+		
+
+		
+
+		result1 = new ProjectDao().insertSUP(conn,user,pj);
+		
+
+		try {
+			if (result1 > 0) {
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+		} catch (Exception e) {
+
+		}
+
+		return result1 ;
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
 
 }
