@@ -46,6 +46,7 @@ public class LectureDetailFormServlet extends HttpServlet {
 		
 		LectureInfo info = new LectureService().getLectureCount(lecture);
 		
+		
 		int count = info.getCount();
 		
 		request.setAttribute("lecture", lecture);
