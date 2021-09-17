@@ -2,13 +2,12 @@
     pageEncoding="UTF-8"%>
 
 <%@ page import="com.kh.lecture.model.vo.Lecture" %>
-<% Lecture lecture = null; %>
     
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title> 신규 강의 등록 화면</title>
+<title> 강의 수정 화면</title>
 
 <style>
 
@@ -51,7 +50,7 @@
 }
 
 .modal_content {
-	background-color: white;
+	background-color: rgb(242,242,242);
 	padding: 10px 60px 50px 60px;
 	align-items: center;
 	text-align: center;
@@ -60,9 +59,9 @@
 	border-radius: 15px;
 	box-shadow: 0 5px 20px rgba(0, 0, 0, .25), 0 10px 10px
 		rgba(0, 0, 0, .80);
-	width: 800px;
+	width: 950px;
 	height: 750px;;
-	border: 10px solid gray;
+	border: 2px solid rgb(203,203,203);
 	overflow-y: scroll;
 }
 
@@ -77,12 +76,16 @@
 	margin-bottom: 100px;
 }
 
-.labels {
-	background-color: rgb(80, 80, 80);
-	color: white;
-	border-radius: 10px;
+h2 {
+	background-color: none;
+	color: black;
+	text-weight:bold;
+	border-radius: 7px;
 	padding: 5px 10px 5px 10px;
-	font-size: 20px;
+	font-size: 21px;
+	width: 95px;
+	height: 25px;
+	margin: 0 auto;
 }
 
 .preview {
@@ -109,10 +112,11 @@
 }
 
 .box {
-	display: table;
+	position:relative;
+	display:inline-block;
 	height: 85px;
-	width: 350px;
-	margin: 0 auto;
+	width: 80%;
+	margin: 40px 0px 0px 40px;
 	text-align: center;
 }
 
@@ -124,100 +128,186 @@ textarea {
 }
 
 
-button{
-	background-color: rgb(255,255,255);
-	color : rgb(0,123,255);
-	font-size: 18px;
-	font-weight:bold;
-	font-family: 'inherit';
-	border: 1px solid white;
+.information{
+	
+	width: 100%
+	
+}
+
+img{
+
+	background-color:white;
+
 }
 
 .selectImg{
-	background-color: rgb(255,255,255);
-	color : rgb(0,123,255);
-	font-weight:bold;
-	font-family: 'inherit';
-	border: 1px solid white;
+	
+	background-color:rgb(233,236,239);
+	
+}
 
+button {
+
+	background-color:rgb(116,228,190);
+	color:white;
+	border:none;
+	border-radius: 5px;
+	width: 120px;
+	height: 50px;
+	font-size: 12px;
+	margin-right: 15px;
+	margin-left: 15px;
 }
 
 button:hover{
-	background-color: rgb(0,123,255);
-	color: white;
+
+	cursor:pointer; 
+
 }
 
-input {
+.information > input{
+
+	margin: 8px 0px 0px 5px;
+	font-size:15px;
+	height: 30px;
 	
-	border-radius:5px; 
 }
+
+
 
 </style>
 </head>
 <body>		
+
 				<div class="modal">
 					<div class="modal_overlay"></div>
 					<div class="modal_content">
 
 						<div class="top">신규 강의 등록</div>
 
-						<form class="regist" method="post" action="<%= request.getContextPath()%>/lectureInsert.le"  enctype="multipart/form-data">
+						<form class="regist" method="POST" action="<%= request.getContextPath()%>/signIn.le"  enctype="multipart/form-data">
 							<div class="preview" id="top">
-								<img src="resources/images/NoImage.png" class="lectureImage">
-								<input type="file" name="selectImg" class="selectImg" value="사진 업로드" onchange="previewImg(event);"/>
+								<img src="<%=request.getContextPath()%>/resources/lectureImage/0000000000000.png" class="lectureImage" name="lectureImage">
+								<input type="file" class="selectImg" name="selectImg" value="사진 업로드" onchange="previewImg(event);"/>
 							</div>
-
 							<div class="information">
-								<span class="box"> <label class="labels"><b>
-											강사 </b></label> <input type="text" class="lecturer" name="lecturer" placeholder="강사이름">
+								<div class="box">
+									<h2>강사</h2><br>
+									<input type="text" id="lecturer" class="lecturer" name ="lecturer" placeholder="강사이름" style="width:68%;height: 30px; text-align:center;">
 											<!--  <input type="text" value=" loginUser" readonly> -->
-								</span>
-								<div class="box">
-									<label class="labels"><b> 강의 제목 </b></label> <input type="text"
-										class ="lectureTitle" name ="lectureTitle" placeholder="강의 제목" required>
 								</div>
-								
+								<br>
 								<div class="box">
-									<label class="labels"><b> 강의 날짜 </b></label> <input
-										class ="lectureDate" name ="lectureDate" type="date" placeholder="강의 날짜" required>
+									<h2>강의 제목</h2><br>
+									<input type="text" id="lectureTitle" class ="lectureTitle" name="lectureTitle" required style="width:68%; height: 30px; text-align:center;">
 								</div>
+								<br>
 								<div class="box">
-									<label class="labels"><b> 강의 주소 </b></label> <input type="text"
-										class ="lectureAddress" name="lectureAddress" placeholder="강의 주소" required>
+									<h2>강의 날짜</h2><br>
+									<input id="lectureDate" class ="lectureDate" name ="lectureDate" type="date" required style="width:50%; height: 30px; text-align:center;">
 								</div>
-								<div class="box">
-									<label class="labels"><b> 강의 인원 </b></label> <input type="number"
-										class ="lectureNumber" name="lectureNumber" placeholder="강의 인원" required>
+								<br>
+								<div class="box" style="display:inline;">
+									<h2>강의 주소</h2><br>
+									<input type="text" id="lectureAddress"  class ="lectureAddress" name ="lectureAddress" readonly style="width:57%; height: 30px; text-align:center;">
+										<input type="button" onclick="execDaumPostcode()" value="주소 검색" style="position:absolute; right:0; border:none; margin: 6px 6px 0px 0px;">
 								</div>
+								<br>
 								<div class="box">
-									<label class="labels"><b> 강의 주제 </b></label> <select
-										class ="lectureTopic" name ="lectureTopic" required>
-										<option value="펀딩투자강의" selected> 펀딩투자강의 </option>
+									<h2>강의 인원</h2><br>
+									<input type="number" id="lectureNumber"  class ="lectureNumber" name="lectureNumber" required style="width:25%; height: 30px; ">
+								</div>
+								<br>
+								<div class="box">
+									<h2>강의 주제</h2><br>
+									 <select id="lectureTopicr"  class ="lectureTopic" name ="lectureTopic" required style="width:47%;height: 30px; text-align:center;">
+										<option value="펀딩투자강의"> 펀딩투자강의 </option>
 										<option value="펀딩오픈강의"> 펀딩오픈강의 </option>
 										<option value="펀딩입문강의"> 펀딩입문강의 </option>
 										</select>
 								</div>
+								<br>
 								<div class="box">
-									<label class="labels"><b> 강의 시간 </b></label> <input type="number"
-										class ="lectureTime" name ="lectureTime" placeholder="강의 인원 (분)" required>
+									<h2>강의 시간</h2><br>
+									<input type="number" id="lectureTime" class ="lectureTime" name ="lectureTime" placeholder="강의 인원 (분)" required style="width:25%;height: 30px; text-align:center;">
 								</div>
-								
+								<br>
 								<div class="box">
-									<label class="labels"><b> 강의 세부내용 </b></label> <br>
-									<textarea cols="40" rows="25" class ="lectureContent" name ="lectureContent"></textarea>
+									<h2>세부내용</h2><br>
+									<textarea  rows="45" id="lectureContent" class ="lectureContent" name="lectureContent" style="width:100%;"></textarea>
 								</div>
 							</div>
-							<button type="submit" > 등록 </button>
-							<button type="button" onclick="location.href='<%=request.getContextPath()%>/lecture.le'">취소</button>
+							<br>
+							<button type="submit" >등록</button>
+							<button type="button" onclick="history.back();">취소</button>
 						</form>
 
 						
 
 					</div>
 				</div>
-				
+				<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+				<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=86371d8b099bdfe665381687000191ad&libraries=services"></script>
 				
 				<script>
+					
+				
+				var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+		        mapOption = {
+		            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+		            level: 5 // 지도의 확대 레벨
+		        };
+
+		    //지도를 미리 생성
+		    var map = new daum.maps.Map(mapContainer, mapOption);
+		    //주소-좌표 변환 객체를 생성
+		    var geocoder = new daum.maps.services.Geocoder();
+		    //마커를 미리 생성
+		    var marker = new daum.maps.Marker({
+		        position: new daum.maps.LatLng(37.537187, 127.005476),
+		        map: map
+		    });
+
+
+		    function execDaumPostcode() {
+		        new daum.Postcode({
+		            oncomplete: function(data) {
+		                var addr = data.address; // 최종 주소 변수
+
+		                // 주소 정보를 해당 필드에 넣는다.
+		                document.getElementById("lectureAddress").value = addr;
+		                // 주소로 상세 정보를 검색
+		                geocoder.addressSearch(data.address, function(results, status) {
+		                    // 정상적으로 검색이 완료됐으면
+		                    if (status === daum.maps.services.Status.OK) {
+
+		                        var result = results[0]; //첫번째 결과의 값을 활용
+
+		                        // 해당 주소에 대한 좌표를 받아서
+		                        var coords = new daum.maps.LatLng(result.y, result.x);
+		                        // 지도를 보여준다.
+		                        mapContainer.style.display = "block";
+		                        map.relayout();
+		                        // 지도 중심을 변경한다.
+		                        map.setCenter(coords);
+		                        // 마커를 결과값으로 받은 위치로 옮긴다.
+		                        marker.setPosition(coords)
+		                    }
+		                });
+		            }
+		        }).open();
+		    }
+					
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 					function previewImg(event) {
 					
 					const reader = new FileReader();
@@ -227,9 +317,11 @@ input {
 						preView.setAttribute("src", event.target.result);
 					}
 						reader.readAsDataURL(event.target.files[0]);
-						preView.setAttribute("height","256");
-						preView.setAttribute("width","256");
 					}
+					
+					preView.setAttribute("height","256");
+					preView.setAttribute("width","256");
+					
 					
 					
 					

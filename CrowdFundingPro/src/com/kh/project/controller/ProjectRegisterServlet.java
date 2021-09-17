@@ -113,8 +113,8 @@ public class ProjectRegisterServlet extends HttpServlet {
 	            if(result>0) {
 		        	request.getSession().setAttribute("msg", "펀딩 등록이 완료되었습니다.");
 		        	
-					//response.sendRedirect("projectList.do");
-		        	response.sendRedirect("projectPage.do");
+
+					response.sendRedirect("projectPage.do");
 		        	 
 		            
 		         }else {

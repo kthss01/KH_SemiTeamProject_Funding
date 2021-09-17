@@ -31,7 +31,7 @@ public class LectureService {
 		
 	}
 	
-	public int updateLectrue(Lecture lecture) {
+	public int updateLecture(Lecture lecture) {
 		
 		Connection conn = getConnection();
 		int result = new LectureDao().updateLecture(conn,lecture);
@@ -85,10 +85,10 @@ public class LectureService {
 		return lecture;
 	}
 
-	public int signInLecture(User u) {
+	public int signInLecture(Lecture lecture,User user) {
 		
 		Connection conn = getConnection();
-		int result = new LectureDao().signInLecture(conn,u);
+		int result = new LectureDao().signInLecture(conn,lecture,user);
 		
 		if (result > 0) commit(conn);
 		else rollback(conn);
@@ -102,6 +102,27 @@ public class LectureService {
 		Connection conn = getConnection();
 		
 		LectureInfo result = new LectureDao().getLectureCount(conn,lecture);
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public ArrayList<Lecture> selectRandomLecture() {
+		Connection conn = getConnection();
+		
+		ArrayList<Lecture> result = new LectureDao().getRandomLecture(conn);
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public int cancleLectureRegist(Lecture lecture, User loginUser) {
+		
+		Connection conn = getConnection();
+		
+		int result = new LectureDao().cancleLectureRegist(conn, lecture, loginUser);
 		
 		close(conn);
 		

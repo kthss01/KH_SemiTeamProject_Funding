@@ -14,16 +14,16 @@ import com.kh.lecture.model.service.LectureService;
 import com.kh.lecture.model.vo.Lecture;
 
 /**
- * Servlet implementation class ProjectRandomListServlet
+ * Servlet implementation class LectureRandomServlet
  */
-@WebServlet("/random.leccc")
-public class LectureRandomListServlet extends HttpServlet {
+@WebServlet("/random.le")
+public class LectureRandomServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LectureRandomListServlet() {
+    public LectureRandomServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,17 +32,12 @@ public class LectureRandomListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-	ArrayList<Lecture> randomList = new LectureService().selectLectureList();
-	System.out.println("랜덤 강의 Servlet: " + randomList);
-
-	response.setContentType("application/json; charset=utf-8");
-
-	new Gson().toJson(randomList, response.getWriter());
-	
-	
-	
-	
+		// TODO Auto-generated method stub
+		
+		ArrayList<Lecture> randomLec = new LectureService().selectRandomLecture();
+		System.out.println("v" + randomLec);
+		response.setContentType("application/json; charset=utf-8");
+		new Gson().toJson(randomLec, response.getWriter());
 	}
 
 	/**

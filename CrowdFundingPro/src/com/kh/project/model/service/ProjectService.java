@@ -13,7 +13,7 @@ import java.util.Map;
 import com.kh.common.model.vo.Attachment;
 import com.kh.project.model.dao.ProjectDao;
 import com.kh.project.model.vo.Project;
-import com.kh.user.model.vo.User;
+import com.kh.user.model.dao.UserDao;
 
 public class ProjectService {
 
@@ -233,22 +233,30 @@ public class ProjectService {
 
 	//================================================================================================================================
 	//[참여프로젝트]
-	public int insertSUP(User user, Project pj) {
+
+	public int insertSUP(int userNo, int pCode) {
 		
 		Connection conn = getConnection();
 		int result1 = 0;
+		int result2 = 0;
+		int result3 = 0;
 		
+	
+		result1 = new ProjectDao().insertSUP(conn, userNo,pCode);
+		result2 = new ProjectDao().plusSupport(conn,pCode);
+			
+		Project p = new ProjectDao().projectSelect(conn, pCode);
+		int price = p.getDeliveryCharge();
 		
-
-		
-
-		result1 = new ProjectDao().insertSUP(conn,user,pj);
-		
+		result3 = new UserDao().minusPoint(conn,userNo,price);
 
 		try {
-			if (result1 > 0) {
+			if (result1 > 0 && result2 > 0 && result3 > 0) {
 				conn.commit();
 			} else {
+				System.out.println("프로젝트 신청에서 에러 : " + result1);
+				System.out.println("서포트수 증가 에러 : " + result2);
+				System.out.println("포인트 감소 에러 : " + result3);
 				conn.rollback();
 			}
 		} catch (Exception e) {
@@ -266,10 +274,6 @@ public class ProjectService {
 	public int insertIP(User user, Project pj) {
 		Connection conn = getConnection();
 		int result1 = 0;
-		
-		
-
-		
 
 		result1 = new ProjectDao().insertIP(conn,user,pj);
 		

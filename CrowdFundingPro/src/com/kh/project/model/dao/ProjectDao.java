@@ -202,11 +202,12 @@ public class ProjectDao {
 
 			if (rset.next()) {
 				pj = new Project();
+				pj.setProjectCode(pCode);
 				pj.setProjectName(rset.getString("PROJECT_NAME"));
 				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
 				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
 				pj.setDdln(rset.getDate("DDLN"));
-				pj.setDeliveryCharge(rset.getInt("DELIVERY_CHARGE"));
+				pj.setDeliveryCharge(rset.getInt("PRICE"));
 				pj.setDetailIntro(rset.getNString("DETAIL_INTRO"));
 				pj.setFileNo(rset.getInt("FILE_NO"));
 				pj.setTitleImg(rset.getNString("CHANGE_NAME"));
@@ -229,7 +230,7 @@ public class ProjectDao {
 		ResultSet rset = null;
 
 		String sql = prop.getProperty("updatePSelect");
-		// SELECT PROJECT_NAME,AMOUNT_GOAL,DDLN,DELIVERY_CHARGE,DETAIL_INTRO,FILE_NO
+		// SELECT PROJECT_NAME,AMOUNT_GOAL,DDLN,PRICE,DETAIL_INTRO,FILE_NO
 		// FROM PROJECT JOIN ATTACHMENT USING(FILE_NO) WHERE FILE_NO=?
 
 		try {
@@ -240,7 +241,7 @@ public class ProjectDao {
 
 			if (rset.next()) {
 				pj = new Project(rset.getInt("PROJECT_CODE"), rset.getString("PROJECT_NAME"),
-						rset.getInt("AMOUNT_GOAL"), rset.getDate("DDLN"), rset.getInt("DELIVERY_CHARGE"),
+						rset.getInt("AMOUNT_GOAL"), rset.getDate("DDLN"), rset.getInt("PRICE"),
 						rset.getString("DETAIL_INTRO"), rset.getInt("FILE_NO")
 
 				);
@@ -248,7 +249,7 @@ public class ProjectDao {
 //				pj.setProjectName(rset.getString("PROJECT_NAME"));
 //				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
 //				pj.setDdln(rset.getDate("DDLN"));
-//				pj.setDeliveryCharge(rset.getInt("DELIVERY_CHARGE"));
+//				pj.setDeliveryCharge(rset.getInt("PRICE"));
 //				pj.setDetailIntro(rset.getString("DETAIL_INTRO"));
 //				pj.setFileNo(rset.getInt("FILE_NO"));
 //				pj.setTitleImg(rset.getString("CHANGE_NAME"));
@@ -323,7 +324,7 @@ public class ProjectDao {
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("projectUpdate");
 		// UPDATE PROJECT SET
-		// PROJECT_NAME=?,AMOUNT_GOAL=?,DDLN=?,DELIVERY_CHARGE=?,DETAIL_INTRO=? WHERE
+		// PROJECT_NAME=?,AMOUNT_GOAL=?,DDLN=?,PRICE=?,DETAIL_INTRO=? WHERE
 		// PROJECT_CODE=?
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -479,7 +480,7 @@ public class ProjectDao {
 			/*
 			 * PROJECT_CODE NUMBER 프로젝트코드 USER_NO VARCHAR2(3 BYTE) 담당자회원번호 PROJECT_NAME
 			 * VARCHAR2(4000 BYTE) 프로젝트명 AMOUNT_GOAL NUMBER 목표금액 AMOUNT_PRESENT NUMBER 현재금액
-			 * DDLN DATE 마감일 DELIVERY_CHARGE NUMBER 배송료 SUPPORT_NUM NUMBER 서포터수 DETAIL_INTRO
+			 * DDLN DATE 마감일 PRICE NUMBER 배송료 SUPPORT_NUM NUMBER 서포터수 DETAIL_INTRO
 			 * VARCHAR2(4000 BYTE) 프로젝트세부내용 CATEGORY_NO NUMBER 카테고리번호 FILE_NO NUMBER 파일번호
 			 */
 
@@ -523,7 +524,7 @@ public class ProjectDao {
 				list.add(p);
 			}
 
-			System.out.println("랜덤 프로젝트 dao: " + list);
+			System.out.println("랭크 프로젝트 dao: " + list);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -761,8 +762,8 @@ public class ProjectDao {
 	}
 	//=================================================================================
 
-	////[참여프로젝트]
-	public int insertSUP(Connection conn, User user, Project pj) {
+
+	public int insertSUP(Connection conn, int userNo, int pCode) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertSUP");
@@ -772,8 +773,8 @@ public class ProjectDao {
 			pstmt = conn.prepareStatement(sql);
 			//INSERT INTO SIGN_UP_PRO VALUES(SEQ_SIGN_PRO.NEXTVAL,?,?) 
 
-			pstmt.setInt(1,user.getUserNo());
-			pstmt.setInt(2, pj.getProjectCode());
+			pstmt.setInt(1,userNo);
+			pstmt.setInt(2, pCode);
 			
 
 			result = pstmt.executeUpdate();
@@ -795,6 +796,11 @@ public class ProjectDao {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertIP");
+
+	public int plusSupport(Connection conn, int pCode) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("plusSupport");
 		
 
 		try {
@@ -803,6 +809,9 @@ public class ProjectDao {
 
 			pstmt.setInt(1,user.getUserNo());
 			pstmt.setInt(2, pj.getProjectCode());
+//			UPDATE PROJECT SET SUPPORT_NUM = SUPPORT_NUM+1 WHERE PROJECT_CODE=? 
+			
+			pstmt.setInt(1, pCode);
 			
 
 			result = pstmt.executeUpdate();
@@ -840,12 +849,6 @@ public class ProjectDao {
 		
 		return result;
 	}
-	
-	
-	
-	
-	
-	
 	
 
 }

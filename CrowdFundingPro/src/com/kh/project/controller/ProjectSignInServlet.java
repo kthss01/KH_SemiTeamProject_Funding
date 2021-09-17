@@ -1,6 +1,7 @@
 package com.kh.project.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 //import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import com.kh.project.model.service.ProjectService;
 import com.kh.project.model.vo.Project;
-import com.kh.user.model.service.UserService;
 import com.kh.user.model.vo.User;
 
 /**
@@ -21,72 +21,94 @@ import com.kh.user.model.vo.User;
 @WebServlet("/signIn.do")
 public class ProjectSignInServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ProjectSignInServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		
-		User loginUser = (User) session.getAttribute("loginUser");
-		
-		
-		
-		
-		
-		int pCode=Integer.parseInt(request.getParameter("pCode"));
-		System.out.println("신청하기 버튼 pCode:"+pCode);
-		
-		
-		String emailId=loginUser.getEmailId();
-		User user=new UserService().selectUser(emailId); //--1 유저 가져오기
-
-		
-		
-		
-		//public Project projectSelect(int pCode) {
-		Project pj=new ProjectService().projectSelect(pCode); //--2 프로젝트 가져오기
-		//SELECT PROJECT_NAME,AMOUNT_GOAL,AMOUNT_PRESENT,DDLN,DELIVERY_CHARGE,DETAIL_INTRO,FILE_NO,CHANGE_NAME
-		
-		System.out.println("1.pj:"+pj);
-		
-		System.out.println("2.user:"+user);
-		
-		if(pj !=null && user !=null) {
-			int result=new ProjectService().insertSUP(user,pj);
-			
-			if(result>0) {
-				
-				request.setAttribute("msg","INSERT SUCCESS" );
-				request.getRequestDispatcher("views/user/myPage.jsp").forward(request, response);
-			}
-			
-			
-		}else {
-			request.getSession().setAttribute("msg", "FAILED");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
-		
-		
-		
-		
-		
-		
-		
+	public ProjectSignInServlet() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+
+		User loginUser = (User) session.getAttribute("loginUser");
+
+		// public Project projectSelect(int pCode) {
+//		Project pj=new ProjectService().projectSelect(pCode); //--2 프로젝트 가져오기
+		// SELECT
+		// PROJECT_NAME,AMOUNT_GOAL,AMOUNT_PRESENT,DDLN,DELIVERY_CHARGE,DETAIL_INTRO,FILE_NO,CHANGE_NAME
+
+//		System.out.println("1.pj:"+pj);
+
+
+
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter writer = response.getWriter();
+		String PageUrl = "projectPage.do";
+		
+		if(loginUser != null) {
+			
+			int point = loginUser.getPoint();
+			int price = ((Project) session.getAttribute("pj")).getDeliveryCharge();
+
+			System.out.println("신청하기 버튼 loginUser:" + loginUser);
+			int userNo = loginUser.getUserNo();
+
+//			try {
+//				
+//			}catch (Exception e ){
+//				
+//			}
+//			
+//			
+			int pCode = ((Project) session.getAttribute("pj")).getProjectCode();
+	
+
+			if (price <= point) {
+
+				if (pCode != 0 && userNo != 0) {
+					int result = new ProjectService().insertSUP(userNo, pCode);
+
+					if (result > 0) {
+
+						request.setAttribute("msg", "INSERT SUCCESS");
+
+						writer.println("<script>alert('펀딩 신청이 완료되었습니다. 신청하신 내역은 마이페이지에서 조회 가능합니다. '); location.href='"
+								+ PageUrl + "';</script>");
+						writer.close();
+
+					}
+				}
+			} else {
+
+				writer.println("<script>alert('잔액이 부족합니다. 마이페이지에서 충전 가능합니다. '); location.href='" + PageUrl
+						+ "';</script>");
+				writer.close();
+
+			}
+
+		}else {
+			PageUrl = "views/user/userLoginForm.jsp";
+			writer.println("<script>alert('로그인이 필요합니다.'); location.href='" + PageUrl
+					+ "';</script>");
+			writer.close();
+		}
+
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

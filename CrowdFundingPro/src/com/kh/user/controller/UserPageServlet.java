@@ -36,13 +36,13 @@ public class UserPageServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User loginUser = (User)request.getSession().getAttribute("loginUser");
-		
+	
 		String emailId = loginUser.getEmailId();
 		User user = new UserService().selectUser(emailId);
 		
 		RequestDispatcher view = null;
 		if(user != null) {
-			request.setAttribute("loginUser", user);
+			request.getSession().setAttribute("loginUser", user);
 			
 			if(user.getUserCode().equals("01")) {
 				
@@ -50,7 +50,6 @@ public class UserPageServlet extends HttpServlet {
 				view = request.getRequestDispatcher("/userList.do");
 
 			}else {
-				
 				
 				//강의리스트
 				ArrayList<ULecture> ULlist = new UserService().selectLectureList(emailId);	
@@ -72,9 +71,9 @@ public class UserPageServlet extends HttpServlet {
 			
 
 		}else {
-			request.setAttribute("msg", "마이페이지로 이동이 실패했습니다.");
+			request.setAttribute("msg", "장시간 대기로 인해 세션이 종료되었습니다. 로그인 후 다시 시도해주세요. ");
 			
-			request.getRequestDispatcher("views/common/errorPage.jsp");
+			view=request.getRequestDispatcher("views/common/errorPage.jsp");
 		}
 
 		view.forward(request, response);

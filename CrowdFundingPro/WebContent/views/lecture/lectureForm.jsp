@@ -92,6 +92,7 @@ ul img {
 	width: 100%;
 	/* display: inline-flex; */
 	display: flex;
+	margin-bottom: 100px;
 }
 
 .left {
@@ -242,8 +243,10 @@ tbody {
 	<div class="main">
 
 		<!-- 화면 상단 이미지 슬라이드-->
+		<h2 style="margin-top:25px; text-align:center; text-shadow:5px; 1px; 2px 4px rgb(184,184,184);"> 펀딩스쿨에 오신 것을 환영합니다!</h2>
 		<div class="main_top">
 			<div id="top_banner">
+				<p style="color:white;">&lt;</p>
 				<ul class="slider">
 					<li class="slider_item"><img
 						src="resources/lectureImage/lectureImage_4.png"></li>
@@ -252,6 +255,7 @@ tbody {
 					<li class="slider_item"><img
 						src="resources/lectureImage/lectureImage_9.png"></li>
 				</ul>
+				<p>&gt;</p>
 			</div>
 		</div>
 		<script src="resources/script/lecture/lectureSlider.js"></script>
@@ -259,14 +263,15 @@ tbody {
 
 		<div class="center">
 			<div class="left">
+				
 				<div class="lecWrapper">
+					<h4 style="text-weight:bold; color:rgba(15,15,15,0.26);"> 이런 강의 들이 있어요!</h4>
 					<%
 					if (lectureList != null && !(lectureList.isEmpty())) {
 					%>
 					<%
 					for (Lecture l : lectureList) {
 					%>
-					
 					<div class="lec_Item">
 						<p style="display: none"><%=l.getLectureCode()%></p>
 						<img  src="<%=request.getContextPath() %>/resources/lectureImage/<%=l.getLectureImage()%>"/>  
@@ -483,13 +488,9 @@ tbody {
 			</script>
 
 
-
-
 			<div class="right">
 				<div class="area">
 					<div class="lecture_Rank">
-											
-						
 					</div>
 					
 				
