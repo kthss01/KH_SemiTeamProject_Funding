@@ -236,7 +236,9 @@ public class ProjectService {
 		
 		Connection conn = getConnection();
 		int result1 = 0;
-
+		int result2 = 0;
+		int result3 = 0;
+		
 		result1 = new ProjectDao().insertSUP(conn, userNo,pCode);
 		
 
