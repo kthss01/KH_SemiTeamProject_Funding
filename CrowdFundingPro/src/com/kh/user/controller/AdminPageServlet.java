@@ -38,8 +38,6 @@ public class AdminPageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		RequestDispatcher view = null;
-
 		ArrayList<User> UList = new UserService().selectUserList();
 
 		

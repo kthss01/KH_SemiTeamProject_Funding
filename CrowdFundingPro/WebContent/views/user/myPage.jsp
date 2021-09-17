@@ -36,7 +36,8 @@ DecimalFormat decFormat = new DecimalFormat("###,###");
 
 .box {
 	width: 1300px;
-	height: 1200px;
+	overflow:hidden;
+	height: auto;
 	margin: 0 auto;
 }
 
@@ -69,6 +70,7 @@ DecimalFormat decFormat = new DecimalFormat("###,###");
 	float: left;
 	padding-left: 30px;
 	padding-right: 30px;
+	
 }
 
 .section h3 {
@@ -88,6 +90,11 @@ DecimalFormat decFormat = new DecimalFormat("###,###");
 
 .section li a {
 	text-decoration: none;
+}
+
+h4{
+	font-family: 'Noto Sans KR', 'sans-serif';
+	font-weight:bold;
 }
 
 #myPageTitle {
@@ -153,7 +160,7 @@ DecimalFormat decFormat = new DecimalFormat("###,###");
 }
 
 .card-body {
-	height: 100px;
+	height: 120px;
 	padding: 5px !important;
 }
 
@@ -220,6 +227,30 @@ right:10px;
 }
 
 
+.chargeLabel{
+    font-family: 'Noto Sans KR', 'sans-serif';
+width:100%;
+font-size:22px;
+font-weight:bold;
+border-bottom: 0.5px solid lightgray;
+padding:5px;
+margin-bottom:10px;
+}
+
+.chargeInput{
+	padding:5px;
+    margin-bottom:10px;
+	font-family: 'Noto Sans KR', 'sans-serif';
+	
+}
+
+#rechargeBtn{
+width:100px;
+font-family: 'Noto Sans KR', 'sans-serif';
+font-size:18px;
+
+}
+
 </style>
 
 </head>
@@ -258,7 +289,7 @@ right:10px;
  						%>
 						</span><br>
 					<i class="far fa-wallet"></i>						 
-					<b style="font-size: 20px;"> <%= decFormat.format(loginUser.getPoint())%> </b>
+					<b style="font-size: 20px;"> <%= decFormat.format(loginUser.getPoint())%>원</b>
 					</p>
 
 				</div>
@@ -276,7 +307,7 @@ right:10px;
 		
 			<div class="section" id="middleInfo"
 				style="padding-left: 30px; margin-bottom:40px;  height: auto; width: 100%; display: block; float: left; overflow: hidden; border-bottom:0.5px solid lightgray; ">
-				<a type="button" class="point2" style="display:inline-block; margin-right:120px;">
+				<a type="button" class="point2" style="display:inline-block; margin-right:120px;" data-toggle="modal" data-target="#pointCharge">
 				<span class="far fa-usd-circle"> </span>
 				<span> 포인트 충전하기</span><span id="point3">></span>
 				</a>
@@ -594,10 +625,41 @@ right:10px;
 					%>
 
 				</div>
-
 			</div>
 		</div>
 	</div>
+
+
+
+
+	<div class="modal fade" id="pointCharge">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">포인트 충전하기</h4>
+					<button type="button" class="close" data-dismiss="modal"> &times;</button>
+				</div>
+				<div class="modal-body">
+				<form method='post' action='charge.me'>
+				<input type="hidden" name="userCode" value=<%=loginUser.getUserNo() %>>
+	
+				<label for="recharge" class="chargeLabel" style="display:block">충전금액</label>
+				
+				<label class="chargeInput"  style="display:block">		
+				<input type="radio" name="recharge"  value="10000" checked> 10,000원	 </label>	
+				<label class="chargeInput" style="display:block"> 		
+				<input type="radio"  name="recharge" class="chargeInput" value="20000"> 20,000원	 </label>	
+				<label class="chargeInput" style="display:block"> 			
+				<input type="radio"  name="recharge" class="chargeInput" value="50000"> 50,000원</label>	
+				<label class="chargeInput" style="display:block"> 		
+				<input type="radio"  name="recharge" class="chargeInput" value="100000"> 100,000원	</label>	
+
+				<input type="submit" id="rechargeBtn" class="btn btn-secondary"value="충전하기">
+				</form>
+				</div>
+				</div>
+			</div>
+		</div>
 
 
 </body>
@@ -606,7 +668,7 @@ right:10px;
 	
 	
 	   $(".pro").on("click",function(){
-	   var pCode = $(this).children('input').val();
+	   var pCode = $(this).find('input').val();
 		location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
 	});
 	   
