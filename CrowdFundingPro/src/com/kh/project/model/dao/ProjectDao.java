@@ -344,9 +344,6 @@ public class ProjectDao {
 		return result;
 	}
 
-	
-	
-
 	public int getListCount(Connection conn) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -388,7 +385,7 @@ public class ProjectDao {
 				pj.setTitleImg(rset.getString("CHANGE_NAME"));
 				pj.setCategoryName(rset.getString("CATEGORY_NAME"));
 				pj.setDdln(rset.getDate("DDLN"));
-				
+
 				list.add(pj);
 			}
 		} catch (SQLException e) {
@@ -760,22 +757,19 @@ public class ProjectDao {
 
 		return list;
 	}
-	//=================================================================================
-
+	// =================================================================================
 
 	public int insertSUP(Connection conn, int userNo, int pCode) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertSUP");
-		
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			//INSERT INTO SIGN_UP_PRO VALUES(SEQ_SIGN_PRO.NEXTVAL,?,?) 
+			// INSERT INTO SIGN_UP_PRO VALUES(SEQ_SIGN_PRO.NEXTVAL,?,?)
 
-			pstmt.setInt(1,userNo);
+			pstmt.setInt(1, userNo);
 			pstmt.setInt(2, pCode);
-			
 
 			result = pstmt.executeUpdate();
 
@@ -786,33 +780,44 @@ public class ProjectDao {
 			close(pstmt);
 		}
 		return result;
-		
-		
-		
-		
+
 	}
-	//[관심프로젝트]
+
+	// [관심프로젝트]
 	public int insertIP(Connection conn, User user, Project pj) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertIP");
 
+		try {
+			pstmt = conn.prepareStatement(sql);
+			// INSERT INTO SIGN_UP_PRO VALUES(SEQ_SIGN_PRO.NEXTVAL,?,?)
+
+			pstmt.setInt(1, user.getUserNo());
+			pstmt.setInt(2, pj.getProjectCode());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+
+	}
+
 	public int plusSupport(Connection conn, int pCode) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("plusSupport");
-		
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			 
-
-			pstmt.setInt(1,user.getUserNo());
-			pstmt.setInt(2, pj.getProjectCode());
 //			UPDATE PROJECT SET SUPPORT_NUM = SUPPORT_NUM+1 WHERE PROJECT_CODE=? 
-			
+
 			pstmt.setInt(1, pCode);
-			
 
 			result = pstmt.executeUpdate();
 
@@ -828,27 +833,23 @@ public class ProjectDao {
 	public int deleteSUP(Connection conn, String signProNo) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		
+
 		String sql = prop.getProperty("deleteSUP");
-		
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
-			
-			
+
 			pstmt.setString(1, signProNo);
-		
+
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(pstmt);
 		}
-		
+
 		return result;
 	}
-	
 
 }

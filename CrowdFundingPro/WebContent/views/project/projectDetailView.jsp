@@ -219,6 +219,7 @@
                 		
 
                 		<button class="fBtn" id="btn1" type="button" onclick="signIn();">펀딩하기</button>
+                		 <button class="fBtn" id="btn3" type="button" onclick="test2();">♡</button> 
                 		<button class="fBtn" id="btn2" type="button" onclick="updateForm();">수정하기</button>
                 		
 

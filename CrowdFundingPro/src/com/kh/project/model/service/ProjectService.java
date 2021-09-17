@@ -14,6 +14,7 @@ import com.kh.common.model.vo.Attachment;
 import com.kh.project.model.dao.ProjectDao;
 import com.kh.project.model.vo.Project;
 import com.kh.user.model.dao.UserDao;
+import com.kh.user.model.vo.User;
 
 public class ProjectService {
 
@@ -264,10 +265,7 @@ public class ProjectService {
 		}
 
 		return result1 ;
-		
-		
-		
-		
+
 	}
 	
 	//[관심프로젝트]
