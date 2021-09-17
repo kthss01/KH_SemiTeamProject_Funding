@@ -133,9 +133,11 @@ public class UserDao {
 
 			if (rset.next()) {
 				u = new User();
+				u.setUserNo(rset.getInt("USER_NO"));
 				u.setUserCode(rset.getString("USER_CODE"));
 				u.setEmailId(emailId);
 				u.setUserPwd(rset.getString("USER_PWD"));
+				u.setUserSsn(rset.getString("USER_SSN"));
 				u.setUserName(rset.getString("USER_NAME"));
 				u.setUserPhone(rset.getString("PHONE_NUMBER"));
 				u.setUserAddress(rset.getString("USER_ADDRESS"));
@@ -390,6 +392,52 @@ public class UserDao {
 			close(pstmt);
 		}
 		return map;
+	}
+
+	public int minusPoint(Connection conn, int userNo, int price) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+//		String sql = prop.getProperty("minusPoint");
+		String sql = "UPDATE USER_TB SET POINT = POINT-? WHERE USER_NO=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, price);
+			pstmt.setInt(2, userNo);
+			
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int chargePoint(Connection conn, int userNo, int recharge) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+//		String sql = prop.getProperty("plusPoint");
+		String sql = "UPDATE USER_TB SET POINT = POINT+? WHERE USER_NO=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, recharge);
+			pstmt.setInt(2, userNo);
+			
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
 	}
 
 }

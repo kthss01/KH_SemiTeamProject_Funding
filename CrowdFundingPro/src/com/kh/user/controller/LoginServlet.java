@@ -1,6 +1,7 @@
 package com.kh.user.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -47,6 +48,7 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("loginUser", loginUser);
 			
 			response.sendRedirect(""+session.getAttribute("location")); //세션에 정보담았으니 sendRedirect로 바로 간다.
+
 		}else { // 로그인유저 null일 경우 에러페이지 
 			session.setAttribute("msg", "로그인에 실패했습니다.");
 			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp"); //request에 정보가 있으니 RequestDispatcher 로 에러페이지로 보냄

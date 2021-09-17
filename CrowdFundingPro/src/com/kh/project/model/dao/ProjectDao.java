@@ -524,7 +524,7 @@ public class ProjectDao {
 				list.add(p);
 			}
 
-			System.out.println("랜덤 프로젝트 dao: " + list);
+			System.out.println("랭크 프로젝트 dao: " + list);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -789,6 +789,30 @@ public class ProjectDao {
 		
 		
 		
+	}
+
+	public int plusSupport(Connection conn, int pCode) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("plusSupport");
+		
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+//			UPDATE PROJECT SET SUPPORT_NUM = SUPPORT_NUM+1 WHERE PROJECT_CODE=? 
+			
+			pstmt.setInt(1, pCode);
+			
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
 	}
 	
 	
