@@ -116,6 +116,7 @@
         <input class="inputT"  type="text" placeholder="가격을 입력하세요." name="delivery" id="delivery"><b>원</b><br><br>
 		<hr>
 
+
 		<label class="labelA" for="uploadfile"><b>대표이미지</b></label>
 		<div class="titleImg">
 			<div class="custom-file inputI">
@@ -124,8 +125,9 @@
 				<label for="uploadfile"
 					class="custom-file-label" data-browse="업로드">파일을 올려주세요</label>
 			</div>
-		</div>
-
+		</div> 
+		
+		
 
 				<hr>
 
@@ -194,7 +196,7 @@
     
     <%@ include file="../common/footer.jsp"%>
 </body>
-    <script>
+   <script>
   //동의 모두선택 / 해제
     const agreeChkAll = document.querySelector('input[name=confirm2All]');
         agreeChkAll.addEventListener('change', (e) => {
