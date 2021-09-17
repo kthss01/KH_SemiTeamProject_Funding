@@ -761,6 +761,7 @@ public class ProjectDao {
 	}
 	//=================================================================================
 
+	////[참여프로젝트]
 	public int insertSUP(Connection conn, User user, Project pj) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -788,6 +789,56 @@ public class ProjectDao {
 		
 		
 		
+	}
+	//[관심프로젝트]
+	public int insertIP(Connection conn, User user, Project pj) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertIP");
+		
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			 
+
+			pstmt.setInt(1,user.getUserNo());
+			pstmt.setInt(2, pj.getProjectCode());
+			
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteSUP(Connection conn, String signProNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteSUP");
+		
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			
+			pstmt.setString(1, signProNo);
+		
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 	
 	

@@ -179,6 +179,11 @@ Project pj=(Project)(request.getAttribute("pj"));
             align-items: center;
             justify-content:center; 
         } */
+        
+        #btn3{
+        	font-size:25px;
+    		
+        }
 </style>
 </head>
 <body>
@@ -203,7 +208,8 @@ Project pj=(Project)(request.getAttribute("pj"));
                     <label class="pInfol">달성률  </label><span id="persent"><%= (int)Math.floor(((double)pj.getAmountPresent()/pj.getAmountGoal())*100) %>%</span><br>
                     <label class="pInfol">마감일  </label><span class='pInfot'><%=pj.getDdln() %></span><br>
                     <label class="pInfol">배송료  </label><span class=pInfot><%=pj.getDeliveryCharge() %>원</span><br>
-                    <input type="text" name="amount" id="input1" value="1" size="3" onchange="change();"> <br>  
+                    
+                    <input type="text" name="amount" id="input1" value="1" size="3" onchange="change();">   
                     
                     
                      <form  action="" id="postForm" method="post">
@@ -211,7 +217,7 @@ Project pj=(Project)(request.getAttribute("pj"));
                 		<input type="hidden" name="pCode" value="<%= pj.getProjectCode() %>">
                 		<input type="hidden" name="fileNo" value="<%=pj.getFileNo() %>"> 
                 		
-                		<button class="fBtn" id="btn1" type="button" onclick="test1();">펀딩하기</button>
+                		<button class="fBtn" id="btn1" type="button" onclick="test1();">펀딩하기</button> <button class="fBtn" id="btn3" type="button" onclick="test2();">♡</button>     
                 		<button class="fBtn" id="btn2" type="button" onclick="updateForm();">수정하기</button>
                 		
 
@@ -246,6 +252,13 @@ Project pj=(Project)(request.getAttribute("pj"));
                 		$("#postForm").attr("action","<%=request.getContextPath()%>/signIn.do");
                 		$("#postForm").submit();
                 	}
+                </script>
+                
+                <script>
+                	function test2(){
+                		$("#postForm").attr("action","<%=request.getContextPath()%>/interestIn.do");
+                		$("#postForm").submit();
+                	}
                 </script>	
                 	
                                
@@ -253,7 +266,7 @@ Project pj=(Project)(request.getAttribute("pj"));
             </div>
             
         </div>
-        </div>
+        
 
          <%@ include file="../common/footer.jsp"%>
 

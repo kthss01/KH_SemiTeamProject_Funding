@@ -117,15 +117,15 @@
 		<hr>
 
 		<label class="labelA" for="titleImg"><b>대표이미지</b></label>
-		<div class="titleImg ">
+		
+		 <div class="titleImg ">
 			<div class="custom-file inputI">
-				<input type="file" class="custom-file-input id="titleImg"
-					name="titleImg" required> 
-				<label for="titleImg"
-					class="custom-file-label" data-browse="업로드">파일을 올려주세요</label>
+				<input type="file" class="custom-file-input id="titleImg" name="titleImg" required> 
+				<label for="titleImg" class="custom-file-label" data-browse="업로드">파일을 올려주세요</label>
 			</div>
-		</div>
-
+		</div> 
+		
+		
 
 				<hr>
 
@@ -194,7 +194,7 @@
     
     <%@ include file="../common/footer.jsp"%>
 </body>
-    <script>
+   <script>
   //동의 모두선택 / 해제
     const agreeChkAll = document.querySelector('input[name=confirm2All]');
         agreeChkAll.addEventListener('change', (e) => {

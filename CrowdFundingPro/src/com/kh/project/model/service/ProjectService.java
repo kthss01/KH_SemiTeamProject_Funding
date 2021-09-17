@@ -232,6 +232,7 @@ public class ProjectService {
 	}
 
 	//================================================================================================================================
+	//[참여프로젝트]
 	public int insertSUP(User user, Project pj) {
 		
 		Connection conn = getConnection();
@@ -259,6 +260,44 @@ public class ProjectService {
 		
 		
 		
+	}
+	
+	//[관심프로젝트]
+	public int insertIP(User user, Project pj) {
+		Connection conn = getConnection();
+		int result1 = 0;
+		
+		
+
+		
+
+		result1 = new ProjectDao().insertIP(conn,user,pj);
+		
+
+		try {
+			if (result1 > 0) {
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+		} catch (Exception e) {
+
+		}
+
+		return result1 ;
+	}
+
+	public int deleteSUP(String signProNo) {
+		Connection conn=getConnection();
+		int result1=new ProjectDao().deleteSUP(conn,signProNo);
+		
+		if(result1>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result1;
 	}
 	
 	
