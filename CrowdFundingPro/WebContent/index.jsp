@@ -225,9 +225,11 @@ cursor:pointer;
 				</div>
 				<br>
 				<div class="card lecture "style="padding: 0px; margin-bottom:100px; width:900px;" >
+					<b style="font-size:15px; text-shadow: 6px 3px 4px rgba(24,25,27,0.78);">&lt;</b>
 					<a href="#!"><img style="width: 100%; height: 200px;"
 						class="card-img-top"
 						src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
+					<b>&gt;</b>
 					<div class="card-body">
 						<h2 class="card-title" onclick="location.href='#!'">강의명</h2>
 					</div>
@@ -348,6 +350,8 @@ $(function(){
 			console.log('통신실패1');
 		}
 	})
+	
+
 	
 	
 	

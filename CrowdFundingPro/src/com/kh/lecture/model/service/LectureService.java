@@ -107,6 +107,27 @@ public class LectureService {
 		
 		return result;
 	}
+
+	public ArrayList<Lecture> selectRandomLecture() {
+		Connection conn = getConnection();
+		
+		ArrayList<Lecture> result = new LectureDao().getRandomLecture(conn);
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public int cancleLectureRegist(Lecture lecture, User loginUser) {
+		
+		Connection conn = getConnection();
+		
+		int result = new LectureDao().cancleLectureRegist(conn, lecture, loginUser);
+		
+		close(conn);
+		
+		return result;
+	}
 	
 //	
 //	public Lecture chooseLectrue(Lecture lecture) {

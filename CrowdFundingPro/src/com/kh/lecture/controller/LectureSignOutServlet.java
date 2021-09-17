@@ -16,16 +16,16 @@ import com.kh.lecture.model.vo.LectureInfo;
 import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class LectureSignInServlet
+ * Servlet implementation class LectureSignOutServlet
  */
-@WebServlet("/signIn.le")
-public class LectureSignInServlet extends HttpServlet {
+@WebServlet("/sign.out")
+public class LectureSignOutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LectureSignInServlet() {
+    public LectureSignOutServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,35 +43,22 @@ public class LectureSignInServlet extends HttpServlet {
 		System.out.println(loginUser.getUserNo());
 		
 		Lecture lecture = (lecCode != null) ? new LectureService().selectLecture(lecCode) : null;
-		LectureInfo info = new LectureService().getLectureCount(lecture);
-		int count = info.getCount();
 		
-		if (count < lecture.getLectureNum()) {
 		
-		result = ( loginUser != null && lecture != null) ? new LectureService().signInLecture(lecture,loginUser) : 0;
+		result = ( loginUser != null && lecture != null) ? new LectureService().cancleLectureRegist(lecture,loginUser) : 0;
 		
-			if(result > 0) {
+		if(result > 0) {
 			
-				request.setAttribute("msg", "수강 신청 완료되었습니다.");
-				request.setAttribute("lecture",lecture);
-				request.setAttribute("count", count);
-			
-				response.sendRedirect(request.getContextPath() + "/lecture.le");
-				
-			} else {
-				request.setAttribute("msg","수강 신청이 정상적으로 수행되지 못했습니다.");
-				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-			}
-		} else {
+			request.setAttribute("msg", "수강 신청 완료되었습니다.");
 			request.setAttribute("lecture",lecture);
 			request.setAttribute("count", count);
-			PrintWriter printWriter = response.getWriter();
-			printWriter.println("<script> alert('신청 가능인원을 초과하였습니다.'); location.href='"+ "<%=request.getContextPath()%>/lecture.le"+"'</script>");
-			printWriter.close();
-			RequestDispatcher view = request.getRequestDispatcher("views/lecture/lectureDetailForm.jsp");
-			view.forward(request, response);
+				
+			response.sendRedirect(request.getContextPath() + "/lecture.le");
+				
+		} else {
+			request.setAttribute("msg","수강 신청이 정상적으로 수행되지 못했습니다.");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
-		
 		
 		
 	}

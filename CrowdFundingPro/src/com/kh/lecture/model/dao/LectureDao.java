@@ -1,20 +1,20 @@
 package com.kh.lecture.model.dao;
 
+import static com.kh.common.JDBCTemplate.close;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
-import static com.kh.common.JDBCTemplate.*;
 
 import com.kh.lecture.model.vo.Lecture;
 import com.kh.lecture.model.vo.LectureInfo;
-import com.kh.project.model.vo.Project;
 import com.kh.user.model.vo.User;
 
 public class LectureDao {
@@ -249,7 +249,7 @@ public class LectureDao {
 
 			try {
 				pstm = conn.prepareStatement(sql);
-				pstm.setString(1, user.getUserCode());
+				pstm.setInt(1, user.getUserNo());
 				pstm.setString(2, lecture.getLectureCode());
 				
 				result = pstm.executeUpdate();	
@@ -285,11 +285,81 @@ public class LectureDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(pstm);
 			close(rs);
+			close(pstm);
+			
 		}
 		
 		return result;
+	}
+	public ArrayList<Lecture> getRandomLecture(Connection conn) {
+		
+		ArrayList<Lecture> result = new ArrayList<>();
+		Lecture lecture = null;
+		
+		Statement stm = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT LECTURE_IMAGE,LECTURE_CODE,LECTURE_TITLE,LECTURE_NUM,LECTURER,LECTURE_TOPIC FROM (\r\n"
+				+ "SELECT A.LECTURE_IMAGE, A.LECTURE_CODE, A.LECTURE_TITLE, A.LECTURE_NUM, A.LECTURER, A.LECTURE_TOPIC FROM LECTURE A\r\n"
+				+ "JOIN (\r\n"
+				+ "SELECT COUNT(*),C.LECTURE_CODE, D.LECTURE_NUM\r\n"
+				+ "FROM LECTURE_ENROLLMENT C\r\n"
+				+ "JOIN LECTURE D ON C.LECTURE_CODE = D.LECTURE_CODE\r\n"
+				+ "GROUP BY C.LECTURE_CODE,D.LECTURE_NUM\r\n"
+				+ "HAVING COUNT(*) < D.LECTURE_NUM \r\n"
+				+ ") B ON A.LECTURE_CODE = B.LECTURE_CODE\r\n"
+				+ "ORDER BY DBMS_RANDOM.RANDOM)\r\n"
+				+ "WHERE ROWNUM <= 5;";
+		
+		try {
+			rs=stm.executeQuery(sql);
+			
+			while(rs.next()) {
+				result.add(new Lecture(rs.getString("LECTURE_IMAGE"),
+							rs.getString("LECTURE_CODE"),
+							rs.getString("LECTURE_TITLE"),
+							rs.getInt("LECTURE_NUM"),
+							rs.getString("LECTURER"),
+							rs.getString("LECTURE_TOPIC")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(stm);
+		}
+		
+		return result;
+	}
+	public int cancleLectureRegist(Connection conn, Lecture lecture, User loginUser) {
+
+		int result = 0;
+		
+		//cancleLectureEn=DELETE FROM LECTURE_ENROLLMENT WHERE USER_NO = ? AND LECTURE_CODE = ?
+		PreparedStatement pstm = null;
+		String sql = "cancleLectureEn";
+		
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, loginUser.getUserNo());
+			pstm.setString(2, lecture.getLectureCode());
+			
+			result = pstm.executeUpdate();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			
+			close(pstm);
+			
+		}
+		
+		
+		return 0;
 	}
 
 }

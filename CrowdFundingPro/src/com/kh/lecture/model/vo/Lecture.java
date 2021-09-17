@@ -120,6 +120,17 @@ public class Lecture {
 		this.lectureCode = lectureCode;
 	}
 	
+	public Lecture(String lectureImage, String lectureCode,String lectureTitle, int lectureNum, String lecturer, String lectureTopic) {
+		super();
+		this.lectureImage = lectureImage;
+		this.lectureCode = lectureCode;
+		this.lectureTitle = lectureTitle;
+		this.lectureNum = lectureNum;
+		this.lecturer = lecturer;
+		this.lectureTopic = lectureTopic;
+		
+	}
+	
 
 	
 

@@ -1,29 +1,29 @@
 package com.kh.lecture.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.kh.lecture.model.service.LectureService;
 import com.kh.lecture.model.vo.Lecture;
 
 /**
- * Servlet implementation class LectureDeleteServlet
+ * Servlet implementation class LectureRandomServlet
  */
-@WebServlet("/lectureDelete.le")
-public class LectureDeleteServlet extends HttpServlet {
+@WebServlet("/random.le")
+public class LectureRandomServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LectureDeleteServlet() {
+    public LectureRandomServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,18 +32,12 @@ public class LectureDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		
-		String lecCode = request.getParameter("code");
-		Lecture lecture = new LectureService().selectLecture(lecCode);
-		int result = (lecture != null) ? new LectureService().deleteLecture(lecture) : 0 ;
+		ArrayList<Lecture> randomLec = new LectureService().selectRandomLecture();
 		
-		if ( result > 0 ) {
-			request.setAttribute("msg", "성공적으로 삭제되었습니다.");
-			response.sendRedirect(request.getContextPath() + "/lecture.le");
-		} else {
-			request.setAttribute("msg","강의 삭제 실패. 해당되는 강의가 존재하지 않거나 잘못된 정보를 받았습니다.");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		response.setContentType("application/json; charset=utf-8");
+		new Gson().toJson(randomLec, response.getWriter());
 	}
 
 	/**

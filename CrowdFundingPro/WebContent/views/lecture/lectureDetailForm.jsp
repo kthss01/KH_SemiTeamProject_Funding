@@ -223,7 +223,7 @@
         }
         
         function updateLecture(){
-        	var code = document.querySeletor(".lectureCode").textContent;
+        	var code = document.querySelector(".lectureCode").textContent;
         	location.href="<%=request.getContextPath()%>/lecUpdateForm.le?code="+code;
         	
         }
