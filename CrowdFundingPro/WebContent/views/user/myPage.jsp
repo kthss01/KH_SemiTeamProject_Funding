@@ -606,7 +606,7 @@ right:10px;
 	
 	
 	   $(".pro").on("click",function(){
-	   var pCode = $(this).children('input').val();
+	   var pCode = $(this).find('input').val();
 		location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
 	});
 	   

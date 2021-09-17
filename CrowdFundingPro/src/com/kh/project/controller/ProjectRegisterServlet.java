@@ -74,7 +74,7 @@ public class ProjectRegisterServlet extends HttpServlet {
 	      
 	         
 	         
-	         if(confirm.length > 4) {
+	         if(confirm.length >= 4) {
 	            
 	        	Project pj=new Project();
 	          //프로젝트명 목표금액 베송료 카테고리 프로젝트기간 프로젝트소개 약관동의
@@ -113,7 +113,7 @@ public class ProjectRegisterServlet extends HttpServlet {
 	            if(result>0) {
 		        	request.getSession().setAttribute("msg", "펀딩 등록이 완료되었습니다.");
 		        	
-					response.sendRedirect("projectList.do");
+					response.sendRedirect("projectPage.do");
 		        	 
 		            
 		         }else {
