@@ -5,11 +5,15 @@
 <%@ page import="com.kh.user.model.vo.UProject"%>
 <%@ page import="com.kh.user.model.vo.IProject"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="java.text.DecimalFormat"%>
+
 
 <%
-	ArrayList<ULecture> lList = (ArrayList<ULecture>) request.getAttribute("ULectureList");
-	ArrayList<UProject> UPList = (ArrayList<UProject>) request.getAttribute("UProjectList");
-	ArrayList<IProject> IPList = (ArrayList<IProject>) request.getAttribute("InProjectPList");
+ArrayList<ULecture> lList = (ArrayList<ULecture>) request.getAttribute("ULectureList");
+ArrayList<UProject> UPList = (ArrayList<UProject>) request.getAttribute("UProjectList");
+ArrayList<IProject> IPList = (ArrayList<IProject>) request.getAttribute("InProjectPList");
+DecimalFormat decFormat = new DecimalFormat("###,###");
+
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -22,11 +26,12 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
 	rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+
 <style>
-
-.body{
+.body {
 	font-family: 'Noto Sans KR', 'sans-serif';
-
 }
 
 .box {
@@ -61,7 +66,6 @@
 
 .section {
 	width: 50%;
-	height: 500px;
 	float: left;
 	padding-left: 30px;
 	padding-right: 30px;
@@ -174,12 +178,12 @@
 	font-family: 'Noto Sans KR', 'sans-serif';
 }
 
-
 #newEventBtn {
 	text-align: right;
 	margin-bottom: 60px;
 }
-.moreBtn{
+
+.moreBtn {
 	width: 120px;
 	background: none;
 	border: none;
@@ -190,12 +194,34 @@
 	font-weight: bold;
 	color: rgb(0, 0, 0, .4);
 }
+
 .moreBtn:hover {
 	text-decoration: underline;
 	font-style: normal;
 }
 
+.point2{
+	position:relative;
+    display: block;
+    outline: none;
+    padding: 16px 0px;
+    width: 400px;
+    height: 56px;
+    text-align: left;
+    font-size:18px;
+    font-weight:bold;
+    color: rgba(0,0,0,.6);
+    font-family: 'Noto Sans KR', 'sans-serif';
+}
+
+#point3{
+position:absolute;
+right:10px;
+}
+
+
 </style>
+
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp"%>
@@ -221,10 +247,20 @@
 				<div class="profileImg" style="margin: 0 auto;">
 					<img id="pImg" src="" width=200px; height=200px; /> <br>
 					<p id="point" style="font-size: 20px;">
-						<b> <%=loginUser.getUserName()%></b><br> 
-						 <b style=font-size:16px;>적립 포인트 : <%=loginUser.getPoint()%> 원</b>
-						
+						<i class="fas fa-user"></i> <b> <%=loginUser.getUserName()%></b>님
+						><br> <span
+							style="font-size: 13px; color: gray; font-weight: 700;"> <%
+						 	if (loginUser.getUserCode().equals("02")) {
+						 %>일반회원 <%
+						 	} else {
+						 %> 사업자회원 <%
+						 	}
+ 						%>
+						</span><br>
+					<i class="far fa-wallet"></i>						 
+					<b style="font-size: 20px;"> <%= decFormat.format(loginUser.getPoint())%> </b>
 					</p>
+
 				</div>
 				<div class="modify" style="margin: 0 auto;">
 
@@ -235,52 +271,77 @@
 			</div>
 		</div>
 
-		<div class="content2">
+		<div class="content2" style="height:auto;">
+		
+		
+			<div class="section" id="middleInfo"
+				style="padding-left: 30px; margin-bottom:40px;  height: auto; width: 100%; display: block; float: left; overflow: hidden; border-bottom:0.5px solid lightgray; ">
+				<a type="button" class="point2" style="display:inline-block; margin-right:120px;">
+				<span class="far fa-usd-circle"> </span>
+				<span> 포인트 충전하기</span><span id="point3">></span>
+				</a>
+				<a type="button" class="point2" href="<%=request.getContextPath()%>/list.fq" style="display:inline;">
+				<span class="fa fa-question-circle"> </span>
+				
+				<span> 문의하러 가기</span><span id="point3">></span>
+				</a>
+			</div>
+		
+		
+		
+		
+		
+		
+		
+		
 			<div class="section project ">
 				<h3>내가 참여한 프로젝트</h3>
 
 				<%
 					if (!UPList.isEmpty()) {
-					if (UPList.size() < 3) {  // 참여 프로젝트가 3개 이하이면 
+					if (UPList.size() < 3) { // 참여 프로젝트가 3개 이하이면 
 						for (int i = 0; i < UPList.size(); i++) {
 				%>
-				<div class="card">
+				<div class="card pro">
 					<div class="card-img-top"></div>
 					<div class="card-body" id="cBody">
+						<input type="hidden" value="<%=UPList.get(i).getProjectCode()%>">
 						<h2 class="card-title h5"><%=UPList.get(i).getProjectName()%></h2>
 						<div class="small text-muted"><%=UPList.get(i).getProDetail()%></div>
 					</div>
 				</div>
 				<%
 					}
-				} else {	//참여 프로젝트가 3개 이상이면
-					for (int i = 0; i < 3; i++) {	//3개 까지 노출시키고 더 보기 버튼 보이기
+				} else { //참여 프로젝트가 3개 이상이면
+				for (int i = 0; i < 3; i++) { //3개 까지 노출시키고 더 보기 버튼 보이기
 				%>
 
-				<div class="card">
+				<div class="card pro">
 					<div class="card-img-top"></div>
 					<div class="card-body" id="cBody">
+						<input type="hidden" value="<%=UPList.get(i).getProjectCode()%>">
 						<h2 class="card-title h5"><%=UPList.get(i).getProjectName()%></h2>
 						<div class="small text-muted"><%=UPList.get(i).getProDetail()%></div>
 					</div>
 				</div>
 
 				<%
-				}
+					}
 				%>
 				<div id="moreUPro">
-					<input class="moreBtn" type="button" value="더 보기" data-toggle="modal"
-						data-target="#moreUP">
+					<input class="moreBtn" type="button" value="더 보기"
+						data-toggle="modal" data-target="#moreUP">
 				</div>
 				<%
 					}
 				} else {
 				%>
-				<div class="card">
+				<div class="card noPro">
 					<div class="card-img-top"></div>
 					<div class="card-body" id="cBody">
 						<h2 class="card-title h5">
-							<a href="#">프로젝트 구경가기</a>
+							<a href="<%=request.getContextPath()%>/projectPage.do">프로젝트
+								구경가기</a>
 						</h2>
 						<div class="small text-muted">
 							<p>아직 참여중인 프로젝트가 없으시네요!</p>
@@ -292,52 +353,55 @@
 				%>
 			</div>
 
-
+			<div id="projectSection" style="height:auto;">
 			<div class="section project ">
 				<h3>내가 관심있는 프로젝트</h3>
 
 				<%
 					if (!IPList.isEmpty()) {
-					if (IPList.size() < 4) {  // 참여 프로젝트가 3개 이하이면 
+					if (IPList.size() < 4) { // 참여 프로젝트가 3개 이하이면 
 						for (int i = 0; i < IPList.size(); i++) {
 				%>
-				<div class="card">
+				<div class="card pro">
 					<div class="card-img-top"></div>
 					<div class="card-body" id="cBody">
+						<input type="hidden" value="<%=UPList.get(i).getProjectCode()%>">
 						<h2 class="card-title h5"><%=IPList.get(i).getProjectName()%></h2>
 						<div class="small text-muted"><%=IPList.get(i).getProDetail()%></div>
 					</div>
 				</div>
 				<%
 					}
-				} else {	//참여 프로젝트가 3개 이상이면
-					for (int i = 0; i < 3; i++) {	//3개 까지 노출시키고 더 보기 버튼 보이기
+				} else { //참여 프로젝트가 3개 이상이면
+				for (int i = 0; i < 3; i++) { //3개 까지 노출시키고 더 보기 버튼 보이기
 				%>
 
-				<div class="card">
+				<div class="card pro">
 					<div class="card-img-top"></div>
 					<div class="card-body" id="cBody">
+						<input type="hidden" value="<%=UPList.get(i).getProjectCode()%>">
 						<h2 class="card-title h5"><%=IPList.get(i).getProjectName()%></h2>
 						<div class="small text-muted"><%=IPList.get(i).getProDetail()%></div>
 					</div>
 				</div>
 
 				<%
-				}
+					}
 				%>
 				<div id="moreIPro">
-					<input  class="moreBtn" type="button" value="더 보기" data-toggle="modal"
-						data-target="#moreIP">
+					<input class="moreBtn" type="button" value="더 보기"
+						data-toggle="modal" data-target="#moreIP">
 				</div>
 				<%
 					}
 				} else {
 				%>
-				<div class="card">
+				<div class="card noPro">
 					<div class="card-img-top"></div>
 					<div class="card-body" id="cBody">
 						<h2 class="card-title h5">
-							<a href="#">프로젝트 구경가기</a>
+							<a href="<%=request.getContextPath()%>/projectPage.do">프로젝트
+								구경가기</a>
 						</h2>
 						<div class="small text-muted">
 							<p>아직 관심있는 프로젝트가 없으시네요!</p>
@@ -348,17 +412,21 @@
 					}
 				%>
 			</div>
-			
-			
-			<div class="section lecture" style="width: 100%;">
+
+		</div>
+
+
+			<div class="section lecture" style="width: 100%; margin-top:30px;">
 				<h3>내가 듣는 강의</h3>
 				<%
+					if (!lList.isEmpty()) {
 					if (lList.size() < 4) {
-					for (ULecture u : lList) {
+						for (ULecture u : lList) {
 				%>
-				<div class="card">
+				<div class="card lec">
 					<div class="card-img-top"></div>
 					<div class="card-body">
+						<input type="hidden" value="<%=u.getLCode()%>">
 						<h2 class="card-title h5"><%=u.getLTitle()%></h2>
 						<div class="small text-muted"><%=u.getLTopic()%>
 							<div class="small text-muted"><%=u.getLDate()%>
@@ -373,9 +441,10 @@
 				} else {
 				for (int i = 0; i < 4; i++) {
 				%>
-				<div class="card">
+				<div class="card lec">
 					<div class="card-img-top"></div>
 					<div class="card-body">
+						<input type="hidden" value="<%=lList.get(i).getLCode()%>">
 						<h2 class="card-title h5"><%=lList.get(i).getLTitle()%></h2>
 						<div class="small text-muted"><%=lList.get(i).getLTopic()%>
 							<div class="small text-muted"><%=lList.get(i).getLDate()%></div>
@@ -392,11 +461,30 @@
 				</div>
 				<%
 					}
+
+				} else {
 				%>
 
+				<div class="card nolec">
+					<div class="card-img-top"></div>
+					<div class="card-body" id="cBody">
+						<h2 class="card-title h5">
+							<a href="<%=request.getContextPath()%>/projectPage.do">펀딩스쿨
+								구경가기</a>
+						</h2>
+						<div class="small text-muted">
+							<p>아직 수강중인 강의가 없으시네요!</p>
+						</div>
+					</div>
+				</div>
+
+
+				<%
+					}
+				%>
 			</div>
 		</div>
-</div>
+	</div>
 	<div class="footer">
 		<%@ include file="../common/footer.jsp"%>
 
@@ -413,30 +501,31 @@
 				</div>
 				<!-- Modal body -->
 				<div class="modal-body">
-					
-				<%
-					for (UProject up : UPList) {
-				%>
-				<div class="card">
-					<div class="card-img-top"></div>
-					<div class="card-body">
-						<h2 class="card-title h5"><%=up.getProjectName()%></h2>
-						<div class="small text-muted"><%=up.getProDetail()%></div>
+
+					<%
+						for (UProject up : UPList) {
+					%>
+					<div class="card pro">
+						<div class="card-img-top"></div>
+						<div class="card-body">
+							<input type="hidden" value="<%=up.getProjectCode()%>">
+							<h2 class="card-title h5"><%=up.getProjectName()%></h2>
+							<div class="small text-muted"><%=up.getProDetail()%></div>
+						</div>
 					</div>
-				</div>
-				<%
-					}
-				%>
+					<%
+						}
+					%>
 
 				</div>
 
 			</div>
 		</div>
 	</div>
-	
-	
-	
-		<div class="modal fade" id="moreIP">
+
+
+
+	<div class="modal fade" id="moreIP">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<!-- Modal header -->
@@ -446,34 +535,35 @@
 				</div>
 				<!-- Modal body -->
 				<div class="modal-body">
-					
-				<%
-					for (IProject ip : IPList) {
-				%>
-				<div class="card">
-					<div class="card-img-top"></div>
-					<div class="card-body">
-						<h2 class="card-title h5"><%=ip.getProjectName()%></h2>
-						<div class="small text-muted"><%=ip.getProDetail()%></div>
+
+					<%
+						for (IProject ip : IPList) {
+					%>
+					<div class="card pro">
+						<div class="card-img-top"></div>
+						<div class="card-body">
+							<input type="hidden" value="<%=ip.getProjectCode()%>">
+							<h2 class="card-title h5"><%=ip.getProjectName()%></h2>
+							<div class="small text-muted"><%=ip.getProDetail()%></div>
+						</div>
 					</div>
-				</div>
-				<%
-					}
-				%>
+					<%
+						}
+					%>
 
 				</div>
 
 			</div>
 		</div>
 	</div>
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
 	<!-- 강의 모달 -->
 	<div class="modal fade" id="moreLec">
 		<div class="modal-dialog modal-dialog-centered">
@@ -488,9 +578,10 @@
 					<%
 						for (ULecture u : lList) {
 					%>
-					<div class="card">
+					<div class="card lec">
 						<div class="card-img-top"></div>
 						<div class="card-body">
+							<input type="hidden" value="<%=u.getLCode()%>">
 							<h2 class="card-title h5"><%=u.getLTitle()%></h2>
 							<div class="small text-muted"><%=u.getLTopic()%>
 								<div class="small text-muted"><%=u.getLDate()%></div>
@@ -513,10 +604,24 @@
 
 <script>
 	
+	
+	   $(".pro").on("click",function(){
+	   var pCode = $(this).children('input').val();
+		location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
+	});
+	   
+	   
+<%-- 	   $(".lec").on("click",function(){
+	   var lCode = $(this).children('input').val();
+		location.href = "<%=request.getContextPath()%>/detail.do?lCode="+lCode;
+	});
+		 --%>
+	
+		 
     function checkPwd(){
     
     	var input = prompt('비밀번호를 입력해주세요',"");
-    	if(input == "<%=loginUser.getUserPwd()%>"){
+    	if(input == "<%=loginUser.getUserPwd()%>" ) {
     		update();
     	} else if(input == null) {
     		// prompt의 취소를 누르면 null을 반환 -> 아무 동작 없음
@@ -525,7 +630,7 @@
 
     	}
     }
-    
+ 
 	function logout(){
 		location.href = "<%=request.getContextPath()%>/logout.me ";
 		}

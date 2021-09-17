@@ -19,6 +19,7 @@ import java.util.Properties;
 
 import com.kh.common.model.vo.Attachment;
 import com.kh.project.model.vo.Project;
+import com.kh.user.model.vo.User;
 
 public class ProjectDao {
 	private Properties prop = new Properties();
@@ -201,6 +202,7 @@ public class ProjectDao {
 
 			if (rset.next()) {
 				pj = new Project();
+				pj.setProjectCode(pCode);
 				pj.setProjectName(rset.getString("PROJECT_NAME"));
 				pj.setAmountGoal(rset.getInt("AMOUNT_GOAL"));
 				pj.setAmountPresent(rset.getInt("AMOUNT_PRESENT"));
@@ -341,6 +343,9 @@ public class ProjectDao {
 		}
 		return result;
 	}
+
+	
+	
 
 	public int getListCount(Connection conn) {
 		int result = 0;
@@ -755,5 +760,42 @@ public class ProjectDao {
 
 		return list;
 	}
+	//=================================================================================
+
+	public int insertSUP(Connection conn, int userNo, int pCode) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertSUP");
+		
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			//INSERT INTO SIGN_UP_PRO VALUES(SEQ_SIGN_PRO.NEXTVAL,?,?) 
+
+			pstmt.setInt(1,userNo);
+			pstmt.setInt(2, pCode);
+			
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 
 }

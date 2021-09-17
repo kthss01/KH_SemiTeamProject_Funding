@@ -72,7 +72,7 @@ public class UserPageServlet extends HttpServlet {
 			
 
 		}else {
-			request.setAttribute("msg", "마이페이지로 이동이 실패했습니다.");
+			request.setAttribute("msg", "장시간 대기로 인해 세션이 종료되었습니다. 로그인 후 다시 시도해주세요. ");
 			
 			request.getRequestDispatcher("views/common/errorPage.jsp");
 		}

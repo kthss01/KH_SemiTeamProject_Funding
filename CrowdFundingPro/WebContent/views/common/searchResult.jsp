@@ -153,7 +153,7 @@ DecimalFormat decFormat = new DecimalFormat("###,###");
 				for (Project pj : pList) {
 			%>
 			<div class="col-lg-4 pCard " style="padding: 5px;">
-				<input type="hidden" value="">
+			<input type="hidden" value="<%=pj.getProjectCode()%>">
 				<div class="card mb-4"
 					style="height: 280px; width: 360px; border: none;">
 					<img class="card-img-top" style="height: 210px;"
@@ -199,4 +199,11 @@ DecimalFormat decFormat = new DecimalFormat("###,###");
 	<%@ include file="footer.jsp"%>
 
 </body>
+<script>
+$(".pCard").on("click",function(){
+	   var pCode = $(this).children('input').val();
+	   console.log(pCode);
+		location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
+	});
+</script>
 </html>
