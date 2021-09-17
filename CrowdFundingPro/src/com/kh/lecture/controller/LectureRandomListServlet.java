@@ -16,7 +16,7 @@ import com.kh.lecture.model.vo.Lecture;
 /**
  * Servlet implementation class ProjectRandomListServlet
  */
-@WebServlet("/random.lec")
+@WebServlet("/random.leccc")
 public class LectureRandomListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -34,7 +34,7 @@ public class LectureRandomListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	ArrayList<Lecture> randomList = new LectureService().selectLectureList();
-	System.out.println("랜덤 프로젝트 Servlet: " + randomList);
+	System.out.println("랜덤 강의 Servlet: " + randomList);
 
 	response.setContentType("application/json; charset=utf-8");
 

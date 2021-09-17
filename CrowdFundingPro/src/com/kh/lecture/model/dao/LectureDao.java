@@ -300,20 +300,23 @@ public class LectureDao {
 		Statement stm = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT LECTURE_IMAGE,LECTURE_CODE,LECTURE_TITLE,LECTURE_NUM,LECTURER,LECTURE_TOPIC FROM (\r\n"
-				+ "SELECT A.LECTURE_IMAGE, A.LECTURE_CODE, A.LECTURE_TITLE, A.LECTURE_NUM, A.LECTURER, A.LECTURE_TOPIC FROM LECTURE A\r\n"
-				+ "JOIN (\r\n"
-				+ "SELECT COUNT(*),C.LECTURE_CODE, D.LECTURE_NUM\r\n"
-				+ "FROM LECTURE_ENROLLMENT C\r\n"
-				+ "JOIN LECTURE D ON C.LECTURE_CODE = D.LECTURE_CODE\r\n"
-				+ "GROUP BY C.LECTURE_CODE,D.LECTURE_NUM\r\n"
-				+ "HAVING COUNT(*) < D.LECTURE_NUM \r\n"
-				+ ") B ON A.LECTURE_CODE = B.LECTURE_CODE\r\n"
-				+ "ORDER BY DBMS_RANDOM.RANDOM)\r\n"
-				+ "WHERE ROWNUM <= 5;";
+		String sql = "SELECT * FROM (SELECT * FROM LECTURE A JOIN (SELECT COUNT(*),C.LECTURE_CODE, D.LECTURE_NUM FROM LECTURE_ENROLLMENT C JOIN LECTURE D ON C.LECTURE_CODE = D.LECTURE_CODE GROUP BY C.LECTURE_CODE,D.LECTURE_NUM HAVING COUNT(*) < D.LECTURE_NUM ) B ON A.LECTURE_CODE = B.LECTURE_CODE ORDER BY DBMS_RANDOM.RANDOM)WHERE ROWNUM <= 5"; 
+
 		
 		try {
+			
+			stm=conn.createStatement();
+			
 			rs=stm.executeQuery(sql);
+			/*
+			 * lectureCode: "1006" 
+			 * lectureNum: 80 
+			 * lectureTime: 0 
+			 * lectureTitle:"획기적인 것과 창의적인 것의 차이" 
+			 * lectureTopic: "펀딩오픈강의"
+			 * lecturer: "Ms.Kwon"
+			 */
+			
 			
 			while(rs.next()) {
 				result.add(new Lecture(rs.getString("LECTURE_IMAGE"),

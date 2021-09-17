@@ -35,7 +35,7 @@ public class LectureRandomServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		ArrayList<Lecture> randomLec = new LectureService().selectRandomLecture();
-		
+		System.out.println("v" + randomLec);
 		response.setContentType("application/json; charset=utf-8");
 		new Gson().toJson(randomLec, response.getWriter());
 	}

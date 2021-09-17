@@ -225,14 +225,14 @@ cursor:pointer;
 				</div>
 				<br>
 				<div class="card lecture "style="padding: 0px; margin-bottom:100px; width:900px;" >
-					<b style="font-size:15px; text-shadow: 6px 3px 4px rgba(24,25,27,0.78);">&lt;</b>
+<!-- 					<b style="font-size:15px; text-shadow: 6px 3px 4px rgba(24,25,27,0.78);">&lt;</b>
 					<a href="#!"><img style="width: 100%; height: 200px;"
 						class="card-img-top"
 						src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
 					<b>&gt;</b>
 					<div class="card-body">
 						<h2 class="card-title" onclick="location.href='#!'">강의명</h2>
-					</div>
+					</div> -->
 				</div>
 
 
@@ -273,6 +273,7 @@ cursor:pointer;
 */
 $(function(){
 	const card = $('.project');
+	const card2 = $('.lecture');
 	const rank = $('.rank');
 	const contextPath = "<%=request.getContextPath()%>";
 
@@ -320,8 +321,8 @@ $(function(){
 				var day = now.getDate();
 
 				var today = new Date(year, month, day);
-				console.log("오늘 날짜 : " + today);
-
+/* 				console.log("오늘 날짜 : " + today);
+ */
 				var ddlnArr = ddln.split(" ");
 				
 				var ddlnYear = ddlnArr[2]; 
@@ -329,13 +330,13 @@ $(function(){
 				var ddlnDay = ddlnArr[1].substr(0,ddlnArr[1].length-1)
 				
 				var ddlnDate = new Date(ddlnYear, ddlnMonth, ddlnDay);
-				console.log("마감 날짜 : " + ddlnDate);
-
+/* 				console.log("마감 날짜 : " + ddlnDate);
+ */
 				
 				var btMs =  ddlnDate.getTime() - today.getTime();
 				var btDay = (btMs / (1000*60*60*24));
-				console.log("d-day : " + btDay);
-
+/* 				console.log("d-day : " + btDay);
+ */
 				return btDay+1;
 				
 			}
@@ -361,8 +362,8 @@ $(function(){
 	$.ajax({
 		url:'rank.pro',
 		success:function(pList){
-			console.log(pList);
-			var index = 1;
+/* 			console.log(pList);
+ */			var index = 1;
 			pList.forEach((pj => {
 			const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
 				rank.append(`
@@ -401,39 +402,41 @@ $(function(){
 		
 	})
 	
-	
 
 	
-	
-	
-	
-	
-	<!--강의 추천 리스트 -->
-	<%-- 
 	$.ajax({
-		url:'random.lec',
+		url:'random.le',
 		success:function(lList){
 	
-			pList.forEach((le) => {
-			const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
-
-			card.append(`
+			/*
+				lectureCode: "1006"
+				lectureNum: 80
+				lectureTime: 0
+				lectureTitle: "획기적인 것과 창의적인 것의 차이"
+				lectureTopic: "펀딩오픈강의"
+			    lecturer: "Ms.Kwon"
+		    */
+			
+			lList.forEach((le) => {
+			console.log(le);
+ 			card2.append(`
 					<div class="col-lg-4 " style="padding: 5px;">
 					<div class="card mb-4 " style="height:300px; width:260px; border:none;">
 				    <input type="hidden" value="\${le.lectureCode}">
-						<img class="card-img-top" style="height:185px;"
-							src="\${contextPath}/resources/images/project/\${le.titleImg}"
+						<img class="card-img-top" style="height:185px; background:black;"
+							src="\${contextPath}/resources/lectureImage/0000000000000.png"
 							alt="..." />
 						<div class="card-body" style="padding:10px; border-bottom: 3px solid gray;" >
-						<h2 class="card-title pTitle" style='font-size:15px; font-weight:bold;'">\${pj.projectName}</h2>
-						<span class="persent"> \${ratio}%</span>
-						<span id="present">  \${pj.amountPresent.toLocaleString()}원</span>
+						<h2 class="card-title lTitle" style='font-size:15px; font-weight:bold;'">\${le.lectureTitle}</h2>
+						<span id="present">  \${le.lectureTopic}</span>
+						<span>\${le.lecturer}</span>
+						<span>정원 \${le.lectureNum}명</span>
 
 						</div>
 					</div>
 					</div>	
 
-					`)
+					`) 
 			})
 		},
 		error:function(){
@@ -441,7 +444,7 @@ $(function(){
 		}
 	})
 	
---%>
+
 
 	
 })
