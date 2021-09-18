@@ -90,12 +90,6 @@ public class RecruitListServlet extends HttpServlet {
 		
 		ArrayList<Recruitment> list = null;
 		
-		if (code == null || code.equals("")) {
-			
-		} else {
-			
-		}
-		
 		if ((code == null || code.equals("")) && (title == null || title.equals(""))) {
 			list = new RecruitService().selectList(startRow, endRow);
 		} else if ((code == null || code.equals(""))) {
