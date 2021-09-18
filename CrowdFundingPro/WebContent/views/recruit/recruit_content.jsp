@@ -17,7 +17,7 @@
 
     <style>
         .popover {
-            max-width: 80%;
+            max-width: 70% !important;
         }
                
         .carousel-item {
@@ -250,8 +250,8 @@
 
                         <!-- 공고명 -->
                         <div class="form-group">
-                            <label for="recruitName">공고명</label>
-                            <input form="recruit_update_form" type="text" class="form-control" id="recruitName"
+                            <label for="recruitUpdateName">공고명</label>
+                            <input form="recruit_update_form" type="text" class="form-control" id="recruitUpdateName"
                                 name="recruitName" placeholder="내용을 입력해주세요" required
                             	value="<%= r.getTitle() %>"    
                             >
@@ -446,7 +446,7 @@
                 
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    <form id="recruit_insert_form" action="recruitMemberInsert.do" method="POST" enctype="multipart/form-data">
+                    <form id="recruit_insert_form" class="was-validated" name="recruit_insert_form" action="recruitMemberInsert.do" method="POST" enctype="multipart/form-data">
                         
                         <input type="hidden" form="recruit_insert_form" class="form-control" name="recruitId" value="<%= r.getId() %>">
                         
@@ -463,36 +463,38 @@
                         <!-- 성명 -->
                         <div class="form-group">
                             <label for="recruitMemberName">성명</label>
-                            <input type="text" class="form-control" id="recruitMemberName" name="recruitMemberName" placeholder="이름을 입력해주세요">
+                            <input type="text" class="form-control" id="recruitMemberName" name="recruitMemberName" placeholder="이름을 입력해주세요" pattern="^[가-힣]+$" required>
+                            <div class="invalid-feedback">한글 이름으로 입력해주시길 바랍니다.</div>
                         </div>
 
                         <!-- 연락처 -->
                         <div class="form-group">
                             <label for="recruitMemberPhone">연락처</label>
-                            <input type="tel" class="form-control" id="recruitMemberPhone" name="recruitMemberPhone" placeholder="연락처를 입력해주세요">
+                            <input type="tel" class="form-control" id="recruitMemberPhone" name="recruitMemberPhone" placeholder="연락처를 입력해주세요" required>
                         </div>
 
                         <!-- 메일주소 -->
                         <div class="form-group">
                             <label for="recruitMemberEmail">이메일</label>
-                            <input type="email" class="form-control" id="recruitMemberEmail" name="recruitMemberEmail" placeholder="이메일을 입력해주세요">
+                            <input type="email" class="form-control" id="recruitMemberEmail" name="recruitMemberEmail" placeholder="이메일을 입력해주세요" aria-describedby="emailHelpBlock" required>
+                            <div id="emailHelpBlock" class="small text-info"> 지원서 수정 및 발송을 위해 사용되는 이메일입니다.</div>
                         </div>
 
                         <!-- 학력사항 -->
                         <div class="form-group">
                             <label id="educationLabel" data-toggle="tooltip" for="recruitMemberEducation">학력사항</label>
-                            <input type="text" class="form-control" id="recruitMemberEducation" name="recruitMemberEducation" placeholder="학력사항을 입력해주세요">
+                            <input type="text" class="form-control" id="recruitMemberEducation" name="recruitMemberEducation" placeholder="학력사항을 입력해주세요" required>
                         </div>
 
                         <!-- 경력사항 -->
                         <div class="form-group">
                             <label id="careerLabel" for="recruitMemberCareer" data-toggle="tooltip">경력사항</label>
-                            <input type="text" class="form-control" id="recruitMemberCareer" name="recruitMemberCareer" placeholder="경력사항을 입력해주세요">
+                            <input type="text" class="form-control" id="recruitMemberCareer" name="recruitMemberCareer" placeholder="경력사항을 입력해주세요" required>
                         </div>
 
                         <!-- 이력서 및 경력기술서 / 포트폴리오 파일 올리는걸로 처리 -->
                         <div class="form-group">
-                            <label id="portfolioLabel" data-toggle="tooltip" for="recruitPortfolio">이력서 및 경력기술서 / 포트폴리오</label>
+                            <label id="portfolioLabel" data-toggle="tooltip" for="recruitPortfolio">이력서 및 경력기술서 / 포트폴리오 (선택)</label>
                             <div class="custom-file">
                                 <input type="file" role="button" class="custom-file-input" id="recruitPortfolio" name="recruitPortfolio">
                                 <label for="recruitPortfolio" class="custom-file-label" data-browse="업로드">파일을 올려주세요</label>
@@ -504,16 +506,14 @@
                         </div> -->
                         
                         <!-- 개인정보 수집 이용 동의 체크박스 -->
-                        <small>
-                            아래의 내용을 확인하신 후 개인정보 수집 및 이용에 동의해주시기 바랍니다. <br>
-                        </small>
+                        <small> 내용을 확인하신 후 개인정보 수집 및 이용에 동의해주시기 바랍니다. </small> &nbsp;
                         
                         <!-- 개인정보 수집 및 이용수칙 내용 -->
                         <a role="button" id="privacy_popover" class="text-info small" data-toggle="popover">(개인정보 수집 및 이용수칙 내용 확인)</a>
-                        <div id="privacy_popover_content" class="d-none">
+                        <div id="privacy_popover_content" class="d-none popover">
                             &lt;개인정보 수집 및 이용&gt;<br>
                             1. 수집하는 개인정보 항목<br>
-                            ​성명, 국적, 주소, 보훈 및 장애인 대상여부, 전화번호, 휴대전화번호, 학력, 성적, 병역, 경력, 해외 체류경험 및 연수활동, 사회활동, 어학 및 기타자격, 수상경력, 취미, 특기, 자기소개<br>
+                            ​성명, 국적, 주소, 보훈 및 장애인 대상여부, 전화번호, 휴대전화번호, 학력, 성적, 병역, 경력, 해외 체류경험 및 연수활동,<br> 사회활동, 어학 및 기타자격, 수상경력, 취미, 특기, 자기소개<br>
                             <br>
                             2. 수집 및 이용 목적<br>
                             ​채용전형의 진행, 진행단계별 결과 등 채용정보 안내 및 인재풀 구성<br>
@@ -572,7 +572,7 @@
         	//$('[data-toggle="popover"]').popover();
             $('#privacy_popover').popover({
                 html: true,
-                placement: 'right',
+                placement: 'top',
                 trigger: 'hover',
                 title: '개인정보 수집 및 이용수칙',
                 content: $('#privacy_popover_content').html()
