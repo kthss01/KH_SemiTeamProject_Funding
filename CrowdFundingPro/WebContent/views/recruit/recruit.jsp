@@ -559,7 +559,7 @@
                         <div class="form-group">
                             <label for="recruitName">공고명</label>
                             <input form="recruit_create_form" type="text" class="form-control" id="recruitName"
-                                name="recruitName" placeholder="내용을 입력해주세요">
+                                name="recruitName" placeholder="내용을 입력해주세요" required>
                         </div>
 
                         <!-- 직무구분 -->
