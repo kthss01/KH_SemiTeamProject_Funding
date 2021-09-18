@@ -250,8 +250,8 @@
 
                         <!-- 공고명 -->
                         <div class="form-group">
-                            <label for="recruitName">공고명</label>
-                            <input form="recruit_update_form" type="text" class="form-control" id="recruitName"
+                            <label for="recruitUpdateName">공고명</label>
+                            <input form="recruit_update_form" type="text" class="form-control" id="recruitUpdateName"
                                 name="recruitName" placeholder="내용을 입력해주세요" required
                             	value="<%= r.getTitle() %>"    
                             >
