@@ -392,7 +392,7 @@ input {
 
 
 					<%
-						if (loginUser != null || loginUser.getUserCode().equals("02") || loginUser.getUserCode().equals("02")) {
+						if (loginUser == null || loginUser.getUserCode().equals("02") || loginUser.getUserCode().equals("03")) {
 					%>
 					<h4 style="font-weight: bold; color: rgba(0, 0, 0, 0.87); margin-bottom:25px;">이런
 						강의 들이 있어요!</h4>
