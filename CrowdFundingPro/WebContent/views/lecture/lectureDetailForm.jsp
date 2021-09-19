@@ -160,7 +160,7 @@
 		
         <div class="buttonArea">
             <button type ="button" onclick="window.history.back()"> 이전으로</button>
-            <% if ( check ) {%>
+            <% if ( !check) {%>
             <button type ="button" class="signInBtn" onclick="checkLogin()"> 수강등록</button>
             <%}else{ %>
             <button type ="button" class="signInBtn" onclick="cancleLec()"> 수강취소</button>

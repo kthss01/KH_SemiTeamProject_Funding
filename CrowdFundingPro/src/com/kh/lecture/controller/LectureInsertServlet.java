@@ -52,12 +52,19 @@ public class LectureInsertServlet extends HttpServlet {
 			String originName = null;
 			String changeName = null;
 			
-			if(multiRequest.getOriginalFileName("selectImg") != null) {
+			if( multiRequest.getOriginalFileName("selectImg") != null || multiRequest.getOriginalFileName("lectureImage") != null) {
 				
-				originName = multiRequest.getOriginalFileName("selectImg");
-				changeName = multiRequest.getFilesystemName("selectImg");
+				String str = null;
+				if (multiRequest.getOriginalFileName("selectImg") == null) {
+					str = "lectureImage";
+				} else {
+					str = "selectImg";
+				}
 				
 				at = new Attachment();
+				
+				originName = multiRequest.getOriginalFileName(str);
+				changeName = multiRequest.getFilesystemName(str);
 				
 				at.setFilePath(savePath);
 				at.setOriginName(originName);

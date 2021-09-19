@@ -141,9 +141,10 @@ public class CommonDao {
 		return result;
 	}
 
-	public int updateLectureAttachment(Connection conn, Attachment at) {
+	public int updateLectureAttachment(Connection conn, Attachment at,String originName) {
 		
 		int result = 0;
+		//UPDATE ATTACHMENT SET ORIGIN_NAME =?, CHANGE_NAME =?,UPLOAD_DATE=?,FILE_PATH=? WHERE CHANGE_NAME =?
 		//UPDATE ATTACHMENT SET ORIGIN_NAME =?, CHANGE_NAME =?,UPLOAD_DATE=?,FILE_PATH=? WHERE CHANGE_NAME =?
 		PreparedStatement pstm = null;
 		String sql = prop.getProperty("updateLectureAttachment");
@@ -154,7 +155,8 @@ public class CommonDao {
 			pstm.setString(1, at.getOriginName());
 			pstm.setString(2, at.getChangeName());
 			pstm.setString(3, at.getFilePath());
-			pstm.setInt(4, at.getFileNo());
+			pstm.setString(4, at.getFilePath());
+			pstm.setString(5, originName);
 			
 			result = pstm.executeUpdate();
 			
