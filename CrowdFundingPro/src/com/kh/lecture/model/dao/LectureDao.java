@@ -82,9 +82,8 @@ public class LectureDao {
 		PreparedStatement pstm = null;
 		String sql = prop.getProperty("updateLecture");
 		
-//		insertLecture=INSERT INTO LECTURE VALUES(SEQ_LECTURE_NO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?,?,?)
-//		updateLecture=UPDATE LECTURE SET LECTURE_TITLE=?, LECTURE_NUM=?, LECTURE_ADDRESS=?, LECTURE_TOPIC=?, LECTURE_DATE=?, LECTURE_TIME=?, LECTURE_CONTENT=?, LECTURER=? , LECTURE_IMAGE=? WHERE LECTURE_CODE=?
-
+//		insertLecture=INSERT INTO LECTURE VALUES(SEQ_LECTURE_NO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?)
+		
 		try {
 			pstm = conn.prepareStatement(sql);
 			pstm.setString(1, lecture.getLectureTitle());
@@ -93,11 +92,9 @@ public class LectureDao {
 			pstm.setString(4, lecture.getLectureTopic());
 			pstm.setDate(5, lecture.getLectureDate());
 			pstm.setInt(6, lecture.getLectureTime());
-			pstm.setString(7, lecture.getLectureContent());
-			pstm.setString(8, lecture.getLecturer());
-			pstm.setString(9, lecture.getLectureImage());
-			pstm.setString(10, lecture.getLectureCode());
-			
+			pstm.setString(7, lecture.getLectureImage());
+			pstm.setString(8, lecture.getLectureContent());
+			pstm.setString(9, lecture.getLecturer());
 			
 			result = pstm.executeUpdate();
 			
@@ -140,8 +137,8 @@ public class LectureDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			close(rs);
 			close(pstm);
+			close(rs);
 		}
 		return result;
 	}
@@ -175,8 +172,8 @@ public class LectureDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(rs);
 			close(pstm);
+			close(rs);
 		}
 		return result;
 	}
@@ -208,8 +205,8 @@ public class LectureDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(rs);
 			close(pstm);
+			close(rs);
 		}
 		if(lecture == null) {
 		System.out.println("why the hack Mr.Null come out");
@@ -382,9 +379,7 @@ public class LectureDao {
 			rs = pstm.executeQuery();
 			
 			if(rs.next()) {
-				if(rs.getString("ENORLL_CODE") != null && rs.getString("ENROLL_CODE") != "") {
-					result = true;
-				}
+				result = true;
 			}
 			
 			
