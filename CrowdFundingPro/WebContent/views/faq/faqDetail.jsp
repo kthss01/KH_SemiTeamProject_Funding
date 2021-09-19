@@ -97,21 +97,21 @@
     	font-size: 50px;
     	color: rgba(100, 220, 167, 0.9);
     	-webkit-text-stroke: 0.5px black;
-    	/* border: 1px solid black; */
-    	
     }
 
-    .contents span {
+    .contents textarea {
         display: inline-block;
         text-align: left;
         width: 90%;
         word-wrap: break-word;
         min-height: 50px;
-        font-size: 15px;
-        /* border: 1px solid black; */
+        font-size: 17px;
         padding: 10px;
-        font-size: 20px;
-        
+        background-color: rgba(255,255,255,0);
+        border: none;
+        resize: none;
+        height: auto;
+        color: black;
     }
     
     #question{
@@ -158,15 +158,7 @@
 	<%@ include file="../common/menubar.jsp"%>
 	
 	<div class="container_filed">
-    <%-- <div id = "top">
-        <p id="faq">FAQ</p>
-        <div id="bar"></div>
- 
-        <p id="ftype"><%=ftype %></p>
-        
-        <div id="under"></div>
-    </div> --%>
-    
+   
     <div class="pageHead">
 			<h1 id="pageTitle">FAQ</h1>
 	</div>
@@ -174,12 +166,12 @@
     <div id="content">
         <div id="question" class="contents">
             <p>Q.</p>
-            <span><%=f.getQuestion() %></span>
+            <textarea disabled><%=f.getQuestion() %></textarea>
 
         </div>
         <div id="answer" class="contents">
             <p>A.</p>
-            <span><%=f.getAnswer() %></span>
+            <textarea disabled><%=f.getAnswer() %></textarea>
         </div>
     	</div>
 	</div>
@@ -190,8 +182,22 @@
 		var conWid = $("#content").css('width').slice(0, -2);
 		var conPad = $("#content").css('padding').slice(0, -2);
 		
-		var contents = $(".contents").css('width', conWid - conPad*2);
+		$(".contents").css('width', conWid - conPad*2);
 
+		
+		//textarea높이 자동조절		  
+		//첫번째 textarea
+		var textarea1 = $('textarea').eq(0);
+		
+		var height1 = textarea1.prop('scrollHeight');
+		textarea1.css('height', height1);
+		
+		//두번째 textarea
+		var textarea2 = $('textarea').eq(1);
+		
+		var height2 = textarea2.prop('scrollHeight');
+		textarea2.css('height', height2);
+		
 	})
 </script>
 
