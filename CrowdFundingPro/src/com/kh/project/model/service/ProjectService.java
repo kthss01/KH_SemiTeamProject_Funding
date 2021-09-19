@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.kh.common.model.vo.Attachment;
 import com.kh.project.model.dao.ProjectDao;
+import com.kh.project.model.vo.IProject;
 import com.kh.project.model.vo.Project;
 import com.kh.user.model.dao.UserDao;
 import com.kh.user.model.vo.User;
@@ -324,6 +325,28 @@ public class ProjectService {
 		}
 		close(conn);
 		return result1;
+	}
+
+
+	public int deleteInterPro(int pCode, int userNo) {
+		Connection conn=getConnection();
+		int result=new ProjectDao().deleteInterPro(conn,pCode,userNo);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public ArrayList<IProject> interProList(int pCode) {
+		Connection conn=getConnection();
+		ArrayList<IProject> list=new ProjectDao().interProList(conn,pCode);
+
+		close(conn);
+		return list;
 	}
 
 	
