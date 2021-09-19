@@ -80,7 +80,6 @@ public class LectureUpdateServlet extends HttpServlet {
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				}
-				
 				String address = multiRequest.getParameter("lectureAddress");
 				String topic = multiRequest.getParameter("lectureTopic");
 				Date date = Date.valueOf(multiRequest.getParameter("lectureDate"));

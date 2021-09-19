@@ -8,6 +8,7 @@
 <% Lecture lecture = (Lecture)request.getAttribute("lecture"); %>
 <% String count = (request.getAttribute("count")).toString(); %>
 <% User loginUser = (User) session.getAttribute("loginUser"); %>
+<% boolean check = (boolean)request.getAttribute("duplicate"); %>
     
 <!DOCTYPE html>
 <html>
@@ -159,7 +160,11 @@
 		
         <div class="buttonArea">
             <button type ="button" onclick="window.history.back()"> 이전으로</button>
+            <% if ( check ) {%>
             <button type ="button" class="signInBtn" onclick="checkLogin()"> 수강등록</button>
+            <%}else{ %>
+            <button type ="button" class="signInBtn" onclick="cancleLec()"> 수강취소</button>
+            <%} %>
             <button type ="button" class="signInBtn" onclick="updateLecture()">수정하기</button>
             <button type ="button" class="deleteBtn">강의삭제</button>
             <button class="toTheTop" onclick="location.href='#thumbnail'"> <b>▲ </b></button>
@@ -226,6 +231,11 @@
         	var code = document.querySelector(".lectureCode").textContent;
         	location.href="<%=request.getContextPath()%>/lecUpdateForm.le?code="+code;
         	
+        }
+        
+        function cancleLec(){
+        	var code = document.querySelector(".lectureCode").textContent;
+        	location.href="<%=request.getContextPath()%>/lecCancle.le?code="+code;
         }
         
         

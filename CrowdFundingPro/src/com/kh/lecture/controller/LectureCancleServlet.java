@@ -18,14 +18,14 @@ import com.kh.user.model.vo.User;
 /**
  * Servlet implementation class LectureSignOutServlet
  */
-@WebServlet("/sign.out")
-public class LectureSignOutServlet extends HttpServlet {
+@WebServlet("/lecCancle.le")
+public class LectureCancleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LectureSignOutServlet() {
+    public LectureCancleServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,17 +44,12 @@ public class LectureSignOutServlet extends HttpServlet {
 		
 		Lecture lecture = (lecCode != null) ? new LectureService().selectLecture(lecCode) : null;
 		
-		
-		result = ( loginUser != null && lecture != null) ? new LectureService().cancleLectureRegist(lecture,loginUser) : 0;
+		result = new LectureService().cancleLectureRegist(lecture, loginUser);
 		
 		if(result > 0) {
-			
-			request.setAttribute("msg", "수강 신청 완료되었습니다.");
+			request.setAttribute("msg", "수강 취소 되었습니다.");
 			request.setAttribute("lecture",lecture);
-			request.setAttribute("count", count);
-				
-			response.sendRedirect(request.getContextPath() + "/lecture.le");
-				
+			response.sendRedirect(request.getContextPath() + "/lecture.le");				
 		} else {
 			request.setAttribute("msg","수강 신청이 정상적으로 수행되지 못했습니다.");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

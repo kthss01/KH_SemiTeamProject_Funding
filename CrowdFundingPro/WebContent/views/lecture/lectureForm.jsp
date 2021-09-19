@@ -72,7 +72,7 @@ ul {
 }
 
 .slider_item {
-	margin: 15px 0px 0px 0px width: 1200px;
+	margin: 15px 0px 0px 0px;
 	height: 400px;
 	text-align: center;
 }
@@ -500,7 +500,7 @@ tbody {
 				<div class="registBox">
 					<ul>
 						<li><button style="background-color:white; border:none; color:rgb(0,0,0,0.43);" type="button" onclick="location.href=' <%=request.getContextPath()%>/lecInsertForm.le'"> 강의 등록 
-						<b style="font-weight:bold; font-size:12px; text-shadow: -1px 0 blakc, 0 1px black, 1px 0 black, 0 -1px black; color:rgb(211,211,211);">+</b></button></li>
+						<b style="font-weight:bold; font-size:12px; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; color:rgb(211,211,211);">+</b></button></li>
 					</ul>
 				</div>
 			</div>

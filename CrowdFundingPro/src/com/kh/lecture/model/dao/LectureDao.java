@@ -364,5 +364,31 @@ public class LectureDao {
 		
 		return 0;
 	}
+	public boolean checkLectureEnrollment(Connection conn, User loginUser, String lecCode) {
+		
+		PreparedStatement pstm = null;
+		String sql ="checkLectureEnrollment";
+		ResultSet rs = null;
+		boolean result = false;
+		
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1,loginUser.getUserNo());
+			pstm.setString(2, lecCode);
+			
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				result = true;
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 
 }

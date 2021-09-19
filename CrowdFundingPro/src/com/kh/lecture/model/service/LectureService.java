@@ -128,6 +128,17 @@ public class LectureService {
 		
 		return result;
 	}
+
+	public boolean checkLectureEnrollment(User loginUser,String lecCode) {
+		
+		Connection conn = getConnection();
+		
+		boolean result = new LectureDao().checkLectureEnrollment(conn,loginUser,lecCode);
+		
+		close(conn);
+		
+		return result;
+	}
 	
 //	
 //	public Lecture chooseLectrue(Lecture lecture) {

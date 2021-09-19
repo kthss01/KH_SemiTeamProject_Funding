@@ -224,15 +224,9 @@ cursor:pointer;
 					<h4>이런 강의도 있어요 !</h4>
 				</div>
 				<br>
-				<div class="card lecture "style="padding: 0px; margin-bottom:100px; width:900px;" >
-<!-- 					<b style="font-size:15px; text-shadow: 6px 3px 4px rgba(24,25,27,0.78);">&lt;</b>
-					<a href="#!"><img style="width: 100%; height: 200px;"
-						class="card-img-top"
-						src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
-					<b>&gt;</b>
-					<div class="card-body">
-						<h2 class="card-title" onclick="location.href='#!'">강의명</h2>
-					</div> -->
+				<div class="card lecture "style="padding: 0px; margin-bottom:100px; width:900px; position: relative; overflow: hidden;" >
+				 	<ul class="lectureSlide" style="list-style:none; display:flex; position: absolute; top:0; left:0;">
+					</ul>
 				</div>
 
 
@@ -273,7 +267,7 @@ cursor:pointer;
 */
 $(function(){
 	const card = $('.project');
-	const card2 = $('.lecture');
+	const card2 = $('.lectureSlide');
 	const rank = $('.rank');
 	const contextPath = "<%=request.getContextPath()%>";
 
@@ -407,7 +401,6 @@ $(function(){
 	$.ajax({
 		url:'random.le',
 		success:function(lList){
-	
 			/*
 				lectureCode: "1006"
 				lectureNum: 80
@@ -416,25 +409,17 @@ $(function(){
 				lectureTopic: "펀딩오픈강의"
 			    lecturer: "Ms.Kwon"
 		    */
-			
 			lList.forEach((le) => {
 			console.log(le);
  			card2.append(`
-					<div class="col-lg-4 " style="padding: 5px;">
-					<div class="card mb-4 " style="height:300px; width:260px; border:none;">
-				    <input type="hidden" value="\${le.lectureCode}">
-						<img class="card-img-top" style="height:185px; background:black;"
-							src="\${contextPath}/resources/lectureImage/0000000000000.png"
-							alt="..." />
-						<div class="card-body" style="padding:10px; border-bottom: 3px solid gray;" >
-						<h2 class="card-title lTitle" style='font-size:15px; font-weight:bold;'">\${le.lectureTitle}</h2>
-						<span id="present">  \${le.lectureTopic}</span>
-						<span>\${le.lecturer}</span>
-						<span>정원 \${le.lectureNum}명</span>
-
+ 						<input type="hidden" value="\${le.lectureCode}">
+ 						<li class="sliderItem" style="margin: 15px 0px 0px 0px; height: 400px; text-align: center;">
+ 							<img class="slider" src="\${contextPath}/resources/lectureImage/\${le.lectureImage}">
+ 						<div class="card-body">
+						<h2 class="card-title" onclick="location.href='#!'">\${le.lectureTitle}</h2>
+						<span style="text-weight:bold"> 주제 : \${le.lectureTopic} / </span> &nbsp  <span style="text-weight:bold"> 정원 수 : \${le.lectureNum} </span>
 						</div>
-					</div>
-					</div>	
+						</li>
 
 					`) 
 			})
@@ -448,6 +433,32 @@ $(function(){
 
 	
 })
+
+
+	
+	
+	var sliderWidth = (document.querySelector('.lecture')).clientWidth;
+	var imageCount = document.querySelectorAll('.sliderItem').length;
+	var index = 0;
+	var slider = document.querySelector('.
+
+			');
+		slider.style.width = sliderWidth * imageCount + 'px';
+		slides()
+	function slides() {
+   	 for(var i=0;i<imageCount;i++){
+   	     slider.style.left = -(sliderWidth * index) + 'px';    
+   	 }
+   	 index++;
+   	 if (index === imageCount) {
+  	      index = 0;
+   	 }
+   	 setTimeout(slides,5000); 
+}
+
+
+
+
 
 </script>
 

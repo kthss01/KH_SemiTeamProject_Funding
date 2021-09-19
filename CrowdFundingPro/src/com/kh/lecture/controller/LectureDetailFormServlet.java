@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.kh.lecture.model.service.LectureService;
 import com.kh.lecture.model.vo.Lecture;
 import com.kh.lecture.model.vo.LectureInfo;
+import com.kh.user.model.vo.User;
 
 /**
  * Servlet implementation class LectureDetailFormServlet
@@ -34,6 +35,9 @@ public class LectureDetailFormServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
+
+		
+		User loginUser = (User)request.getSession().getAttribute("loginUser");
 		
 		String lecCode = request.getParameter("code");
 		System.out.println(lecCode);
@@ -45,12 +49,13 @@ public class LectureDetailFormServlet extends HttpServlet {
 		}
 		
 		LectureInfo info = new LectureService().getLectureCount(lecture);
-		
+		boolean checkDuplication = new LectureService().checkLectureEnrollment(loginUser,lecCode);
 		
 		int count = info.getCount();
 		
 		request.setAttribute("lecture", lecture);
 		request.setAttribute("count", count);
+		request.setAttribute("duplicate", checkDuplication);
 		
 		RequestDispatcher view = request.getRequestDispatcher("views/lecture/lectureDetailForm.jsp");
 		view.forward(request, response);
