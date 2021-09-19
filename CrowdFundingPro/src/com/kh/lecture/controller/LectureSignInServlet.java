@@ -34,7 +34,6 @@ public class LectureSignInServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		int result = 0;
 		String lecCode = request.getParameter("code");
 		
@@ -50,12 +49,12 @@ public class LectureSignInServlet extends HttpServlet {
 		
 		result = ( loginUser != null && lecture != null) ? new LectureService().signInLecture(lecture,loginUser) : 0;
 		
-			if(result > 0) {
+		if(result > 0) {
 			
 				request.setAttribute("msg", "수강 신청 완료되었습니다.");
 				request.setAttribute("lecture",lecture);
 				request.setAttribute("count", count);
-			
+				
 				response.sendRedirect(request.getContextPath() + "/lecture.le");
 				
 			} else {
@@ -71,7 +70,6 @@ public class LectureSignInServlet extends HttpServlet {
 			RequestDispatcher view = request.getRequestDispatcher("views/lecture/lectureDetailForm.jsp");
 			view.forward(request, response);
 		}
-		
 		
 		
 	}

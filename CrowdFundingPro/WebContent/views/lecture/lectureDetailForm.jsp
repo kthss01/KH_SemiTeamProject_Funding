@@ -15,7 +15,7 @@
 	User loginUser = (User) session.getAttribute("loginUser");
 %>
 <%
-	boolean check = (boolean) request.getAttribute("duplicate");
+	String isDuplicate = (String) request.getAttribute("isDuplicate");
 %>
 
 <!DOCTYPE html>
@@ -166,7 +166,7 @@
 
 		<div class="topThumbnail">
 			<img id="thumbnail"
-				src="<%=request.getContextPath()%>/<%=lecture.getLectureImage()%>">
+				src="<%=request.getContextPath()%>/resources/lectureImage/<%=lecture.getLectureImage()%>">
 		</div>
 		<div class="mainContent" style="padding:70px;">
 				
@@ -203,7 +203,7 @@
 			<div class="buttonArea">
 				<button type="button" onclick="window.history.back()">이전으로</button>
 				<%
-					if (check) {
+					if ( isDuplicate != "yes") {
 				%>
 				<button type="button" class="signInBtn" onclick="checkLogin()">
 					수강등록</button>

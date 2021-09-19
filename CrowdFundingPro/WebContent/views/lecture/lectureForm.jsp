@@ -417,9 +417,9 @@ input {
 					%>
 					<div class="lec_Item">
 						<p style="display: none"><%=l.getLectureCode()%></p>
-						<div id="lImg"
-							style="background:url('<%=request.getContextPath()%>/resources/lectureImage/<%=l.getLectureImage()%>')">
-
+						<div id="lImg"s
+							style="background:url('<%=request.getContextPath()%>/resources/lectureImage/<%=l.getLectureImage()%>');">
+							
 						</div>
 
 
