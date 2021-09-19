@@ -10,10 +10,11 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.kh.project.model.dao.ProjectDao;
 import com.kh.common.model.vo.Attachment;
+import com.kh.project.model.dao.ProjectDao;
 import com.kh.project.model.vo.Project;
 import com.kh.user.model.dao.UserDao;
+import com.kh.user.model.vo.User;
 
 public class ProjectService {
 
@@ -145,6 +146,15 @@ public class ProjectService {
 		return list;
 	}
 
+
+
+
+
+
+
+
+
+	
 	public ArrayList<Project> selectRankList() {
 		Connection conn = getConnection();
 
@@ -154,13 +164,173 @@ public class ProjectService {
 		return list;
 	}
 
+	public Map<Integer, Integer> getListCountWithCategoryNo() {
+		Connection conn = getConnection();
+		Map<Integer, Integer> map = new ProjectDao().getListCountWithCategoryNo(conn);
+		close(conn);
+		return map;
+	}
+
+	public ArrayList<Project> selectProjectListWithSearchValue(int startRow, int endRow, String searchValue) {
+		Connection conn = getConnection();
+
+		ArrayList<Project> list = new ProjectDao().selectProjectListWithSearchValue(conn, startRow, endRow,
+				searchValue);
+
+		close(conn);
+
+		return list;
+	}
+
 	public ArrayList<Project> searchList(String keyword) {
 		Connection conn = getConnection();
-		
-		ArrayList<Project> list = new ProjectDao().searchList(conn,keyword);
-		
+
+		ArrayList<Project> list = new ProjectDao().searchList(conn, keyword);
+
 		close(conn);
 		return list;
 	}
+
+	public int getSearchCount(String searchValue) {
+		Connection conn = getConnection();
+
+		int result = new ProjectDao().getSearchCount(conn, searchValue);
+
+		close(conn);
+
+		return result;
+	}
+
+	public int getSearchCountWithCategoryNo(int categoryNo, String searchValue) {
+		Connection conn = getConnection();
+
+		int result = new ProjectDao().getSearchCountWithCategoryNo(conn, categoryNo, searchValue);
+
+		close(conn);
+
+		return result;
+	}
+
+	public String getCategoryName(String categoryNo) {
+		Connection conn = getConnection();
+
+		String result = new ProjectDao().getCategoryName(conn, categoryNo);
+
+		close(conn);
+
+		return result;
+	}
+
+	public ArrayList<Project> selectProjectListWithCategoryAndSearchValue(int startRow, int endRow, int categoryNo,
+			String searchValue) {
+		Connection conn = getConnection();
+
+		ArrayList<Project> list = new ProjectDao().selectProjectListWithCategoryAndSearchValue(conn, startRow, endRow,
+				categoryNo, searchValue);
+
+		close(conn);
+		return list;
+	}
+
+	//================================================================================================================================
+	//[참여프로젝트]
+
+	public int insertSUP(int userNo, int pCode) {
+		
+		Connection conn = getConnection();
+		int result1 = 0;
+		int result2 = 0;
+		int result3 = 0;
+		
+	
+		result1 = new ProjectDao().insertSUP(conn, userNo,pCode);
+		result2 = new ProjectDao().plusSupport(conn,pCode);
+			
+		Project p = new ProjectDao().projectSelect(conn, pCode);
+		int price = p.getDeliveryCharge();
+		
+		result3 = new UserDao().minusPoint(conn,userNo,price);
+
+		try {
+			if (result1 > 0 && result2 > 0 && result3 > 0) {
+				conn.commit();
+			} else {
+				System.out.println("프로젝트 신청에서 에러 : " + result1);
+				System.out.println("서포트수 증가 에러 : " + result2);
+				System.out.println("포인트 감소 에러 : " + result3);
+				conn.rollback();
+			}
+		} catch (Exception e) {
+
+		}
+
+		return result1 ;
+
+	}
+	
+	//[관심프로젝트]
+//	public int insertIP(User user, Project pj) {
+//		Connection conn = getConnection();
+//		int result1 = 0;
+//
+//		result1 = new ProjectDao().insertIP(conn,user,pj);
+//		
+//
+//		try {
+//			if (result1 > 0) {
+//				conn.commit();
+//			} else {
+//				conn.rollback();
+//			}
+//		} catch (Exception e) {
+//
+//		}
+//
+//		return result1 ;
+//	}
+	
+	public int insertIP(int userNo, int pCode) {
+		Connection conn = getConnection();
+		int result1 = 0;
+		
+		
+
+		result1 = new ProjectDao().insertIP(conn, userNo, pCode);
+		
+
+		try {
+			if (result1> 0) {
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+		} catch (Exception e) {
+
+		}
+
+		return result1;
+	}
+	
+	
+
+	public int deleteSUP(String signProNo) {
+		Connection conn=getConnection();
+		int result1=new ProjectDao().deleteSUP(conn,signProNo);
+		
+		if(result1>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result1;
+	}
+
+	
+	
+	
+	
+	
+	
 
 }

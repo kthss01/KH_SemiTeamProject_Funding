@@ -7,7 +7,7 @@
 	User loginUser = (User) session.getAttribute("loginUser");
 	String msg = (String) session.getAttribute("msg");
 	String keyword = (String) session.getAttribute("keyword");
-	session.setAttribute("location",request.getRequestURI());
+	session.setAttribute("location",request.getHeader("Referer"));
 	System.out.println(request.getRequestURI());
 %>
 
@@ -102,7 +102,6 @@ font-family: 'Noto Sans KR', 'sans-serif';
 			style="font-size: 23px;">CROWD FUND!NG</a>
 		<!-- 클릭하면 메인 페이지로 이동  -->
 
-		
 		<ul class="navbar-nav">
 			<li class="nav-item"><a href="<%= request.getContextPath() %>/projectPage.do" class="nav-link">펀딩하기</a></li> <!-- 펀딩페이지 링크 -->
 
@@ -125,40 +124,20 @@ font-family: 'Noto Sans KR', 'sans-serif';
 			</li>
 
 		</ul>
-		<script>
-			/* 문의사항 == FAQ */
-			function goFaq() {
-				location.href="<%=request.getContextPath()%>/list.fq";
-			}
-		</script>
-
 		<ul class="navbar-nav ml-auto">
-
+		
 			<!--  검색 아이콘   **추가기능** -->
-			<input id="keyword" type="text" placeholder="어떤 프로젝트를 찾고 계신가요 ?" autocomplete="off">
+			<input id="keyword"  type="text" onkeyup="enterkey();"  placeholder="어떤 프로젝트를 찾고 계신가요 ?" autocomplete="off">
 			<li class="nav-item"><a id="searchForm" onclick="goSearch();" class="nav-link"> 
 			<i class="fas fa-search fa-lg"></i>
-			</a></li>
-			
-			<script>
-			
-			function goSearch(){
-				
-				var keyword = $("#keyword").val();
-				console.log(keyword);
-				location.href="<%=request.getContextPath()%>/search.do?keyword="+keyword;
-			}
-			
-			</script>			
-			
+			</a></li>			
 			
 			<%
 				if (loginUser == null) {
-			%>
-			
+			%>	
 			<!-- 로그인 전 -->
 			<li class="nav-item"><a
-				href="<%=request.getContextPath()%>/loginForm.me?from=<%=request.getRequestURI()%>" class="nav-link">로그인</a></li>
+				href="<%=request.getContextPath()%>/views/user/userLoginForm.jsp" class="nav-link">로그인</a></li>
 			<li class="nav-item"><a
 				href="<%=request.getContextPath()%>/enrollForm.me" class="nav-link">회원가입</a></li>
 			<%
@@ -169,13 +148,17 @@ font-family: 'Noto Sans KR', 'sans-serif';
 				href="<%=request.getContextPath()%>/mypage.me" class="nav-link">마이페이지</a></li>
 			<li class="nav-item"><a
 				href="<%=request.getContextPath()%>/logout.me" class="nav-link">로그아웃</a></li>
-
 			<%
 				}
 			%>
+
+			<li class="nav-item"><a id="enrollPro"
+				href="views/project/registrationView.jsp" class="nav-link">[ 프로젝트 신청하기 ]</a></li>
 			
-			
-			<%-- 
+
+
+
+		<%-- 
 			<%if( theme == null || theme.equals("") || theme.equals("default") ) {%>
 						<li class="nav-item"><a id="colorTheme" role="button"
 								class="nav-link" onclick="changeDark();">다크모드</a></li>
@@ -184,16 +167,59 @@ font-family: 'Noto Sans KR', 'sans-serif';
 								class="nav-link" onclick="changeDefault();">기본모드</a></li>
 			<%} %>
 			--%>
-			
-			<li class="nav-item"><a id="enrollPro"
-				href="views/project/registrationView.jsp" class="nav-link">[ 프로젝트 신청하기 ]</a></li>
-			
+
+
+
+
 		</ul>
+
 	</nav>
 </body>
 <script>
 
+
+/*  검색기능   */
+function goSearch(){	
+	var keyword = $("#keyword").val();
+	if(keyword == '' || keyword ==null){
+		alert("검색어를 입력해주세요")
+	}else{
+		location.href="<%=request.getContextPath()%>/search.do?keyword="+keyword;	
+	}
+}
+
+function enterkey() {
+	if(event.keyCode ==13){
+		goSearch();	
+	}
+}
+
+
+
+/* 문의사항 == FAQ */
+function goFaq() {
+	location.href="<%=request.getContextPath()%>/list.fq";
+}
+
+
+
+
+
+
 <%-- 
+
+다크모드 ㅠ
+
+
+function changeDark() {
+	location.href='<%=request.getContextPath()%>/darkMode.do';
+}
+
+function changeDefault() {
+	location.href='<%=request.getContextPath()%>/whiteMode.do';	
+}
+
+
 
 $(function(){
 	var theme = '<%=theme%>';
@@ -209,15 +235,6 @@ $(function(){
 	
 })
 --%>
-
-
-function changeDark() {
-	location.href='<%=request.getContextPath()%>/darkMode.do';
-}
-
-function changeDefault() {
-	location.href='<%=request.getContextPath()%>/whiteMode.do';	
-}
 
 
 </script>

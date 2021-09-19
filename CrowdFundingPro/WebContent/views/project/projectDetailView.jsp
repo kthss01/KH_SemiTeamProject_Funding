@@ -7,7 +7,7 @@
 
     
 <%
-Project pj=(Project)(request.getAttribute("pj"));
+	Project pj=(Project)(session.getAttribute("pj"));
 //Attachment at=(Attachment)(request.getAttribute("at"));
 	DecimalFormat decFormat = new DecimalFormat("###,###");
 
@@ -179,6 +179,11 @@ Project pj=(Project)(request.getAttribute("pj"));
             align-items: center;
             justify-content:center; 
         } */
+        
+        #btn3{
+        	font-size:25px;
+    		
+        }
 </style>
 </head>
 <body>
@@ -195,22 +200,29 @@ Project pj=(Project)(request.getAttribute("pj"));
             <div class="wrap2">
                 <div id="imgBox" class="information">
                 </div>
-                <div class="information"><h2>프로젝트정보</h2><br><br>
+                <div class="information"><h2>프로젝트정보</h2><br>
                 	
+
                     <label class="pInfol">목표금액  </label><span class='pInfot'><%= decFormat.format(pj.getAmountGoal()) %>원</span><br>
                     <label class="pInfol">현재금액  </label><span class='pInfot'><%= decFormat.format(pj.getAmountPresent()) %>원</span><br>
                     <label class="pInfol">달성률  </label><span id="persent"><%= (int)Math.floor(((double)pj.getAmountPresent()/pj.getAmountGoal())*100) %>%</span><br>
                     <label class="pInfol">마감일  </label><span class='pInfot'><%=pj.getDdln() %></span><br>
-                    <label class="pInfol">배송료  </label><span class=pInfot><%=pj.getDeliveryCharge() %>원</span><br>
-                    <input type="text" name="amount" id="input1" value="1" size="3" onchange="change();"> <br>                  
-                    <button class="fBtn" id="btn1" onclick="test1();">펀딩하기</button>
+
+                    <label class="pInfol">상품가격  </label><span class=pInfot><%=pj.getDeliveryCharge() %>원</span><br>
+                    <input type="text" name="amount" id="input1" value="1" size="3" onchange="change();"> <br>  
+                    
                     
                      <form  action="" id="postForm" method="post">
                 
                 		<input type="hidden" name="pCode" value="<%= pj.getProjectCode() %>">
                 		<input type="hidden" name="fileNo" value="<%=pj.getFileNo() %>"> 
+                		
+
+                		<button class="fBtn" id="btn1" type="button" onclick="signIn();">펀딩하기</button>
+                		 <button class="fBtn" id="btn3" type="button" onclick="interestIn();">♡</button> 
                 		<button class="fBtn" id="btn2" type="button" onclick="updateForm();">수정하기</button>
                 		
+
                 	</form>
                 </div>
             </div>
@@ -235,15 +247,42 @@ Project pj=(Project)(request.getAttribute("pj"));
         				
         			}
                 	
-                	</script> 
-                	
+                </script> 
+                
+                <script>
+                	function interestIn(){
+                		$("#postForm").attr("action","<%=request.getContextPath()%>/interestIn.do");
+                		$("#postForm").submit();
+                	}
+                </script>
+	                
+                <script>
+                	function signIn(){
+                		
+                		var input = confirm('펀딩을 신청하십니까? 보유 포인트에서 금액이 자동으로 차감됩니다.')
+                		
+                		if(input){	
+                			$("#postForm").attr("action","<%=request.getContextPath()%>/signIn.do");
+                    		$("#postForm").submit();
+                		}
+                		
+                		
+                	}
+                </script>
+                
+                <script>
+                	function test2(){
+                		$("#postForm").attr("action","<%=request.getContextPath()%>/interestIn.do");
+                		$("#postForm").submit();
+                	}
+                </script>	
                 	
                                
                 </div>
             </div>
             
         </div>
-        </div>
+        
 
          <%@ include file="../common/footer.jsp"%>
 

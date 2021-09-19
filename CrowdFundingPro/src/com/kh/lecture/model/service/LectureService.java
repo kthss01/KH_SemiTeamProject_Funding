@@ -31,7 +31,7 @@ public class LectureService {
 		
 	}
 	
-	public int updateLectrue(Lecture lecture) {
+	public int updateLecture(Lecture lecture) {
 		
 		Connection conn = getConnection();
 		int result = new LectureDao().updateLecture(conn,lecture);
@@ -64,10 +64,10 @@ public class LectureService {
 		return result;
 	}
 
-	public int deleteLecture(String lecId) {
+	public int deleteLecture(Lecture lecture) {
 		
 		Connection conn = getConnection();
-		int result = new LectureDao().deleteLecture(conn,lecId);
+		int result = new LectureDao().deleteLecture(conn,lecture);
 		
 		if ( result > 0 )  commit(conn);
 		else rollback(conn);
@@ -76,19 +76,19 @@ public class LectureService {
 		return result;
 	}
 
-	public Lecture selectLecture(String lecId) {
+	public Lecture selectLecture(String lecCode) {
 		
 		Connection conn = getConnection();
-		System.out.println(lecId);
-		Lecture lecture = new LectureDao().selectLecture(conn,lecId);
+		System.out.println(lecCode);
+		Lecture lecture = new LectureDao().selectLecture(conn,lecCode);
 		close(conn);
 		return lecture;
 	}
 
-	public int signInLecture(User u) {
+	public int signInLecture(Lecture lecture,User user) {
 		
 		Connection conn = getConnection();
-		int result = new LectureDao().signInLecture(conn,u);
+		int result = new LectureDao().signInLecture(conn,lecture,user);
 		
 		if (result > 0) commit(conn);
 		else rollback(conn);
@@ -102,6 +102,38 @@ public class LectureService {
 		Connection conn = getConnection();
 		
 		LectureInfo result = new LectureDao().getLectureCount(conn,lecture);
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public ArrayList<Lecture> selectRandomLecture() {
+		Connection conn = getConnection();
+		
+		ArrayList<Lecture> result = new LectureDao().getRandomLecture(conn);
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public int cancleLectureRegist(Lecture lecture, User loginUser) {
+		
+		Connection conn = getConnection();
+		
+		int result = new LectureDao().cancleLectureRegist(conn, lecture, loginUser);
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public boolean checkLectureEnrollment(User loginUser,String lecCode) {
+		
+		Connection conn = getConnection();
+		
+		boolean result = new LectureDao().checkLectureEnrollment(conn,loginUser,lecCode);
 		
 		close(conn);
 		

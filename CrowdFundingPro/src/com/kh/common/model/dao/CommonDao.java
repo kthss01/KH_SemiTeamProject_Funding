@@ -125,18 +125,45 @@ public class CommonDao {
 		int result = 0;
 		
 		PreparedStatement pstm = null;
-		String sql = prop.getProperty("insertLectureProject");
+		String sql = prop.getProperty("insertLectureAttachment");
 		
 		try {
 			pstm = conn.prepareStatement(sql);
-			pstm.setInt(1, 2);
-			pstm.setString(2, at.getOriginName());
-			pstm.setString(3, at.getChangeName());
-			pstm.setString(4, at.getFilePath());
+			pstm.setString(1, at.getOriginName());
+			pstm.setString(2, at.getChangeName());
+			pstm.setString(3, at.getFilePath());
 			
 			result = pstm.executeUpdate();
 			
 		} catch(SQLException e) { e.printStackTrace();} finally { close(pstm);}
+		
+		
+		return result;
+	}
+
+	public int updateLectureAttachment(Connection conn, Attachment at) {
+		
+		int result = 0;
+		//UPDATE ATTACHMENT SET ORIGIN_NAME =?, CHANGE_NAME =?,UPLOAD_DATE=?,FILE_PATH=? WHERE CHANGE_NAME =?
+		PreparedStatement pstm = null;
+		String sql = prop.getProperty("updateLectureAttachment");
+		
+		
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, at.getOriginName());
+			pstm.setString(2, at.getChangeName());
+			pstm.setString(3, at.getFilePath());
+			pstm.setInt(4, at.getFileNo());
+			
+			result = pstm.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			close(pstm);
+		}
 		
 		
 		return result;

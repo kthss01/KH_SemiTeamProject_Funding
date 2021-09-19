@@ -28,7 +28,7 @@
 }
 
 .carousel-item {
-	height: 400px;
+	height: 370px;
 }
 
 .carousel-item>img {
@@ -224,13 +224,9 @@ cursor:pointer;
 					<h4>이런 강의도 있어요 !</h4>
 				</div>
 				<br>
-				<div class="card lecture "style="padding: 0px; margin-bottom:100px; width:900px;" >
-					<a href="#!"><img style="width: 100%; height: 200px;"
-						class="card-img-top"
-						src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
-					<div class="card-body">
-						<h2 class="card-title" onclick="location.href='#!'">강의명</h2>
-					</div>
+				<div class="card lecture "style="padding: 0px; margin-bottom:100px; width:900px; position: relative; overflow: hidden;" >
+				 	<ul class="lectureSlide" style="list-style:none; display:flex; position: absolute; top:0; left:0;">
+					</ul>
 				</div>
 
 
@@ -271,6 +267,7 @@ cursor:pointer;
 */
 $(function(){
 	const card = $('.project');
+	const card2 = $('.lectureSlide');
 	const rank = $('.rank');
 	const contextPath = "<%=request.getContextPath()%>";
 
@@ -283,7 +280,7 @@ $(function(){
 	
 			pList.forEach((pj) => {
 			const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
-
+			console.log(pj.ddln);
 			card.append(`
 					<div class="col-lg-4 pCard " style="padding: 5px;">
 				    <input type="hidden" value="\${pj.projectCode}">
@@ -307,6 +304,8 @@ $(function(){
 						   var pCode = $(this).children('input').val();
 							location.href = "<%=request.getContextPath()%>/detail.do?pCode="+pCode;
 						});
+		
+			
 			
 			function dDay(ddln){
 				var now = new Date();
@@ -316,21 +315,23 @@ $(function(){
 				var day = now.getDate();
 
 				var today = new Date(year, month, day);
-				console.log("오늘 날짜 : " + today);
-
-				var ddlnYear = ddln.substr(7);
-				var ddlnMonth = ddln.substr(0,1);
-				var ddlnDay = ddln.substr(3,2)-1;
+/* 				console.log("오늘 날짜 : " + today);
+ */
+				var ddlnArr = ddln.split(" ");
+				
+				var ddlnYear = ddlnArr[2]; 
+				var ddlnMonth = ddlnArr[0].substr(0,ddlnArr[0].length-1);
+				var ddlnDay = ddlnArr[1].substr(0,ddlnArr[1].length-1)
 				
 				var ddlnDate = new Date(ddlnYear, ddlnMonth, ddlnDay);
-				console.log("마감 날짜 : " + ddlnDate);
-
+/* 				console.log("마감 날짜 : " + ddlnDate);
+ */
 				
 				var btMs =  ddlnDate.getTime() - today.getTime();
 				var btDay = (btMs / (1000*60*60*24));
-				console.log("d-day : " + btDay);
-
-				return btDay;
+/* 				console.log("d-day : " + btDay);
+ */
+				return btDay+1;
 				
 			}
 			
@@ -345,6 +346,8 @@ $(function(){
 		}
 	})
 	
+
+	
 	
 	
 	
@@ -353,8 +356,8 @@ $(function(){
 	$.ajax({
 		url:'rank.pro',
 		success:function(pList){
-			console.log(pList);
-			var index = 1;
+/* 			console.log(pList);
+ */			var index = 1;
 			pList.forEach((pj => {
 			const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
 				rank.append(`
@@ -393,39 +396,32 @@ $(function(){
 		
 	})
 	
-	
 
 	
-	
-	
-	
-	
-	<!--강의 추천 리스트 -->
-	<%-- 
 	$.ajax({
-		url:'random.lec',
+		url:'random.le',
 		success:function(lList){
-	
-			pList.forEach((le) => {
-			const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
-
-			card.append(`
-					<div class="col-lg-4 " style="padding: 5px;">
-					<div class="card mb-4 " style="height:300px; width:260px; border:none;">
-				    <input type="hidden" value="\${le.lectureCode}">
-						<img class="card-img-top" style="height:185px;"
-							src="\${contextPath}/resources/images/project/\${le.titleImg}"
-							alt="..." />
-						<div class="card-body" style="padding:10px; border-bottom: 3px solid gray;" >
-						<h2 class="card-title pTitle" style='font-size:15px; font-weight:bold;'">\${pj.projectName}</h2>
-						<span class="persent"> \${ratio}%</span>
-						<span id="present">  \${pj.amountPresent.toLocaleString()}원</span>
-
+			/*
+				lectureCode: "1006"
+				lectureNum: 80
+				lectureTime: 0
+				lectureTitle: "획기적인 것과 창의적인 것의 차이"
+				lectureTopic: "펀딩오픈강의"
+			    lecturer: "Ms.Kwon"
+		    */
+			lList.forEach((le) => {
+			console.log(le);
+ 			card2.append(`
+ 						<input type="hidden" value="\${le.lectureCode}">
+ 						<li class="sliderItem" style="margin: 15px 0px 0px 0px; height: 400px; text-align: center;">
+ 							<img class="slider" src="\${contextPath}/resources/lectureImage/\${le.lectureImage}">
+ 						<div class="card-body">
+						<h2 class="card-title" onclick="location.href='#!'">\${le.lectureTitle}</h2>
+						<span style="text-weight:bold"> 주제 : \${le.lectureTopic} / </span> &nbsp  <span style="text-weight:bold"> 정원 수 : \${le.lectureNum} </span>
 						</div>
-					</div>
-					</div>	
+						</li>
 
-					`)
+					`) 
 			})
 		},
 		error:function(){
@@ -433,10 +429,36 @@ $(function(){
 		}
 	})
 	
---%>
+
 
 	
 })
+
+
+	
+	
+	var sliderWidth = (document.querySelector('.lecture')).clientWidth;
+	var imageCount = document.querySelectorAll('.sliderItem').length;
+	var index = 0;
+	var slider = document.querySelector('.
+
+			');
+		slider.style.width = sliderWidth * imageCount + 'px';
+		slides()
+	function slides() {
+   	 for(var i=0;i<imageCount;i++){
+   	     slider.style.left = -(sliderWidth * index) + 'px';    
+   	 }
+   	 index++;
+   	 if (index === imageCount) {
+  	      index = 0;
+   	 }
+   	 setTimeout(slides,5000); 
+}
+
+
+
+
 
 </script>
 

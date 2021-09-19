@@ -124,4 +124,13 @@ public class UserService {
 		return map;
 	}
 
+	public int chargePoint(int userNo, int recharge) {
+		Connection conn = getConnection();
+		int result=0;
+		
+		result = new UserDao().chargePoint(conn,userNo,recharge);
+		close(conn);
+		return result;
+	}
+
 }

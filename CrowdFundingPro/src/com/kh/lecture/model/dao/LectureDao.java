@@ -1,20 +1,20 @@
 package com.kh.lecture.model.dao;
 
+import static com.kh.common.JDBCTemplate.close;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
-import static com.kh.common.JDBCTemplate.*;
 
 import com.kh.lecture.model.vo.Lecture;
 import com.kh.lecture.model.vo.LectureInfo;
-import com.kh.project.model.vo.Project;
 import com.kh.user.model.vo.User;
 
 public class LectureDao {
@@ -42,6 +42,16 @@ public class LectureDao {
 		
 //		insertLecture=INSERT INTO LECTURE VALUES(SEQ_LECTURE_NO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 		
+//		LECTURE_CODE
+//		LECTURE_TITLE
+//		LECTURE_NUM
+//		LECTURE_ADDRESS
+//		LECTURE_TOPIC
+//		LECTURE_DATE
+//		LECTURE_TIME
+//		LECTURE_CONTENT
+//		LECTURER
+//		LECTURE_IMAGE
 		try {
 			pstm = conn.prepareStatement(sql);
 			pstm.setString(1, lecture.getLectureTitle());
@@ -50,9 +60,9 @@ public class LectureDao {
 			pstm.setString(4, lecture.getLectureTopic());
 			pstm.setDate(5, lecture.getLectureDate());
 			pstm.setInt(6, lecture.getLectureTime());
-			pstm.setInt(7, lecture.getLectureImage());
-			pstm.setString(8, lecture.getLectureContent());
-			pstm.setString(9, lecture.getLecturer());
+			pstm.setString(7, lecture.getLectureContent());
+			pstm.setString(8, lecture.getLecturer());
+			pstm.setString(9, lecture.getLectureImage());
 			
 			result = pstm.executeUpdate();
 			
@@ -82,7 +92,7 @@ public class LectureDao {
 			pstm.setString(4, lecture.getLectureTopic());
 			pstm.setDate(5, lecture.getLectureDate());
 			pstm.setInt(6, lecture.getLectureTime());
-			pstm.setInt(7, lecture.getLectureImage());
+			pstm.setString(7, lecture.getLectureImage());
 			pstm.setString(8, lecture.getLectureContent());
 			pstm.setString(9, lecture.getLecturer());
 			
@@ -114,7 +124,7 @@ public class LectureDao {
 			while(rs.next()) {
 			
 				result.add(new Lecture( 
-						rs.getInt("LECTURE_IMAGE"),
+						rs.getString("LECTURE_IMAGE"),
 						rs.getString("LECTURE_TOPIC"),
 						rs.getString("LECTURE_TITLE"),
 						rs.getDate("LECTURE_DATE"),
@@ -151,7 +161,7 @@ public class LectureDao {
 			while(rs.next()) {
 			
 				result.add(new Lecture( 
-						rs.getInt("LECTURE_IMAGE"),
+						rs.getString("LECTURE_IMAGE"),
 						rs.getString("LECTURE_TOPIC"),
 						rs.getString("LECTURE_TITLE"),
 						rs.getDate("LECTURE_DATE"),
@@ -188,7 +198,7 @@ public class LectureDao {
 												  rs.getString("LECTURE_TOPIC"),
 												  rs.getDate("LECTURE_DATE"),
 												  rs.getInt("LECTURE_TIME"),
-												  rs.getInt("LECTURE_IMAGE"),
+												  rs.getString("LECTURE_IMAGE"),
 												  rs.getString("LECTURE_CONTENT"),
 												  rs.getString("LECTURER")) : null;
 			
@@ -207,15 +217,15 @@ public class LectureDao {
 	
 	
 	
-	public int deleteLecture(Connection conn, String lecId) {
+	public int deleteLecture(Connection conn, Lecture lecture) {
 		
 		int result = 0;
 		PreparedStatement pstm = null;
 		String sql = prop.getProperty("deleteLecture");
-		
+		//deleteLecture=DELETE FROM LECTURE WHERE LECTURE_CODE=?
 		try {
 			pstm = conn.prepareStatement(sql);
-			pstm.setString(1, lecId);
+			pstm.setString(1, lecture.getLectureCode());
 			
 			result = pstm.executeUpdate();
 			
@@ -230,13 +240,28 @@ public class LectureDao {
 		return result;
 	}
 	
-	public int signInLecture(Connection conn, User u) {
+	public int signInLecture(Connection conn, Lecture lecture, User user) {
+
+		int result = 0;
+		PreparedStatement pstm = null;
+		String sql = prop.getProperty("signInLecture");
+		//INSERT INTO LECTURE_ENROLLMENT VALUES(SEQ_LECTURE_ENROLL.NEXTVAL,DEFAULT,?,?);
+
+			try {
+				pstm = conn.prepareStatement(sql);
+				pstm.setInt(1, user.getUserNo());
+				pstm.setString(2, lecture.getLectureCode());
+				
+				result = pstm.executeUpdate();	
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstm);
+				
+			}
 		
-		
-		
-		
-		
-		return 0;
+		return result;
 	}
 	
 	public LectureInfo getLectureCount(Connection conn, Lecture lecture) {
@@ -260,8 +285,107 @@ public class LectureDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(pstm);
 			close(rs);
+			close(pstm);
+			
+		}
+		
+		return result;
+	}
+	public ArrayList<Lecture> getRandomLecture(Connection conn) {
+		
+		ArrayList<Lecture> result = new ArrayList<>();
+		Lecture lecture = null;
+		
+		Statement stm = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT * FROM (SELECT * FROM LECTURE A JOIN (SELECT COUNT(*),C.LECTURE_CODE, D.LECTURE_NUM FROM LECTURE_ENROLLMENT C JOIN LECTURE D ON C.LECTURE_CODE = D.LECTURE_CODE GROUP BY C.LECTURE_CODE,D.LECTURE_NUM HAVING COUNT(*) < D.LECTURE_NUM ) B ON A.LECTURE_CODE = B.LECTURE_CODE ORDER BY DBMS_RANDOM.RANDOM)WHERE ROWNUM <= 5"; 
+
+		
+		try {
+			
+			stm=conn.createStatement();
+			
+			rs=stm.executeQuery(sql);
+			/*
+			 * lectureCode: "1006" 
+			 * lectureNum: 80 
+			 * lectureTime: 0 
+			 * lectureTitle:"획기적인 것과 창의적인 것의 차이" 
+			 * lectureTopic: "펀딩오픈강의"
+			 * lecturer: "Ms.Kwon"
+			 */
+			
+			
+			while(rs.next()) {
+				result.add(new Lecture(rs.getString("LECTURE_IMAGE"),
+							rs.getString("LECTURE_CODE"),
+							rs.getString("LECTURE_TITLE"),
+							rs.getInt("LECTURE_NUM"),
+							rs.getString("LECTURER"),
+							rs.getString("LECTURE_TOPIC")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(stm);
+		}
+		
+		return result;
+	}
+	public int cancleLectureRegist(Connection conn, Lecture lecture, User loginUser) {
+
+		int result = 0;
+		
+		//cancleLectureEn=DELETE FROM LECTURE_ENROLLMENT WHERE USER_NO = ? AND LECTURE_CODE = ?
+		PreparedStatement pstm = null;
+		String sql = "cancleLectureEn";
+		
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, loginUser.getUserNo());
+			pstm.setString(2, lecture.getLectureCode());
+			
+			result = pstm.executeUpdate();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			
+			close(pstm);
+			
+		}
+		
+		
+		return 0;
+	}
+	public boolean checkLectureEnrollment(Connection conn, User loginUser, String lecCode) {
+		
+		PreparedStatement pstm = null;
+		String sql ="checkLectureEnrollment";
+		ResultSet rs = null;
+		boolean result = false;
+		
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1,loginUser.getUserNo());
+			pstm.setString(2, lecCode);
+			
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				result = true;
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		return result;
