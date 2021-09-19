@@ -269,15 +269,37 @@ public class ProjectService {
 	}
 	
 	//[관심프로젝트]
-	public int insertIP(User user, Project pj) {
+//	public int insertIP(User user, Project pj) {
+//		Connection conn = getConnection();
+//		int result1 = 0;
+//
+//		result1 = new ProjectDao().insertIP(conn,user,pj);
+//		
+//
+//		try {
+//			if (result1 > 0) {
+//				conn.commit();
+//			} else {
+//				conn.rollback();
+//			}
+//		} catch (Exception e) {
+//
+//		}
+//
+//		return result1 ;
+//	}
+	
+	public int insertIP(int userNo, int pCode) {
 		Connection conn = getConnection();
 		int result1 = 0;
+		
+		
 
-		result1 = new ProjectDao().insertIP(conn,user,pj);
+		result1 = new ProjectDao().insertIP(conn, userNo, pCode);
 		
 
 		try {
-			if (result1 > 0) {
+			if (result1> 0) {
 				conn.commit();
 			} else {
 				conn.rollback();
@@ -286,8 +308,10 @@ public class ProjectService {
 
 		}
 
-		return result1 ;
+		return result1;
 	}
+	
+	
 
 	public int deleteSUP(String signProNo) {
 		Connection conn=getConnection();
@@ -301,6 +325,8 @@ public class ProjectService {
 		close(conn);
 		return result1;
 	}
+
+	
 	
 	
 	

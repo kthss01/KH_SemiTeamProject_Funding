@@ -219,7 +219,7 @@
                 		
 
                 		<button class="fBtn" id="btn1" type="button" onclick="signIn();">펀딩하기</button>
-                		 <button class="fBtn" id="btn3" type="button" onclick="test2();">♡</button> 
+                		 <button class="fBtn" id="btn3" type="button" onclick="interestIn();">♡</button> 
                 		<button class="fBtn" id="btn2" type="button" onclick="updateForm();">수정하기</button>
                 		
 
@@ -249,6 +249,13 @@
                 	
                 </script> 
                 
+                <script>
+                	function interestIn(){
+                		$("#postForm").attr("action","<%=request.getContextPath()%>/interestIn.do");
+                		$("#postForm").submit();
+                	}
+                </script>
+	                
                 <script>
                 	function signIn(){
                 		

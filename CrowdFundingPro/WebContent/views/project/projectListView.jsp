@@ -330,6 +330,8 @@
 		// 검색 option 설정
 		const selectOption = $("#cName");
 		let option = $('<option>').prop("selected", true);
+		//prop()
+		// 지정한 선택자를 가진 첫번째 요소의 속성값을 가져오거나 속성값을 추가
 		option.text('전체');
 		option.val(0);
 		

@@ -784,7 +784,31 @@ public class ProjectDao {
 	}
 
 	// [관심프로젝트]
-	public int insertIP(Connection conn, User user, Project pj) {
+//	public int insertIP(Connection conn, User user, Project pj) {
+//		int result = 0;
+//		PreparedStatement pstmt = null;
+//		String sql = prop.getProperty("insertIP");
+//
+//		try {
+//			pstmt = conn.prepareStatement(sql);
+//			// INSERT INTO SIGN_UP_PRO VALUES(SEQ_SIGN_PRO.NEXTVAL,?,?)
+//
+//			pstmt.setInt(1, user.getUserNo());
+//			pstmt.setInt(2, pj.getProjectCode());
+//
+//			result = pstmt.executeUpdate();
+//
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} finally {
+//			close(pstmt);
+//		}
+//		return result;
+//
+//	}
+	
+	public int insertIP(Connection conn, int userNo, int pCode) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertIP");
@@ -793,8 +817,8 @@ public class ProjectDao {
 			pstmt = conn.prepareStatement(sql);
 			// INSERT INTO SIGN_UP_PRO VALUES(SEQ_SIGN_PRO.NEXTVAL,?,?)
 
-			pstmt.setInt(1, user.getUserNo());
-			pstmt.setInt(2, pj.getProjectCode());
+			pstmt.setInt(1, userNo);
+			pstmt.setInt(2, pCode);
 
 			result = pstmt.executeUpdate();
 
@@ -805,8 +829,10 @@ public class ProjectDao {
 			close(pstmt);
 		}
 		return result;
-
 	}
+	
+	
+	
 
 	public int plusSupport(Connection conn, int pCode) {
 		int result = 0;
@@ -851,5 +877,7 @@ public class ProjectDao {
 
 		return result;
 	}
+
+	
 
 }
