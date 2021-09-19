@@ -1,6 +1,8 @@
 package com.kh.project.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,41 +38,45 @@ HttpSession session = request.getSession(false);
 		
 		User loginUser = (User) session.getAttribute("loginUser");
 		
+		int userNo = loginUser.getUserNo();
 		
 		
 		
 		
-		int pCode=Integer.parseInt(request.getParameter("pCode"));
+		int pCode = ((Project) session.getAttribute("pj")).getProjectCode();
+		
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter writer = response.getWriter();
+		String PageUrl = "projectPage.do";
 		
 		
-		
-		String emailId=loginUser.getEmailId();
-		User user=new UserService().selectUser(emailId); 
-
-		
-		
-		
-		
-		Project pj=new ProjectService().projectSelect(pCode); 
-		
-		
-		
-		
-		
-		
-		if(pj !=null && user !=null) {
-			int result=new ProjectService().insertIP(user,pj);
+		if(pCode !=0 && userNo !=0) {
+			int result=new ProjectService().insertIP(userNo,pCode);
 			
 			if(result>0) {
 				
 				request.setAttribute("msg","INSERT SUCCESS" );
-				request.getRequestDispatcher("projectPage.do").forward(request, response);
+				
+				writer.println("<script>alert('마이페이지에서 조회 가능합니다.'); location.href='" + PageUrl + "';</script>");
+				writer.close();
+				
+				
+				//request.getRequestDispatcher("projectPage.do").forward(request, response);
+			}else {
+				writer.println("<script>alert('실패'); location.href='" + PageUrl+ "';</script>");
+				writer.close();
 			}
 			
 			
 		}else {
-			request.getSession().setAttribute("msg", "FAILED");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			//request.getSession().setAttribute("msg", "FAILED");
+			//request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		
+			PageUrl = "views/user/userLoginForm.jsp";
+			writer.println("<script>alert('로그인이 필요합니다.'); location.href='" + PageUrl
+					+ "';</script>");
+			writer.close();
+		
 		}
 	}
 

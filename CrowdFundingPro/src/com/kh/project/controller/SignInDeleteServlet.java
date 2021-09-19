@@ -6,8 +6,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.kh.project.model.service.ProjectService;
+import com.kh.project.model.vo.Project;
 
 /**
  * Servlet implementation class SignInDeleteServlet
@@ -28,7 +30,8 @@ public class SignInDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String signProNo=request.getParameter("signProNo");//SIGN_PRO_NO
+		//String signProNo=request.getParameter("signProNo");//SIGN_PRO_NO
+		
 				
 		int result=new ProjectService().deleteSUP(signProNo);
 		
