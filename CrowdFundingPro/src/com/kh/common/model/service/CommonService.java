@@ -66,10 +66,10 @@ public class CommonService {
 		return result;
 	}
 
-	public int updateLectureAttachment(Attachment at) {
+	public int updateLectureAttachment(Attachment at, String originName) {
 		Connection conn = getConnection();
 		
-		int result = new CommonDao().updateLectureAttachment(conn,at);
+		int result = new CommonDao().updateLectureAttachment(conn,at,originName);
 		
 		if ( result > 0 ) commit (conn);
 		else rollback(conn);

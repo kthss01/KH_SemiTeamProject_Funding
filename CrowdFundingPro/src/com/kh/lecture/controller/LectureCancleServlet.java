@@ -51,7 +51,7 @@ public class LectureCancleServlet extends HttpServlet {
 			request.setAttribute("lecture",lecture);
 			response.sendRedirect(request.getContextPath() + "/lecture.le");				
 		} else {
-			request.setAttribute("msg","수강 신청이 정상적으로 수행되지 못했습니다.");
+			request.setAttribute("msg","수강 취소가 정상적으로 수행되지 못했습니다.");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 		

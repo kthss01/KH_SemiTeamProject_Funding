@@ -56,6 +56,10 @@ public class LectureSignInServlet extends HttpServlet {
 				request.setAttribute("lecture",lecture);
 				request.setAttribute("count", count);
 			
+				PrintWriter writer = response.getWriter();
+				writer.println("<script>해당 강의에 대한 수강 신청이 접수 되었습니다.</script>");
+				writer.close();
+				
 				response.sendRedirect(request.getContextPath() + "/lecture.le");
 				
 			} else {

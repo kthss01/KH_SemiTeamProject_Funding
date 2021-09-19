@@ -224,13 +224,41 @@ cursor:pointer;
 					<h4>이런 강의도 있어요 !</h4>
 				</div>
 				<br>
-				<div class="card lecture "style="padding: 0px; margin-bottom:100px; width:900px; position: relative; overflow: hidden;" >
-				 	<ul class="lectureSlide" style="list-style:none; display:flex; position: absolute; top:0; left:0;">
+				<div class="card banner "style="padding: 0px; margin-bottom:100px; width:900px; position: relative; overflow: hidden;" >
+				 	<ul class="slider" style="list-style:none; display:flex; position: absolute; top:0; left:0;">
 					</ul>
 				</div>
+				
+				
+			<div id="top_banner">
+				<ul class="slider">
+					<li class="slider_item"><img
+						src="resources/lectureImage/lectureImage_4.png"></li>
+					<li class="slider_item"><img
+						src="resources/lectureImage/lectureImage_8.png"></li>
+					<li class="slider_item"><img
+						src="resources/lectureImage/lectureImage_9.png"></li>
+				</ul>
+			</div>
 
-
-
+	var bannerWidth = (document.querySelector('#top_banner')).clientWidth;
+var imageCount = document.querySelectorAll('.slider_item').length;
+var index = 0;
+var slider = document.querySelector('.slider');
+slider.style.width = bannerWidth * imageCount + 'px';
+slides()
+function slides() {
+    for(var i=0;i<imageCount;i++){
+        slider.style.left = -(bannerWidth * index) + 'px';    
+    }
+    index++;
+    if (index === imageCount) {
+        index = 0;
+    }
+    setTimeout(slides, 3000); 
+}
+			
+			
 			
 						<div class="openFunding" style=" width:100%;   margin-top:200px;"
 							onclick="location.href='views/project/registrationView.jsp'">
@@ -413,7 +441,7 @@ $(function(){
 			console.log(le);
  			card2.append(`
  						<input type="hidden" value="\${le.lectureCode}">
- 						<li class="sliderItem" style="margin: 15px 0px 0px 0px; height: 400px; text-align: center;">
+ 						<li class="slider_item" style="margin: 15px 0px 0px 0px; height: 400px; width: 400px; text-align: center;">
  							<img class="slider" src="\${contextPath}/resources/lectureImage/\${le.lectureImage}">
  						<div class="card-body">
 						<h2 class="card-title" onclick="location.href='#!'">\${le.lectureTitle}</h2>

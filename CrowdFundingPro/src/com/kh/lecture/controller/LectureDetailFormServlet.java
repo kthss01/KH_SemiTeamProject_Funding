@@ -35,22 +35,26 @@ public class LectureDetailFormServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
-
+		
+		boolean checkDuplication = false;
 		
 		User loginUser = (User)request.getSession().getAttribute("loginUser");
-		
 		String lecCode = request.getParameter("code");
+		
 		System.out.println(lecCode);
 		
 		Lecture lecture = new LectureService().selectLecture(lecCode);
 		
-		if(lecture == null) { System.out.println("fail");}else {
+		if(lecture == null) { System.out.println("fail");} else {
 			System.out.println("success");
 		}
-		
+		if(loginUser != null) {
+		checkDuplication = new LectureService().checkLectureEnrollment(loginUser,lecCode);
+		}
+	
 		LectureInfo info = new LectureService().getLectureCount(lecture);
-		boolean checkDuplication = new LectureService().checkLectureEnrollment(loginUser,lecCode);
-		
+	
+	
 		int count = info.getCount();
 		
 		request.setAttribute("lecture", lecture);

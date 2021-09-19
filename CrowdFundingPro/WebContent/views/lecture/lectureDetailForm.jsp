@@ -173,17 +173,17 @@
 			<div class="lecInfo">
 				<p class="lectureCode" style="display: none;"><%=lecture.getLectureCode()%>
 				</p>
-					<p class="smallLabel">����</p>
+					<p class="smallLabel">강사</p>
 					<%=lecture.getLecturer()%><br>
-					<p class="smallLabel">Ÿ��Ʋ</p>
+					<p class="smallLabel">타이틀</p>
 					<%=lecture.getLectureTitle()%><br>
-					<p class="smallLabel">����</p>
+					<p class="smallLabel">주제</p>
 					<%=lecture.getLectureTopic()%><br>
-					<p class="smallLabel">�Ͻ�</p>
+					<p class="smallLabel">일시</p>
 					<%=lecture.getLectureDate()%>	<br>			
-					<p class="smallLabel">�ּ�</p>
+					<p class="smallLabel">주소</p>
 					<%=lecture.getLectureAddress()%>
-					<span class="smallLabel""> ���� �ο�</span>
+					<span class="smallLabel""> 참여 인원</span>
 					<p class="lectrueNumber"> <%=count%> / <%=lecture.getLectureNum()%></p>
 			</div>
 			<br><br>
@@ -195,30 +195,53 @@
 			
 			
 		
-		
+        <div class="buttonArea">
+            <button type ="button" onclick="window.history.back()"> 이전으로</button>
+            <% if ( !check) {%>
+            <button type ="button" class="signInBtn" onclick="checkLogin()"> 수강등록</button>
+            <%}else{ %>
+            <button type ="button" class="signInBtn" onclick="cancleLec()"> 수강취소</button>
+            <%} %>
+            <button type ="button" class="signInBtn" onclick="updateLecture()">수정하기</button>
+            <button type ="button" class="deleteBtn">강의삭제</button>
+            <button class="toTheTop" onclick="location.href='#thumbnail'"> <b>▲ </b></button>
+        </div>
+
+    </div>
+    
+   
+    <div class="delModal hidden" id="delModal"> 
+    	<div class="delModal_overlay">
+  			<div class="delModal_content">
+  				<p> 정말로 해당 강의를 삭제합니까?</p>
+				<button type="button" onclick="deleteLecture()"> 삭제하기</button>
+				<button type="button" class="cancleBtn"> 취소</button>
+  			</div>
+  		</div>
+    </div>
 
 
 
 
 			<div class="buttonArea">
-				<button type="button" onclick="window.history.back()">��������</button>
+				<button type="button" onclick="window.history.back()">이전으로</button>
 				<%
 					if (check) {
 				%>
 				<button type="button" class="signInBtn" onclick="checkLogin()">
-					�������</button>
+					수강등록</button>
 				<%
 					} else {
 				%>
 				<button type="button" class="signInBtn" onclick="cancleLec()">
-					�������</button>
+					수강취소</button>
 				<%
 					}
 				%>
-				<button type="button" class="signInBtn" onclick="updateLecture()">�����ϱ�</button>
-				<button type="button" class="deleteBtn">���ǻ���</button>
+				<button type="button" class="signInBtn" onclick="updateLecture()">수정하기</button>
+				<button type="button" class="deleteBtn">강의삭제</button>
 				<button class="toTheTop" onclick="location.href='#thumbnail'">
-					<b>�� </b>
+					<b>▲ </b>
 				</button>
 			</div>
 
@@ -228,9 +251,9 @@
 		<div class="delModal hidden" id="delModal">
 			<div class="delModal_overlay">
 				<div class="delModal_content">
-					<p>������ �ش� ���Ǹ� �����մϱ�?</p>
-					<button type="button" onclick="deleteLecture()">�����ϱ�</button>
-					<button type="button" class="cancleBtn">���</button>
+					<p>정말로 해당 강의를 삭제합니까?</p>
+					<button type="button" onclick="deleteLecture()">삭제하기</button>
+					<button type="button" class="cancleBtn">취소</button>
 				</div>
 			</div>
 		</div>
@@ -267,7 +290,7 @@
         	
         	<%} else {%>
         	
-        	alert("���� ��û�� ���ؼ� �α��� �ϼž��մϴ�.");
+        	alert("수강 신청을 위해선 로그인 하셔야합니다.");
         	location.href ='<%=request.getContextPath()%>/loginForm.me';
         	<%}%>
         	
