@@ -165,6 +165,12 @@
     	font-size: 15px;
     }
     
+    #insert{
+    	display:inline-block; 
+    	margin-right:20px; 
+    	margin-bottom: 10px;
+    }
+    
     #insert:hover, .btns2:hover{
     	background-color: rgba(100, 200, 167, 0.6);
     }
@@ -238,8 +244,8 @@
                         <%for(Faq f : list){ %>
                        	<tr style="height: 25px;">
                             <td style="width: 100px;"><%=f.getfNo() %></td>
-                            <td style="width: 250px;"><input type="button" id=<%=f.getfNo() %> class="Qs" value=<%=f.getQuestion() %>></td>
-                            <td style="width: 150px;"><%=f.getCreatorId() %></td>
+                            <td style="width: 250px;"><input type="button" id=<%=f.getfNo() %> class="Qs" value="<%=f.getQuestion() %>"></td>
+                            <td style="width: 150px; padding: 0px 5px;"><%=f.getCreatorId() %></td>
                        	</tr>
                         <%} }%>
                     </tbody>    
@@ -248,7 +254,7 @@
 					
                 </div>
                 <div class="c1 bot" id="c1Bot" style="text-align: right;">                
-                    <button id='insert'style="display:inline-block; margin-right:20px; margin-bottom: 10px;" onclick = "location.href='insertForm.fq'">작성</button>
+                    <button id='insert' onclick = "location.href='insertForm.fq'">작성</button>
                 </div>
             </div>
             <script type = "text/javascript">

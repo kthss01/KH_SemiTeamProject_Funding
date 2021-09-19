@@ -208,8 +208,10 @@
             var tl = gsap.timeline();
             tl.to(".boxS", {duration: 1, y: -250, display: "block",  opacity: 1});
             
-			var h = (height - 150) + "px";
+            //div높이 조절
+            var btns = document.getElementsByClassName("boxS").length;
             
+			var h = (height - 150 + 50 * (btns-1)) + "px";
             document.getElementById("t1").style.height = h;
         });
 
@@ -221,8 +223,7 @@
             var tl = gsap.timeline();
             tl.to(".boxS", {duration: 1,y: 0, display: "none"}).to(".boxS", { opacity: 0}, "-=1"); 
             
-            var h = height + "px";
-            document.getElementById("t1").style.height = h;
+            document.getElementById("t1").style.height = "390.19px";
         });
 
         // 메이커
@@ -234,7 +235,9 @@
             var t2 = gsap.timeline();
             t2.to(".boxM", {duration: 1, y: -250, display: "block",  opacity: 1});
 
-			var h = (height - 150) + "px";
+			var btns = document.getElementsByClassName("boxM").length;
+            
+			var h = (height - 150 + 50 * (btns-1)) + "px";
             
             document.getElementById("t2").style.height = h;
 
@@ -248,8 +251,7 @@
             var t2 = gsap.timeline();
             t2.to(".boxM", {duration: 1,y: 0, display: "none"}).to(".boxM", { opacity: 0}, "-=1");  
             
-            var h = height + "px";
-            document.getElementById("t2").style.height = h;
+            document.getElementById("t2").style.height = "390.19px";
         });
     </script>
     </div>

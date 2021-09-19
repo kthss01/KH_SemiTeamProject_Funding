@@ -54,6 +54,10 @@ public class FaqUpdateServlet extends HttpServlet {
 		if(result > 0) {
 			response.sendRedirect("list.fq");
 		}
+		else {
+			request.getSession().setAttribute("msg", "게시물 변경 실패");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		}
 		
 	}
 

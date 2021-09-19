@@ -67,17 +67,6 @@ public class FaqListServlet extends HttpServlet {
 			 
 		}
 		
-		
-		
-
-		//게시여부가 'Y'인 게시물 리스트
-		
-		
-		/*
-		 * if(userCode.equals("01")) { System.out.println("관리자 접속 성공"); } else {
-		 * request.getRequestDispatcher("views/faq/faqList.jsp").forward(request,
-		 * response); }
-		 */
 	}
 
 	/**

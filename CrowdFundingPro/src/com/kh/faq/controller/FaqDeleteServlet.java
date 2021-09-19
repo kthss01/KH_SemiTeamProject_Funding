@@ -32,9 +32,15 @@ public class FaqDeleteServlet extends HttpServlet {
 		String fNo = request.getParameter("fNo");
 		
 		int result = new FaqService().deleteFaq(fNo);
+		
 		if(result > 0) {
 			response.sendRedirect("list.fq");
 		}
+		else {
+			request.getSession().setAttribute("msg", "게시물 삭제 실패");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		}
+		
 		
 	}
 
