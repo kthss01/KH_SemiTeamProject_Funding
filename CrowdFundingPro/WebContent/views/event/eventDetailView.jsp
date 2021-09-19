@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>이벤트 상세보기</title>
 
 <link
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa

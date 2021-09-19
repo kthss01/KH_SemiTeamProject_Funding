@@ -32,8 +32,6 @@ public class FaqDetailServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
-		
 		String fNo = request.getParameter("fNo");
 		
 		Faq f = new FaqService().selectFaq(fNo);

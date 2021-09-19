@@ -216,8 +216,6 @@ ArrayList<IProject> ipList = (ArrayList<IProject>) session.getAttribute("interPj
 					<%
 						if (!ipList.isEmpty()) { //디테일페이지 켜질 때 해당 프로젝트 pCode로 관심테이블에서 리스트 가져옴
 						for (IProject p : ipList) {	// 리스트 반복문 돌리면서
-							System.out.println(p.getUserNo());
-							System.out.println(loginUser.getUserNo());
 							if (p.getUserNo() == loginUser.getUserNo()) { //로그인 유저 넘버랑 일치하는 거 있으면
 					%>  
 						<button class="fBtn" id="btn3" type="button"

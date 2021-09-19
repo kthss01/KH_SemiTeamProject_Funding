@@ -500,7 +500,7 @@ font-size:18px;
 					<div class="card-img-top"></div>
 					<div class="card-body" id="cBody">
 						<h2 class="card-title h5">
-							<a href="<%=request.getContextPath()%>/projectPage.do">펀딩스쿨
+							<a href="<%= request.getContextPath() %>/lecture.le">펀딩스쿨
 								구경가기</a>
 						</h2>
 						<div class="small text-muted">

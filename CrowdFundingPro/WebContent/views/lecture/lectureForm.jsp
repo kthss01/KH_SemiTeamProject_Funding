@@ -6,7 +6,7 @@
 <%@ page import="com.kh.common.model.vo.PageInfo"%>
 
 <%
-String contextPath = request.getContextPath();
+	String contextPath = request.getContextPath();
 ArrayList<Lecture> lectureList = (ArrayList<Lecture>) request.getAttribute("lectureList");
 PageInfo pi = (PageInfo) request.getAttribute("pi");
 
@@ -26,7 +26,7 @@ System.out.println("end:" + endPage);
 
 
 <%
-//User loginUser = (User) request.getAttribute("loginUser");
+	//User loginUser = (User) request.getAttribute("loginUser");
 %>
 
 <!DOCTYPE html>
@@ -40,11 +40,24 @@ System.out.println("end:" + endPage);
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&fa
             mily=Nanum+Gothic&family=Roboto&display=swap"
 	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+	rel="stylesheet">
 <style>
 @charset "UTF-8";
 
+.body {
+	font-family: 'Noto Sans KR', 'sans-serif';
+}
+
 ul {
 	list-style: none;
+}
+
+.main {
+	width: 100%;
+	overflow: hidden;
+	height: auto;
 }
 
 .main_top {
@@ -54,6 +67,24 @@ ul {
 	margin-top: 50px;
 	margin-bottom: 80px;
 	padding: 30px;
+}
+
+.carousel-item {
+	height: 350px;
+}
+
+.carousel-item>img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+#pageTitle {
+	font-family: 'Noto Sans KR', 'sans-serif';
+	margin-top: 150px;
+	margin-bottom: 100px;
+	font-size: 40px;
+	font-weight: bold;
 }
 
 #top_banner {
@@ -113,22 +144,40 @@ ul img {
 }
 
 .lec_Item {
-	margin-top: 30px;
-	margin-right: 40px;
-	display: flex;
+	display: block;
 	border: 2px solid rgb(25, 25, 25, .44);
-	height: 200px;
+	width: 650px;
 	margin-bottom: 20px;
 	border-radius: 10px;
+	overflow: hidden;
+	height: auto;
 }
 
-.lec_Item img {
-	width: 180px;
-	height: 180px;
-	margin-top: 10px;
-	margin-left: 10px;
-	margin-bottom: 10px;
-	border-radius: 5px;
+#lImg {
+	display: block;
+	float: left;
+	width: 220px;
+	height: 200px;
+	backgound: black;
+	border: 1px solid red;
+	/* border는 이미지 잘 보이나 확인하고 삭제하면 됨
+ */
+}
+
+.details {
+	float: left;
+	background-color: white;
+	width: 420px;
+	text-align: center;
+	overflow: hidden;
+	height: 200px;
+	padding-top: 10px;
+	padding-right: 10px;
+}
+
+.details pre {
+	font-size: 20px;
+	font-family: 'Nanum Brush Script', cursive;
 }
 
 .lecturePage {
@@ -160,23 +209,6 @@ ul img {
 	color: rgb(190, 190, 190);
 }
 
-.details {
-	background-color: white;
-	height: 180px;
-	width: 400px;
-	margin-left: 40px;
-	margin-top: 10px;
-	margin-right: 10px;
-	margin-bottom: 10px;
-	border-radius: 5px;
-	text-align: center;
-}
-
-.details pre {
-	font-size: 20px;
-	font-family: 'Nanum Brush Script', cursive;
-}
-
 .area {
 	background-color: rgb(240, 215, 210);
 	width: 300px;
@@ -204,29 +236,71 @@ input {
 	margin-left: 25px;
 }
 
-table {
-	width: 100%;
-	height: 100%;
-	border: 1px solid rgb(230, 230, 230);
-	border-radius: 5px;
-}
-
-tbody {
-	line-height: 25px;
-}
-
-.topic {
-	text-weight: bold;
-}
-
-.registBox{
-	position:relative;
+.registBox {
+	position: relative;
 	right: 0;
 	bottom: 0;
 	magin: 0px 15px 10px 0px;
-		
 }
 
+.title {
+	font-size: 23px;
+	font-weight: bold;
+}
+
+.topic {
+	font-weight: bold;
+	text-align: right;
+	color: #00B2B2;;
+	font-size: 14px;
+	font-family: 'Noto Sans KR', 'sans-serif';
+	margin-right:30px;
+}
+
+.lec_Item:hover .title {
+	text-decoration: underline;
+}
+
+.lec_Item:hover {
+	cursor: pointer;
+}
+
+#lInfo {
+	font-weight: bold;
+	text-align: center;
+	color: black;
+	font-size: 18px;
+	font-family: 'Noto Sans KR', 'sans-serif';
+}
+
+#lInfo li {
+	list-style-type: none;
+}
+
+.smallLabel {
+	font-size: 15px;
+    color: rgba(0, 0, 0, .78);
+}
+
+#insertLectureBtn {
+	width: 160px;
+	background: none;
+	border: none;
+	font-size: 20px;
+	text-decoration: underline;
+	text-underline-position: under;
+	font-style: italic;
+	font-weight: bold;
+	color: rgb(0, 0, 0, .7);
+	margin-top: 30px;
+	margin-bottom: 30px;
+	margin-left: 550px;
+}
+
+#insertLectureBtn:hover {
+	text-decoration: underline;
+	font-style: normal;
+}
 </style>
 
 <link href="resources/css/menubar.css" rel="stylesheet" type="text/css">
@@ -242,11 +316,58 @@ tbody {
 	<!-- 화면 중앙 구현 부-->
 	<div class="main">
 
+		<!-- carousel -->
+		<div id="intro" class="carousel slide" data-ride="carousel">
+			<!-- indicators -->
+			<ul class="carousel-indicators">
+				<li data-target="#intro" data-slide-to="0" class="active"></li>
+				<li data-target="#intro" data-slide-to="1"></li>
+			</ul>
+
+			<!-- slideshow -->
+
+
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<img src="resources/images/lectureBannerImg1.jpg" alt="img1">
+				</div>
+				<div class="carousel-item">
+					<img src="resources/images/lectureBannerImg2.jpg" alt="img2">
+				</div>
+
+			</div>
+
+
+
+			<!-- left and right controls -->
+			<a href="#intro" class="carousel-control-prev" data-slide="prev">
+				<span class="carousel-control-prev-icon"></span>
+			</a> <a href="#intro" class="carousel-control-next" data-slide="next">
+				<span class="carousel-control-next-icon"></span>
+			</a>
+		</div>
+
+
+
+
+
+
+
 		<!-- 화면 상단 이미지 슬라이드-->
-		<h2 style="margin-top:25px; text-align:center; text-shadow:5px; 1px; 2px 4px rgb(184,184,184);"> 펀딩스쿨에 오신 것을 환영합니다!</h2>
-		<div class="main_top">
+		<h2 id="pageTitle"
+			style="margin-top: 25px; text-align: center; text-shadow: 5px; 1px; 2px 4px rgb(184,184,184);">
+			펀딩스쿨에 오신 것을 환영합니다!</h2>
+
+
+
+
+
+
+		<%-- 
+				<div class="main_top">
+		
 			<div id="top_banner">
-				<p style="color:white;">&lt;</p>
+				<p style="color: white;">&lt;</p>
 				<ul class="slider">
 					<li class="slider_item"><img
 						src="resources/lectureImage/lectureImage_4.png"></li>
@@ -257,51 +378,70 @@ tbody {
 				</ul>
 				<p>&gt;</p>
 			</div>
-		</div>
-		<script src="resources/script/lecture/lectureSlider.js"></script>
+					</div>
+				<script src="resources/script/lecture/lectureSlider.js"></script>
 		<!-- 이미지 슬라이드 끝-->
+			--%>
+
+
 
 		<div class="center">
-			<div class="left">
-				
+			<div class="">
+
 				<div class="lecWrapper">
-					<h4 style="text-weight:bold; color:rgba(15,15,15,0.26);"> 이런 강의 들이 있어요!</h4>
+
+
 					<%
-					if (lectureList != null && !(lectureList.isEmpty())) {
+						if (loginUser != null || loginUser.getUserCode().equals("02") || loginUser.getUserCode().equals("02")) {
+					%>
+					<h4 style="font-weight: bold; color: rgba(0, 0, 0, 0.87); margin-bottom:25px;">이런
+						강의 들이 있어요!</h4>
+					<%
+						} else {
+					%>
+
+					<button id="insertLectureBtn" type="button"
+						onclick="location.href=' <%=request.getContextPath()%>/lecInsertForm.le'">
+						강의 등록</button>
+					<%
+						}
+					%>
+
+
+
+					<%
+						if (lectureList != null && !(lectureList.isEmpty())) {
 					%>
 					<%
-					for (Lecture l : lectureList) {
+						for (Lecture l : lectureList) {
 					%>
 					<div class="lec_Item">
 						<p style="display: none"><%=l.getLectureCode()%></p>
-						<img  src="<%=request.getContextPath() %>/resources/lectureImage/<%=l.getLectureImage()%>"/>  
+						<div id="lImg"
+							style="background:url('<%=request.getContextPath()%>/resources/lectureImage/<%=l.getLectureImage()%>')">
+
+						</div>
+
+
 						<div class="details">
-							<table>
-								<tbody>
-									<tr>
-										<td class="topic"><%=l.getLectureTopic()%></td>
-									</tr>
-									<tr>
-										<td class="title"><%=l.getLectureTitle()%></td>
-									</tr>
-									<tr>
-										<td class="date"><%=l.getLectureDate()%></td>
-									</tr>
-									<tr>
-										<td class="human"><%=l.getLecturer()%></td>
-									</tr>
-									<tr>
-										<td class="time">강의 시간 - <%=l.getLectureTime()%></td>
-									</tr>
-									<tr>
-										<td class="number">수용 인원-<%=l.getLectureNum()%></td>
-									</tr>
-								</tbody>
-							</table>
+							<div id="lTitle" style="margin-bottom: 15px;">
+								<span class="title"><%=l.getLectureTitle()%></span>
+								<li class="topic" style="list-style: none;"><%=l.getLectureTopic()%></li>
+
+							</div>
+							<div id="lInfo">
+
+								<li class="date"><span class="smallLabel"> 강의 날짜 > </span><%=l.getLectureDate()%></li>
+								<li class="human"><span class="smallLabel"> 강사 > </span> <%=l.getLecturer()%></li>
+								<li class="time" "><span class="smallLabel"> 총 강의 시간 > </span> <%=l.getLectureTime()%>분 </li>
+								<li class="number""><span class="smallLabel"> 수용 인원 > </span> <%=l.getLectureNum()%>명</li>
+							</div>
+
+
 						</div>
 					</div>
 					<%
-					}
+						}
 					} else {
 					%>
 					<div class="lec_Item">
@@ -319,7 +459,7 @@ tbody {
 						</div>
 					</div>
 					<%
-					}
+						}
 					%>
 
 
@@ -330,68 +470,68 @@ tbody {
 							onclick="location.href='<%=request.getContextPath()%>/list.le?currentPage=1'">
 							&lt;&lt;</button>
 						<%
-						if (currentPage == 1) {
+							if (currentPage == 1) {
 						%>
 						<button class="pageButton" disabled>&lt;</button>
 						<%
-						} else {
+							} else {
 						%>
 						<button
 							onclick="location.href='<%=request.getContextPath()%>/list.le?currentPage=<%=currentPage - 1%>'">
 							&lt;</button>
 						<%
-						}
+							}
 						%>
 
 						<!-- 페이지 목록 -->
 						<%
-						for (int i = 1; i <= endPage; i++) {
+							for (int i = 1; i <= endPage; i++) {
 						%>
 
 						<%
-						if (i == currentPage) {
+							if (i == currentPage) {
 						%>
 						<button class="pageButton" disabled>
 							<%=i%>
 						</button>
 						<%
-						} else {
+							} else {
 						%>
 						<button class="pageButton"
 							onclick="location.href='<%=request.getContextPath()%>/lecture.le?currentPage=<%=i%>'">
 							<%=i%>
 						</button>
 						<%
-						}
+							}
 						%>
 						<%
-						}
+							}
 						%>
 						<%
-						if (currentPage == maxPage) {
+							if (currentPage == maxPage) {
 						%>
 						<button class="pageButton" disabled>&gt;</button>
 						<%
-						} else {
+							} else {
 						%>
 						<button class="pageButton"
 							onclick="location.href='<%=request.getContextPath()%>/lecture..le?currentPage=<%=currentPage + 1%>'">
 							&gt;</button>
 						<%
-						}
+							}
 						%>
 						<%
-						if (currentPage == maxPage) {
+							if (currentPage == maxPage) {
 						%>
 						<button class="pageButton" disabled>&gt;&gt;</button>
 						<%
-						} else {
+							} else {
 						%>
 						<button class="pageButton"
 							onclick="location.href='<%=request.getContextPath()%>/lecture..le?currentPage=<%=maxPage%>'">
 							&gt;&gt;</button>
 						<%
-						}
+							}
 						%>
 					</div>
 				</div>
@@ -486,8 +626,7 @@ tbody {
 				}
 	 		--%>		
 			</script>
-
-
+			<%-- 
 			<div class="right">
 				<div class="area">
 					<div class="lecture_Rank">
@@ -499,23 +638,22 @@ tbody {
 				</div>
 				<div class="registBox">
 					<ul>
-						<li><button style="background-color:white; border:none; color:rgb(0,0,0,0.43);" type="button" onclick="location.href=' <%=request.getContextPath()%>/lecInsertForm.le'"> 강의 등록 
 						<b style="font-weight:bold; font-size:12px; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; color:rgb(211,211,211);">+</b></button></li>
 					</ul>
 				</div>
 			</div>
+--%>
 
 		</div>
 
 
 
 	</div>
-	<script>
-	
-	</script>
+
 
 
 	<jsp:include page="/views/common/footer.jsp" />
+
 
 
 
