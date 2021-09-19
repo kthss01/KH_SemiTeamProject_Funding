@@ -185,7 +185,7 @@ button:hover{
 
 						<div class="top">신규 강의 등록</div>
 
-						<form class="regist" method="POST" action="<%= request.getContextPath()%>/signIn.le"  enctype="multipart/form-data">
+						<form class="regist" method="POST" action="<%= request.getContextPath()%>/lectureInsert.le"  enctype="multipart/form-data">
 							<div class="preview" id="top">
 								<img src="<%=request.getContextPath()%>/resources/lectureImage/0000000000000.png" class="lectureImage" name="lectureImage">
 								<input type="file" class="selectImg" name="selectImg" value="사진 업로드" onchange="previewImg(event);"/>

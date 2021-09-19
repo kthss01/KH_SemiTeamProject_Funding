@@ -440,11 +440,9 @@ $(function(){
 	var sliderWidth = (document.querySelector('.lecture')).clientWidth;
 	var imageCount = document.querySelectorAll('.sliderItem').length;
 	var index = 0;
-	var slider = document.querySelector('.
-
-			');
+	var slider = document.querySelector('.lectureSlide');
 		slider.style.width = sliderWidth * imageCount + 'px';
-		slides()
+		slides();
 	function slides() {
    	 for(var i=0;i<imageCount;i++){
    	     slider.style.left = -(sliderWidth * index) + 'px';    
