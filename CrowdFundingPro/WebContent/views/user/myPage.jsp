@@ -396,21 +396,21 @@ font-size:18px;
 				<div class="card pro">
 					<div class="card-img-top"></div>
 					<div class="card-body" id="cBody">
-						<input type="hidden" value="<%=IPList.get(i).getProjectCode()%>">
+						<input type="hidden" value="<%=UPList.get(i).getProjectCode()%>">
 						<h2 class="card-title h5"><%=IPList.get(i).getProjectName()%></h2>
 						<div class="small text-muted"><%=IPList.get(i).getProDetail()%></div>
 					</div>
 				</div>
 				<%
 					}
-				} else { //관심 프로젝트가 3개 이상이면
+				} else { //참여 프로젝트가 3개 이상이면
 				for (int i = 0; i < 3; i++) { //3개 까지 노출시키고 더 보기 버튼 보이기
 				%>
 
 				<div class="card pro">
 					<div class="card-img-top"></div>
 					<div class="card-body" id="cBody">
-						<input type="hidden" value="<%=IPList.get(i).getProjectCode()%>">
+						<input type="hidden" value="<%=UPList.get(i).getProjectCode()%>">
 						<h2 class="card-title h5"><%=IPList.get(i).getProjectName()%></h2>
 						<div class="small text-muted"><%=IPList.get(i).getProDetail()%></div>
 					</div>

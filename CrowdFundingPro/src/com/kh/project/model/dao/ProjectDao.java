@@ -10,14 +10,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Date;
 import java.util.Properties;
 
 import com.kh.common.model.vo.Attachment;
-import com.kh.project.model.vo.IProject;
 import com.kh.project.model.vo.Project;
+import com.kh.user.model.vo.User;
 
 public class ProjectDao {
 	private Properties prop = new Properties();
@@ -810,7 +812,6 @@ public class ProjectDao {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertIP");
-//		insertIP=INSERT INTO INTEREST_IN_PRO VALUES(SEQ_INTER_PRO.NEXTVAL,?,?)
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -875,60 +876,6 @@ public class ProjectDao {
 		}
 
 		return result;
-	}
-
-	public int deleteInterPro(Connection conn, int pCode, int userNo) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-
-		String sql = prop.getProperty("deleteInterPro");
-		// DELETE FROM INTEREST_IN_PRO WHERE PROJECT_CODE = ? AND USER_NO = ? 
-		
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setInt(1, pCode);
-			pstmt.setInt(2, userNo);
-
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-
-		return result;
-	}
-
-	public ArrayList<IProject> interProList(Connection conn, int pCode) {
-		System.out.println("디테일 관심 유저조회 dao: " + pCode );
-		ArrayList<IProject> list = new ArrayList<IProject>();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = "SELECT * FROM INTEREST_IN_PRO WHERE PROJECT_CODE = ?";
-		try {
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setInt(1, pCode);
-
-			rset = pstmt.executeQuery();
-
-			while (rset.next()) {
-
-			list.add(new IProject(rset.getInt("USER_NO"),rset.getInt("PROJECT_CODE")));
-				
-			}
-
-			System.out.println("디테일 관심 유저조회 dao: " + list);
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return list;
 	}
 
 	

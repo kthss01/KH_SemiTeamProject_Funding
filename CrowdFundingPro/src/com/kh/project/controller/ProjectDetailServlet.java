@@ -1,7 +1,6 @@
 package com.kh.project.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.kh.project.model.service.ProjectService;
-import com.kh.project.model.vo.IProject;
 import com.kh.project.model.vo.Project;
 
 
@@ -43,11 +41,6 @@ public class ProjectDetailServlet extends HttpServlet {
 		Project pj=new ProjectService().projectSelect(pCode);
 		HttpSession session = request.getSession();
 
-		
-		ArrayList<IProject> iPlist = new ProjectService().interProList(pCode);
-		
-		session.setAttribute("interPj", iPlist);
-		
 		if(pj !=null) {
 			session.setAttribute("pj", pj);
 			request.getRequestDispatcher("views/project/projectDetailView.jsp").forward(request, response);
