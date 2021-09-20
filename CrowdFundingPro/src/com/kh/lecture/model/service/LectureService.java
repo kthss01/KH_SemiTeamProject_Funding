@@ -129,11 +129,11 @@ public class LectureService {
 		return result;
 	}
 
-	public boolean checkLectureEnrollment(User loginUser,String lecCode) {
+	public String checkLectureEnrollment(User loginUser,String lecCode) {
 		
 		Connection conn = getConnection();
 		
-		boolean result = new LectureDao().checkLectureEnrollment(conn,loginUser,lecCode);
+		String result = new LectureDao().checkLectureEnrollment(conn,loginUser,lecCode);
 		
 		close(conn);
 		

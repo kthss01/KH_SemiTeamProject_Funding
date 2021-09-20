@@ -184,8 +184,9 @@ button:hover{
 					<div class="modal_content">
 
 						<div class="top">강의 정보 수정</div>
-
+					
 						<form class="regist" method="POST" action="<%= request.getContextPath()%>/lectureUpdate.le"  enctype="multipart/form-data">
+							<input type="text" class="lectureCode" name="lectureCode" value="<%=lecture.getLectureCode()%>" style="display:none;">
 							<div class="preview" id="top">
 								<img src="<%=request.getContextPath()%>/resources/lectureImage/<%=lecture.getLectureImage()%>" class="lectureImage" name="lectureImage">
 								<input type="file" class="selectImg" name="selectImg" value="사진 업로드" onchange="previewImg(event);"/>
@@ -221,9 +222,9 @@ button:hover{
 								<div class="box">
 									<h2>강의 주제</h2><br>
 									 <select id="lectureTopicr"  class ="lectureTopic" name ="lectureTopic" required style="width:47%;height: 30px;">
-										<option value="펀딩투자강의" <%if(lecture.getLectureTopic() == "펀딩투자강의") {%> selected <% } %>> 펀딩투자강의 </option>
-										<option value="펀딩오픈강의" <%if(lecture.getLectureTopic() == "펀딩오픈강의") {%> selected <% } %>> 펀딩오픈강의 </option>
-										<option value="펀딩입문강의" <%if(lecture.getLectureTopic() == "펀딩입문강의") {%> selected <% } %>> 펀딩입문강의 </option>
+										<option value="펀딩투자강의" > 펀딩투자강의 </option>
+										<option value="펀딩오픈강의" > 펀딩오픈강의 </option>
+										<option value="펀딩입문강의" > 펀딩입문강의 </option>
 										</select>
 								</div>
 								<br>
@@ -251,23 +252,6 @@ button:hover{
 				
 				<script>
 					
-				
-				var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-		        mapOption = {
-		            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-		            level: 5 // 지도의 확대 레벨
-		        };
-
-		    //지도를 미리 생성
-		    var map = new daum.maps.Map(mapContainer, mapOption);
-		    //주소-좌표 변환 객체를 생성
-		    var geocoder = new daum.maps.services.Geocoder();
-		    //마커를 미리 생성
-		    var marker = new daum.maps.Marker({
-		        position: new daum.maps.LatLng(37.537187, 127.005476),
-		        map: map
-		    });
-
 
 		    function execDaumPostcode() {
 		        new daum.Postcode({
@@ -278,35 +262,10 @@ button:hover{
 		                document.getElementById("lectureAddress").value = addr;
 		                // 주소로 상세 정보를 검색
 		                geocoder.addressSearch(data.address, function(results, status) {
-		                    // 정상적으로 검색이 완료됐으면
-		                    if (status === daum.maps.services.Status.OK) {
-
-		                        var result = results[0]; //첫번째 결과의 값을 활용
-
-		                        // 해당 주소에 대한 좌표를 받아서
-		                        var coords = new daum.maps.LatLng(result.y, result.x);
-		                        // 지도를 보여준다.
-		                        mapContainer.style.display = "block";
-		                        map.relayout();
-		                        // 지도 중심을 변경한다.
-		                        map.setCenter(coords);
-		                        // 마커를 결과값으로 받은 위치로 옮긴다.
-		                        marker.setPosition(coords)
-		                    }
 		                });
 		            }
 		        }).open();
 		    }
-					
-				
-				
-				
-				
-				
-				
-				
-				
-				
 				
 					function previewImg(event) {
 					
