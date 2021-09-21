@@ -37,7 +37,7 @@ public class LectureUpdateServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-if(ServletFileUpload.isMultipartContent(request)) {
+		if(ServletFileUpload.isMultipartContent(request)) {
 			
 			int maxSize = 10 * 1024 * 1024;
 			
@@ -51,13 +51,14 @@ if(ServletFileUpload.isMultipartContent(request)) {
 			String originName = null;
 			String changeName = null;
 			
-			if( multiRequest.getOriginalFileName("selectImg") != null || multiRequest.getOriginalFileName("lectureImage") != null) {
+			if( multiRequest.getOriginalFileName("selectImg") != null || multiRequest.getParameter("lectureImage") != null) {
 				
 				String str = null;
 				if (multiRequest.getOriginalFileName("selectImg") == null) {
-					str = "lectureImage";
+					changeName = multiRequest.getParameter("lectureImage");
 				} else {
 					str = "selectImg";
+				
 						
 				originName = multiRequest.getOriginalFileName(str);
 				changeName = multiRequest.getFilesystemName(str);
@@ -70,6 +71,7 @@ if(ServletFileUpload.isMultipartContent(request)) {
 				
 				int result2 = new CommonService().updateLectureAttachment(at,originName);
 				
+				}
 			
 				String title = multiRequest.getParameter("lectureTitle");
 				int number = 0;
@@ -93,7 +95,7 @@ if(ServletFileUpload.isMultipartContent(request)) {
 				
 				int result = new LectureService().updateLecture(lecture);
 				
-				if ( result != 0 ) {
+				if ( result != 0) {
 					System.out.println("수정 성공");
 					response.sendRedirect("lecture.le");
 				} else {
@@ -111,7 +113,7 @@ if(ServletFileUpload.isMultipartContent(request)) {
 				
 			}
 		}
-	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
