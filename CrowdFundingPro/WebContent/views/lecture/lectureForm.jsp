@@ -159,9 +159,7 @@ ul img {
 	width: 220px;
 	height: 200px;
 	backgound: black;
-	border: 1px solid red;
-	/* border는 이미지 잘 보이나 확인하고 삭제하면 됨
- */
+
 }
 
 .details {

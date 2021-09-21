@@ -1,27 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <%@ page import="com.kh.lecture.model.vo.Lecture"%>
 <%@ page import="com.kh.user.model.vo.User"%>
-
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="com.kh.user.model.vo.ULecture"%>
 
 <%
 	Lecture lecture = (Lecture) request.getAttribute("lecture");
-%>
-<%
-	String count = (request.getAttribute("count")).toString();
-%>
-<%
-	User loginUser = (User) session.getAttribute("loginUser");
-%>
-<%
-	String isDuplicate = (String) request.getAttribute("isDuplicate");
+String count = (request.getAttribute("count")).toString();
+User loginUser = (User) session.getAttribute("loginUser");
+String isDuplicate = (String) request.getAttribute("isDuplicate");
+ArrayList<ULecture> ulList = (ArrayList<ULecture>) session.getAttribute("ulList");
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>lectureDetail</title>
 
 <style>
@@ -131,10 +127,10 @@
 	font-weight: bold;
 	width: 500px;
 	padding-left: 50px;
-	margin:0 auto;
+	margin: 0 auto;
 }
 
-.lecInfo > p > .smallLabel {
+.lecInfo>p>.smallLabel {
 	display: inline-block;
 	width: 100px;
 }
@@ -144,16 +140,15 @@
 	font-size: 28px;
 	margin-top: 50px;
 	font-weight: bold;
-		margin-bottom: 100px;
-	
+	margin-bottom: 100px;
 }
 
 .smallLabel {
-	display:block;
+	display: block;
 	font-size: 16px;
 	color: rgba(0, 0, 0, .5);
-	margin-bottom:0;
-	margin-top:10px;
+	margin-bottom: 0;
+	margin-top: 10px;
 }
 </style>
 
@@ -168,57 +163,70 @@
 			<img id="thumbnail"
 				src="<%=request.getContextPath()%>/resources/lectureImage/<%=lecture.getLectureImage()%>">
 		</div>
-		<div class="mainContent" style="padding:70px;">
-				
+		<div class="mainContent" style="padding: 70px;">
+
 			<div class="lecInfo">
 				<p class="lectureCode" style="display: none;"><%=lecture.getLectureCode()%>
 				</p>
-					<p class="smallLabel">°­»ç</p>
-					<%=lecture.getLecturer()%><br>
-					<p class="smallLabel">Å¸ÀÌÆ²</p>
-					<%=lecture.getLectureTitle()%><br>
-					<p class="smallLabel">ÁÖÁ¦</p>
-					<%=lecture.getLectureTopic()%><br>
-					<p class="smallLabel">ÀÏ½Ã</p>
-					<%=lecture.getLectureDate()%>	<br>			
-					<p class="smallLabel">ÁÖ¼Ò</p>
-					<%=lecture.getLectureAddress()%>
-					<span class="smallLabel""> Âü¿© ÀÎ¿ø</span>
-					<p class="lectrueNumber"> <%=count%> / <%=lecture.getLectureNum()%></p>
+				<p class="smallLabel">ê°•ì‚¬</p>
+				<%=lecture.getLecturer()%><br>
+				<p class="smallLabel">íƒ€ì´í‹€</p>
+				<%=lecture.getLectureTitle()%><br>
+				<p class="smallLabel">ì£¼ì œ</p>
+				<%=lecture.getLectureTopic()%><br>
+				<p class="smallLabel">ì¼ì‹œ</p>
+				<%=lecture.getLectureDate()%>
+				<br>
+				<p class="smallLabel">ì£¼ì†Œ</p>
+				<%=lecture.getLectureAddress()%>
+				<span class="smallLabel""> ì°¸ì—¬ ì¸ì›</span>
+				<p class="lectrueNumber">
+					<%=count%>
+					/
+					<%=lecture.getLectureNum()%></p>
 			</div>
-			<br><br>
-			<div style="border-top : solid 4px rgba(0,0,0,.1);">
+			<br> <br>
+			<div style="border-top: solid 4px rgba(0, 0, 0, .1);">
 				<p id="lectureContent">
-				<%=lecture.getLectureContent()%>
+					<%=lecture.getLectureContent()%>
 				</p>
 			</div>
-			
-			
-		
-		
-
-
-
 
 			<div class="buttonArea">
-				<button type="button" onclick="window.history.back()">ÀÌÀüÀ¸·Î</button>
+
 				<%
-					if ( isDuplicate != "yes") {
-				%>
-				<button type="button" class="signInBtn" onclick="checkLogin()">
-					¼ö°­µî·Ï</button>
-				<%
-					} else {
+					if (!ulList.isEmpty()) { //ë””í…Œì¼í˜ì´ì§€ ì¼œì§ˆ ë•Œ í•´ë‹¹ í”„ë¡œì íŠ¸ pCodeë¡œ ê´€ì‹¬í…Œì´ë¸”ì—ì„œ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜´
+					for (ULecture u : ulList) { // ë¦¬ìŠ¤íŠ¸ ë°˜ë³µë¬¸ ëŒë¦¬ë©´ì„œ
+						if (u.getUserNo() == loginUser.getUserNo()) { //ë¡œê·¸ì¸ ìœ ì € ë„˜ë²„ë‘ ì¼ì¹˜í•˜ëŠ” ê±° ìˆìœ¼ë©´
 				%>
 				<button type="button" class="signInBtn" onclick="cancleLec()">
-					¼ö°­Ãë¼Ò</button>
+					ìˆ˜ê°•ì·¨ì†Œ</button>
+				<%
+					//ê´€ì‹¬ í•´ì œ ë²„íŠ¼ ë…¸ì¶œ
+				break;
+
+				} else {
+				%>
+				<button type="button" class="signInBtn" onclick="checkLogin()">
+					ìˆ˜ê°•ë“±ë¡</button>
+				<%
+					}
+				break;
+
+				}
+				} else {
+				%>
+				<button type="button" class="signInBtn" onclick="checkLogin()">
+					ìˆ˜ê°•ë“±ë¡</button>
 				<%
 					}
 				%>
-				<button type="button" class="signInBtn" onclick="updateLecture()">¼öÁ¤ÇÏ±â</button>
-				<button type="button" class="deleteBtn">°­ÀÇ»èÁ¦</button>
+
+				<button type="button" onclick="window.history.back()">ì´ì „ìœ¼ë¡œ</button>
+				<button type="button" class="signInBtn" onclick="updateLecture()">ìˆ˜ì •í•˜ê¸°</button>
+				<button type="button" class="deleteBtn">ê°•ì˜ì‚­ì œ</button>
 				<button class="toTheTop" onclick="location.href='#thumbnail'">
-					<b>¡ã </b>
+					<b>â–² </b>
 				</button>
 			</div>
 
@@ -228,9 +236,9 @@
 		<div class="delModal hidden" id="delModal">
 			<div class="delModal_overlay">
 				<div class="delModal_content">
-					<p>Á¤¸»·Î ÇØ´ç °­ÀÇ¸¦ »èÁ¦ÇÕ´Ï±î?</p>
-					<button type="button" onclick="deleteLecture()">»èÁ¦ÇÏ±â</button>
-					<button type="button" class="cancleBtn">Ãë¼Ò</button>
+					<p>ì •ë§ë¡œ í•´ë‹¹ ê°•ì˜ë¥¼ ì‚­ì œí•©ë‹ˆê¹Œ?</p>
+					<button type="button" onclick="deleteLecture()">ì‚­ì œí•˜ê¸°</button>
+					<button type="button" class="cancleBtn">ì·¨ì†Œ</button>
 				</div>
 			</div>
 		</div>
@@ -267,7 +275,7 @@
         	
         	<%} else {%>
         	
-        	alert("¼ö°­ ½ÅÃ»À» À§ÇØ¼± ·Î±×ÀÎ ÇÏ¼Å¾ßÇÕ´Ï´Ù.");
+        	alert("ìˆ˜ê°• ì‹ ì²­ì„ ìœ„í•´ì„  ë¡œê·¸ì¸ í•˜ì…”ì•¼í•©ë‹ˆë‹¤.");
         	location.href ='<%=request.getContextPath()%>/loginForm.me';
         	<%}%>
         	

@@ -37,14 +37,20 @@ public class LectureCancleServlet extends HttpServlet {
 		
 		int result = 0;
 		String lecCode = request.getParameter("code");
-		
+//		Lecture lecture = (Lecture)request.getAttribute("lecture");
+		System.out.println("수강 취소 서블릿 강의코드 : " + lecCode);
 		User loginUser = (User)request.getSession().getAttribute("loginUser");
-		
+		System.out.println("수강 취소 서블릿  로그인유저 : " + loginUser);
+
 		System.out.println(loginUser.getUserNo());
 		
-		Lecture lecture = (lecCode != null) ? new LectureService().selectLecture(lecCode) : null;
+//		Lecture lecture = (lecCode != null) ? new LectureService().selectLecture(lecCode) : null;
 		
-		result = new LectureService().cancleLectureRegist(lecture, loginUser);
+		Lecture lecture = new LectureService().selectLecture(lecCode);
+		
+		System.out.println("수강 취소 서블릿 강의객체 : " + lecture);
+
+		result = new LectureService().cancleLectureRegist(lecCode, loginUser.getUserNo());
 		
 		if(result > 0) {
 			request.setAttribute("msg", "수강 취소 되었습니다.");
