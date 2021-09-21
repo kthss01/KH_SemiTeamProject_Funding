@@ -219,29 +219,18 @@ cursor:pointer;
 
 				</div>
 
-
-				<div class="preview">
-					<h4>이런 강의도 있어요 !</h4>
-				</div>
+				<h4>이런 강의도 있어요 !</h4>
 				<br>
-				<div class="card lecture "style="padding: 0px; margin-bottom:100px; width:900px; position: relative; overflow: hidden;" >
-				 	<ul class="lectureSlide" style="list-style:none; display:flex; position: absolute; top:0; left:0;">
+				<div class="card banner" id="banner" style="width:800px; overflow:hidden; border:none; display:flex" >
+				 	<ul class="lecSlider" id="lecSlider" style="list-style:none; display:flex; position: relative; overflow:hidden; ">
 					</ul>
 				</div>
 
-
-
-			
-						<div class="openFunding" style=" width:100%;   margin-top:200px;"
-							onclick="location.href='views/project/registrationView.jsp'">
-							<img src="resources/images/openfunding.png" alt="..."
-								style="width: 100%; height: 270px;">
-						</div>
-
-			</div>
+				
+				
 		</div>
-
 	</div>
+	
 	
 	<div id="footer" style="display:block;">
 		<%@ include file="views/common/footer.jsp"%>
@@ -267,7 +256,7 @@ cursor:pointer;
 */
 $(function(){
 	const card = $('.project');
-	const card2 = $('.lectureSlide');
+	const card2 = $('.lecSlider');
 	const rank = $('.rank');
 	const contextPath = "<%=request.getContextPath()%>";
 
@@ -400,7 +389,8 @@ $(function(){
 	
 	$.ajax({
 		url:'random.le',
-		success:function(lList){
+		success:
+			function(lList){
 			/*
 				lectureCode: "1006"
 				lectureNum: 80
@@ -412,54 +402,75 @@ $(function(){
 			lList.forEach((le) => {
 			console.log(le);
  			card2.append(`
- 						<input type="hidden" value="\${le.lectureCode}">
- 						<li class="sliderItem" style="margin: 15px 0px 0px 0px; height: 400px; text-align: center;">
- 							<img class="slider" src="\${contextPath}/resources/lectureImage/\${le.lectureImage}">
+ 						
+ 						<li class="slider_item">
+ 						<p class="lectureCode" name="lectureCode" style="display:none;">\${le.lectureCode} </p>
+ 							<img src="\${contextPath}/resources/lectureImage/\${le.lectureImage}" style="width:800px; height:285px; padding: 15px 95px 15px 95px;">
  						<div class="card-body">
-						<h2 class="card-title" onclick="location.href='#!'">\${le.lectureTitle}</h2>
-						<span style="text-weight:bold"> 주제 : \${le.lectureTopic} / </span> &nbsp  <span style="text-weight:bold"> 정원 수 : \${le.lectureNum} </span>
+						<h4 class="card-title">\${le.lectureTitle}</h4>
+						<span style="text-weight:bold"><b>\${le.lectureTopic}</b></span><br>
+						<span style="text-weight:bold"><b>강사 : \${le.lecturer}</b> </span><br>
 						</div>
 						</li>
+						
+						
+					
+					`)
+			
+ 			var WrapperWidth = document.querySelector(".banner").clientWidth;
+ 			console.log(WrapperWidth);
+ 			var total = document.querySelectorAll(".slider_item").length;
+ 			console.log(total);
+ 			var lecSlider = document.querySelector(".lecSlider");
 
-					`) 
-			})
-		},
+ 			lecSlider.style.width = WrapperWidth * total +'px';
+ 			slideLecture();
+ 			var index = 0;
+
+ 			function slideLecture(){
+ 				
+ 				for ( var i = 0; i < total; i++){
+ 					lecSlider.style.left =  -(WrapperWidth * index ) + 'px';
+ 				}
+ 				index++;
+ 				console.log(index);
+ 				if(index == total){
+ 					index = 0;
+ 				}
+ 				setTimeout(slideLecture,3000);
+ 			
+					
+			}
+ 			
+ 			$(".slider_item").click(function(){
+ 				var code = $(this).children().eq(0).text();
+ 				location.href="<%=request.getContextPath()%>/lectureDetail.le?code="+code;
+ 				console.log(code);
+ 				})
+ 				
+		 })
+		 
+		 
+		 
+		 
+		}
+		,
 		error:function(){
 			console.log('통신실패1');
 		}
 	})
 	
-
-
-	
 })
 
+$(function(){
+			$(".slider_Item").click(function(){
+			var code = $(this).children().eq(0).text();
+			location.href="<%=request.getContextPath()%>/lectureDetail.le?code="+code;
+			console.log(code);
+			})
+		})
+
+
 
 	
-	
-	var sliderWidth = (document.querySelector('.lecture')).clientWidth;
-	var imageCount = document.querySelectorAll('.sliderItem').length;
-	var index = 0;
-	var slider = document.querySelector('.lectureSlide');
-		slider.style.width = sliderWidth * imageCount + 'px';
-		slides();
-	function slides() {
-   	 for(var i=0;i<imageCount;i++){
-   	     slider.style.left = -(sliderWidth * index) + 'px';    
-   	 }
-   	 index++;
-   	 if (index === imageCount) {
-  	      index = 0;
-   	 }
-   	 setTimeout(slides,5000); 
-}
-
-
-
-
-
 </script>
-
-
-
-</html>
