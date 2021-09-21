@@ -188,6 +188,7 @@ button:hover{
 						<form class="regist" method="POST" action="<%= request.getContextPath()%>/lectureUpdate.le"  enctype="multipart/form-data">
 							<input type="text" class="lectureCode" name="lectureCode" value="<%=lecture.getLectureCode()%>" style="display:none;">
 							<div class="preview" id="top">
+								<input type="hidden" value = "<%=lecture.getLectureImage()%>" name="lectureImage">
 								<img src="<%=request.getContextPath()%>/resources/lectureImage/<%=lecture.getLectureImage()%>" class="lectureImage" name="lectureImage">
 								<input type="file" class="selectImg" name="selectImg" value="사진 업로드" onchange="previewImg(event);"/>
 							</div>
