@@ -8,6 +8,7 @@ import static com.kh.common.JDBCTemplate.*;
 import com.kh.lecture.model.dao.LectureDao;
 import com.kh.lecture.model.vo.Lecture;
 import com.kh.lecture.model.vo.LectureInfo;
+import com.kh.user.model.vo.ULecture;
 import com.kh.user.model.vo.User;
 
 
@@ -134,6 +135,24 @@ public class LectureService {
 		Connection conn = getConnection();
 		
 		String result = new LectureDao().checkLectureEnrollment(conn,loginUser,lecCode);
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public ArrayList<ULecture> selectLectureList(String lecCode) {
+		Connection conn = getConnection();
+		ArrayList<ULecture> list = new LectureDao().selectLectureList(conn,lecCode);
+		
+		close(conn);
+		return list;
+	}
+
+	public int cancleLectureRegist(String lecCode, int userNo) {
+		Connection conn = getConnection();
+		
+		int result = new LectureDao().cancleLectureRegist(conn,userNo,lecCode);
 		
 		close(conn);
 		

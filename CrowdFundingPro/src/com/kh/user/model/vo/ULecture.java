@@ -11,7 +11,9 @@ public class ULecture {
 	private String LTopic;	//강의토픽
 	private Date LDate;		//강의날짜
 
-
+public ULecture() {
+	// TODO Auto-generated constructor stub
+}
 	public ULecture(int userNo, String emailId, String lCode, String lTitle, String lTopic, Date lDate) {
 		super();
 		this.userNo = userNo;
