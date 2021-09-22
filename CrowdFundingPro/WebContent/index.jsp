@@ -50,11 +50,11 @@ h4 {
 	letter-spacing: -1px;
 }
 
-.card:hover .card-title {
+.pCard:hover .card-title {
 	text-decoration: underline;
 }
 
-.card:hover {
+.pCard:hover {
 	cursor: pointer;
 	z-index:2;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.2);
@@ -266,10 +266,10 @@ $(function(){
 	$.ajax({
 		url:'random.pro',
 		success:function(pList){
-	
+			console.log(pList);
+
 			pList.forEach((pj) => {
 			const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
-			console.log(pj.ddln);
 			card.append(`
 					<div class="col-lg-4 pCard " style="padding: 5px;">
 				    <input type="hidden" value="\${pj.projectCode}">
@@ -277,8 +277,10 @@ $(function(){
 						<img class="card-img-top" style="height:185px;"
 							src="\${contextPath}/resources/images/project/\${pj.titleImg}"
 							alt="..." />
-						<div class="card-body" style="padding:10px; border-bottom: 3px solid gray; position:relative;"  >
-						<h2 class="card-title pTitle" style='font-size:15px; font-weight:bold; height:55px;'">\${pj.projectName}</h2>
+						<div class="card-body" 
+							style="padding:10px; border-bottom: 3px solid gray; position:relative;"  >
+						<h2 class="card-title pTitle" 
+							style='font-size:15px; font-weight:bold; height:55px;'">\${pj.projectName}</h2>
 						<span class="persent"> \${ratio}%</span>
 						<span id="present">&#12685 \${pj.amountPresent.toLocaleString()}원</span>
 						<span id="ddln" style="position:absolute; right:0; bottom:0;">마감 \${dDay(pj.ddln)}일 전</span>
@@ -297,29 +299,26 @@ $(function(){
 			
 			
 			function dDay(ddln){
-				var now = new Date();
+				var now = new Date(); //시간정보를 포함하고 있는 현재 날짜
 
-				var year = now.getFullYear();
-				var month = now.getMonth();
-				var day = now.getDate();
+				var year = now.getFullYear(); //연도 추출
+				var month = now.getMonth(); // 달 추출
+				var day = now.getDate();	//일 추출
 
-				var today = new Date(year, month, day);
-/* 				console.log("오늘 날짜 : " + today);
- */
-				var ddlnArr = ddln.split(" ");
-				
+				var today = new Date(year, month, day); // 시간을 제외하고 오늘 날짜 추출
+				//프로젝트의 마감일은 "9월 23, 2021" 와 같은 문자열로 넘어온다. 
+				var ddlnArr = ddln.split(" "); //공백기준으로 문자열을 자르고 Date 형식에 맞게 가공 처리
 				var ddlnYear = ddlnArr[2]; 
 				var ddlnMonth = ddlnArr[0].substr(0,ddlnArr[0].length-1);
 				var ddlnDay = ddlnArr[1].substr(0,ddlnArr[1].length-1)
 				
-				var ddlnDate = new Date(ddlnYear, ddlnMonth, ddlnDay);
-/* 				console.log("마감 날짜 : " + ddlnDate);
- */
-				
+				//프로젝트의 마감일 Date 생성
+				var ddlnDate = new Date(ddlnYear, ddlnMonth, ddlnDay); 
+		
+				//날짜 차이 계산
 				var btMs =  ddlnDate.getTime() - today.getTime();
 				var btDay = (btMs / (1000*60*60*24));
-/* 				console.log("d-day : " + btDay);
- */
+				
 				return btDay+1;
 				
 			}
@@ -345,17 +344,22 @@ $(function(){
 	$.ajax({
 		url:'rank.pro',
 		success:function(pList){
-/* 			console.log(pList);
- */			var index = 1;
+			console.log(pList);
+ 			var index = 1;
 			pList.forEach((pj => {
 			const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
 				rank.append(`
-						<li class="list-group-item pCard"
-						style="padding:0px; width:100%; height:100px; overflow:hidden; height:auto; border:none; border-bottom: 2px solid lightgray; padding-top:10px; padding-bottom:5px;">
+						<li class="list-group-item"
+						style="padding:0px; width:100%; height:100px; 
+								overflow:hidden; height:auto; border:none;
+								border-bottom: 2px solid lightgray; 
+								padding-top:10px; padding-bottom:5px;">
 					    <input type="hidden" value="\${pj.projectCode}">
-
-						<div style="font-size:1.5em; color:rgba(0,0,0,.84); font-weight:bold; padding-left:5px;  width:15px; height:100px; float:left;">\${index++}</div>
-						<div style="width:240px; color:rgba(0,0,0,.64) padding-top:20px; padding-left:10px; height:70px; float:left;" class="lankTitle">\${pj.projectName}
+						<div style="font-size:1.5em; color:rgba(0,0,0,.84); 
+									font-weight:bold; padding-left:5px; 
+									width:15px; height:100px; float:left;">\${index++}</div>
+						<div  class="lankTitle" style="width:240px; color:rgba(0,0,0,.64) padding-top:20px; padding-left:10px; height:70px; float:left;" >
+						\${pj.projectName}
 						</div>
 						<div class="thumbnail" style="display:inline-block; width:140px; height:100px; background-color:black; float:left;">
 						<img class="card-img-top" style="height:100px;"
@@ -363,10 +367,11 @@ $(function(){
 							alt="..." />
 						</div>
 
-						<div class="persent" style=" font-size:13px; padding-left:30px; width:240px; float:left;">\${ratio}%<span style="color:gray;"> &#12685 \${pj.categoryName}</span></div>
-				
+						<div class="persent" style=" font-size:13px; padding-left:30px; width:240px; float:left;">
+										\${ratio}%
+							<span style="color:gray;"> &#12685 \${pj.categoryName}</span>		
+						</div>
 						</li>
-					
 						`)
 
 			}));
@@ -400,12 +405,12 @@ $(function(){
 			    lecturer: "Ms.Kwon"
 		    */
 			lList.forEach((le) => {
-			console.log(le);
  			card2.append(`
  						
  						<li class="slider_item">
  						<p class="lectureCode" name="lectureCode" style="display:none;">\${le.lectureCode} </p>
- 							<img src="\${contextPath}/resources/lectureImage/\${le.lectureImage}" style="width:800px; height:285px; padding: 15px 95px 15px 95px;">
+ 							<img src="\${contextPath}/resources/lectureImage/\${le.lectureImage}" 
+ 							style="width:800px; height:285px; padding: 15px 95px 15px 95px;">
  						<div class="card-body">
 						<h4 class="card-title">\${le.lectureTitle}</h4>
 						<span style="text-weight:bold"><b>\${le.lectureTopic}</b></span><br>
@@ -418,9 +423,7 @@ $(function(){
 					`)
 			
  			var WrapperWidth = document.querySelector(".banner").clientWidth;
- 			console.log(WrapperWidth);
  			var total = document.querySelectorAll(".slider_item").length;
- 			console.log(total);
  			var lecSlider = document.querySelector(".lecSlider");
 
  			lecSlider.style.width = WrapperWidth * total +'px';
@@ -433,7 +436,6 @@ $(function(){
  					lecSlider.style.left =  -(WrapperWidth * index ) + 'px';
  				}
  				index++;
- 				console.log(index);
  				if(index == total){
  					index = 0;
  				}

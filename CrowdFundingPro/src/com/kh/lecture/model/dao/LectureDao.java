@@ -254,7 +254,8 @@ public class LectureDao {
 		PreparedStatement pstm = null;
 		String sql = prop.getProperty("selectLecCount");
 		ResultSet rs = null;
-
+		System.out.println(lecture);
+		System.out.println(lecture.getLectureCode());
 		try {
 			pstm = conn.prepareStatement(sql);
 			pstm.setString(1, lecture.getLectureCode());

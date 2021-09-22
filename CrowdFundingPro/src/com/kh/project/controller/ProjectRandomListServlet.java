@@ -34,7 +34,6 @@ public class ProjectRandomListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	ArrayList<Project> randomList = new ProjectService().selectRandomList();
-	System.out.println("랜덤 프로젝트 Servlet: " + randomList);
 
 	response.setContentType("application/json; charset=utf-8");
 

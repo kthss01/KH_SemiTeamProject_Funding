@@ -474,7 +474,7 @@ font-size:18px;
 				%>
 				<div class="card lec">
 					<div class="card-img-top"></div>
-					<div class="card-body">
+					<div class="card-body lec">
 						<input type="hidden" value="<%=lList.get(i).getLCode()%>">
 						<h2 class="card-title h5"><%=lList.get(i).getLTitle()%></h2>
 						<div class="small text-muted"><%=lList.get(i).getLTopic()%>
@@ -673,11 +673,11 @@ font-size:18px;
 	});
 	   
 	   
-<%-- 	   $(".lec").on("click",function(){
-	   var lCode = $(this).children('input').val();
-		location.href = "<%=request.getContextPath()%>/detail.do?lCode="+lCode;
+ 	   $(".lec").on("click",function(){
+	   var lecCode = $(this).find('input').val();
+		location.href = "<%=request.getContextPath()%>/lectureDetail.le?code="+lecCode;
 	});
-		 --%>
+		 
 	
 		 
     function checkPwd(){
