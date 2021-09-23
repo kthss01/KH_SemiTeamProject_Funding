@@ -312,14 +312,12 @@ $(function(){
 				var ddlnMonth = ddlnArr[0].substr(0,ddlnArr[0].length-1);
 				var ddlnDay = ddlnArr[1].substr(0,ddlnArr[1].length-1)
 				
-				//프로젝트의 마감일 Date 생성
+				//프로젝트의 ㅁ
 				var ddlnDate = new Date(ddlnYear, ddlnMonth, ddlnDay); 
 		
-				//날짜 차이 계산
 				var btMs =  ddlnDate.getTime() - today.getTime();
 				var btDay = (btMs / (1000*60*60*24));
-				
-				return btDay+1;
+		return btDay+1;
 				
 			}
 			
@@ -349,7 +347,7 @@ $(function(){
 			pList.forEach((pj => {
 			const ratio = Math.floor((pj.amountPresent/pj.amountGoal)*100);
 				rank.append(`
-						<li class="list-group-item"
+						<li class="list-group-item pCard"
 						style="padding:0px; width:100%; height:100px; 
 								overflow:hidden; height:auto; border:none;
 								border-bottom: 2px solid lightgray; 

@@ -228,11 +228,10 @@
 			            	  'px; left:' + left + 'px; width:' + width + 'px; height:' + height +
 			            	  'px; z-index:9999; background:#fff; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; "></div>');
 			       },
-					success : function(result,msg){
+					success : function(result){
+						console.log(result);
 						console.log("서버 통신 성공");
-						console.log("modifyResult : " + result); //deleteSuccess
-						console.log("modifyMsg : " + msg);	//success
-						if(msg == "deleteSuccess"){
+						if(result == "deletesuccess"){
 							alert('회원탈퇴가 완료되었습니다.')
 							location.href="<%= request.getContextPath() %>";
 						}else{
